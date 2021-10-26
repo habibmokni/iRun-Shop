@@ -19,7 +19,7 @@
   min-width: 48px;
   height: 46px;
   margin-right: 5px;
-  font-family: Nunito;
+  font-family: DM Sans;
   font-weight: 400;
   font-size: 16px;
   line-height: 46px;
@@ -27,7 +27,7 @@
 
 .product_size_list_expansion a {
   height: 46px;
-  font-family: Nunito;
+  font-family: DM Sans;
   font-weight: 400;
   font-size: 16px;
   line-height: 46px;
@@ -53,14 +53,13 @@
   width: 327px;
 }
 .selected_store {
-  margin: 15px 0px;
+  margin: 1rem 0;
   text-align: center;
 }
 
-.button-container {
-  width: 90%;
-  padding: 10px;
-  margin-bottom: 50px;
+.buttonContainer {
+  width: 100%;
+  text-align: center;
 }
 
 .variant-selection a {
@@ -81,4 +80,39 @@
 }
 .variant-selection a.active {
   border: 0.125rem solid #00aa7a;
+}
+
+mat-accordion,
+mat-list,
+mat-chip-list {
+  margin-bottom: 2rem;
+}
+
+mat-list-item {
+  text-decoration: none;
+  font-weight: bold;
+  font-family: Nunito;
+}
+
+mat-accordion {
+  width: 100%;
+  margin-bottom: 5rem;
+}
+
+.addToCartBtn {
+  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
+  color: white;
+  padding: 1rem;
+  width: 90%;
+  margin: 1rem 0 1rem 0;
+}
+
+.checkAvailabilitySection {
+  background-color: #f7f8f8;
+
+  margin-bottom: 2rem;
+}
+
+.done {
+  color: #d53d5e;
 }

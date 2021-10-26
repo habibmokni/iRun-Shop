@@ -22,7 +22,7 @@ export class ProductPageComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
 
   noOfItems = 1;
-
+  panelOpenState = false;
   sub: any;
   product!: Observable<Product[]>;
   size: number = 0;
