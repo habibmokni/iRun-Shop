@@ -1,15 +1,15 @@
-.filler{
+.filler {
   flex: 1 1 auto;
 }
-.image-container{
+.image-container {
   width: 100%;
   height: 260px;
 }
-.article-header{
+.article-header {
   text-align: center;
 }
 
-.mat-button-toggle-checked{
+.mat-button-toggle-checked {
   border: 3px solid #80808070;
 }
 .product_size {
@@ -19,15 +19,15 @@
   min-width: 48px;
   height: 46px;
   margin-right: 5px;
-  font-family: DM Sans;
+  font-family: Nunito;
   font-weight: 400;
   font-size: 16px;
   line-height: 46px;
 }
 
-.product_size_list_expansion a{
+.product_size_list_expansion a {
   height: 46px;
-  font-family: DM Sans;
+  font-family: Nunito;
   font-weight: 400;
   font-size: 16px;
   line-height: 46px;
@@ -36,10 +36,10 @@
 
 .active {
   text-decoration: none;
-  background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
+  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
   color: white !important;
 }
-.product_availability{
+.product_availability {
   padding: 15px 5px;
   margin-bottom: 60px;
 }
@@ -52,33 +52,33 @@
 .product_availability_zipcode {
   width: 327px;
 }
-.selected_store{
+.selected_store {
   margin: 15px 0px;
   text-align: center;
 }
 
-.button-container{
+.button-container {
   width: 90%;
   padding: 10px;
   margin-bottom: 50px;
 }
 
-.variant-selection a{
+.variant-selection a {
   display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 3.5rem;
-    height: 3.5rem;
-    margin-right: .5rem;
-    margin-bottom: .5rem;
-    text-align: center;
-    text-decoration: none;
-    line-height: 1;
-    border: .125rem solid #c8d3d6;
-    border-radius: 50%;
-    overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1;
+  border: 0.125rem solid #c8d3d6;
+  border-radius: 50%;
+  overflow: hidden;
 }
 .variant-selection a.active {
-  border: .125rem solid #00aa7a;
+  border: 0.125rem solid #00aa7a;
 }
