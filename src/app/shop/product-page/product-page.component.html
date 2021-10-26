@@ -1,0 +1,40 @@
+<div fxLayout *ngFor="let product of product|async">
+  <div class="image-container" fxHide.xs fxFlex.gt-xs="70%">
+    <app-image-slider [productImages]="product.imageList"></app-image-slider>
+  </div>
+
+  <div fxLayout="column" style="margin: 20px;" fxFlex.gt-xs="30%">
+    <div class="image-container" fxHide.gt-xs>
+      <app-image-slider [productImages]="product.imageList"></app-image-slider>
+    </div>
+    <div class="article-header" fxFlex="100%">
+      <h2>{{product.name}}</h2>
+      <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
+    </div>
+    <div class="variant-selection" fxFlex="100%" fxLayout="row wrap" *ngIf="similarProducts">
+      <a class="variant-image" *ngFor="let product of similarProducts; let i=index" (click)="variantSelect(i,product.modelNo!)">
+        <div>
+          <img [src]="product.imageList[0]" alt="image" style="width: auto; height: 44px;">
+        </div>
+      </a>
+    </div>
+    <div class="article-quantity" fxFlex="100%" fxLayout>
+      <div fxLayout>
+        <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onRemoveItem()"><mat-icon>remove</mat-icon></button>
+        <h3 style="padding: 10px;">{{noOfItems}}</h3>
+        <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onAddItem()"><mat-icon>add</mat-icon></button>
+      </div>
+      <span class="filler"></span>
+      <div class="article-price" fxLayout>
+        <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
+        <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
+      </div>
+    </div>
+    <cnc-size-selector [product]="product"></cnc-size-selector>
+    <div style="width: 100%; text-align: center;">
+      <button mat-flat-button type="button" (click)="addToCart(product)" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: white;" type="button" class="button-container">Add to cart</button>
+    </div>
+  </div>
+
+
+</div>

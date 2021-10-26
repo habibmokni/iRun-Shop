@@ -1,0 +1,11 @@
+.header{
+  background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
+  color: white;
+}
+.filler{
+  flex: 1 auto;
+}
+a {
+  text-decoration: none;
+  color: white;
+}

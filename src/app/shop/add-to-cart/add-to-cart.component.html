@@ -1,0 +1,19 @@
+<div fxLayout="column">
+  <div class="article-quantity" fxFlex="100%" fxLayout>
+    <div fxLayout>
+      <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onRemoveItem()"><mat-icon>remove</mat-icon></button>
+      <h3 style="padding: 10px;">{{noOfItems}}</h3>
+      <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onAddItem()"><mat-icon>add</mat-icon></button>
+    </div>
+    <span class="filler"></span>
+    <div class="article-price" fxLayout>
+      <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
+      <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
+    </div>
+  </div>
+<cnc-size-selector [product]="product" (sizeSelected)="onSizeSelect($event)"></cnc-size-selector>
+  <div style="width: 100%; text-align: center;">
+    <button mat-flat-button type="button" (click)="addToCart(product)" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: white;" type="button" class="button-container">Add to cart</button>
+  </div>
+
+</div>

@@ -1,0 +1,35 @@
+<div class="cart-items" fxLayout="column" style="margin-bottom: 125px;">
+  <div *ngFor="let product of cartProducts; let i=index">
+    <div class="item-image-container" fxFlex="30%">
+      <img routerLink="/products/{{product.modelNo}}" src="{{product.imageList[0]}}" style="width: 100%;" alt="image">
+    </div>
+    <div fxFlex="50%" fxLayout="column" style="padding-left: 15px;">
+      <h3>{{product.name}}</h3>
+      <mat-card-subtitle>{{'Size : ' + product.size}} <span *ngIf="itemInStock[i]<5 && itemInStock[i]>0" style="color: #dfdf53;">almost sold out</span><mat-error *ngIf="itemInStock[i]===0">out of stock</mat-error></mat-card-subtitle>
+      <mat-card-subtitle>{{'Model no: '+ product.modelNo}}</mat-card-subtitle>
+      <div fxLayout>
+        <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onRemoveItem(i, product)"><mat-icon>remove</mat-icon></button>
+        <h3 style="padding: 8px 15px;">{{product.noOfItems}}</h3>
+        <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onAddItem(i, product)"><mat-icon>add</mat-icon></button>
+      </div>
+    </div>
+    <div fxflex="20%">
+      <h2 style="line-height: 22px;">{{product.price}}€</h2>
+    </div>
+  </div>
+</div>
+<div class="checkout-container">
+  <a fxLayout style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: white;" type="button" class="checkout-button" (click)="onSubmit()">
+    <h2 style="margin-bottom: 0px;">Proceed to checkout</h2>
+    <span class="filler"></span>
+    <h2 style="margin-bottom: 0px;">{{grandtotal}}€</h2>
+  </a>
+</div>
+
+<div fxLayout fxLayoutAlign="center center" *ngIf="cartProducts.length===0">
+  <div fxLayout="column">
+    <h2>Cart is empty!</h2>
+    <mat-card-subtitle>Please add products to cart</mat-card-subtitle>
+    <button mat-flat-button type="button" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: white;" routerLink="/products">Go to shop</button>
+  </div>
+</div>

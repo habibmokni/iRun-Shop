@@ -1,0 +1,79 @@
+
+<mat-stepper class="example-stepper"
+  orientation="horizontal" labelPosition="bottom" [linear]="false">
+  <mat-step [stepControl]="firstFormGroup" label="Delivery Type">
+    <form [formGroup]="firstFormGroup">
+      <cnc-click-n-collect
+      *ngIf="user"
+      [user]="user"
+      (storeChanged)="onStoreChange($event)"
+      (productsToRemove)="onProductsToRemove($event)"
+      (dateSelected)="dateSelected($event)"
+      (timeSelected)="timeSelected($event)">
+      </cnc-click-n-collect>
+      <div fxLayout fxLayoutAlign="center center">
+        <button class="button-style" mat-flat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Billing" >
+    <form [fxShow]="billingSteps===0" [formGroup]="secondFormGroup">
+      <app-billing-details [billing]="billing"></app-billing-details>
+    </form>
+    <form [formGroup]="thirdFormGroup">
+      <app-payment-methods [paymentMethod]="paymentMethod"></app-payment-methods>
+      <div fxLayout fxLayoutAlign="center center">
+        <button class="button-style" mat-flat-button matStepperPrevious>Back</button>
+        <button class="button-style" mat-flat-button matStepperNext (click)="onSubmit()">Next</button>
+      </div>
+    </form>
+
+  </mat-step>
+
+  <mat-step fxLayout="column" fxLayoutAlign="center center">
+    <ng-template matStepLabel >Summary</ng-template>
+    <div *ngIf="order">
+      <h1>Check Order Details</h1>
+      <mat-card-content fxLayout.gt-xs="row">
+        <div fxLayout="column" gdGridAlign="start stretch" class="order-details">
+          <span class="details"><h4>Order ID: </h4><p>{{order.orderId}}</p></span>
+          <span class="details"><h4>Name: </h4><p>{{order.billingDetails.name}}</p></span>
+          <span class="details"><h4>Email: </h4><p>{{order.billingDetails.email}}</p></span>
+          <span class="details"><h4>Phone No: </h4><p>{{order.billingDetails.phoneNo}}</p></span>
+          <span class="details"><h4>Address 1: </h4><p>{{order.billingDetails.address1}}</p></span>
+          <span class="details"><h4>Address 2: </h4><p>{{order.billingDetails.address2}}</p></span>
+          <span class="details"><h4>Store Address: </h4><p>{{order.storeLocation.address}}</p></span>
+          <span class="details"><h4>Pickup time & date: </h4><p>{{order.pickupDate| date:'mediumDate'}} {{order.pickupTime}}</p></span>
+          <span class="details"><h4>Delivery type: </h4><p>{{order.pickupType}}</p></span>
+          <span class="details"><h4>Payment method: </h4><p>{{order.paymentOption}}</p></span>
+          <span class="details"><h4>Total price: </h4><p>{{orderPrice}}</p></span>
+        </div>
+        <div class="cart-items" fxLayout="column">
+          <div *ngFor="let product of cartProducts; let i=index">
+            <div class="item-image-container" fxFlex="30%">
+              <img src="{{product.imageList[0]}}" style="width: 100%;" alt="image">
+            </div>
+            <div fxFlex="50%" fxLayout="column" style="padding-left: 15px;">
+              <h3>{{product.name}}</h3>
+              <mat-card-subtitle>{{'Size : ' + product.size}} </mat-card-subtitle>
+              <div fxLayout>
+                <h3>No of items:</h3>
+                <h3 style="padding: 8px 15px;">{{product.noOfItems}}</h3>
+              </div>
+          </div>
+            <div fxflex="20%">
+              <h2 style="line-height: 22px;">{{product.price}}€</h2>
+            </div>
+          </div>
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions style="text-align: center;">
+        <button mat-flat-button class="button-style" (click)="onOrderConfirmation()">Confirm</button>
+      </mat-card-actions>
+    </div>
+    <div>
+      <button class="button-style" mat-flat-button matStepperPrevious>Back</button>
+    </div>
+  </mat-step>
+</mat-stepper>

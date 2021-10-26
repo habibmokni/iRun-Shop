@@ -1,0 +1,29 @@
+.delivery_type{
+  border: solid #535353 2px;
+  width: 84px;
+  height: 95px;
+  border-radius: 20px;
+  margin: 15px;
+  opacity: 0.5;
+}
+.change_button{
+  color: white;
+  background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
+  margin: 15px;
+}
+.delivery_type button:focus {
+  opacity: 1;
+}
+.pickup_map {
+  height: 500px;
+}
+
+@media (max-width: 599px){
+  .delivery_type{
+    margin: 5px;
+  }
+  .map-container{
+    width: 90vw;
+    height: 50vh;
+  }
+}

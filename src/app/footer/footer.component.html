@@ -1,0 +1,9 @@
+<mat-toolbar style="position: fixed; z-index: 10; bottom: 0%;" fxLayout="column">
+  <mat-divider></mat-divider>
+  <ul style="list-style: none; padding-left: 0px;" fxLayout>
+    <li class="icon-gap"><button mat-icon-button type="button" routerLink="/products"><mat-icon fontSet="material-icons-outlined">storefront</mat-icon></button></li>
+    <li class="icon-gap"><button mat-icon-button type="button" routerLink="/shoppingcart"><mat-icon matBadge="{{this.productService.getLocalCartProducts().length}}" matBadgeColor="warn" fontSet="material-icons-outlined">shopping_bag</mat-icon></button></li>
+    <li class="icon-gap"><button mat-icon-button type="button"><mat-icon>favorite_border</mat-icon></button></li>
+    <li class="icon-gap"><button mat-icon-button type="button"><mat-icon>playlist_add_check</mat-icon></button></li>
+  </ul>
+</mat-toolbar>

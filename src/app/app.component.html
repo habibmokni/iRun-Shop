@@ -1,0 +1,11 @@
+<div class="shopping">
+  <app-header></app-header>
+  <mat-divider></mat-divider>
+</div>
+<div [ngStyle.gt-xs]="{margin: '110px 30px'}" [ngStyle.xs]="{margin: '60px 15px', marginBottom: '30px'}">
+  <router-outlet></router-outlet>
+</div>
+<app-footer fxHide.gt-xs></app-footer>
+
+
+

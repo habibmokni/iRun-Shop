@@ -1,0 +1,23 @@
+.card{
+  width: 50%;
+  height: 240px;
+  margin: auto;
+}
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+.example-radio-button {
+  flex-flow: row-reverse;
+}
+@media (max-width:599px) {
+  .card{
+    width: 100%;
+  }
+
+}

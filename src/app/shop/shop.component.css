@@ -1,0 +1,15 @@
+.filler{
+  flex: 1 1 auto;
+}
+.item-image-container{
+  width: auto;
+  height: 172px;
+  text-align: center;
+}
+.item-image{
+  height: 65%;
+  width: 80%;
+  position: relative;
+  top: 25%;
+}
+
