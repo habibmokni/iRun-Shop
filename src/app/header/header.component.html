@@ -21,8 +21,48 @@
 </mat-toolbar>
 
 <mat-toolbar fxHide.gt-xs>
-  <span><a mat-button style="text-decoration: none; color: white;" routerLink="/"><img style="width: 50px;" src="../../assets/images/logos/iRunLogoBnW.png" alt="iShoes"></a>iRun</span>
+  <span>
+    <a
+      mat-button
+      style="text-decoration: none; color: white;"
+      routerLink="/">
+      <img
+        style="width: 3rem; padding: .2rem;"
+        src="../../assets/images/logos/iRunLogoBnW.png"
+        alt="iShoes">
+    </a>
+    <span style="font-family: Nunito; font-weight: 700; font-size: 1.6rem;" >iRun</span>
+  </span>
   <span class="filler"></span>
-  <button mat-icon-button type="button" style="float: right;"><mat-icon fontSet="material-icons-outlined">search</mat-icon></button>
   <button mat-icon-button type="button" routerLink="/storeselected"><mat-icon fontSet="material-icons-outlined">where_to_vote</mat-icon></button>
+  <button mat-icon-button type="button">
+    <mat-icon>person_outline</mat-icon>
+  </button>
+        <button mat-icon-button
+      type="button">
+      <mat-icon>favorite_border</mat-icon>
+    </button>
+  <button
+    mat-icon-button
+    type="button"
+    routerLink="/shoppingcart">
+    <mat-icon
+      matBadge="{{this.productService.getLocalCartProducts().length}}" matBadgeColor="warn"
+      fontSet="material-icons-outlined">
+      shopping_bag
+    </mat-icon>
+  </button>
+
+</mat-toolbar>
+
+<mat-toolbar fxHide.gt-xs>
+  <button mat-icon-button type="button">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="minifiller"></span>
+  <mat-form-field class="example-full-width" style="min-width: 18rem;">
+      <input type="text" matInput>
+      <mat-placeholder>Find favourite shoes</mat-placeholder>
+      <mat-icon matSuffix style="font-size: 1.2em">search</mat-icon>
+  </mat-form-field>
 </mat-toolbar>

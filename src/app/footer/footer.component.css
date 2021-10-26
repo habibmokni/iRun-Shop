@@ -1,4 +1,5 @@
-.icon-gap{
-  margin: 0px 23px;
-  color: rgba(0,0,0,.87);
+mat-toolbar {
+  background-color: #f7f8f8;
+  border-top: 1px solid #f7f8f8;
+  text-align: center;
 }

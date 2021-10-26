@@ -1,11 +1,16 @@
-.header{
-  background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
+.header {
+  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
   color: white;
+  padding: 0.25rem 0 0.25rem 0;
 }
-.filler{
+.filler {
   flex: 1 auto;
 }
+.minifiller {
+  flex: 0.5 auto;
+}
 a {
+  padding: 0.25rem;
   text-decoration: none;
   color: white;
 }
