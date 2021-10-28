@@ -116,3 +116,18 @@ mat-accordion {
 .done {
   color: #d53d5e;
 }
+.chips{
+  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
+  color: white;
+}
+.availability_button{
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 1rem 0rem;
+  width: 100%;
+}
+.drawer{
+  width: 100%;
+  height: 100vh;
+}

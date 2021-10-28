@@ -1,122 +1,139 @@
-<div fxLayout *ngFor="let product of product|async">
-  <div class="image-container" fxHide.xs fxFlex.gt-xs="70%">
-    <app-image-slider [productImages]="product.imageList"></app-image-slider>
-  </div>
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" #drawer>
+    <button type="button" (click)="drawer.close">close me</button>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div fxLayout *ngFor="let product of product|async">
+      <div class="image-container" fxHide.xs fxFlex.gt-xs="70%">
+        <app-image-slider [productImages]="product.imageList"></app-image-slider>
+      </div>
 
-  <div fxLayout="column" style="margin: 20px;" fxFlex.gt-xs="30%">
-    <div class="image-container" fxHide.gt-xs>
-      <app-image-slider [productImages]="product.imageList"></app-image-slider>
-    </div>
-    <div class="article-header" fxFlex="100%">
-      <h2>{{product.name}}</h2>
-      <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
-    </div>
-    <div class="variant-selection" fxFlex="100%" fxLayout="row wrap" *ngIf="similarProducts">
-      <a class="variant-image" *ngFor="let product of similarProducts; let i=index" (click)="variantSelect(i,product.modelNo!)">
-        <div>
-          <img [src]="product.imageList[0]" alt="image" style="width: auto; height: 44px;">
+      <div fxLayout="column" style="margin: 20px;" fxFlex.gt-xs="30%">
+        <div class="image-container" fxHide.gt-xs>
+          <app-image-slider [productImages]="product.imageList"></app-image-slider>
         </div>
-      </a>
-    </div>
-    <div class="article-quantity" fxFlex="100%" fxLayout>
-      <div fxLayout>
-        <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onRemoveItem()"><mat-icon>remove</mat-icon></button>
-        <h3 style="padding: 10px; font-size: 20px;">{{noOfItems}}</h3>
-        <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onAddItem()"><mat-icon>add</mat-icon></button>
+        <div class="article-header" fxFlex="100%">
+          <h2>{{product.name}}</h2>
+          <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
+        </div>
+        <div class="variant-selection" fxFlex="100%" fxLayout="row wrap" *ngIf="similarProducts">
+          <a class="variant-image" *ngFor="let product of similarProducts; let i=index" (click)="variantSelect(i,product.modelNo!)">
+            <div>
+              <img [src]="product.imageList[0]" alt="image" style="width: auto; height: 44px;">
+            </div>
+          </a>
+        </div>
+        <div class="article-quantity" fxFlex="100%" fxLayout>
+          <span class="filler"></span>
+          <div class="article-price" fxLayout>
+            <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
+            <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
+          </div>
+        </div>
+        <span class="filler"></span>
+        <cnc-size-selector (sizeSelected)="sizeSelected($event)" [product]="product"></cnc-size-selector>
+        <div class="buttonContainer" fxLayout fxLayoutAlign="center center">
+          <button
+            mat-flat-button
+            class="addToCartBtn"
+            type="button"
+            (click)="addToCart(product)"
+            type="button">
+            Add to cart
+          </button>
+          <button mat-mini-fab
+          style="background-color: white; color: black; margin-left: 10px;"
+          type="button">
+          <mat-icon>favorite_border</mat-icon>
+        </button>
+        </div>
+
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <mat-icon class="done">done</mat-icon> Free store collection and returns
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon class="done">done</mat-icon> Free home delivery from 80 €
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <mat-icon class="done">done</mat-icon> Same day pick up
+          </mat-list-item>
+        </mat-list>
+
+        <mat-chip-list aria-label="Shoes selection">
+          <mat-chip class="chips">Running</mat-chip>
+          <mat-chip class="chips">Gym</mat-chip>
+          <mat-chip class="chips">Outdoor</mat-chip>
+          <mat-chip class="chips">waterproof</mat-chip>
+          <mat-chip class="chips">Unisex</mat-chip>
+          <mat-chip class="chips"> GEL® elements</mat-chip>
+        </mat-chip-list>
+
+        <mat-card class="checkAvailabilitySection">
+          <h2>Check branch Availability</h2>
+          <h3>Find your favourite shoe in your nearest shop now.</h3>
+          <p>Note: Due to regional lockdowns & store closures only limited availability.
+            Check out the iRun shop near you.
+          </p>
+          <button
+          mat-flat-button
+          type="button"
+          class="availability_button"
+          (click)="checkAvailability(product)"
+          >
+          <mat-icon fontSet="material-icons-outlined" style="color: #d53d5e;">room</mat-icon>
+          Check availability in branch nearby
+        </button>
+        </mat-card>
+
+
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Product Description
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+              <p> -Neutral shoes, the all-rounder </p>
+              <p> - Suitable for normal sproners </p>
+              <p> - Ideal for street & park </p>
+              <p> - Thanks to the GORE-TEX membrane, the shoe is breathable, waterproof and windproof </p>
+              <p> - Unisex specific fit </p>
+              <p> - GORE-TEX membrane </p>
+              <p> - Waterproof </p>
+              <p> - Windproof </p>
+              <p> - Breathable </p>
+              <p> - FlyteFoam™ </p>
+              <p> - GEL® elements </p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel (opened)="panelOpenState = true"
+                               (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Reviews
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon style="color: yellow;">star</mat-icon>
+                <mat-icon style="color: yellow;">star</mat-icon>
+                <mat-icon style="color: yellow;">star</mat-icon>
+                <mat-icon style="color: yellow;">star</mat-icon>
+                <mat-icon style="color: yellow;">star_half</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>Customer reviews here!!</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+
+
       </div>
-      <span class="filler"></span>
-      <div class="article-price" fxLayout>
-        <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
-        <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
-      </div>
-    </div>
-    <span class="filler"></span>
 
-    <div class="buttonContainer">
-      <button
-        mat-flat-button
-        class="addToCartBtn"
-        type="button"
-        (click)="addToCart(product)"
-        type="button">
-        Add to cart
-      </button>
+
     </div>
 
-    <mat-list role="list">
-      <mat-list-item role="listitem">
-        <mat-icon class="done">done</mat-icon> Free store collection and returns
-      </mat-list-item>
-      <mat-list-item role="listitem">
-        <mat-icon class="done">done</mat-icon> Free home delivery from 80 €
-      </mat-list-item>
-      <mat-list-item role="listitem">
-        <mat-icon class="done">done</mat-icon> Same day pick up
-      </mat-list-item>
-    </mat-list>
+  </mat-drawer-content>
+</mat-drawer-container>
 
-    <mat-chip-list aria-label="Shoes selection">
-      <mat-chip>Running</mat-chip>
-      <mat-chip>Gym</mat-chip>
-      <mat-chip>Outdoor</mat-chip>
-      <mat-chip>waterproof</mat-chip>
-      <mat-chip>Unisex</mat-chip>
-      <mat-chip> GEL® elements</mat-chip>
-    </mat-chip-list>
-
-    <mat-card class="checkAvailabilitySection">
-      <h2>Check branch Availability</h2>
-      <h3>Find your favourite shoe in your nearest shop now.</h3>
-      <p>Note: Due to regional lockdowns & store closures only limited availability.
-        Check out the iRun shop near you.
-      </p>
-      <cnc-size-selector [product]="product"></cnc-size-selector>
-    </mat-card>
-
-
-    <mat-accordion>
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Product Description
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-          <p> -Neutral shoes, the all-rounder </p>
-          <p> - Suitable for normal sproners </p>
-          <p> - Ideal for street & park </p>
-          <p> - Thanks to the GORE-TEX membrane, the shoe is breathable, waterproof and windproof </p>
-          <p> - Unisex specific fit </p>
-          <p> - GORE-TEX membrane </p>
-          <p> - Waterproof </p>
-          <p> - Windproof </p>
-          <p> - Breathable </p>
-          <p> - FlyteFoam™ </p>
-          <p> - GEL® elements </p>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel (opened)="panelOpenState = true"
-                           (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Reviews
-          </mat-panel-title>
-          <mat-panel-description>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star_half</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>Customer reviews here!!</p>
-      </mat-expansion-panel>
-    </mat-accordion>
-
-
-
-  </div>
-
-
-</div>

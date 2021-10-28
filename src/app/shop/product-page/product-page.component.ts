@@ -1,9 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatRadioChange } from '@angular/material/radio';
+import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
+import { StoreAvailabilityComponent } from '@habibmokni/cnc';
+
+
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
 import { ProductService } from 'src/app/shared/services/product.service';
@@ -20,8 +25,8 @@ import { AvailabilityComponent } from './availability/availability.component';
 })
 export class ProductPageComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
+  @ViewChild(MatDrawer) matDrawer!: MatDrawer;
 
-  noOfItems = 1;
   panelOpenState = false;
   sub: any;
   product!: Observable<Product[]>;
@@ -44,8 +49,8 @@ export class ProductPageComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private productService: ProductService,
-    private snackbarService: SnackbarService,
-    public userService: UserService
+    public userService: UserService,
+    private snackBar: SnackbarService
     ) {
       if(userService.user){
         this.user = this.userService.user;
@@ -89,35 +94,6 @@ export class ProductPageComponent implements OnInit {
     });
   }
 
-  onSizeSelect(size: number, index:number, product: Product){
-    this.size = size;
-    this.selectedProduct=product;
-    this.isSizeSelected = true;
-    if(this.user){
-      console.log('user entered');
-      for(let products of this.user.storeSelected.products){
-        if(products.modelNo === product.modelNo){
-          console.log('model found');
-          for(let i=0; i<products.variants[0].sizes.length; i++){
-            if(products.variants[0].sizes[i] === size){
-              console.log('size found');
-              this.stock = +products.variants[0].inStock[i];
-            }
-          }
-        }
-      }
-    }
-    if(+product.variants[0].inStock[index]===0){
-      this.openDialog(product);
-    }
-    this.expansionPanel.close();
-    //const buttonList = document.getElementsByClassName('button');
-    //buttonList[index].classList.add("active");
-    //if(this.preBtn){
-    //  this.preBtn.classList.remove("active");
-    //}
-    //this.preBtn = buttonList[index];
-  }
 
   getProductDetail(id: string) {
     this.productService.getProductById(id);
@@ -131,50 +107,50 @@ export class ProductPageComponent implements OnInit {
   }
 
   openDialog(product: Product) {
-      if(this.isSizeSelected){
-        this.productService.selectedModelAndSize = {
-          modelNo: product.modelNo!,
-          size: this.size
-        };
-        this.dialog.open(AvailabilityComponent, {
-          data: {
-            call: 'product'
-          },
-          maxHeight: '100vh',
-          maxWidth: '100vw'
-        });
-      }else{
-        this.snackbarService.error('Please select product size!');
-      }
-  }
-
-  onRemoveItem(){
-    if(this.noOfItems>1){
-      this.noOfItems--;
-    }
-  }
-
-  onAddItem(){
-    this.noOfItems++;
+    this.dialog.open(StoreAvailabilityComponent, {
+      data: {
+        call: 'size-selector',
+        size: this.size,
+        modelNo: product.modelNo!,
+        sizes: product.variants[0].sizes
+      },
+      maxWidth: '100vw',
+      maxHeight: '100vh'
+    });
   }
 
   addToCart(product: Product){
-    product.productImage = this.productImage;
+    if(this.isSizeSelected){
+      product.productImage = this.productImage;
     product.color = this.colorSelected;
-    product.noOfItems = this.noOfItems;
+
     product.size = this.size;
     this.productService.addToCart(product);
+    }else{
+    this.snackBar.info('Please select size of product');
+    }
+
   }
   variantSelect(index: number, modelNo: string){
     this.productService.getProductById(modelNo);
-    setTimeout(()=>{
-      this.product = this.productService.product;
-    },200);
+    this.product = this.productService.product;
     const buttonList = document.getElementsByClassName('variant-image');
     buttonList[index].classList.add("active");
     if(this.preBtn){
       this.preBtn.classList.remove("active");
     }
     this.preBtn = buttonList[index];
+  }
+  sizeSelected(size: any){
+    this.size = size;
+    this.isSizeSelected = true;
+  }
+  checkAvailability(product: Product){
+    if(!this.isSizeSelected){
+      this.openDialog(product);
+    }else{
+      this.matDrawer.open();
+    }
+
   }
 }

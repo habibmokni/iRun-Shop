@@ -1,6 +1,24 @@
-<mat-card-title style="display: block;">Check Availability</mat-card-title>
-<mat-card-subtitle>Enter the location or zip code to check which nearest store has the selected product</mat-card-subtitle>
-<div mat-dialog-content class="content">
+
+<div *ngIf="!isSizeSelected">
+  <mat-card-title style="display: block;">Select Size</mat-card-title>
+  <mat-card-subtitle *ngIf="size>0">Your current size selection is: {{size}}</mat-card-subtitle>
+  <div class="product_size_list_expansion" *ngFor="let size of data.sizes; let i=index">
+    <mat-divider></mat-divider>
+    <a fxLayout
+    style=" color: #8B283D; background-color: white;"
+    (click)="changeSize(size)"
+    >
+    {{size}}
+    </a>
+    <mat-divider></mat-divider>
+  </div>
+</div>
+
+
+<div mat-dialog-content class="content" *ngIf="isSizeSelected">
+  <mat-card-title style="display: block;">Check Availability</mat-card-title>
+  <mat-card-subtitle>Enter the location or zip code to check which nearest store has the selected product</mat-card-subtitle>
+  <a mat-flat-button type="button" style="width: 100%; padding: 1rem 0rem;" (click)="isSizeSelected=false">Size Selected: {{size}}</a>
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Address">
       <mat-form-field class="product_availability_zipcode" style="width: 230px; margin-top: 10px;">

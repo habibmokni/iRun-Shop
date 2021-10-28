@@ -22,7 +22,8 @@ export class AvailabilityComponent implements OnInit {
   nearByStores: {stores: Store, distances: number, stock: number}[] =[];
   productAvailabilty: string[] = [];
   stores: Store[] = [];
-
+  size=0;
+  isSizeSelected = false;
 
   constructor(
     private ngZone: NgZone,
@@ -49,6 +50,11 @@ export class AvailabilityComponent implements OnInit {
     };
     const colorAndModelSelected = this.productService.selectedModelAndSize;
     console.log(colorAndModelSelected);
+    if(this.data.size){
+      this.size = this.data.size;
+      this.isSizeSelected = true;
+    }
+
     setTimeout(()=>{
       const input= document.getElementById("search") as HTMLInputElement;
 
@@ -202,4 +208,9 @@ export class AvailabilityComponent implements OnInit {
       this.snackbarService.success('Store selected as prefered');
       this.dialog.closeAll();
     }
+    changeSize(size: any){
+      this.size = size;
+      this.isSizeSelected = true;
+    }
+
 }
