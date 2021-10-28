@@ -7,11 +7,12 @@
 }
 .checkout-container{
   position: fixed;
-  bottom: 9%;
-  width: 92%;
+  bottom: 0%;
+  width: 100%;
   text-align: center;
 }
 .checkout-button{
-  width: 100%;
-  padding: 10px 20px;
+  width: 90%;
+  padding: 1rem;
+  margin: auto;
 }
