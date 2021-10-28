@@ -25,6 +25,8 @@ export class CheckoutComponent implements OnInit {
   user: User | null = null;
   stores: Store[] = [];
   storeLocations: any[] = [];
+  preBtn!: Element;
+  isClickNCollect = true;
 
   shippingMethod = new FormGroup({
     type: new FormControl('Click & Collect'),
@@ -152,5 +154,17 @@ export class CheckoutComponent implements OnInit {
     for(let item of cartItems){
       this.productService.removeLocalCartProduct(item);
     }
+  }
+
+  selectDelivery(type: string,  index: number){
+    this.shippingMethod.patchValue({
+      'type': type
+    });
+    if(index===1){
+      this.isClickNCollect = false;
+    }else{
+      this.isClickNCollect = true;
+    }
+
   }
 }

@@ -1,14 +1,7 @@
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Available Payment Options
-      </mat-panel-title>
-    </mat-expansion-panel-header>
     <div class="payment_method" [formGroup]="paymentMethod">
-      <mat-card class="card">
+      <div class="card" style="border: none; padding: 25px;">
         <mat-card-title>
-          Secure Payment
+          Payment Options
         </mat-card-title>
         <mat-card-subtitle>
           Powered by Stripe
@@ -30,10 +23,7 @@
            *Please select a payment method
          </span>
         </mat-card-content>
-      </mat-card>
+      </div>
 
     </div>
-
-  </mat-expansion-panel>
-</mat-accordion>
 

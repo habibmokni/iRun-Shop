@@ -1,25 +1,35 @@
-
 <mat-stepper class="example-stepper"
   orientation="horizontal" labelPosition="bottom" [linear]="false">
-  <mat-step [stepControl]="firstFormGroup" label="Delivery Type">
+  <mat-step [stepControl]="firstFormGroup" label="Shipping Address">
+    <div fxLayout fxLayoutAlign="center center">
+      <a mat-flat-button fxLayout="column" class="delivery_button" [ngClass]="{'active': isClickNCollect}" (click)="selectDelivery('Click N Collect', 0)">
+        <mat-icon class="icons" fontSet="material-icons-outlined">shopping_bag</mat-icon>
+        <h4>Click N Collect</h4>
+      </a>
+      <a mat-flat-button fxLayout="column" class="delivery_button" [ngClass]="{'active': !isClickNCollect}" (click)="selectDelivery('Home Delivery', 1)">
+        <mat-icon class="icons" fontSet="material-icons-outlined">home</mat-icon>
+        <h4>Home delivery</h4>
+      </a>
+
+    </div>
     <form [formGroup]="firstFormGroup">
       <cnc-click-n-collect
-      *ngIf="user"
+      *ngIf="isClickNCollect"
       [user]="user"
       (storeChanged)="onStoreChange($event)"
       (productsToRemove)="onProductsToRemove($event)"
       (dateSelected)="dateSelected($event)"
       (timeSelected)="timeSelected($event)">
       </cnc-click-n-collect>
+      <form [formGroup]="secondFormGroup" *ngIf="!isClickNCollect">
+        <app-billing-details [billing]="billing"></app-billing-details>
+      </form>
       <div fxLayout fxLayoutAlign="center center">
         <button class="button-style" mat-flat-button matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup" label="Billing" >
-    <form [fxShow]="billingSteps===0" [formGroup]="secondFormGroup">
-      <app-billing-details [billing]="billing"></app-billing-details>
-    </form>
+  <mat-step [stepControl]="thirdFormGroup" label="Payment Method" >
     <form [formGroup]="thirdFormGroup">
       <app-payment-methods [paymentMethod]="paymentMethod"></app-payment-methods>
       <div fxLayout fxLayoutAlign="center center">
@@ -31,7 +41,7 @@
   </mat-step>
 
   <mat-step fxLayout="column" fxLayoutAlign="center center">
-    <ng-template matStepLabel >Summary</ng-template>
+    <ng-template matStepLabel >Overview</ng-template>
     <div *ngIf="order">
       <h1>Check Order Details</h1>
       <mat-card-content fxLayout.gt-xs="row">

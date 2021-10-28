@@ -66,3 +66,27 @@
   margin-left: 10px;
   line-height: 17px;
 }
+.delivery_button{
+  height: 6.25rem;
+  border: 0.0625rem solid #c8d3d6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #818788;
+  text-align: center;
+  font-size: .75rem;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  border-radius: 2px;
+  text-decoration: none;
+}
+.active{
+  border-color: #8B283D;
+  color: #8B283D;
+}
+.icons{
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+}
