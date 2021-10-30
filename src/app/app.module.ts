@@ -38,6 +38,7 @@ import { UserService } from './shared/services/user.service';
 import { AddToCartComponent } from './shop/add-to-cart/add-to-cart.component';
 import { StoreSelectedComponent } from './store-selected/store-selected.component';
 import { ClickNCollectModule } from '@habibmokni/cnc';
+import { InformationComponent } from './information/information.component';
 
 
 
@@ -61,7 +62,8 @@ import { ClickNCollectModule } from '@habibmokni/cnc';
     FooterComponent,
     DeliveryComponent,
     AddToCartComponent,
-    StoreSelectedComponent
+    StoreSelectedComponent,
+    InformationComponent
   ],
   imports: [
     BrowserModule,

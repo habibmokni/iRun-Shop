@@ -4,6 +4,7 @@ import { AddProductsComponent } from './add-products/add-products.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { DeliveryComponent } from './checkout/delivery/delivery.component';
 import { HomeComponent } from './home/home.component';
+import { InformationComponent } from './information/information.component';
 import { ProductPageComponent } from './shop/product-page/product-page.component';
 import { ShopComponent } from './shop/shop.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'add-product', component: AddProductsComponent},
   { path: 'delivery' , component: DeliveryComponent},
-  {path: 'storeselected', component: StoreSelectedComponent}
+  {path: 'storeselected', component: StoreSelectedComponent},
+  {path: 'info', component: InformationComponent}
 ];
 
 @NgModule({
