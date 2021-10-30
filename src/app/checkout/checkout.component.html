@@ -29,7 +29,10 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="thirdFormGroup" label="Payment Method" >
+  <mat-step [stepControl]="secondFormGroup" label="Billing" >
+    <form [fxShow]="isClickNCollect" [formGroup]="secondFormGroup">
+      <app-billing-details [billing]="billing"></app-billing-details>
+    </form>
     <form [formGroup]="thirdFormGroup">
       <app-payment-methods [paymentMethod]="paymentMethod"></app-payment-methods>
       <div fxLayout fxLayoutAlign="center center">

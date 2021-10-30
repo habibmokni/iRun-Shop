@@ -90,6 +90,7 @@ export class CheckoutComponent implements OnInit {
   }
   ngOnInit(): void {
     this.cartProducts = this.productService.getLocalCartProducts()
+    console.log(this.cartProducts);
     for(let products of this.cartProducts){
       this.orderPrice += products.price*products.noOfItems!;
     }
