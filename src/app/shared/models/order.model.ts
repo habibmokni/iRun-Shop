@@ -1,10 +1,11 @@
 import { Billing } from "./billing.model";
-import { Product } from "./product.model";
+import { CartProduct } from "./cartProduct.model";
+
 
 export interface Order{
   orderId: number;
   billingDetails: Billing;
-  productsOrdered: Product[];
+  productsOrdered: CartProduct[];
   storeLocation: {
     id: number;
     address: string;

@@ -2,7 +2,7 @@ import { Product } from "./product.model";
 import { Location } from "./location.model"
 
 export interface Store{
-  id?: string;
+  id: string;
   name: string;
   address: string;
   reviews?: string;

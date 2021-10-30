@@ -10,7 +10,7 @@ import { Product } from "../models/product.model";
 export class StoreService{
 
   currentStoreLocation: {lat: number, lng: number} = {lat: 0, lng: 0};
-  currentStore: Store;
+  currentStore!: Store;
 
   selectedStore = new Subject<{address: string, location:{ lat: number, lng:number}}>();
   storeLocations: google.maps.LatLngLiteral[] = [];
@@ -22,106 +22,6 @@ export class StoreService{
 
   constructor(private db: AngularFirestore){
     this.storeCollection = db.collection<Store>('storeList');
-    this.fetchStore();
-    this.getStoreLocations();
-    this.currentStore =
-      {
-        id: "2023",
-        name: 'Store 3',
-        address: 'Phase 3, Sargodha',
-        location: {
-          lat: 51.23644756925625,
-          lng: 6.7812126558439125
-        },
-        products: [
-          {
-            id: 3232,
-            name: 'Nike Pink Shoe',
-            color: '#590F34',
-            subCategory: ['Unisex','blue shoes'],
-            price: 799,
-            size: 41,
-            productImage: '../../assets/images/mehron.png',
-            imageList: [
-              '../../assets/images/blue.png',
-              '../../assets/images/mehron.png',
-              '../../assets/images/black.png',
-              '../../assets/images/white.png'
-            ],
-            //availableColors: ['#ADDDDA', '#590F34', '#8C949C', '#C9BDAB'],
-            //availableSizes: [41, 42, 43, 44, 45],
-            variants: [{
-              color: '#ADDDDA',
-              sizes: [41, 42, 43, 44, 45],
-              inStock: [0,5,10,7,15]
-            },
-            {
-              color: '#590F34',
-              sizes: [41, 42, 43, 44, 45],
-              inStock: [7,2,15,0,25]
-            },
-            {
-              color: '#8C949C',
-              sizes: [41, 42, 43, 44, 45],
-              inStock: [20,10,0,7,15]
-            },
-            {
-              color: '#C9BDAB',
-              sizes: [41, 42, 43, 44, 45],
-              inStock: [10,0,5,2,9]
-            }]
-          },
-          {
-            id: 2244,
-            name: 'Nike blue Shoe',
-            color: '#ADDDDA',
-            subCategory: ['Unisex','blue shoes'],
-            price: 799,
-            size: 41,
-            productImage: '../../assets/images/blue.png',
-            imageList: [
-              '../../assets/images/blue.png',
-              '../../assets/images/mehron.png',
-              '../../assets/images/black.png',
-              '../../assets/images/white.png'
-            ],
-            //availableColors: ['#ADDDDA', '#590F34', '#8C949C', '#C9BDAB'],
-            //availableSizes: [41, 42, 43, 44, 45],
-            variants: [{
-              color: '#ADDDDA',
-                sizes: [41, 42, 43, 44, 45],
-                inStock: [0,5,10,7,15]
-            },
-            {
-              color: '#590F34',
-
-                sizes: [41, 42, 43, 44, 45],
-                inStock: [7,2,15,0,25]
-
-            },
-            {
-              color: '#8C949C',
-
-                sizes: [41, 42, 43, 44, 45],
-                inStock: [20,10,0,7,15]
-
-            },
-            {
-              color: '#C9BDAB',
-
-                sizes: [41, 42, 43, 44, 45],
-                inStock: [10,0,5,2,9]
-
-            }]
-          }
-        ],
-        //add products here after namaz
-        openingTime: {
-          open: "10am",
-          close: "10pm"
-        },
-        isDefaultStore: false
-      }
       //this.updateProducts();
       //this.addStoreToDatabase(this.currentStore);
   }
@@ -149,26 +49,11 @@ export class StoreService{
   }
 
   getStoreLocations(){
-  //  this.db.collection<{lat: number, lng:number}>('storeLocations')
-  //  .snapshotChanges()
-  //  .pipe(map(action => {
-  //    return action.map(location =>{
-  //      return {
-  //        ...location.payload.doc.data()
-  //      }
-  //    })
-  //  }))
-  //  .subscribe(locations=>{
-  //    for(let location of locations){
-  //      this.storeLocations.push(location);
-  //    }
-  //  })
-  //this.storeLocations.push(this.store[0].location);
-  this.store.forEach(stores=>{
-    for(let store of stores){
-      this.storeLocations.push(store.location);
-    }
-    console.log(this.storeLocations);
+    this.store.subscribe(stores=>{
+      for(let store of stores){
+        this.storeLocations.push(store.location);
+      }
+      console.log(this.storeLocations);
   })
   console.log("store added to store service");
   }

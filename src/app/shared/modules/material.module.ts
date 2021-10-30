@@ -18,6 +18,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatListModule} from '@angular/material/list';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatBadgeModule,
     MatListModule,
     MatBottomSheetModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSidenavModule
   ],
   exports: [
     MatToolbarModule,
@@ -60,7 +62,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatBadgeModule,
     MatListModule,
     MatBottomSheetModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSidenavModule
   ],
   providers: [MatDatepickerModule]
 })

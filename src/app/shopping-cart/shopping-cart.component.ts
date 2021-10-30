@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { CartProduct } from '../shared/models/cartProduct.model';
 import { Product } from '../shared/models/product.model';
 import { User } from '../shared/models/user.model';
 import { ProductService } from '../shared/services/product.service';
@@ -19,7 +20,7 @@ export class ShoppingCartComponent implements OnInit {
   messageDescription = "Please add Products to Cart";
   user!: User;
 
-  cartProducts: Product[] = [];
+  cartProducts: CartProduct[] = [];
 
   totalValue= 0;
 
@@ -45,7 +46,7 @@ export class ShoppingCartComponent implements OnInit {
       this.checkProductsStock();
     }
   }
-  onAddItem(index: number, product: Product){
+  onAddItem(index: number, product: CartProduct){
     if(this.cartProducts[index].noOfItems!>0){
       if(this.cartProducts[index].noOfItems!<this.itemInStock[index]){
         this.cartProducts[index].noOfItems!++;
@@ -54,7 +55,7 @@ export class ShoppingCartComponent implements OnInit {
       }
     }
   }
-  onRemoveItem(index: number, product: Product){
+  onRemoveItem(index: number, product: CartProduct){
 
     if(this.cartProducts[index].noOfItems===1){
       this.grandtotal=this.grandtotal-(+this.cartProducts[index].price);
@@ -72,7 +73,7 @@ export class ShoppingCartComponent implements OnInit {
 
   }
 
-  removeCartProduct(product: Product) {
+  removeCartProduct(product: CartProduct) {
     this.productService.removeLocalCartProduct(product);
 
     // Recalling
@@ -111,7 +112,7 @@ export class ShoppingCartComponent implements OnInit {
       for(let storeProduct of this.user.storeSelected.products){
         if(storeProduct.modelNo === product.modelNo){
           for(let i=0; i<storeProduct.variants[0].sizes.length; i++){
-            if(storeProduct.variants[0].sizes[i]===product.size){
+            if(+storeProduct.variants[0].sizes[i]===product.size){
               this.itemInStock.push(+storeProduct.variants[0].inStock[i]);
             }
           }

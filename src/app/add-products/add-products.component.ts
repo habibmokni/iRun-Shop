@@ -62,6 +62,7 @@ export class AddProductsComponent implements OnInit {
   }
   onSubmit(){
     const product: Product = {
+      id: Math.random()*100,
       companyName: this.form.get('companyName')?.value,
       modelNo: this.form.get('modelNo')?.value,
       name: this.form.get('name')?.value,

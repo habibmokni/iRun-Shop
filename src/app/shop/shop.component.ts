@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet} from '@angular/material/bottom-sheet';
 import { Observable } from 'rxjs';
+import { CartProduct } from '../shared/models/cartProduct.model';
 import { Product } from '../shared/models/product.model';
 import { ProductService } from '../shared/services/product.service';
 import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
@@ -44,7 +45,7 @@ export class ShopComponent implements OnInit {
     //this.getAllProducts();
   }
 
-  addToCart(product: Product) {
+  addToCart(product: CartProduct) {
     product.noOfItems =1;
     this.productService.addToCart(product);
   }

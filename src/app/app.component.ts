@@ -35,6 +35,7 @@ export class AppComponent {
         name: 'Anonymous',
         storeSelected: store
       })
-    })
+    });
+
   }
 }

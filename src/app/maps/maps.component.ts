@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable} from 'rxjs';
 import { Store } from '../shared/models/store.model';
 import { MapsService } from '../shared/services/maps.service';
@@ -18,7 +18,11 @@ export class MapsComponent implements OnInit {
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow ;
   @Input() mapHeight: number= 450;
   @Input() mapWidth: number= screen.width;
+  @Input() storesWithProduct: google.maps.LatLngLiteral[] = [];
+  @Input() ModelNo: any;
+  @Input() size: number = 0;
 
+  stores: Store[] = [];
 
 
   options: google.maps.MapOptions = {
@@ -33,7 +37,7 @@ export class MapsComponent implements OnInit {
   currentLocation: google.maps.LatLngLiteral = { lat: 51.44157584725519, lng: 7.565725496333208};
   logo="../../assets/images/logos/location.png";
   icon = {
-    url: "../../assets/images/logos/current-location.png", // url
+    url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png", // url
 };
 
   directionsResults$!: Observable<google.maps.DirectionsResult|undefined>;
@@ -58,6 +62,11 @@ export class MapsComponent implements OnInit {
 
     }
   ngOnInit(): void {
+
+    this.storeList.subscribe(stores=>{
+      this.stores = stores;
+      this.checkProductAvailabilty(this.ModelNo, this.size);
+    })
   }
   currentUserLocation: google.maps.LatLngLiteral = { lat: 31.4914, lng: 74.2385};
 
@@ -100,4 +109,33 @@ export class MapsComponent implements OnInit {
     this.infoWindow.close();
     this.dialog.closeAll();
   }
+
+  checkProductAvailabilty(modelNo: string, productSize: number){
+    let i=0;
+    console.log(this.stores)
+    let newLocations = [];
+      for(let store of this.stores){
+        console.log(store);
+          //yahan products ki for loop use karni h
+          for(let product of store.products){
+            if(product.modelNo === modelNo){
+              console.log("model true");
+              for(let variant of product.variants){
+                for(let index=0; index<variant.sizes.length; index++){
+                  console.log(productSize);
+                  if(+variant.sizes[index] === +productSize && +variant.inStock[index]>0){
+                    console.log(variant.sizes[index]);
+                    newLocations.push(this.storeLocations[i]);
+                    console.log(newLocations);
+                 }
+                }
+              }
+            }
+
+          }
+          i++;
+        }
+        this.storeLocations = newLocations;
+    }
+
 }

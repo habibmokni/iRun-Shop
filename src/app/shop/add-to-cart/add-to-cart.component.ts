@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { CartProduct } from 'src/app/shared/models/cartProduct.model';
 import { Product } from 'src/app/shared/models/product.model';
 import { User } from 'src/app/shared/models/user.model';
 import { ProductService } from 'src/app/shared/services/product.service';
@@ -57,12 +58,15 @@ onAddItem(){
 }
 
 addToCart(product: Product){
-  product.productImage = product.imageList[0];
-  product.color = product.variants[0].color;
-  product.noOfItems = this.noOfItems;
-  product.size = this.size;
-  this.productService.addToCart(product);
-  this._bottomSheetRef.dismiss();
+  const cartProduct: CartProduct = {
+    productImage: product.imageList[0],
+    modelNo : product.modelNo,
+    noOfItems : 1,
+    size : this.size,
+    vendor: product.companyName!,
+    productName: product.name,
+    price: product.price
+  }
 }
 
 

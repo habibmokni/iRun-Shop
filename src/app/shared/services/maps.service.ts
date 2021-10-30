@@ -50,6 +50,7 @@ export class MapsService{
   find_closest_marker(lat: number, lng:number) {
     //var lat = event.latLng.lat();
     //var lng = event.latLng.lng();
+    console.log(lat + '' +lng);
     var lat = lat;
     var lng = lng;
     var R = 6371; // radius of earth in km

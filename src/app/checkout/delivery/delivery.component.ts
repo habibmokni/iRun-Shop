@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { CartProduct } from 'src/app/shared/models/cartProduct.model';
 import { Product } from 'src/app/shared/models/product.model';
 import { User } from 'src/app/shared/models/user.model';
 import { ProductService } from 'src/app/shared/services/product.service';
@@ -27,9 +28,9 @@ export class DeliveryComponent implements OnInit {
     }
   };
 
-  cartProducts: Product[];
+  cartProducts: CartProduct[];
   itemInStock: number[]=[];
-  cartItemUnavailable: Product[]=[];
+  cartItemUnavailable: CartProduct[]=[];
   grandTotal!: number;
   date!: Date;
 

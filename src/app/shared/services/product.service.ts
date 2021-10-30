@@ -4,6 +4,7 @@ import { Product } from "../models/product.model";
 import { StoreService } from "./store.service";
 import { SnackbarService } from "./snackbar.service";
 import { Observable, Subject} from "rxjs";
+import { CartProduct } from "../models/cartProduct.model";
 
 @Injectable()
 export class ProductService{
@@ -19,7 +20,7 @@ export class ProductService{
 
   productsInCart=false;
   allItemsInStock= false;
-  cartProductsChanged = new Subject<Product[]>();
+  cartProductsChanged = new Subject<CartProduct[]>();
 
   constructor(private snackBarService: SnackbarService, private storeService: StoreService, private db: AngularFirestore){
     this.selectedModelAndSize = {modelNo: '', size: 0};
@@ -38,8 +39,8 @@ export class ProductService{
     //this.productList.remove(key);
   }
     // Adding new Product to cart db if logged in else localStorage
-    addToCart(data: Product): void {
-      const a: Product[] = JSON.parse(localStorage.getItem("avct_item")!) || [];
+    addToCart(data: CartProduct): void {
+      const a: CartProduct[] = JSON.parse(localStorage.getItem("avct_item")!) || [];
       let isProduct = false;
       for(let i=0; i<a.length; i++){
         if(a[i].modelNo ===data.modelNo && a[i].size! === data.size){
@@ -58,8 +59,8 @@ export class ProductService{
     }
 
     // Removing cart from local
-    removeLocalCartProduct(product: Product) {
-      const products: Product[] = JSON.parse(localStorage.getItem("avct_item")!);
+    removeLocalCartProduct(product: CartProduct) {
+      const products: CartProduct[] = JSON.parse(localStorage.getItem("avct_item")!);
       this.snackBarService.warning("Removing product from cart");
       for (let i = 0; i < products.length; i++) {
         if (products[i].modelNo === product.modelNo && products[i].size === product.size) {
@@ -73,7 +74,7 @@ export class ProductService{
     }
 
     removeAllLocalCartProduct() {
-      const products: Product[] = JSON.parse(localStorage.getItem("avct_item")!);
+      const products: CartProduct[] = JSON.parse(localStorage.getItem("avct_item")!);
 
       for (let i = 0; i < products.length; i++) {
         delete products[i];
@@ -84,8 +85,8 @@ export class ProductService{
     }
 
     // Fetching Locat CartsProducts
-    getLocalCartProducts(): Product[] {
-      const products: Product[] =
+    getLocalCartProducts(): CartProduct[] {
+      const products: CartProduct[] =
         JSON.parse(window.localStorage.getItem("avct_item")!) || [];
       return products;
     }
@@ -103,11 +104,11 @@ export class ProductService{
       this.product = this.db.collection<Product>('products', ref => ref.where('modelNo', '==', key)).valueChanges();
 
     }
-    updateNoOfItemsOfProduct(product: Product) {
-      const products: Product[] = JSON.parse(localStorage.getItem("avct_item")!);
+    updateNoOfItemsOfProduct(product: CartProduct) {
+      const products: CartProduct[] = JSON.parse(localStorage.getItem("avct_item")!);
       this.snackBarService.success("Updated products in cart");
       for (let i = 0; i < products.length; i++) {
-        if (products[i].id === product.id) {
+        if (products[i].modelNo === product.modelNo) {
           products[i].noOfItems = product.noOfItems
           break;
         }

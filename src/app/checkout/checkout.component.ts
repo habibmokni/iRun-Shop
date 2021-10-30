@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Order } from '../shared/models/order.model';
 import { ProductService } from '../shared/services/product.service';
 import { StoreService } from '../shared/services/store.service';
-import { Product } from '../shared/models/product.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { SnackbarService } from '../shared/services/snackbar.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +10,7 @@ import { OrderSuccessComponent } from './order-success/order-success.component';
 import { UserService } from '../shared/services/user.service';
 import { User } from '../shared/models/user.model';
 import { Store } from '../shared/models/store.model';
+import { CartProduct } from '../shared/models/cartProduct.model';
 
 @Component({
   selector: 'app-checkout',
@@ -21,7 +21,7 @@ export class CheckoutComponent implements OnInit {
 
   billingSteps=0;
   order!: Order;
-  cartProducts: Product[] = [];
+  cartProducts: CartProduct[] = [];
   user: User | null = null;
   stores: Store[] = [];
   storeLocations: any[] = [];
@@ -151,7 +151,7 @@ export class CheckoutComponent implements OnInit {
     });
     this.userService.updateSelectedStore(this.user);
   }
-  onProductsToRemove(cartItems: Product[]){
+  onProductsToRemove(cartItems: CartProduct[]){
     for(let item of cartItems){
       this.productService.removeLocalCartProduct(item);
     }

@@ -1,5 +1,6 @@
 import { Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CartProduct } from 'src/app/shared/models/cartProduct.model';
 import { Product } from 'src/app/shared/models/product.model';
 import { Store } from 'src/app/shared/models/store.model';
 import { MapsService } from 'src/app/shared/services/maps.service';
@@ -14,7 +15,7 @@ import { UserService } from 'src/app/shared/services/user.service';
   styleUrls: ['./availability.component.css']
 })
 export class AvailabilityComponent implements OnInit {
-  @ViewChild('search') address!: ElementRef;
+
   mapHeight = 410;
   mapWidth = 700;
   private screenSize = screen.width;
@@ -63,6 +64,7 @@ export class AvailabilityComponent implements OnInit {
       autocomplete.addListener("place_changed", () => {
       this.ngZone.run(() => {
         this.nearByStores= [];
+
         //get the place result
         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
@@ -70,7 +72,11 @@ export class AvailabilityComponent implements OnInit {
         if (place.geometry === undefined || place.geometry === null) {
           return;
         }
-
+        const container = document.querySelector('.pac-container') as HTMLElement;
+        if(container){
+          console.log('found container');
+          container.style.top = '500px';
+        }
         //set latitude, longitude and zoom
         let latitude = place.geometry.location.lat();
         let longitude = place.geometry.location.lng();
@@ -81,7 +87,7 @@ export class AvailabilityComponent implements OnInit {
         if(this.data.call === "product"){
           this.mapService.find_closest_marker(latitude, longitude);
           setTimeout(() => {
-            this.checkProductAvailabilty(colorAndModelSelected.modelNo,colorAndModelSelected.size);
+            this.checkProductAvailabilty(this.data.modelNo,this.size);
           }, 100);
 
         }
@@ -96,7 +102,7 @@ export class AvailabilityComponent implements OnInit {
       });
     });
 
-    },3000);
+    },500);
 
 
     const options= {
@@ -127,10 +133,11 @@ export class AvailabilityComponent implements OnInit {
           //yahan products ki for loop use karni h
           for(let product of store.products){
             if(product.modelNo === modelNo){
+              console.log("model true");
               for(let variant of store.products[0].variants){
                 for(let index=0; index<variant.sizes.length; index++){
 
-                  if(variant.sizes[index] === productSize){
+                  if(+variant.sizes[index] === +productSize){
                     console.log(variant.sizes[index]);
                     this.nearByStores.push({
                       stores: store,
@@ -151,7 +158,7 @@ export class AvailabilityComponent implements OnInit {
     }
 
 
-    checkAllProductsAvailabilty(cartProducts: Product[]){
+    checkAllProductsAvailabilty(cartProducts: CartProduct[]){
       let i=0;
       let isAvailable = 0;
         for(let store of this.stores){
@@ -209,8 +216,19 @@ export class AvailabilityComponent implements OnInit {
       this.dialog.closeAll();
     }
     changeSize(size: any){
+      if(this.nearByStores){
+       this.nearByStores = [];
+      }
       this.size = size;
       this.isSizeSelected = true;
+    }
+    currentLocation(){
+      this.mapService.getCurrentLocation();
+      setTimeout(()=>{
+        this.nearByStores = [];
+        this.checkProductAvailabilty(this.data.modelNo,this.size);
+      },1000)
+
     }
 
 }

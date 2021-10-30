@@ -8,6 +8,7 @@ import { CheckAvailabilityComponent } from '@habibmokni/cnc';
 
 
 import { Observable } from 'rxjs';
+import { CartProduct } from 'src/app/shared/models/cartProduct.model';
 import { User } from 'src/app/shared/models/user.model';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
@@ -117,11 +118,16 @@ export class ProductPageComponent implements OnInit {
 
   addToCart(product: Product){
     if(this.isSizeSelected){
-      product.productImage = this.productImage;
-    product.color = this.colorSelected;
-    product.noOfItems = 1;
-    product.size = this.size;
-    this.productService.addToCart(product);
+      const cartProduct: CartProduct = {
+        productImage: product.imageList[0],
+        modelNo : product.modelNo,
+        noOfItems : 1,
+        size : this.size,
+        vendor: product.companyName!,
+        productName: product.name,
+        price: product.price
+      }
+    this.productService.addToCart(cartProduct);
     }else{
     this.snackBar.info('Please select size of product');
     }

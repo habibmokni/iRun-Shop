@@ -64,10 +64,10 @@
         <div class="cart-items" fxLayout="column">
           <div *ngFor="let product of cartProducts; let i=index">
             <div class="item-image-container" fxFlex="30%">
-              <img src="{{product.imageList[0]}}" style="width: 100%;" alt="image">
+              <img src="{{product.productImage}}" style="width: 100%;" alt="image">
             </div>
             <div fxFlex="50%" fxLayout="column" style="padding-left: 15px;">
-              <h3>{{product.name}}</h3>
+              <h3>{{product.productName}}</h3>
               <mat-card-subtitle>{{'Size : ' + product.size}} </mat-card-subtitle>
               <div fxLayout>
                 <h3>No of items:</h3>
