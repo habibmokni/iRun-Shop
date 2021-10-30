@@ -1,19 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatRadioChange } from '@angular/material/radio';
-import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
-import { StoreAvailabilityComponent } from '@habibmokni/cnc';
+import { CheckAvailabilityComponent } from '@habibmokni/cnc';
 
 
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
-import { StoreService } from 'src/app/shared/services/store.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Product } from '../../shared/models/product.model';
 import { AvailabilityComponent } from './availability/availability.component';
@@ -25,7 +22,6 @@ import { AvailabilityComponent } from './availability/availability.component';
 })
 export class ProductPageComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
-  @ViewChild(MatDrawer) matDrawer!: MatDrawer;
 
   panelOpenState = false;
   sub: any;
@@ -107,9 +103,9 @@ export class ProductPageComponent implements OnInit {
   }
 
   openDialog(product: Product) {
-    this.dialog.open(StoreAvailabilityComponent, {
+    this.dialog.open(CheckAvailabilityComponent, {
       data: {
-        call: 'size-selector',
+        call: 'product',
         size: this.size,
         modelNo: product.modelNo!,
         sizes: product.variants[0].sizes
@@ -123,7 +119,7 @@ export class ProductPageComponent implements OnInit {
     if(this.isSizeSelected){
       product.productImage = this.productImage;
     product.color = this.colorSelected;
-
+    product.noOfItems = 1;
     product.size = this.size;
     this.productService.addToCart(product);
     }else{
@@ -146,11 +142,7 @@ export class ProductPageComponent implements OnInit {
     this.isSizeSelected = true;
   }
   checkAvailability(product: Product){
-    if(!this.isSizeSelected){
-      this.openDialog(product);
-    }else{
-      this.matDrawer.open();
-    }
+    this.openDialog(product);
 
   }
 }
