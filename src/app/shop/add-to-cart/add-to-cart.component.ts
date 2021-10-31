@@ -51,14 +51,6 @@ export class AddToCartComponent implements OnInit {
     this.checkProductInStore();
   }
 
-onRemoveItem(){
-  if(this.noOfItems>1){
-    this.noOfItems--;
-  }
-}
-onAddItem(){
-  this.noOfItems++;
-}
 
 addToCart(product: Product){
   if(this.isSizeSelected && this.stock >0){
