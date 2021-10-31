@@ -16,9 +16,9 @@
       </mat-card-subtitle>
       <mat-card-subtitle>{{'Model no: '+ product.modelNo}}</mat-card-subtitle>
       <div fxLayout>
-        <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onRemoveItem(i, product)"><mat-icon>remove</mat-icon></button>
+        <button mat-flat-button type="button" style="background: #fff; color: #8B283D;" (click)="onRemoveItem(i, product)"><mat-icon>remove</mat-icon></button>
         <h3 style="padding: 8px 15px;">{{product.noOfItems}}</h3>
-        <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onAddItem(i, product)"><mat-icon>add</mat-icon></button>
+        <button mat-flat-button type="button" style="background: #fff; color: #8B283D;" (click)="onAddItem(i, product)"><mat-icon>add</mat-icon></button>
       </div>
 
       <div>
@@ -31,17 +31,19 @@
   </div>
 </div>
 <div class="checkout-container">
-  <a fxLayout style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: white;" type="button" class="checkout-button" (click)="onSubmit()">
+  <a fxLayout type="button" class="checkout-button" (click)="onSubmit()">
     <h2 style="margin-bottom: 0px;">Proceed to checkout</h2>
     <span class="filler"></span>
     <h2 style="margin-bottom: 0px;">{{grandtotal}}€</h2>
   </a>
 </div>
 
+
+
 <div fxLayout fxLayoutAlign="center center" *ngIf="cartProducts.length===0">
   <div fxLayout="column">
     <h2>Cart is empty!</h2>
     <mat-card-subtitle>Please add products to cart</mat-card-subtitle>
-    <button mat-flat-button type="button" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: white;" routerLink="/products">Go to shop</button>
+    <button mat-flat-button type="button" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: #fff;" routerLink="/products">Go to shop</button>
   </div>
 </div>

@@ -11,7 +11,12 @@ export class PaymentMethodsComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
 
   @Input() paymentMethod!: FormGroup;
-  paymentPartner: {name:string, logo: string}[] = [{name:'MasterCard', logo: '../../assets/images/logos/mastercard-logo.png'}, {name:'Visa', logo: '../../assets/images/logos/Visa-logo.png'}, {name:'Paypal', logo: '../../assets/images/logos/paypal-logo.jpg'}];
+  paymentPartner:
+    {name:string,
+    logo: string}[] = [
+      {name:'MasterCard', logo: '../../assets/images/logos/mastercard-logo.png'},
+      {name:'Visa', logo: '../../assets/images/logos/Visa-logo.png'},
+      {name:'Paypal', logo: '../../assets/images/logos/paypal-logo.jpg'}];
   constructor() { }
 
   ngOnInit(): void {

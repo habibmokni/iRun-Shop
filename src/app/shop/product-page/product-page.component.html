@@ -10,22 +10,23 @@
         </div>
         <div class="article-header" fxFlex="100%">
           <h2>{{product.name}}</h2>
-          <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
-        </div>
-        <div class="variant-selection" fxFlex="100%" fxLayout="row wrap" *ngIf="similarProducts">
-          <a class="variant-image" *ngFor="let product of similarProducts; let i=index" (click)="variantSelect(i,product.modelNo!)">
-            <div>
-              <img [src]="product.imageList[0]" alt="image" style="width: auto; height: 44px;">
-            </div>
-          </a>
+          <mat-card-subtitle>{{product.subCategory}}, Sports Shoes</mat-card-subtitle>
         </div>
         <div class="article-quantity" fxFlex="100%" fxLayout>
-          <span class="filler"></span>
           <div class="article-price" fxLayout>
             <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
             <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
           </div>
         </div>
+        <ng-container *ngIf="!!similarProducts" >
+          <div class="variant-selection" fxFlex="100%" fxLayout="row wrap">
+            <a class="variant-image" *ngFor="let product of similarProducts; let i=index" (click)="variantSelect(i,product.modelNo!)">
+              <div>
+                <img [src]="product.imageList[0]" alt="image" style="width: auto; height: 44px;">
+              </div>
+            </a>
+          </div>
+        </ng-container>
         <span class="filler"></span>
         <cnc-size-selector (sizeSelected)="sizeSelected($event)" [product]="product"></cnc-size-selector>
         <div class="buttonContainer" fxLayout fxLayoutAlign="center center">
@@ -38,7 +39,7 @@
             Add to cart
           </button>
           <button mat-mini-fab
-          style="background-color: white; color: black; margin-left: 10px;"
+          style="background-color: #fff; color: #d53d5e; margin-left: 10px;"
           type="button">
           <mat-icon>favorite_border</mat-icon>
         </button>
@@ -56,15 +57,6 @@
           </mat-list-item>
         </mat-list>
 
-        <mat-chip-list aria-label="Shoes selection">
-          <mat-chip class="chips">Running</mat-chip>
-          <mat-chip class="chips">Gym</mat-chip>
-          <mat-chip class="chips">Outdoor</mat-chip>
-          <mat-chip class="chips">waterproof</mat-chip>
-          <mat-chip class="chips">Unisex</mat-chip>
-          <mat-chip class="chips"> GEL® elements</mat-chip>
-        </mat-chip-list>
-
         <mat-card class="checkAvailabilitySection">
           <h2>Check branch Availability</h2>
           <h3>Find your favourite shoe in your nearest shop now.</h3>
@@ -77,11 +69,21 @@
           class="availability_button"
           (click)="checkAvailability(product)"
           >
-          <mat-icon fontSet="material-icons-outlined" style="color: #d53d5e;">room</mat-icon>
-          Check availability in branch nearby
+          <mat-icon
+          fontSet="material-icons-outlined"
+          style="color: #d53d5e; font-size: 25px;">room</mat-icon>
+          <span style="font-weight: bold;">Check availability in branch nearby</span>
         </button>
         </mat-card>
 
+        <mat-chip-list aria-label="Shoes selection">
+          <mat-chip class="chips">Running</mat-chip>
+          <mat-chip class="chips">Gym</mat-chip>
+          <mat-chip class="chips">Outdoor</mat-chip>
+          <mat-chip class="chips">waterproof</mat-chip>
+          <mat-chip class="chips">Unisex</mat-chip>
+          <mat-chip class="chips"> GEL® elements</mat-chip>
+        </mat-chip-list>
 
         <mat-accordion>
           <mat-expansion-panel
@@ -112,11 +114,11 @@
                 Reviews
               </mat-panel-title>
               <mat-panel-description>
-                <mat-icon style="color: yellow;">star</mat-icon>
-                <mat-icon style="color: yellow;">star</mat-icon>
-                <mat-icon style="color: yellow;">star</mat-icon>
-                <mat-icon style="color: yellow;">star</mat-icon>
-                <mat-icon style="color: yellow;">star_half</mat-icon>
+                <mat-icon class="star">star</mat-icon>
+                <mat-icon class="star">star</mat-icon>
+                <mat-icon class="star">star</mat-icon>
+                <mat-icon class="star">star</mat-icon>
+                <mat-icon class="star">star_half</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
             <p>Customer reviews here!!</p>
