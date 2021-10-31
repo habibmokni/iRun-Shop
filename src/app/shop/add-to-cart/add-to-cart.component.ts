@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { CartProduct } from 'src/app/shared/models/cartProduct.model';
 import { Product } from 'src/app/shared/models/product.model';
@@ -19,17 +19,17 @@ export class AddToCartComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
   noOfItems=1;
   size = 0;
+  stock = 0;
   isSizeSelected=false;
   preBtn!: Element;
   product: Product;
   user!: User;
 
   constructor(
-    private _bottomSheetRef: MatBottomSheetRef<AddToCartComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: Product,
+    @Inject(MAT_DIALOG_DATA) public data: Product,
     private productService: ProductService,
-    public dialog: MatDialog,
     private snackbarService: SnackbarService,
+    public dialog: MatDialog,
     private userService: UserService
     ) {
       this.product = data;
@@ -39,6 +39,7 @@ export class AddToCartComponent implements OnInit {
         userService.userSub.subscribe(()=>{
           this.user = userService.user;
           console.log(this.user.storeSelected);
+          this.checkProductInStore();
         });
    }
   ngOnInit(): void {
@@ -46,6 +47,8 @@ export class AddToCartComponent implements OnInit {
 
   onSizeSelect(size: number){
     this.size = size;
+    this.isSizeSelected = true;
+    this.checkProductInStore();
   }
 
 onRemoveItem(){
@@ -58,17 +61,39 @@ onAddItem(){
 }
 
 addToCart(product: Product){
-  const cartProduct: CartProduct = {
-    productImage: product.imageList[0],
-    modelNo : product.modelNo,
-    noOfItems : 1,
-    size : this.size,
-    vendor: product.companyName!,
-    productName: product.name,
-    price: product.price
+  if(this.isSizeSelected && this.stock >0){
+    const cartProduct: CartProduct = {
+      productImage: product.imageList[0],
+      modelNo : product.modelNo,
+      noOfItems : 1,
+      size : +this.size,
+      vendor: product.companyName!,
+      productName: product.name,
+      price: product.price
+    }
+    this.productService.addToCart(cartProduct);
+  }else{
+    if(this.stock === 0){
+      this.snackbarService.info('Please change store as product is not available in selected store');
+    }else{
+      this.snackbarService.info('Please select size of product');
+    }
+
   }
 }
+checkProductInStore(){
+  setTimeout(()=>{
+    for(let products of this.user.storeSelected.products){
+      if(products.modelNo === this.product.modelNo){
+        for(let i=0; i<products.variants[0].sizes.length; i++){
+          if(products.variants[0].sizes[i] === this.size){
+            this.stock = +products.variants[0].inStock[i];
+            }
+          }
+        }
+      }
+    },1000)
 
-
+  }
 
 }

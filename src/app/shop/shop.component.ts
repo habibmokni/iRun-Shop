@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatBottomSheet} from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { CartProduct } from '../shared/models/cartProduct.model';
 import { Product } from '../shared/models/product.model';
@@ -21,7 +22,7 @@ export class ShopComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private _bottomSheet: MatBottomSheet
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -49,9 +50,11 @@ export class ShopComponent implements OnInit {
     product.noOfItems =1;
     this.productService.addToCart(product);
   }
-  openBottomSheet(product: Product){
-    this._bottomSheet.open(AddToCartComponent, {
-      data: product
+  openDialog(product: Product){
+    this.dialog.open(AddToCartComponent, {
+      data: product,
+      maxWidth: '100vw',
+      maxHeight: '100vh'
     });
   }
 }
