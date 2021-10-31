@@ -27,6 +27,8 @@ export class ShoppingCartComponent implements OnInit {
   paymentPartner: {name:string, logo: string}[] = [{name:'MasterCard', logo: '../../assets/images/logos/mastercard-logo.png'}, {name:'Visa', logo: '../../assets/images/logos/Visa-logo.png'}, {name:'Paypal', logo: '../../assets/images/logos/paypal-logo.jpg'}];
 
   itemInStock: number[] = [];
+  onlineProducts: Product[] = [];
+  onlineStoreStock: number[] = [];
 
   grandtotal = 0;
 
@@ -38,6 +40,10 @@ export class ShoppingCartComponent implements OnInit {
         this.user = userService.user;
         console.log(this.user.storeSelected);
       });
+      this.productService.fetchProduct();
+      this.productService.productList.subscribe(products=>{
+        this.onlineProducts = products;
+      })
    }
 
   ngOnInit(): void {
@@ -47,9 +53,10 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
   onAddItem(index: number, product: CartProduct){
-    if(this.cartProducts[index].noOfItems!>0){
-      if(this.cartProducts[index].noOfItems!<this.itemInStock[index]){
-        this.cartProducts[index].noOfItems!++;
+    console.log(this.itemInStock);
+    if(this.cartProducts[index].noOfItems>0){
+      if(this.cartProducts[index].noOfItems<this.itemInStock[index]){
+        this.cartProducts[index].noOfItems++;
         this.grandtotal=this.grandtotal+(+this.cartProducts[index].price);
         this.productService.updateNoOfItemsOfProduct(product);
       }
@@ -112,14 +119,30 @@ export class ShoppingCartComponent implements OnInit {
       for(let storeProduct of this.user.storeSelected.products){
         if(storeProduct.modelNo === product.modelNo){
           for(let i=0; i<storeProduct.variants[0].sizes.length; i++){
-            if(+storeProduct.variants[0].sizes[i]===product.size){
+            if(+storeProduct.variants[0].sizes[i] === product.size){
               this.itemInStock.push(+storeProduct.variants[0].inStock[i]);
             }
           }
         }
       }
-      this.grandtotal += (product.price*product.noOfItems!);
+      this.grandtotal += (product.price*product.noOfItems);
     }
+    setTimeout(() => {
+      console.log(this.onlineProducts);
+      for(let product of this.cartProducts){
+        for(let onlineProduct of this.onlineProducts){
+          if(onlineProduct.modelNo === product.modelNo){
+            for(let i=0; i<onlineProduct.variants[0].sizes.length; i++){
+              if(+onlineProduct.variants[0].sizes[i] === product.size){
+                this.onlineStoreStock.push(+onlineProduct.variants[0].inStock[i]);
+              }
+            }
+          }
+        }
+      }
+    }, 2000);
+
+    console.log(this.onlineStoreStock);
   }
 
 }

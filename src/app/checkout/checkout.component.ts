@@ -12,6 +12,7 @@ import { User } from '../shared/models/user.model';
 import { Store } from '../shared/models/store.model';
 import { CartProduct } from '../shared/models/cartProduct.model';
 
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -90,7 +91,13 @@ export class CheckoutComponent implements OnInit {
   }
   ngOnInit(): void {
     this.cartProducts = this.productService.getLocalCartProducts()
-    console.log(this.cartProducts);
+    this.productService.cartProductsChanged.subscribe(newProducts=>{
+      this.cartProducts = newProducts;
+      this.orderPrice = 0;
+      for(let products of this.cartProducts){
+        this.orderPrice += products.price*products.noOfItems!;
+      }
+    })
     for(let products of this.cartProducts){
       this.orderPrice += products.price*products.noOfItems!;
     }
@@ -103,7 +110,7 @@ export class CheckoutComponent implements OnInit {
 
   onSubmit(){
     this.order = {
-      orderId: 2020,
+      orderId: Math.random()*100000000,
       billingDetails: {
         name: this.secondFormGroup.get('billing.name')?.value,
         email: this.secondFormGroup.get('billing.email')?.value,

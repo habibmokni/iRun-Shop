@@ -14,7 +14,7 @@ import { ProductService } from 'src/app/shared/services/product.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Product } from '../../shared/models/product.model';
-import { AvailabilityComponent } from './availability/availability.component';
+
 
 @Component({
   selector: 'app-product-page',
@@ -54,15 +54,8 @@ export class ProductPageComponent implements OnInit {
       }
         userService.userSub.subscribe(()=>{
           this.user = userService.user;
-          for(let products of this.user.storeSelected.products){
-            if(products.modelNo === this.selectedProduct.modelNo){
-              for(let i=0; i<products.variants[0].sizes.length; i++){
-                if(products.variants[0].sizes[i] === this.size){
-                  this.stock = +products.variants[0].inStock[i];
-                }
-              }
-            }
-          }
+          this.checkProductInStore();
+
         });
 
     }
@@ -117,19 +110,24 @@ export class ProductPageComponent implements OnInit {
   }
 
   addToCart(product: Product){
-    if(this.isSizeSelected){
+    if(this.isSizeSelected && this.stock >0){
       const cartProduct: CartProduct = {
         productImage: product.imageList[0],
         modelNo : product.modelNo,
         noOfItems : 1,
-        size : this.size,
+        size : +this.size,
         vendor: product.companyName!,
         productName: product.name,
         price: product.price
       }
-    this.productService.addToCart(cartProduct);
+      this.productService.addToCart(cartProduct);
     }else{
-    this.snackBar.info('Please select size of product');
+      if(this.stock === 0){
+        this.snackBar.info('Please change store as product is not available in selected store');
+      }else{
+        this.snackBar.info('Please select size of product');
+      }
+
     }
 
   }
@@ -146,9 +144,27 @@ export class ProductPageComponent implements OnInit {
   sizeSelected(size: any){
     this.size = size;
     this.isSizeSelected = true;
+    this.checkProductInStore();
   }
   checkAvailability(product: Product){
     this.openDialog(product);
+  }
+
+  checkProductInStore(){
+    this.product.subscribe(product=>{
+      this.selectedProduct = product[0];
+    });
+    setTimeout(()=>{
+      for(let products of this.user.storeSelected.products){
+        if(products.modelNo === this.selectedProduct.modelNo){
+          for(let i=0; i<products.variants[0].sizes.length; i++){
+            if(products.variants[0].sizes[i] === this.size){
+              this.stock = +products.variants[0].inStock[i];
+            }
+          }
+        }
+      }
+    },1000)
 
   }
 }

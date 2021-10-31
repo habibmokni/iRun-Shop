@@ -106,7 +106,6 @@ export class ProductService{
     }
     updateNoOfItemsOfProduct(product: CartProduct) {
       const products: CartProduct[] = JSON.parse(localStorage.getItem("avct_item")!);
-      this.snackBarService.success("Updated products in cart");
       for (let i = 0; i < products.length; i++) {
         if (products[i].modelNo === product.modelNo) {
           products[i].noOfItems = product.noOfItems

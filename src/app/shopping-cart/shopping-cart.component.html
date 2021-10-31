@@ -5,12 +5,24 @@
     </div>
     <div fxFlex="50%" fxLayout="column" style="padding-left: 15px;">
       <h3>{{product.productName}}</h3>
-      <mat-card-subtitle>{{'Size : ' + product.size}} <span *ngIf="itemInStock[i]<5 && itemInStock[i]>0" style="color: #dfdf53;">almost sold out</span><mat-error *ngIf="itemInStock[i]===0">out of stock</mat-error></mat-card-subtitle>
+      <mat-card-subtitle>
+        {{'Size : ' + product.size}}
+        <mat-icon *ngIf="itemInStock[i]>5" style="color: green; margin-left: 35px;" fontSet="material-icons-outlined">shopping_bag</mat-icon>
+        <mat-icon *ngIf="itemInStock[i]<5 && itemInStock[i]>0" style="color: #dfdf53; margin-left: 35px;" fontSet="material-icons-outlined">shopping_bag</mat-icon>
+        <mat-icon *ngIf="itemInStock[i]===0" style="color: red; margin-left: 35px;" fontSet="material-icons-outlined">shopping_bag</mat-icon>
+        <mat-icon *ngIf="onlineStoreStock[i]>5" style="color: green;" fontSet="material-icons-outlined">home</mat-icon>
+        <mat-icon *ngIf="onlineStoreStock[i]<5 && onlineStoreStock[i]>0" style="color: #dfdf53;" fontSet="material-icons-outlined">home</mat-icon>
+        <mat-icon *ngIf="onlineStoreStock[i]===0" style="color: red;" fontSet="material-icons-outlined">home</mat-icon>
+      </mat-card-subtitle>
       <mat-card-subtitle>{{'Model no: '+ product.modelNo}}</mat-card-subtitle>
       <div fxLayout>
         <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onRemoveItem(i, product)"><mat-icon>remove</mat-icon></button>
         <h3 style="padding: 8px 15px;">{{product.noOfItems}}</h3>
         <button mat-flat-button type="button" style="background: white; color: #8B283D;" (click)="onAddItem(i, product)"><mat-icon>add</mat-icon></button>
+      </div>
+
+      <div>
+
       </div>
     </div>
     <div fxflex="20%">
