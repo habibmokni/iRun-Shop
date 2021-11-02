@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { StoreService } from 'src/app/shared/services/store.service';
-import { AvailabilityComponent } from 'src/app/shop/product-page/availability/availability.component';
+import { AvailabilityComponent } from 'src/app/home/product-page/availability/availability.component';
 
 @Component({
   selector: 'app-shipping-methods',

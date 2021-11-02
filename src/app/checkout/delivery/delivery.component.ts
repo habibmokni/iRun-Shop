@@ -3,11 +3,10 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { CartProduct } from 'src/app/shared/models/cartProduct.model';
-import { Product } from 'src/app/shared/models/product.model';
 import { User } from 'src/app/shared/models/user.model';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { UserService } from 'src/app/shared/services/user.service';
-import { AvailabilityComponent } from 'src/app/shop/product-page/availability/availability.component';
+import { AvailabilityComponent } from 'src/app/home/product-page/availability/availability.component';
 
 @Component({
   selector: 'app-delivery',
