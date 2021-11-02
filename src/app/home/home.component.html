@@ -1,81 +1,144 @@
-<mat-tab-group mat-align-tabs="start">
-  <mat-tab label="All">
-    <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
-    <div fxLayout="row wrap" *ngIf="!isLoading">
-      <div fxFlex="50%" fxLayout="column" *ngFor="let product of productList|async" style="padding: 0px 10px;">
-        <div class="item-image-container">
-          <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
-        </div>
-          <h2>{{product.name}}</h2>
-          <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
-          <span class="filler"></span>
-        <mat-card-actions fxLayout style="margin: 0px;">
-          <h2>{{product.price}}€</h2>
-          <span class="filler"></span>
-          <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-        </mat-card-actions>
-      </div>
+<div fxLayout class="shop" [ngStyle.gt-xs]="{margin: '3rem'}" *ngIf="!isLoading">
+  <div class="right-grid" fxLayout="column">
+    <div class="image-grid" fxHide.xs>
+      <app-image-slider></app-image-slider>
+    </div>
+    <div class="product-list" fxFlex.gt-xs="60%">
+      <mat-tab-group mat-align-tabs="start" style="overflow: hidden;">
+        <mat-tab label="All">
+          <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
+          <div fxLayout="row wrap" *ngIf="!isLoading">
+            <div fxFlex.xs="50%" fxFlex.gt-xs="25%" fxLayout="column" *ngFor="let product of productList|async" style="padding: 0px 10px;">
+              <div class="item-image-container">
+                <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
+              </div>
+                <h2>{{product.name}}</h2>
+                <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
+                <span class="filler"></span>
+              <mat-card-actions fxLayout style="margin: 0px;">
+                <h2>{{product.price}}€</h2>
+                <span class="filler"></span>
+                <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
+              </mat-card-actions>
+            </div>
+          </div>
+
+        </mat-tab>
+        <mat-tab label="Adidas">
+          <div fxLayout="row wrap">
+            <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
+            <div fxFlex.xs="50%" fxFlex.gt-xs="25%" fxLayout="column" *ngFor="let product of adidasProducts" style="padding: 0px 10px;">
+              <div class="item-image-container">
+                <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
+              </div>
+                <h2>{{product.name}}</h2>
+                <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
+                <span class="filler"></span>
+              <mat-card-actions fxLayout style="margin: 0px;">
+                <h2>{{product.price}}€</h2>
+                <span class="filler"></span>
+                <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
+              </mat-card-actions>
+            </div>
+          </div>
+
+
+        </mat-tab>
+        <mat-tab label="Nike">
+          <div fxLayout="row wrap">
+            <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
+            <div fxFlex.xs="50%" fxFlex.gt-xs="25%" fxLayout="column" *ngFor="let product of nikeProducts" style="padding: 0px 10px;">
+              <div class="item-image-container">
+                <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
+              </div>
+                <h2>{{product.name}}</h2>
+                <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
+                <span class="filler"></span>
+              <mat-card-actions fxLayout style="margin: 0px;">
+                <h2>{{product.price}}€</h2>
+                <span class="filler"></span>
+                <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
+              </mat-card-actions>
+            </div>
+          </div>
+
+
+        </mat-tab>
+        <mat-tab label="New Balance">
+          <div fxLayout="row wrap">
+            <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
+            <div fxFlex.xs="50%" fxFlex.gt-xs="25%" fxLayout="column" *ngFor="let product of balanceProducts" style="padding: 0px 10px;">
+              <div class="item-image-container">
+                <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
+              </div>
+                <h2>{{product.name}}</h2>
+                <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
+                <span class="filler"></span>
+              <mat-card-actions fxLayout style="margin: 0px;">
+                <h2>{{product.price}}€</h2>
+                <span class="filler"></span>
+                <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
+              </mat-card-actions>
+            </div>
+          </div>
+
+        </mat-tab>
+      </mat-tab-group>
+
     </div>
 
-  </mat-tab>
-  <mat-tab label="Adidas">
-    <div fxLayout="row wrap">
-      <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
-      <mat-card fxFlex="50%" fxLayout="column" *ngFor="let product of adidasProducts">
-        <div class="item-image-container">
-          <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
-        </div>
-          <h2>{{product.name}}</h2>
-          <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
-          <span class="filler"></span>
-        <mat-card-actions fxLayout style="margin: 0px;">
-          <h2>{{product.price}}€</h2>
-          <span class="filler"></span>
-          <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-        </mat-card-actions>
-      </mat-card>
+  </div>
+  <div class="left-grid" fxHide.lt-md fxFlex.gt-xs="40%">
+    <div class="cards">
+      <mat-card-header>
+        <mat-card-title>Product Category</mat-card-title>
+      </mat-card-header>
+      <hr>
+      <mat-card-content fxLayout="column">
+        <h3>Nike</h3>
+        <h3>Adidas</h3>
+        <h3>New Balance</h3>
+        <h3>Others</h3>
+      </mat-card-content>
     </div>
-
-
-  </mat-tab>
-  <mat-tab label="Nike">
-    <div fxLayout="row wrap">
-      <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
-      <mat-card fxFlex="50%" fxLayout="column" *ngFor="let product of nikeProducts">
-        <div class="item-image-container">
-          <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
+    <div class="cards">
+      <mat-card-header>
+        <mat-card-title>Top Rated Products</mat-card-title>
+      </mat-card-header>
+      <hr>
+      <mat-card-content fxLayout *ngFor="let product of topRatedProducts; let i = index;">
+        <img src="{{product.imageList[0]}}" alt="img" style="height: 60px;">
+        <div fxLayout="column" style="padding: 10px 5px;">
+          <a [routerLink]="['/products', product.modelNo]" style="color:black;"><h3>{{product.name}}</h3></a>
+          <mat-card-subtitle *ngIf="true">{{product.price}}€</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="false">Rs. product.productPrice/- <span><del class="discounted">Was Rs. product.productDiscount/-</del></span></mat-card-subtitle>
         </div>
-          <h2>{{product.name}}</h2>
-          <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
-          <span class="filler"></span>
-        <mat-card-actions fxLayout style="margin: 0px;">
-          <h2>{{product.price}}€</h2>
-          <span class="filler"></span>
-          <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-        </mat-card-actions>
-      </mat-card>
+      </mat-card-content>
     </div>
-
-
-  </mat-tab>
-  <mat-tab label="New Balance">
-    <div fxLayout="row wrap">
-      <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
-      <mat-card fxFlex="50%" fxLayout="column" *ngFor="let product of balanceProducts">
-        <div class="item-image-container">
-          <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
-        </div>
-          <h2>{{product.name}}</h2>
-          <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
-          <span class="filler"></span>
-        <mat-card-actions fxLayout style="margin: 0px;">
-          <h2>{{product.price}}€</h2>
-          <span class="filler"></span>
-          <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-        </mat-card-actions>
-      </mat-card>
+    <div class="cards">
+      <mat-card-header>
+        <mat-card-title>Product Tags</mat-card-title>
+      </mat-card-header>
+      <hr>
+      <mat-card-content>
+        <mat-chip-list aria-label="Fish selection">
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Nike</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Nike Shoes</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Power</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Power Shoes</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Bata Shoes</mat-chip>
+          <mat-chip style="background: linear-gradient(
+            180deg, #D53D5E 0%, #8B283D 100%);" selected>Service Shoes</mat-chip>
+        </mat-chip-list>
+      </mat-card-content>
     </div>
+  </div>
+</div>
 
-  </mat-tab>
-</mat-tab-group>
+
 

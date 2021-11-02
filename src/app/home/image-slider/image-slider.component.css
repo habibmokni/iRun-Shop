@@ -37,3 +37,12 @@
     height: 200px;
   }
 }
+
+.main-image{
+  width: 100%;
+  text-align: center;
+}
+
+a:hover {
+  cursor: pointer;
+}

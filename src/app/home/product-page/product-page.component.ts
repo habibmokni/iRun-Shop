@@ -147,6 +147,7 @@ export class ProductPageComponent implements OnInit {
     this.checkProductInStore();
   }
   checkAvailability(product: Product){
+    window.scrollTo(0,0);
     this.openDialog(product);
   }
 

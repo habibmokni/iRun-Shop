@@ -15,9 +15,10 @@ export class HomeComponent implements OnInit {
 
   productList = new Observable<Product[]>();
   isLoading = true;
-  adidasProducts: Product[] = []
-  nikeProducts: Product[] = []
-  balanceProducts: Product[] = []
+  adidasProducts: Product[] = [];
+  nikeProducts: Product[] = [];
+  balanceProducts: Product[] = [];
+  topRatedProducts: Product[] = [];
 
   constructor(
     private productService: ProductService,
@@ -39,6 +40,9 @@ export class HomeComponent implements OnInit {
           this.balanceProducts.push(product);
         }
       }
+      for(let i=0; i<3; i++){
+        this.topRatedProducts.push(products[i]);
+      }
     })
     this.isLoading = false;
     //this.getAllProducts();
@@ -53,7 +57,7 @@ export class HomeComponent implements OnInit {
       data: product,
       maxWidth: '100vw',
       maxHeight: '100vh',
-      width: '90%'
+      width: '280px'
     });
   }
 }
