@@ -54,7 +54,8 @@ export class ShopComponent implements OnInit {
     this.dialog.open(AddToCartComponent, {
       data: product,
       maxWidth: '100vw',
-      maxHeight: '100vh'
+      maxHeight: '100vh',
+      width: '90%'
     });
   }
 }

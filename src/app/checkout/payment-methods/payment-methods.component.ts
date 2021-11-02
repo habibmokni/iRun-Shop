@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-payment-methods',
@@ -8,8 +7,6 @@ import { MatExpansionPanel } from '@angular/material/expansion';
   styleUrls: ['./payment-methods.component.css']
 })
 export class PaymentMethodsComponent implements OnInit {
-  @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
-
   @Input() paymentMethod!: FormGroup;
   paymentPartner:
     {name:string,

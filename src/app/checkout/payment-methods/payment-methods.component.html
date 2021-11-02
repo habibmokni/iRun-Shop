@@ -1,39 +1,29 @@
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Payment Methods
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="payment_method" [formGroup]="paymentMethod">
-      <div class="card" style="border: none; padding: 25px;">
-        <mat-card-title>
-          Secure Payments
-        </mat-card-title>
-        <mat-card-subtitle>
-          Powered by Stripe
-        </mat-card-subtitle>
-        <mat-card-content>
-          <mat-radio-group
-            fxLayout="column"
-            formControlName="paymentOption"
-            aria-labelledby="example-radio-group-label"
-            class="example-radio-group"
-          >
-            <mat-radio-button fxLayout class="example-radio-button" *ngFor="let payment of paymentPartner" [value]="payment.name" (click)="expansionPanel.close()">
-              <img src="{{payment.logo}}" alt="image" [ngStyle]="{width: '40px'}">{{payment.name}}
-            </mat-radio-button>
-          </mat-radio-group>
-          <span
-          *ngIf="!paymentMethod.get('paymentOption')!.valid && paymentMethod.get('paymentOption')!.touched"
-          class="invalid-feedback" style="display: block;">
-           *Please select a payment method
-         </span>
-        </mat-card-content>
-      </div>
+<div class="payment_method" [formGroup]="paymentMethod">
+  <div class="card" style="border: none; padding: 25px;">
+    <mat-card-title>
+      Secure Payments
+    </mat-card-title>
+    <mat-card-subtitle>
+      Powered by Stripe
+    </mat-card-subtitle>
+    <mat-card-content>
+      <mat-radio-group
+        fxLayout="column"
+        formControlName="paymentOption"
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+      >
+        <mat-radio-button fxLayout class="example-radio-button" *ngFor="let payment of paymentPartner" [value]="payment.name">
+          <img src="{{payment.logo}}" alt="image" [ngStyle]="{width: '40px'}">{{payment.name}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <span
+      *ngIf="!paymentMethod.get('paymentOption')!.valid && paymentMethod.get('paymentOption')!.touched"
+      class="invalid-feedback" style="display: block;">
+       *Please select a payment method
+     </span>
+    </mat-card-content>
+  </div>
 
-    </div>
+</div>
 
-
-  </mat-expansion-panel>
-</mat-accordion>

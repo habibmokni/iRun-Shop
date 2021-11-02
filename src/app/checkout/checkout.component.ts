@@ -11,6 +11,7 @@ import { UserService } from '../shared/services/user.service';
 import { User } from '../shared/models/user.model';
 import { Store } from '../shared/models/store.model';
 import { CartProduct } from '../shared/models/cartProduct.model';
+import { Product } from '../shared/models/product.model';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class CheckoutComponent implements OnInit {
   storeLocations: any[] = [];
   preBtn!: Element;
   isClickNCollect = true;
+
+  step = 0;
 
   shippingMethod = new FormGroup({
     type: new FormControl('Click & Collect'),
@@ -61,6 +64,10 @@ export class CheckoutComponent implements OnInit {
   storeAddress!: string;
 
   orderPrice: number = 0;
+  onlineProducts: Product[] = [];
+  onlineStoreStock: number[] = [];
+  cartItemUnavailable: CartProduct[] = [];
+  allItemsAvailable = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -75,7 +82,11 @@ export class CheckoutComponent implements OnInit {
         this.user = userService.user;
       }
       userService.userSub.subscribe(()=>{
-        this.user = userService.user
+        this.user = userService.user;
+        this.productService.fetchProduct();
+        this.productService.productList.subscribe(products=>{
+        this.onlineProducts = products;
+      })
       });
       this.storeLocations = this.storeService.storeLocations;
     this.cartProducts = productService.getLocalCartProducts();
@@ -91,13 +102,21 @@ export class CheckoutComponent implements OnInit {
   }
   ngOnInit(): void {
     this.cartProducts = this.productService.getLocalCartProducts()
+    if(!this.productService.productList){
+      this.productService.fetchProduct();
+    }
+    this.productService.productList.subscribe(products=>{
+      this.onlineProducts = products;
+    });
+    this.checkItemsInOnlineStore();
     this.productService.cartProductsChanged.subscribe(newProducts=>{
       this.cartProducts = newProducts;
       this.orderPrice = 0;
       for(let products of this.cartProducts){
         this.orderPrice += products.price*products.noOfItems!;
       }
-    })
+      this.checkItemsInOnlineStore();
+    });
     for(let products of this.cartProducts){
       this.orderPrice += products.price*products.noOfItems!;
     }
@@ -110,7 +129,7 @@ export class CheckoutComponent implements OnInit {
 
   onSubmit(){
     this.order = {
-      orderId: Math.random()*100000000,
+      orderId: Math.floor(Math.random()*100000000),
       billingDetails: {
         name: this.secondFormGroup.get('billing.name')?.value,
         email: this.secondFormGroup.get('billing.email')?.value,
@@ -126,7 +145,8 @@ export class CheckoutComponent implements OnInit {
       pickupDate: this.firstFormGroup.get('shippingMethod.pickupDate')?.value,
       pickupType: this.firstFormGroup.get('shippingMethod.type')?.value,
       pickupTime: this.firstFormGroup.get('shippingMethod.selectedTime')?.value,
-      paymentOption: this.thirdFormGroup.get('paymentMethod.paymentOption')?.value
+      paymentOption: this.thirdFormGroup.get('paymentMethod.paymentOption')?.value,
+      orderPrice: this.orderPrice
     }
   }
   onOrderConfirmation(){
@@ -174,5 +194,52 @@ export class CheckoutComponent implements OnInit {
       this.isClickNCollect = true;
     }
 
+  }
+
+  checkItemsInOnlineStore(){
+    this.cartItemUnavailable = [];
+    setTimeout(() => {
+      console.log(this.onlineProducts);
+      for(let product of this.cartProducts){
+        for(let onlineProduct of this.onlineProducts){
+          if(onlineProduct.modelNo === product.modelNo){
+            for(let i=0; i<onlineProduct.variants[0].sizes.length; i++){
+              if(+onlineProduct.variants[0].sizes[i] === product.size){
+                this.onlineStoreStock.push(+onlineProduct.variants[0].inStock[i]);
+              }
+            }
+          }
+        }
+      }
+      for(let i=0; i<this.onlineStoreStock.length; i++){
+        if(this.onlineStoreStock[i] === 0){
+          this.allItemsAvailable =false;
+          this.cartItemUnavailable.push(this.cartProducts[i]);
+          console.log(this.cartItemUnavailable);
+        }else{
+          this.allItemsAvailable =true;
+          console.log(this.cartItemUnavailable);
+        }
+      }
+    }, 3000);
+
+  }
+  removeProductsUnavailable(){
+    for(let cartProduct of this.cartItemUnavailable){
+      this.productService.removeLocalCartProduct(cartProduct);
+    }
+    this.allItemsAvailable=true
+  }
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 }

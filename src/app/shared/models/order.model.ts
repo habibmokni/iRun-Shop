@@ -14,4 +14,5 @@ export interface Order{
   pickupDate: Date;
   pickupTime?: string;
   paymentOption: String;
+  orderPrice: number;
 }

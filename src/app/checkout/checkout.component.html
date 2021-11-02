@@ -1,5 +1,5 @@
 <mat-stepper class="example-stepper"
-  orientation="horizontal" labelPosition="bottom" [linear]="false">
+  orientation="horizontal" labelPosition="bottom" [linear]="true">
   <mat-step [stepControl]="firstFormGroup" label="Shipping Address">
     <div fxLayout fxLayoutAlign="center center">
       <a mat-flat-button fxLayout="column" class="delivery_button" [ngClass]="{'active': isClickNCollect}" (click)="selectDelivery('Click N Collect', 0)">
@@ -22,7 +22,32 @@
       (timeSelected)="timeSelected($event)">
       </cnc-click-n-collect>
       <form [formGroup]="secondFormGroup" *ngIf="!isClickNCollect">
-        <app-billing-details [billing]="billing"></app-billing-details>
+        <app-billing-details *ngIf="allItemsAvailable" [billing]="billing"></app-billing-details>
+        <div *ngIf="!allItemsAvailable">
+          <div fxLayout="column" fxLayoutAlign="center center" style="padding: 15px;">
+            <h2>Not all items available</h2>
+            <h5>All items in cart can not be shipped with this option, please either remove products or change delivery option</h5>
+          </div>
+          <div class="cart-items" fxLayout="column">
+            <mat-card *ngFor="let product of cartItemUnavailable; let i=index">
+              <div class="item-image-container" fxFlex="30%">
+                <img src="{{product.productImage}}" style="width: 100%;" alt="image">
+              </div>
+              <div fxFlex="50%" fxLayout="column" style="padding-left: 15px;">
+                <h3>{{product.productName}}</h3>
+                  <mat-card-subtitle>{{'Size : ' + product.size}}
+                  <mat-error>out of stock</mat-error>
+                </mat-card-subtitle>
+              </div>
+              <div fxflex="20%">
+                <h2 style="line-height: 22px;">{{product.price}}€</h2>
+              </div>
+            </mat-card>
+            <div style="text-align: center; margin: 10px;">
+              <button mat-flat-button color="warn" type="button" (click)="removeProductsUnavailable()">Remove unavailable items</button>
+            </div>
+          </div>
+        </div>
       </form>
       <div fxLayout fxLayoutAlign="center center">
         <button class="button-style" mat-flat-button matStepperNext>Next</button>
@@ -30,13 +55,41 @@
     </form>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup" label="Billing" >
-    <form [fxShow]="isClickNCollect" [formGroup]="secondFormGroup">
-      <app-billing-details [billing]="billing"></app-billing-details>
+    <form *ngIf="isClickNCollect" [formGroup]="secondFormGroup">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Billing details
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-billing-details [billing]="billing"></app-billing-details>
+          <mat-action-row>
+            <button class="button-style" mat-flat-button matStepperPrevious>Previous</button>
+            <button mat-flat-button class="button-style" (click)="nextStep()">Next</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+
     </form>
     <form [formGroup]="thirdFormGroup">
-      <app-payment-methods [paymentMethod]="paymentMethod"></app-payment-methods>
-      <div fxLayout fxLayoutAlign="center center">
-        <button class="button-style" mat-flat-button matStepperPrevious>Back</button>
+      <mat-accordion *ngIf="isClickNCollect">
+        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Payment Methods
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-payment-methods [paymentMethod]="paymentMethod"></app-payment-methods>
+          <mat-action-row>
+            <button mat-flat-button class="button-style" (click)="prevStep()">Previous</button>
+            <button class="button-style" mat-flat-button matStepperNext (click)="onSubmit()">Next</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <app-payment-methods *ngIf="!isClickNCollect" [paymentMethod]="paymentMethod"></app-payment-methods>
+      <div fxLayout fxLayoutAlign="center center" *ngIf="!isClickNCollect">
+        <button class="button-style" mat-flat-button matStepperPrevious>Previous</button>
         <button class="button-style" mat-flat-button matStepperNext (click)="onSubmit()">Next</button>
       </div>
     </form>

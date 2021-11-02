@@ -110,7 +110,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   addToCart(product: Product){
-    if(this.isSizeSelected && this.stock >0){
+    if(this.isSizeSelected){
       const cartProduct: CartProduct = {
         productImage: product.imageList[0],
         modelNo : product.modelNo,
