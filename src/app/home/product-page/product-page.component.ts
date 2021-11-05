@@ -24,6 +24,13 @@ import { Product } from '../../shared/models/product.model';
 export class ProductPageComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
 
+  variant!: {
+    variantId: string,
+    imageList: string[],
+    sizes: number[],
+    inStock: number[]
+  };
+
   panelOpenState = false;
   sub: any;
   product!: Observable<Product[]>;
@@ -31,7 +38,6 @@ export class ProductPageComponent implements OnInit {
   user!: User;
   stock: number = 0;
   selectedProduct!: Product;
-  similarProducts: Product[] = [];
 
   productImage!: string;
   colorSelected!: string;
@@ -65,13 +71,17 @@ export class ProductPageComponent implements OnInit {
       const id: string = params.id; // (+) converts string 'id' to a number
       this.getProductDetail(id);
       this.product= this.productService.product;
-      if(this.productService.productList){
-        this.getSimilarProducts(id);
-      }
+      this.product.subscribe(product=>{
+        this.selectedProduct = product[0];
+        this.variant = product[0].variants[0];
+      })
+      //if(this.productService.productList){
+      //  this.getSimilarProducts(id);
+      //}
     });
   }
 
-  getSimilarProducts(id: string){
+  /*getSimilarProducts(id: string){
     const productModel = id.split('-');
     this.productService.productList.subscribe(products=>{
       for(let i=0; i<products.length; i++){
@@ -82,7 +92,7 @@ export class ProductPageComponent implements OnInit {
       }
       console.log(this.similarProducts);
     });
-  }
+  }*/
 
 
   getProductDetail(id: string) {
@@ -102,7 +112,8 @@ export class ProductPageComponent implements OnInit {
         call: 'product',
         size: this.size,
         modelNo: product.modelNo!,
-        sizes: product.variants[0].sizes
+        sizes: product.variants[0].sizes,
+        variantId: product.variants[0].variantId
       },
       maxWidth: '100vw',
       maxHeight: '100vh'
@@ -112,8 +123,9 @@ export class ProductPageComponent implements OnInit {
   addToCart(product: Product){
     if(this.isSizeSelected){
       const cartProduct: CartProduct = {
-        productImage: product.imageList[0],
+        productImage: product.variants[0].imageList[0],
         modelNo : product.modelNo,
+        variantId: product.variants[0].variantId,
         noOfItems : 1,
         size : +this.size,
         vendor: product.companyName!,
@@ -131,9 +143,11 @@ export class ProductPageComponent implements OnInit {
     }
 
   }
-  variantSelect(index: number, modelNo: string){
-    this.productService.getProductById(modelNo);
-    this.product = this.productService.product;
+  variantSelect(index: number, variant: any){
+    //this.productService.getProductById(modelNo);
+    this.variant = variant;
+    this.selectedProduct.variants = [];
+    this.selectedProduct.variants.push(this.variant);
     const buttonList = document.getElementsByClassName('variant-image');
     buttonList[index].classList.add("active");
     if(this.preBtn){
@@ -152,9 +166,9 @@ export class ProductPageComponent implements OnInit {
   }
 
   checkProductInStore(){
-    this.product.subscribe(product=>{
-      this.selectedProduct = product[0];
-    });
+    //this.product.subscribe(product=>{
+    //  this.selectedProduct = product[0];
+    //});
     setTimeout(()=>{
       for(let products of this.user.storeSelected.products){
         if(products.modelNo === this.selectedProduct.modelNo){

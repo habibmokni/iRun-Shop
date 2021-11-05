@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
     this.productService.fetchProduct();
     this.productList= this.productService.productList;
     this.productList.subscribe(products=>{
+      console.log(products);
       for(let product of products){
         if(product.companyName === 'ADIDAS'){
           this.adidasProducts.push(product);

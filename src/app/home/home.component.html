@@ -10,7 +10,7 @@
           <div fxLayout="row wrap" *ngIf="!isLoading">
             <div fxFlex.xs="50%" fxFlex.gt-xs="25%" fxLayout="column" *ngFor="let product of productList|async" style="padding: 0px 10px;">
               <div class="item-image-container">
-                <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
+                <a routerLink="/products/{{product.modelNo}}"><img [src]="product.variants[0].imageList[0]" class="item-image" alt="image" matCardImage></a>
               </div>
                 <h2>{{product.name}}</h2>
                 <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
@@ -29,7 +29,7 @@
             <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
             <div fxFlex.xs="50%" fxFlex.gt-xs="25%" fxLayout="column" *ngFor="let product of adidasProducts" style="padding: 0px 10px;">
               <div class="item-image-container">
-                <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
+                <a routerLink="/products/{{product.modelNo}}"><img [src]="product.variants[0].imageList[0]" class="item-image" alt="image" matCardImage></a>
               </div>
                 <h2>{{product.name}}</h2>
                 <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
@@ -49,7 +49,7 @@
             <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
             <div fxFlex.xs="50%" fxFlex.gt-xs="25%" fxLayout="column" *ngFor="let product of nikeProducts" style="padding: 0px 10px;">
               <div class="item-image-container">
-                <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
+                <a routerLink="/products/{{product.modelNo}}"><img [src]="product.variants[0].imageList[0]" class="item-image" alt="image" matCardImage></a>
               </div>
                 <h2>{{product.name}}</h2>
                 <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
@@ -69,7 +69,7 @@
             <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
             <div fxFlex.xs="50%" fxFlex.gt-xs="25%" fxLayout="column" *ngFor="let product of balanceProducts" style="padding: 0px 10px;">
               <div class="item-image-container">
-                <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
+                <a routerLink="/products/{{product.modelNo}}"><img [src]="product.variants[0].imageList[0]" class="item-image" alt="image" matCardImage></a>
               </div>
                 <h2>{{product.name}}</h2>
                 <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
@@ -107,7 +107,7 @@
       </mat-card-header>
       <hr>
       <mat-card-content fxLayout *ngFor="let product of topRatedProducts; let i = index;">
-        <img src="{{product.imageList[0]}}" alt="img" style="height: 60px;">
+        <img [src]="product.variants[0].imageList[0]" alt="img" style="height: 60px;">
         <div fxLayout="column" style="padding: 10px 5px;">
           <a [routerLink]="['/products', product.modelNo]" style="color:black;"><h3>{{product.name}}</h3></a>
           <mat-card-subtitle *ngIf="true">{{product.price}}€</mat-card-subtitle>

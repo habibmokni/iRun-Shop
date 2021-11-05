@@ -50,7 +50,7 @@
         </div>
       </form>
       <div fxLayout fxLayoutAlign="center center">
-        <button class="button-style" mat-flat-button matStepperNext>Next</button>
+        <button class="button-style" mat-flat-button matStepperNext [disabled]="allItemsAvailable">Next</button>
       </div>
     </form>
   </mat-step>

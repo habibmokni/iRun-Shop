@@ -111,9 +111,13 @@ export class DeliveryComponent implements OnInit {
     for(let product of this.cartProducts){
       for(let storeProduct of this.user.storeSelected.products){
         if(storeProduct.modelNo === product.modelNo){
-          for(let i=0; i<storeProduct.variants[0].sizes.length; i++){
-            if(storeProduct.variants[0].sizes[i]===product.size){
-              this.itemInStock.push(+storeProduct.variants[0].inStock[i]);
+          for(let variant of storeProduct.variants){
+            if(variant.variantId === product.variantId){
+              for(let i=0; i<storeProduct.variants[0].sizes.length; i++){
+                if(storeProduct.variants[0].sizes[i]===product.size){
+                  this.itemInStock.push(+storeProduct.variants[0].inStock[i]);
+                }
+              }
             }
           }
         }

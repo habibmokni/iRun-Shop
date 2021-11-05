@@ -5,6 +5,7 @@ export interface CartProduct{
   productImage:  string;
   size: number;
   price: number;
+  variantId: string;
   noOfItems: number;
   color?: string;
 }

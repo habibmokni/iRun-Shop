@@ -55,8 +55,9 @@ export class AddToCartComponent implements OnInit {
 addToCart(product: Product){
   if(this.isSizeSelected){
     const cartProduct: CartProduct = {
-      productImage: product.imageList[0],
+      productImage: product.variants[0].imageList[0],
       modelNo : product.modelNo,
+      variantId: product.variants[0].variantId,
       noOfItems : 1,
       size : +this.size,
       vendor: product.companyName!,

@@ -1,12 +1,12 @@
 
     <div fxLayout *ngFor="let product of product|async">
       <div class="image-container" fxHide.xs fxFlex.gt-xs="70%">
-        <app-image-slider [productImages]="product.imageList"></app-image-slider>
+        <app-image-slider [productImages]="variant.imageList"></app-image-slider>
       </div>
 
       <div fxLayout="column" style="margin: 20px;" fxFlex.gt-xs="30%">
         <div class="image-container" fxHide.gt-xs>
-          <app-image-slider [productImages]="product.imageList"></app-image-slider>
+          <app-image-slider [productImages]="variant.imageList"></app-image-slider>
         </div>
         <div class="article-header" fxFlex="100%">
           <h2>{{product.name}}</h2>
@@ -18,23 +18,23 @@
             <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
           </div>
         </div>
-        <ng-container *ngIf="!!similarProducts" >
+        <ng-container>
           <div class="variant-selection" fxFlex="100%" fxLayout="row wrap">
-            <a class="variant-image" *ngFor="let product of similarProducts; let i=index" (click)="variantSelect(i,product.modelNo!)">
+            <a class="variant-image" *ngFor="let variant of product.variants let i=index" (click)="variantSelect(i,variant)">
               <div>
-                <img [src]="product.imageList[0]" alt="image" style="width: auto; height: 44px;">
+                <img [src]="variant.imageList[0]" alt="image" style="width: auto; height: 44px;">
               </div>
             </a>
           </div>
         </ng-container>
         <span class="filler"></span>
-        <cnc-size-selector (sizeSelected)="sizeSelected($event)" [product]="product"></cnc-size-selector>
+        <cnc-size-selector (sizeSelected)="sizeSelected($event)" [product]="selectedProduct"></cnc-size-selector>
         <div class="buttonContainer" fxLayout fxLayoutAlign="center center">
           <button
             mat-flat-button
             class="addToCartBtn"
             type="button"
-            (click)="addToCart(product)"
+            (click)="addToCart(selectedProduct)"
             type="button">
             Add to cart
           </button>

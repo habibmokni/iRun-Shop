@@ -11,10 +11,17 @@ import { StoreService } from '../shared/services/store.service';
   styleUrls: ['./add-products.component.css']
 })
 export class AddProductsComponent implements OnInit {
+  productList: Product[] = [];
+  adidasProducts: Product[] = [];
+  balanceProducts: Product[] = [];
+  nikeProducts: Product[] = [];
+
+  newAdidasProducts: Product[] = [];
+
   variantIndex=0;
   sizes: number[]=[1];
 
-  imageList = new FormArray([]);
+  imageList: string[] = [];
   variants = new FormArray([]);
 
   form = new FormGroup({
@@ -25,16 +32,77 @@ export class AddProductsComponent implements OnInit {
     'subCategory': new FormControl(),
     'price': new FormControl(),
     'variants': this.variants,
-    'imageList': this.imageList
+  //  'imageList': this.imageList
   });
 
 
 
   constructor(private productService: ProductService, private storeService: StoreService) {
     productService.fetchProduct();
+
    }
 
   ngOnInit(): void {
+    /*this.productService.productList.subscribe(products=>{
+      this.productList = products;
+      for(let product of products){
+        if(product.companyName === 'ADIDAS'){
+          this.adidasProducts.push(product);
+        }
+        if(product.companyName === 'NIKE'){
+          this.nikeProducts.push(product);
+        }
+        if(product.companyName === 'NEW BALANCE'){
+          this.balanceProducts.push(product);
+        }
+      }
+      console.log(this.adidasProducts);
+      let newSameProduct!: Product;
+      for(let i=0; i<this.balanceProducts.length; i++){
+        this.nikeProducts = this.adidasProducts;
+        const model = this.nikeProducts[i].modelNo?.split('-');
+        if(model[0] === 'FZ1917'){
+          if(!newSameProduct){
+            newSameProduct = {
+              id: Math.floor(Math.random()*100000),
+              name: this.nikeProducts[i].name,
+              modelNo: model[0],
+              companyName: this.nikeProducts[i].companyName,
+              category: this.nikeProducts[i].category,
+              subCategory: this.nikeProducts[i].subCategory,
+              imageList: [],
+              price: this.nikeProducts[i].price,
+              variants: [{
+                variantId: model[1],
+                imageList: this.nikeProducts[i].imageList,
+                sizes : this.nikeProducts[i].variants[0].sizes,
+                inStock: this.nikeProducts[i].variants[0].inStock
+              }]
+          }
+          }else {
+            newSameProduct.variants.push({
+              variantId: model[1],
+                imageList: this.nikeProducts[i].imageList,
+                sizes : this.nikeProducts[i].variants[0].sizes,
+                inStock: this.nikeProducts[i].variants[0].inStock
+            });
+          }
+        }
+      }
+      setTimeout(()=>{
+        console.log(newSameProduct); //FZ1917 FY0400
+        //this.productService.addNewProducts(newSameProduct)
+      },2000)
+    });**/
+    //this.storeService.store.subscribe(storeList=>{
+    //  for(let product of storeList[0].products){
+    //    this.productService.addNewProducts(product);
+    //  }
+    //})
+    console.log( this.productService.fetchNewProducts());
+    //const products: Product[] = this.productService.fetchNewProducts();
+    //this.productService.addProductsToDatabase(products);
+    //this.storeService.updateProducts(products);
   }
 
   onAddImages(){
@@ -44,11 +112,14 @@ export class AddProductsComponent implements OnInit {
   onAddVariants(){
 
     const control = new FormGroup({
-      'color': new FormControl(),
+      'variantId': new FormControl(),
       'sizes': new FormArray([
         new FormControl()
       ]),
       'inStock': new FormArray([
+        new FormControl()
+      ]),
+      'imageList': new FormArray([
         new FormControl()
       ])
     });
@@ -62,13 +133,13 @@ export class AddProductsComponent implements OnInit {
   }
   onSubmit(){
     const product: Product = {
-      id: Math.random()*100,
+      id: Math.floor(Math.random()*100),
       companyName: this.form.get('companyName')?.value,
       modelNo: this.form.get('modelNo')?.value,
       name: this.form.get('name')?.value,
       category: this.form.get('category')?.value,
       subCategory: this.form.get('subCategory')?.value,
-      imageList: this.form.get('imageList')?.value,
+      imageList: [],
       price: this.form.get('price')?.value,
       variants: this.form.get('variants')?.value,
     }

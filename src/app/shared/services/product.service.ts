@@ -28,12 +28,16 @@ export class ProductService{
   }
 
 
-  addProductToDatabase(product: Product){
-    this.db.collection('products').add(product);
-    console.log('Add products to database');
+  addProductsToDatabase(products: Product[]){
+    for(let product of products){
+      console.log('loop ran');
+      this.db.collection<Product>('onlineStore/MIfAbILeO1O2wcrYubST/productList').add(product);
+    }
+
+    console.log('Add products to database successfull');
   }
   fetchProduct(){
-    this.productList = this.db.collection<Product>('products').valueChanges();
+    this.productList = this.db.collection<Product>('onlineStore/MIfAbILeO1O2wcrYubST/productList').valueChanges()
   }
   deleteProduct(key: string){
     //this.productList.remove(key);
@@ -101,7 +105,7 @@ export class ProductService{
         }
       })*/
       //this.product = this.storeService.store[0].products![key];
-      this.product = this.db.collection<Product>('products', ref => ref.where('modelNo', '==', key)).valueChanges();
+      this.product = this.db.collection<Product>('onlineStore/MIfAbILeO1O2wcrYubST/productList', ref => ref.where('modelNo', '==', key)).valueChanges();
 
     }
     updateNoOfItemsOfProduct(product: CartProduct) {
@@ -116,5 +120,18 @@ export class ProductService{
       // ReAdding the products after remove
       localStorage.setItem("avct_item", JSON.stringify(products));
     }
+
+
+    addNewProducts(data: Product): void {
+      const a: Product[] = JSON.parse(localStorage.getItem("np_item")!) || [];
+      a.push(data);
+        localStorage.setItem("np_item", JSON.stringify(a));
+        console.log(a);
+    }
+    fetchNewProducts(){
+      const a: Product[] = JSON.parse(localStorage.getItem("np_item")!) || [];
+      return a
+    }
+
 
 }

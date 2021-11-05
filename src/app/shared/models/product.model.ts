@@ -8,11 +8,12 @@ export interface Product{
   price: number;
   discount?: number;
   variants:{
-    variantNo: string;
+    variantId: string;
+    imageList: string[];
     sizes: number[],
     inStock: number[]
   }[];
-  imageList: string[];
+  imageList?: string[];
   rating?: number;
   reviews?: number;
   description?: string;
