@@ -121,8 +121,8 @@ export class ShoppingCartComponent implements OnInit {
           for(let variant of storeProduct.variants){
             if(variant.variantId === product.variantId){
               for(let i=0; i<variant.sizes.length; i++){
-                if(+storeProduct.variants[0].sizes[i] === product.size){
-                  this.itemInStock.push(+storeProduct.variants[0].inStock[i]);
+                if(+variant.sizes[i] === product.size){
+                  this.itemInStock.push(+variant.inStock[i]);
                 }
               }
             }
@@ -139,14 +139,13 @@ export class ShoppingCartComponent implements OnInit {
           if(onlineProduct.modelNo === product.modelNo){
             for(let variant of onlineProduct.variants){
               if(variant.variantId === product.variantId){
-                for(let i=0; i<onlineProduct.variants[0].sizes.length; i++){
-                  if(+onlineProduct.variants[0].sizes[i] === product.size){
-                    this.onlineStoreStock.push(+onlineProduct.variants[0].inStock[i]);
+                for(let i=0; i<variant.sizes.length; i++){
+                  if(+variant.sizes[i] === +product.size){
+                    this.onlineStoreStock.push(+variant.inStock[i]);
                   }
                 }
               }
             }
-
           }
         }
       }

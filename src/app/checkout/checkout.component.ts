@@ -67,7 +67,8 @@ export class CheckoutComponent implements OnInit {
   onlineProducts: Product[] = [];
   onlineStoreStock: number[] = [];
   cartItemUnavailable: CartProduct[] = [];
-  allItemsAvailable = false;
+  cncAllItemsAvailable = true;
+  onlineAllItemsAvailable = true;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -183,6 +184,10 @@ export class CheckoutComponent implements OnInit {
       this.productService.removeLocalCartProduct(item);
     }
   }
+  cncItemsAvailable(value: any){
+    this.cncAllItemsAvailable = value;
+    console.log(this.cncAllItemsAvailable);
+  }
 
   selectDelivery(type: string,  index: number){
     this.shippingMethod.patchValue({
@@ -203,9 +208,13 @@ export class CheckoutComponent implements OnInit {
       for(let product of this.cartProducts){
         for(let onlineProduct of this.onlineProducts){
           if(onlineProduct.modelNo === product.modelNo){
-            for(let i=0; i<onlineProduct.variants[0].sizes.length; i++){
-              if(+onlineProduct.variants[0].sizes[i] === product.size){
-                this.onlineStoreStock.push(+onlineProduct.variants[0].inStock[i]);
+            for(let variant of onlineProduct.variants){
+              if(variant.variantId === product.variantId){
+                for(let i=0; i<variant.sizes.length; i++){
+                  if(+variant.sizes[i] === product.size){
+                    this.onlineStoreStock.push(+variant.inStock[i]);
+                  }
+                }
               }
             }
           }
@@ -213,11 +222,8 @@ export class CheckoutComponent implements OnInit {
       }
       for(let i=0; i<this.onlineStoreStock.length; i++){
         if(this.onlineStoreStock[i] === 0){
-          this.allItemsAvailable =false;
+          this.onlineAllItemsAvailable =false;
           this.cartItemUnavailable.push(this.cartProducts[i]);
-          console.log(this.cartItemUnavailable);
-        }else{
-          this.allItemsAvailable =true;
           console.log(this.cartItemUnavailable);
         }
       }
@@ -228,7 +234,12 @@ export class CheckoutComponent implements OnInit {
     for(let cartProduct of this.cartItemUnavailable){
       this.productService.removeLocalCartProduct(cartProduct);
     }
-    this.allItemsAvailable=true
+    if(this.isClickNCollect){
+      this.cncAllItemsAvailable = true;
+    }else{
+      this.onlineAllItemsAvailable=true;
+    }
+
   }
 
   setStep(index: number) {

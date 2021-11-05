@@ -121,7 +121,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   addToCart(product: Product){
-    if(this.isSizeSelected){
+    if(this.isSizeSelected && this.stock>0){
       const cartProduct: CartProduct = {
         productImage: product.variants[0].imageList[0],
         modelNo : product.modelNo,
@@ -135,7 +135,7 @@ export class ProductPageComponent implements OnInit {
       this.productService.addToCart(cartProduct);
     }else{
       if(this.stock === 0){
-        this.snackBar.info('Please change store as product is not available in selected store');
+        this.snackBar.info('Please change store as product is not available in selected store and online store');
       }else{
         this.snackBar.info('Please select size of product');
       }
