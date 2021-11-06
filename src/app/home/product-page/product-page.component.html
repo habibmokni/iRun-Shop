@@ -1,7 +1,19 @@
 
     <div fxLayout *ngFor="let product of product|async">
       <div class="image-container" fxHide.xs fxFlex.gt-xs="70%">
-        <app-image-slider [productImages]="variant.imageList"></app-image-slider>
+        <div fxLayout fxHide.xs>
+          <div class="sub-images" fxLayout="column">
+            <a style="border-right: 2px solid #8b283d;" *ngFor="let image of variant.imageList" (click)="onImageSelect(image)">
+              <img style="width: 50px; height: 70px; margin-right: 20px; margin-bottom: 20px;" [src]="image" alt="other images">
+            </a>
+          </div>
+
+          <div class="main-image">
+            <img style="width: 425px; height: 425px;" [src]="mainImage" alt="main image">
+          </div>
+
+        </div>
+
       </div>
 
       <div fxLayout="column" style="margin: 20px;" fxFlex.gt-xs="30%">

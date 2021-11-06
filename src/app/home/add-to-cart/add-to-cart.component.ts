@@ -53,7 +53,7 @@ export class AddToCartComponent implements OnInit {
 
 
 addToCart(product: Product){
-  if(this.isSizeSelected){
+  if(this.isSizeSelected && this.stock>0){
     const cartProduct: CartProduct = {
       productImage: product.variants[0].imageList[0],
       modelNo : product.modelNo,

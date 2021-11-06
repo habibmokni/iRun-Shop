@@ -108,15 +108,16 @@ export class CheckoutComponent implements OnInit {
     }
     this.productService.productList.subscribe(products=>{
       this.onlineProducts = products;
+      this.checkItemsInOnlineStore();
     });
-    this.checkItemsInOnlineStore();
+
     this.productService.cartProductsChanged.subscribe(newProducts=>{
       this.cartProducts = newProducts;
+      this.checkItemsInOnlineStore();
       this.orderPrice = 0;
       for(let products of this.cartProducts){
         this.orderPrice += products.price*products.noOfItems!;
       }
-      this.checkItemsInOnlineStore();
     });
     for(let products of this.cartProducts){
       this.orderPrice += products.price*products.noOfItems!;
@@ -203,6 +204,7 @@ export class CheckoutComponent implements OnInit {
 
   checkItemsInOnlineStore(){
     this.cartItemUnavailable = [];
+    this.onlineStoreStock = [];
     setTimeout(() => {
       console.log(this.onlineProducts);
       for(let product of this.cartProducts){
@@ -227,7 +229,7 @@ export class CheckoutComponent implements OnInit {
           console.log(this.cartItemUnavailable);
         }
       }
-    }, 3000);
+    }, 100);
 
   }
   removeProductsUnavailable(){

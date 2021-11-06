@@ -21,7 +21,5 @@ export class ImageSliderComponent implements OnInit {
   ngOnInit(): void {
     this.mainImage = this.productImages[0];
   }
-  onImageSelect(image : string){
-    this.mainImage = image;
-  }
+
 }

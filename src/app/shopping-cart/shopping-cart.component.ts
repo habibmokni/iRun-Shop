@@ -43,14 +43,14 @@ export class ShoppingCartComponent implements OnInit {
       this.productService.fetchProduct();
       this.productService.productList.subscribe(products=>{
         this.onlineProducts = products;
+        if(this.user){
+          this.checkProductsStock();
+        }
       })
    }
 
   ngOnInit(): void {
     this.getCartProduct();
-    if(this.user){
-      this.checkProductsStock();
-    }
   }
   onAddItem(index: number, product: CartProduct){
     console.log(this.itemInStock);
@@ -149,7 +149,7 @@ export class ShoppingCartComponent implements OnInit {
           }
         }
       }
-    }, 3000);
+    }, 100);
 
     console.log(this.onlineStoreStock);
   }

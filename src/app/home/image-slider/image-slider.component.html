@@ -1,15 +1,3 @@
-<div fxLayout fxHide.xs>
-  <div class="sub-images" fxLayout="column">
-    <a style="border-right: 2px solid #8b283d;" *ngFor="let image of productImages" (click)="onImageSelect(image)">
-      <img style="width: 50px; height: 70px; margin-right: 20px; margin-bottom: 20px;" [src]="image" alt="other images">
-    </a>
-  </div>
-
-  <div class="main-image">
-    <img style="width: 425px; height: 425px;" [src]="mainImage" alt="main image">
-  </div>
-
-</div>
 
 
 <section class="branding" *ngIf="productImages" fxShow.xs>
@@ -23,7 +11,7 @@
     <div class="carousel-inner" role="listbox">
       <!-- Slide One - Set the background image for this slide in the line below -->
       <div *ngFor="let image of productImages; let i=index;" class="carousel-item" [ngClass]="{'active': i ===0}">
-        <img class="d-block w-60" style="margin: auto; height: 100%;" [src]="'../'+productImages[i]" alt="image">
+        <img class="d-block w-60" style="margin: auto; height: 100%;" [src]="productImages[i]" alt="image">
       </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

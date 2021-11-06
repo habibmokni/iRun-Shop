@@ -44,6 +44,7 @@ export class ProductPageComponent implements OnInit {
   isColorSelected = false;
   isSizeSelected = false;
   grandTotal: number = 0;
+  mainImage: string = '';
 
   apiKey = 'AIzaSyCKj-l5U2bLY3wEx-9DN1owQhs3a9iJ-Uw';
   preBtn!: Element;
@@ -74,6 +75,7 @@ export class ProductPageComponent implements OnInit {
       this.product.subscribe(product=>{
         this.selectedProduct = product[0];
         this.variant = product[0].variants[0];
+        this.mainImage = this.variant.imageList[0];
       })
       //if(this.productService.productList){
       //  this.getSimilarProducts(id);
@@ -142,6 +144,9 @@ export class ProductPageComponent implements OnInit {
 
     }
 
+  }
+  onImageSelect(image : string){
+    this.mainImage = image;
   }
   variantSelect(index: number, variant: any){
     //this.productService.getProductById(modelNo);
