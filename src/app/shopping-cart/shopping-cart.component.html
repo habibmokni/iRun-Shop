@@ -1,4 +1,4 @@
-<div class="cart-items" fxLayout="column" style="margin-bottom: 125px;">
+<div class="cart-items" fxLayout="column" style="margin-bottom: 125px;" fxFlex.gt-xs="60%">
   <div *ngFor="let product of cartProducts; let i=index">
     <div class="item-image-container" fxFlex="30%">
       <img routerLink="/products/{{product.modelNo}}" src="{{product.productImage}}" style="width: 100%;" alt="image">
@@ -30,13 +30,47 @@
     </div>
   </div>
 </div>
-<div class="checkout-container">
+<div class="checkout-container" fxHide.gt-xs>
   <a fxLayout type="button" class="checkout-button" (click)="onSubmit()">
     <h2 style="margin-bottom: 0px;">Proceed to checkout</h2>
     <span class="filler"></span>
     <h2 style="margin-bottom: 0px;">{{grandtotal}}€</h2>
   </a>
 </div>
+
+<mat-card fxFlex.gt-xs="40%" fxHide.xs class="product_total_amount">
+  <mat-card-content>
+    <div>
+      <div fxLayout>
+        <h2>Total:</h2>
+        <span class="filler"></span>
+        <h2>{{grandtotal}}€</h2>
+      </div>
+      <div fxLayout>
+        <h2>Fee:</h2>
+        <span class="filler"></span>
+        <h2>$0.00</h2>
+      </div>
+      <hr>
+      <div class="grand_total" fxLayout>
+        <h2>Grand Total:</h2>
+        <span class="filler"></span>
+        <h2>{{grandtotal}}€</h2>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions [ngStyle.xs]="{position: 'fixed', bottom: '2%', right: '6.5%'}">
+    <div style="text-align: center;">
+      <button
+      class="add_to_cart"
+      mat-raised-button
+      (click)="onSubmit()"
+      >
+        <h3 [ngStyle]="{marginBottom: '0px'}">Proceed to Checkout</h3>
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>
 
 
 
