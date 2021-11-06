@@ -1,9 +1,9 @@
 
     <div fxLayout *ngFor="let product of product|async">
-      <div class="image-container" fxHide.xs fxFlex.gt-xs="70%">
+      <div class="image-container" fxFlex.gt-xs="70% wrap">
         <div fxLayout fxHide.xs>
           <div class="sub-images" fxLayout="column">
-            <a style="border-right: 2px solid #8b283d;" *ngFor="let image of variant.imageList" (click)="onImageSelect(image)">
+            <a class="sub-image" *ngFor="let image of variant.imageList;let i=index" [ngClass]="{'image-active': image===mainImage}" (click)="onImageSelect(image, i)">
               <img style="width: 50px; height: 70px; margin-right: 20px; margin-bottom: 20px;" [src]="image" alt="other images">
             </a>
           </div>
@@ -13,6 +13,24 @@
           </div>
 
         </div>
+        <mat-card class="checkAvailabilitySection" fxHide.xs>
+          <h2>Check branch Availability</h2>
+          <h3>Find your favourite shoe in your nearest shop now.</h3>
+          <p>Note: Due to regional lockdowns & store closures only limited availability.
+            Check out the iRun shop near you.
+          </p>
+          <button
+          mat-flat-button
+          type="button"
+          class="availability_button"
+          (click)="checkAvailability(product)"
+          >
+          <mat-icon
+          fontSet="material-icons-outlined"
+          style="color: #d53d5e; font-size: 25px;">room</mat-icon>
+          <span style="font-weight: bold;">Check availability in branch nearby</span>
+        </button>
+        </mat-card>
 
       </div>
 
@@ -32,7 +50,7 @@
         </div>
         <ng-container>
           <div class="variant-selection" fxFlex="100%" fxLayout="row wrap">
-            <a class="variant-image" *ngFor="let variant of product.variants let i=index" (click)="variantSelect(i,variant)">
+            <a class="variant-image" *ngFor="let variant of product.variants let i=index" [ngClass]="{'active': variant.imageList[0]===productImage}" (click)="variantSelect(i,variant)">
               <div>
                 <img [src]="variant.imageList[0]" alt="image" style="width: auto; height: 44px;">
               </div>
@@ -69,7 +87,7 @@
           </mat-list-item>
         </mat-list>
 
-        <mat-card class="checkAvailabilitySection">
+        <mat-card class="checkAvailabilitySection" fxHide.gt-xs>
           <h2>Check branch Availability</h2>
           <h3>Find your favourite shoe in your nearest shop now.</h3>
           <p>Note: Due to regional lockdowns & store closures only limited availability.

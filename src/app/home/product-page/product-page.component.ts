@@ -76,6 +76,7 @@ export class ProductPageComponent implements OnInit {
         this.selectedProduct = product[0];
         this.variant = product[0].variants[0];
         this.mainImage = this.variant.imageList[0];
+        this.productImage = this.mainImage;
       })
       //if(this.productService.productList){
       //  this.getSimilarProducts(id);
@@ -145,20 +146,23 @@ export class ProductPageComponent implements OnInit {
     }
 
   }
-  onImageSelect(image : string){
+  onImageSelect(image : string, index: number){
     this.mainImage = image;
+
   }
   variantSelect(index: number, variant: any){
     //this.productService.getProductById(modelNo);
     this.variant = variant;
+    this.mainImage = this.variant.imageList[0];
+    this.productImage = this.mainImage;
     this.selectedProduct.variants = [];
     this.selectedProduct.variants.push(this.variant);
-    const buttonList = document.getElementsByClassName('variant-image');
-    buttonList[index].classList.add("active");
-    if(this.preBtn){
-      this.preBtn.classList.remove("active");
-    }
-    this.preBtn = buttonList[index];
+    //const buttonList = document.getElementsByClassName('variant-image');
+    //buttonList[index].classList.add("active");
+    //if(this.preBtn){
+    //  this.preBtn.classList.remove("active");
+    //}
+    //this.preBtn = buttonList[index];
   }
   sizeSelected(size: any){
     this.size = size;
