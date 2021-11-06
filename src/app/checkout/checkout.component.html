@@ -1,5 +1,5 @@
-<mat-stepper class="example-stepper"
-  orientation="horizontal" labelPosition="bottom" [linear]="true">
+<mat-stepper class="stepper"
+  orientation="horizontal" labelPosition="bottom" [linear]="true" fxFlex.gt-xs="65%">
   <mat-step [stepControl]="firstFormGroup" label="Shipping Address">
     <div fxLayout fxLayoutAlign="center center">
       <a mat-flat-button fxLayout="column" class="delivery_button" [ngClass]="{'active': isClickNCollect}" (click)="selectDelivery('Click N Collect', 0)">
@@ -171,3 +171,12 @@
 
 
 </mat-stepper>
+<div class="cart-items" fxLayout="column" fxHide.xs fxFlex.gt-xs="35%">
+  <h2>Your Order</h2>
+  <mat-divider></mat-divider>
+  <div *ngFor="let product of cartProducts; let i=index">
+    <div class="item-image-container" fxFlex="30%">
+      <img src="{{product.productImage}}" style="width: 6rem; margin-right: 1rem" alt="image">
+    </div>
+  </div>
+</div>

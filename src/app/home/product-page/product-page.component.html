@@ -1,6 +1,6 @@
 
     <div fxLayout *ngFor="let product of product|async">
-      <div class="image-container" fxFlex.gt-xs="70% wrap">
+      <div class="image-container" fxHide.xs fxFlex.gt-xs="70% wrap">
         <div fxLayout fxHide.xs>
           <div class="sub-images" fxLayout="column">
             <a class="sub-image" *ngFor="let image of variant.imageList;let i=index" [ngClass]="{'image-active': image===mainImage}" (click)="onImageSelect(image, i)">

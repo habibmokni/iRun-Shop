@@ -1,8 +1,9 @@
 .filler {
   flex: 1 1 auto;
 }
-.example-stepper {
+.stepper {
   margin-top: 8px;
+  padding: 0 8rem 0 8rem;
 }
 
 .mat-form-field {
@@ -97,4 +98,11 @@
 .title {
   text-align: center;
   margin: 2rem 0;
+}
+
+@media (max-width: 599px){
+  .stepper {
+    margin-top: 8px;
+    padding: 0;
+  }
 }
