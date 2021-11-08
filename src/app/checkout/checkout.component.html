@@ -9,6 +9,7 @@
     [stepControl]="firstFormGroup"
     label="Shipping Address"
   >
+  <!--Toggle button for delivery type-->
     <div fxLayout fxLayoutAlign="center center">
       <a
         mat-flat-button
@@ -26,6 +27,7 @@
       </a>
 
     </div>
+    <!--Click and collect selector for checkout-->
     <form [formGroup]="firstFormGroup">
       <cnc-click-n-collect
         *ngIf="isClickNCollect"
@@ -37,11 +39,13 @@
         (isAllItemsAvailable)="cncItemsAvailable($event)"
       >
       </cnc-click-n-collect>
+      <!--if home delivery-->
       <form [formGroup]="secondFormGroup" *ngIf="!isClickNCollect">
         <app-billingDetails
           *ngIf="onlineAllItemsAvailable"
           [billing]="billing"
         ></app-billingDetails>
+        <!--section if not all products available online-->
         <div *ngIf="!onlineAllItemsAvailable">
           <div
             fxLayout="column"
@@ -88,6 +92,7 @@
       </div>
     </form>
   </mat-step>
+  <!--Billing step-->
   <mat-step [stepControl]="secondFormGroup" label="Billing" >
     <form *ngIf="isClickNCollect" [formGroup]="secondFormGroup">
       <mat-accordion>
@@ -106,6 +111,7 @@
       </mat-accordion>
 
     </form>
+    <!--Payment method-->
     <form [formGroup]="thirdFormGroup">
       <mat-accordion *ngIf="isClickNCollect">
         <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
@@ -146,7 +152,7 @@
       </div>
     </form>
   </mat-step>
-
+  <!--Overview step-->
   <mat-step fxLayout="column" fxLayoutAlign="center center">
     <ng-template matStepLabel >Overview</ng-template>
     <mat-card *ngIf="order">

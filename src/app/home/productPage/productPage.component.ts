@@ -38,6 +38,7 @@ export class ProductPageComponent implements OnInit {
   size: number = 0;
   user!: User;
   stock: number = 0;
+  onlineStock: number = 0;
   selectedProduct!: Product;
 
   productImage!: string;
@@ -112,24 +113,24 @@ export class ProductPageComponent implements OnInit {
   }
   //adds product to cart if product is available in selected store or online store and size is selected
   addToCart(product: Product){
-    if(this.isSizeSelected && this.stock>0){
-      const cartProduct: CartProduct = {
-        productImage: product.variants[0].imageList[0],
-        modelNo : product.modelNo,
-        variantId: product.variants[0].variantId,
-        noOfItems : 1,
-        size : +this.size,
-        vendor: product.companyName!,
-        productName: product.name,
-        price: product.price
-      }
-      this.productService.addToCart(cartProduct);
-    }else{
-      //warning message if store does not have product
-      if(this.stock === 0){
-        this.snackBar.info('Please change store as product is not available in selected store and online store');
+    if(this.user){
+      if(this.isSizeSelected && this.stock>0){
+        this.onAddToCart(product);
       }else{
-        this.snackBar.info('Please select size of product');
+        if(this.isSizeSelected && this.onlineStock>0){
+          this.onAddToCart(product);
+        }else{
+          //warning message if store does not have product
+          if(this.stock === 0){
+            this.snackBar.info('Please change store as product is not available in selected store and online store');
+          }else{
+            this.snackBar.info('Please select size of product');
+          }
+        }
+      }
+    }else{
+      if(this.isSizeSelected){
+        this.onAddToCart(product);
       }
     }
 
@@ -163,14 +164,31 @@ export class ProductPageComponent implements OnInit {
     setTimeout(()=>{
       for(let products of this.user.storeSelected.products){
         if(products.modelNo === this.selectedProduct.modelNo){
-          for(let i=0; i<products.variants[0].sizes.length; i++){
-            if(products.variants[0].sizes[i] === this.size){
-              this.stock = +products.variants[0].inStock[i];
+          for(let variant of products.variants){
+            if(variant.variantId === this.variant.variantId){
+              for(let i=0; i<variant.sizes.length; i++){
+                if(variant.sizes[i] === this.size){
+                  this.stock = +variant.inStock[i];
+                  this.onlineStock = this.variant.inStock[i];
+                }
+              }
             }
           }
         }
       }
     },1000)
-
+  }
+  onAddToCart(product: Product){
+    const cartProduct: CartProduct = {
+      productImage: product.variants[0].imageList[0],
+      modelNo : product.modelNo,
+      variantId: product.variants[0].variantId,
+      noOfItems : 1,
+      size : +this.size,
+      vendor: product.companyName!,
+      productName: product.name,
+      price: product.price
+    }
+    this.productService.addToCart(cartProduct);
   }
 }
