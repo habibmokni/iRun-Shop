@@ -1,8 +1,22 @@
-<mat-stepper class="stepper"
-  orientation="horizontal" labelPosition="bottom" [linear]="true" fxFlex.gt-xs="65%">
-  <mat-step [stepControl]="firstFormGroup" label="Shipping Address">
+<mat-stepper
+  class="stepper"
+  orientation="horizontal"
+  labelPosition="bottom"
+  [linear]="true"
+  fxFlex.gt-xs="65%"
+>
+  <mat-step
+    [stepControl]="firstFormGroup"
+    label="Shipping Address"
+  >
     <div fxLayout fxLayoutAlign="center center">
-      <a mat-flat-button fxLayout="column" class="delivery_button" [ngClass]="{'active': isClickNCollect}" (click)="selectDelivery('Click N Collect', 0)">
+      <a
+        mat-flat-button
+        fxLayout="column"
+        class="delivery_button"
+        [ngClass]="{'active': isClickNCollect}"
+        (click)="selectDelivery('Click N Collect', 0)"
+      >
         <mat-icon class="icons" fontSet="material-icons-outlined">shopping_bag</mat-icon>
         <h4>Click N Collect</h4>
       </a>
@@ -14,19 +28,26 @@
     </div>
     <form [formGroup]="firstFormGroup">
       <cnc-click-n-collect
-      *ngIf="isClickNCollect"
-      [user]="user"
-      (storeChanged)="onStoreChange($event)"
-      (productsToRemove)="onProductsToRemove($event)"
-      (dateSelected)="dateSelected($event)"
-      (timeSelected)="timeSelected($event)"
-      (isAllItemsAvailable)="cncItemsAvailable($event)"
+        *ngIf="isClickNCollect"
+        [user]="user"
+        (storeChanged)="onStoreChange($event)"
+        (productsToRemove)="onProductsToRemove($event)"
+        (dateSelected)="dateSelected($event)"
+        (timeSelected)="timeSelected($event)"
+        (isAllItemsAvailable)="cncItemsAvailable($event)"
       >
       </cnc-click-n-collect>
       <form [formGroup]="secondFormGroup" *ngIf="!isClickNCollect">
-        <app-billing-details *ngIf="onlineAllItemsAvailable" [billing]="billing"></app-billing-details>
+        <app-billingDetails
+          *ngIf="onlineAllItemsAvailable"
+          [billing]="billing"
+        ></app-billingDetails>
         <div *ngIf="!onlineAllItemsAvailable">
-          <div fxLayout="column" fxLayoutAlign="center center" style="padding: 15px;">
+          <div
+            fxLayout="column"
+            fxLayoutAlign="center center"
+            style="padding: 15px;"
+          >
             <h2>Not all items available</h2>
             <h5>All items in cart can not be shipped with this option, please either remove products or change delivery option</h5>
           </div>
@@ -52,8 +73,18 @@
         </div>
       </form>
       <div fxLayout fxLayoutAlign="center center">
-        <button class="button-style" [fxHide]="!isClickNCollect" mat-flat-button matStepperNext [disabled]="!cncAllItemsAvailable">Next</button>
-        <button class="button-style" [fxHide]="isClickNCollect" mat-flat-button matStepperNext [disabled]="!onlineAllItemsAvailable">Next</button>
+        <button
+          class="button-style"
+          [fxHide]="!isClickNCollect"
+          mat-flat-button matStepperNext
+          [disabled]="!cncAllItemsAvailable"
+        >Next</button>
+        <button
+          class="button-style"
+          [fxHide]="isClickNCollect"
+          mat-flat-button matStepperNext
+          [disabled]="!onlineAllItemsAvailable"
+        >Next</button>
       </div>
     </form>
   </mat-step>
@@ -66,7 +97,7 @@
               Billing details
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-billing-details [billing]="billing"></app-billing-details>
+          <app-billingDetails [billing]="billing"></app-billingDetails>
           <mat-action-row>
             <button class="button-style" mat-flat-button matStepperPrevious>Previous</button>
             <button mat-flat-button class="button-style" (click)="nextStep()">Next</button>
@@ -83,20 +114,37 @@
               Payment Methods
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-payment-methods [paymentMethod]="paymentMethod"></app-payment-methods>
+          <app-paymentMethods [paymentMethod]="paymentMethod"></app-paymentMethods>
           <mat-action-row>
-            <button mat-flat-button class="button-style" (click)="prevStep()">Previous</button>
-            <button class="button-style" mat-flat-button matStepperNext (click)="onSubmit()">Next</button>
+            <button
+              mat-flat-button
+              class="button-style"
+              (click)="prevStep()"
+            >Previous</button>
+            <button
+              class="button-style"
+              mat-flat-button
+              matStepperNext
+              (click)="onSubmit()"
+            >Next</button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
-      <app-payment-methods *ngIf="!isClickNCollect" [paymentMethod]="paymentMethod"></app-payment-methods>
+      <app-paymentMethods *ngIf="!isClickNCollect" [paymentMethod]="paymentMethod"></app-paymentMethods>
       <div fxLayout fxLayoutAlign="center center" *ngIf="!isClickNCollect">
-        <button class="button-style" mat-flat-button matStepperPrevious>Previous</button>
-        <button class="button-style" mat-flat-button matStepperNext (click)="onSubmit()">Next</button>
+        <button
+          class="button-style"
+          mat-flat-button
+          matStepperPrevious
+        >Previous</button>
+        <button
+          class="button-style"
+          mat-flat-button
+          matStepperNext
+          (click)="onSubmit()"
+        >Next</button>
       </div>
     </form>
-
   </mat-step>
 
   <mat-step fxLayout="column" fxLayoutAlign="center center">
@@ -161,16 +209,23 @@
 
       </mat-card-content>
       <mat-card-actions style="text-align: center;">
-        <button mat-flat-button class="button-style" (click)="onOrderConfirmation()">Confirm</button>
+        <button
+          mat-flat-button
+          class="button-style"
+          (click)="onOrderConfirmation()"
+          >Confirm</button>
       </mat-card-actions>
     </mat-card>
     <div>
-      <button class="button-style" mat-flat-button matStepperPrevious>Back</button>
+      <button
+        class="button-style"
+        mat-flat-button
+        matStepperPrevious
+      >Back</button>
     </div>
   </mat-step>
-
-
 </mat-stepper>
+
 <div class="cart-items" fxLayout="column" fxHide.xs fxFlex.gt-xs="35%">
   <h2>Your Order</h2>
   <mat-divider></mat-divider>

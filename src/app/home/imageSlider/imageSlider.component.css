@@ -1,0 +1,48 @@
+.branding {
+  height: 280px;
+}
+.bg-image {
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.carousel-item {
+  height: 280px;
+  min-height: 260px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+
+@media (max-width: 899px) {
+  .carousel-item{
+    min-height: 300px;
+    height: 300px;
+  }
+  .branding {
+    height: 300px;
+  }
+}
+
+@media (max-width: 599px) {
+  .carousel-item{
+    min-height: 200px;
+    height: 200px;
+  }
+  .branding {
+    height: 200px;
+  }
+}
+
+.main-image{
+  width: 100%;
+  text-align: center;
+}
+
+a:hover {
+  cursor: pointer;
+}

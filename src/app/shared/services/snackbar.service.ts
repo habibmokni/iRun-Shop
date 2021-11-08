@@ -4,7 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 export class SnackbarService{
 
   constructor(private snackBar: MatSnackBar){}
-
+  //used to send snack messages to the user on different scenerio
   success(title: any) {
     this.snackBar.open(title, "", {
       duration: 1000,

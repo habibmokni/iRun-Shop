@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { CartProduct } from '../shared/models/cartProduct.model';
 import { Product } from '../shared/models/product.model';
 import { ProductService } from '../shared/services/product.service';
-import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
+import { AddToCartComponent } from './addToCart/addToCart.component';
 
 @Component({
   selector: 'app-home',
@@ -13,8 +13,10 @@ import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
 })
 export class HomeComponent implements OnInit {
 
+  //stores products fetched
   productList = new Observable<Product[]>();
   isLoading = true;
+  //stores filtered products
   adidasProducts: Product[] = [];
   nikeProducts: Product[] = [];
   balanceProducts: Product[] = [];
@@ -26,10 +28,11 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    //fetching products from db
     this.productService.fetchProduct();
     this.productList= this.productService.productList;
+    //filtering brands
     this.productList.subscribe(products=>{
-      console.log(products);
       for(let product of products){
         if(product.companyName === 'ADIDAS'){
           this.adidasProducts.push(product);
@@ -48,11 +51,13 @@ export class HomeComponent implements OnInit {
     this.isLoading = false;
     //this.getAllProducts();
   }
-
+  //add product to cart
   addToCart(product: CartProduct) {
     product.noOfItems =1;
     this.productService.addToCart(product);
   }
+
+  //opens dialog when (+)button is clickec
   openDialog(product: Product){
     this.dialog.open(AddToCartComponent, {
       data: product,

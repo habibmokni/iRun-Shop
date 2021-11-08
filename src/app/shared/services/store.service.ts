@@ -8,16 +8,16 @@ import { Product } from "../models/product.model";
 
 @Injectable()
 export class StoreService{
-
+  //stores current store selected by user location
   currentStoreLocation: {lat: number, lng: number} = {lat: 0, lng: 0};
   currentStore!: Store;
-
+  //emits store selected by user
   selectedStore = new Subject<{address: string, location:{ lat: number, lng:number}}>();
+  //google LatLng for storing store locations to display marker on maps
   storeLocations: google.maps.LatLngLiteral[] = [];
-
-  storeSelection!: {address: string, location:{ lat: number, lng:number}};
+  //stores all the stores from db
   private storeCollection!: AngularFirestoreCollection<Store>;
-  store!: Observable<Store[]>;
+  store = new Observable<Store[]>();
 
 
   constructor(private db: AngularFirestore){
@@ -25,29 +25,24 @@ export class StoreService{
       //this.updateProducts();
       //this.addStoreToDatabase(this.currentStore);
   }
-
+  //fetch stores from db
   fetchStore(){
     this.store = this.storeCollection
     .snapshotChanges()
     .pipe(map(docArray =>{
       return docArray.map(doc => {
         return {
-          //id: doc.payload.doc.id,
+          //id: doc.payload.doc.id,  //if want to access the unique id assigned by firebase
           ...doc.payload.doc.data() as Store
         }
       })
-    }))
-    //.subscribe((store)=>{
-    //  this.store = store;
-    //})
+    }));
   }
-  //fetchStore(){
-  //  this.store = this.storeCollection.valueChanges()
-  //}
+  //access the store observable
   getStore(){
     return this.store;
   }
-
+  //extracts store locations from storelist metadeta
   getStoreLocations(){
     this.store.subscribe(stores=>{
       for(let store of stores){
@@ -57,13 +52,16 @@ export class StoreService{
   })
   console.log("store added to store service");
   }
+  //for adding new store to db
   addStoreToDatabase(store: Store){
     this.db.collection('storeList').add(store);
     console.log("Store created in db");
   }
+  //for adding storelocations on db separately
   addStoreLocations(location: {lat: string, lng: string}){
    this.db.collection('storeLocations').add(location);
   }
+  //for updating the products in stores
   updateProducts(product: Product[]){
     this.db.collection('storeList').doc('/0NbcPR24paLcgaGjTP2k').set(
       {

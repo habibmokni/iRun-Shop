@@ -12,30 +12,39 @@ import { UserService } from './shared/services/user.service';
 export class AppComponent {
   title = 'click-and-collect';
 
-  constructor(private storeService: StoreService, private userService: UserService, private cncService: ClickNCollectService, private productService: ProductService){
-    this.storeService.fetchStore();
-    this.storeService.getStoreLocations();
-    this.userService.getUser();
-    this.storeService.store.subscribe(storeList=>{
-      this.cncService.setStoreList(storeList);
-    })
-    this.cncService.setStoreLocations(this.storeService.storeLocations);
-    if(this.userService.user){
-      this.cncService.setUser(this.userService.user);
-    }
-    this.userService.userSub.subscribe(()=>{
-      this.cncService.setUser(this.userService.user);
-    })
-    this.cncService.setCartProducts(this.productService.getLocalCartProducts());
-    this.productService.cartProductsChanged.subscribe(cartProducts=>{
-      this.cncService.setCartProducts(cartProducts);
-    })
-    this.cncService.storeSelected.subscribe(store=>{
-      this.userService.updateSelectedStore({
-        name: 'Anonymous',
-        storeSelected: store
-      })
-    });
-
+  constructor(
+    private storeService: StoreService,
+    private userService: UserService,
+    private cncService: ClickNCollectService,
+    private productService: ProductService)
+    {
+      this.storeService.fetchStore();
+      this.storeService.getStoreLocations();
+      this.userService.getUser();
+      //sending storeList to cnc package
+      this.storeService.store.subscribe(storeList=>{
+        this.cncService.setStoreList(storeList);
+      });
+      //sending store locations to cnc package service
+      this.cncService.setStoreLocations(this.storeService.storeLocations);
+      if(this.userService.user){
+        this.cncService.setUser(this.userService.user);
+      }
+      //subscribing to user changes
+      this.userService.userSub.subscribe(()=>{
+        this.cncService.setUser(this.userService.user);
+      });
+      //connecting cnc package cart to local cart
+      this.cncService.setCartProducts(this.productService.getLocalCartProducts());
+      this.productService.cartProductsChanged.subscribe(cartProducts=>{
+        this.cncService.setCartProducts(cartProducts);
+      });
+      //subscribing to cnc store changes
+      this.cncService.storeSelected.subscribe(store=>{
+        this.userService.updateSelectedStore({
+          name: 'Anonymous',
+          storeSelected: store
+        });
+      });
   }
 }
