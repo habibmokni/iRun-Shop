@@ -48,7 +48,7 @@ export class ProductService{
       const a: CartProduct[] = JSON.parse(localStorage.getItem("avct_item")!) || [];
       let isProduct = false;
       for(let i=0; i<a.length; i++){
-        if(a[i].modelNo ===data.modelNo && a[i].size === data.size){
+        if(a[i].modelNo ===data.modelNo && a[i].variantId===data.variantId && a[i].size === data.size){
           a[i].noOfItems++;
           isProduct = true;
         }

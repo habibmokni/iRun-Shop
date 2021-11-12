@@ -169,7 +169,7 @@ export class ProductPageComponent implements OnInit {
               for(let i=0; i<variant.sizes.length; i++){
                 if(variant.sizes[i] === this.size){
                   this.stock = +variant.inStock[i];
-                  this.onlineStock = this.variant.inStock[i];
+                  this.onlineStock = +this.variant.inStock[i];
                 }
               }
             }
