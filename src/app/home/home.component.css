@@ -1,18 +1,17 @@
-.filler{
+.filler {
   flex: 1 1 auto;
 }
-.item-image-container{
+.item-image-container {
   width: auto;
   height: 172px;
   text-align: center;
 }
-.item-image{
+.item-image {
   height: 65%;
   width: 80%;
   position: relative;
   top: 25%;
 }
-.cards{
+.cards {
   margin: 80px 25px;
-
 }

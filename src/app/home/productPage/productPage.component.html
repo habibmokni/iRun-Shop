@@ -14,7 +14,7 @@
 
         </div>
         <mat-card class="checkAvailabilitySection" fxHide.xs>
-          <h2>Check branch Availability</h2>
+          <h2 style="font-weight: 700;">Check branch Availability</h2>
           <h3>Find your favourite shoe in your nearest shop now.</h3>
           <p>Note: Due to regional lockdowns & store closures only limited availability.
             Check out the iRun shop near you.
@@ -28,7 +28,7 @@
           <mat-icon
           fontSet="material-icons-outlined"
           style="color: #d53d5e; font-size: 25px;">room</mat-icon>
-          <span style="font-weight: bold;">Check availability in branch nearby</span>
+          <span style="font-weight: bold;">Check availability</span>
         </button>
         </mat-card>
 
@@ -45,14 +45,17 @@
         <div class="article-quantity" fxFlex="100%" fxLayout>
           <div class="article-price" fxLayout>
             <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
-            <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
+            <h2 style="margin-left: 5px; font-size: 28px; color: #d53d5e;">{{product.price}}€</h2>
           </div>
         </div>
         <ng-container>
           <div class="variant-selection" fxFlex="100%" fxLayout="row wrap">
-            <a class="variant-image" *ngFor="let variant of product.variants let i=index" [ngClass]="{'active': variant.imageList[0]===productImage}" (click)="variantSelect(i,variant)">
+            <a class="variant-image"
+              *ngFor="let variant of product.variants let i=index"
+              [ngClass]="{'active': variant.imageList[0]===productImage}"
+              (click)="variantSelect(i,variant)">
               <div>
-                <img [src]="variant.imageList[0]" alt="image" style="width: auto; height: 44px;">
+                <img [src]="variant.imageList[0]" alt="image" style="width: auto; height: 55px;">
               </div>
             </a>
           </div>
@@ -102,7 +105,7 @@
           <mat-icon
           fontSet="material-icons-outlined"
           style="color: #d53d5e; font-size: 25px;">room</mat-icon>
-          <span style="font-weight: bold;">Check availability in branch nearby</span>
+          <span style="font-weight: bold;">Check availability</span>
         </button>
         </mat-card>
 

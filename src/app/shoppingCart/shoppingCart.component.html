@@ -1,5 +1,5 @@
 <div class="cart-items" fxLayout="column" style="margin-bottom: 125px;" fxFlex.gt-xs="60%">
-  <div *ngFor="let product of cartProducts; let i=index">
+  <div *ngFor="let product of cartProducts; let i=index" style="border-bottom: 1px solid #eee; padding: 10px 20px; ">
     <div class="item-image-container" fxFlex="30%">
       <img routerLink="/products/{{product.modelNo}}" src="{{product.productImage}}" style="width: 100%;" alt="image">
     </div>
@@ -26,7 +26,7 @@
       </div>
     </div>
     <div fxflex="20%">
-      <h2 style="line-height: 22px;">{{product.price}}€</h2>
+      <h2 style="line-height: 125px; margin-left: 25px;">{{product.price}}€</h2>
     </div>
   </div>
 </div>

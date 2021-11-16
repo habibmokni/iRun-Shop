@@ -7,7 +7,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Nunito, "Helvetica Neue", sans-serif;
+  font-family: Nunito, "Helvetica Neue", sans-serif !important;
 }
 
 span.mat-button-toggle-label-content {
