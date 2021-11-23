@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-intro',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IntroComponent implements OnInit {
 
-  constructor() { }
+  @Output() showIntro = new EventEmitter<boolean>();
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  onClick(){
+    this.showIntro.emit(false);
+    this.router.navigate(['/home']);
+  }
 }

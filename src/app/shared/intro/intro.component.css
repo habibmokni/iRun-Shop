@@ -10,3 +10,13 @@
 p{
   margin: 0px 45px;
 }
+
+.button{
+  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
+  color: #fff;
+  font-weight: bold;
+  padding: 0.5rem;
+  width: 60%;
+  margin: 2rem 0 2rem 0;
+  border-radius: 20px;
+}

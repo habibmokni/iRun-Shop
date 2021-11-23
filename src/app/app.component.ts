@@ -11,6 +11,7 @@ import { UserService } from './shared/services/user.service';
 })
 export class AppComponent {
   title = 'click-and-collect';
+  showIntro = true;
 
   constructor(
     private storeService: StoreService,
@@ -46,5 +47,20 @@ export class AppComponent {
           storeSelected: store
         });
       });
+      this.onLoad();
+  }
+
+  onShowIntro(value: boolean){
+    this.showIntro = value;
+    localStorage.setItem("intro_item", JSON.stringify(value));
+    const a: boolean = JSON.parse(localStorage.getItem("intro_item")!);
+    console.log(a);
+  }
+  onLoad(){
+    const a: boolean = JSON.parse(localStorage.getItem("intro_item")!);
+    console.log(a);
+    if(a === false){
+      this.showIntro = a;
+    }
   }
 }
