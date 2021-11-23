@@ -120,6 +120,7 @@ mat-accordion {
   padding: 0.5rem;
   width: 90%;
   margin: 1rem 0 1rem 0;
+  border-radius: 20px;
 }
 
 .checkAvailabilitySection {
@@ -136,8 +137,10 @@ mat-accordion {
 }
 .availability_button {
   background-color: transparent;
-  border: none;
+  border: 1px solid #ccc !important;
   box-shadow: none;
+  border-radius: 20px;
+  background-color: white;
   padding: 1rem 0rem;
   width: 100%;
 }

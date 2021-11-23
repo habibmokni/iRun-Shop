@@ -32,6 +32,7 @@ import { StoreSelectedComponent } from './storeSelect/storeSelectcomponent';
 import { ClickNCollectModule } from '@habibmokni/cnc';
 import { InformationComponent } from './information/information.component';
 import { HomeComponent } from './home/home.component';
+import { IntroComponent } from './shared/intro/intro.component';
 
 
 
@@ -51,7 +52,8 @@ import { HomeComponent } from './home/home.component';
     FooterComponent,
     AddToCartComponent,
     StoreSelectedComponent,
-    InformationComponent
+    InformationComponent,
+    IntroComponent
   ],
   imports: [
     BrowserModule,

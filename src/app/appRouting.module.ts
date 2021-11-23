@@ -7,6 +7,7 @@ import { ProductPageComponent } from './home/productPage/productPage.component';
 import { HomeComponent } from './home/home.component';
 import { ShoppingCartComponent } from './shoppingCart/shoppingCart.component';
 import { StoreSelectedComponent } from './storeSelect/storeSelectcomponent';
+import { IntroComponent } from './shared/intro/intro.component';
 
 const routes: Routes = [
   { path: 'shoppingcart', component: ShoppingCartComponent} ,
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'products/:id', component: ProductPageComponent },
   { path: 'addProduct', component: AddProductsComponent },
   { path: 'storeselected', component: StoreSelectedComponent },
-  { path: 'info', component: InformationComponent }
+  { path: 'info', component: InformationComponent },
+  { path: 'intro', component: IntroComponent}
 ];
 
 @NgModule({
