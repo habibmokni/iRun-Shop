@@ -9,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 export class BillingDetailsComponent implements OnInit {
   //gets form from parent through property binding
   @Input() billing!: FormGroup;
+  @Input() type = "Delivery Details";
   constructor() { }
 
   ngOnInit(): void {

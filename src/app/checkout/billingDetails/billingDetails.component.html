@@ -1,5 +1,5 @@
 <div class="billing_address" fxLayout="column" fxLayoutAlign="center center">
-  <h2>Billing Address</h2>
+  <h2>{{type}}</h2>
   <div [formGroup]="billing" class="billing_address_form" fxLayout="column">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
@@ -36,15 +36,6 @@
       *ngIf="!billing.get('address1')!.valid && billing.get('address1')!.touched"
       class="invalid-feedback" style="display: block;">
        *Please enter Address 1
-     </span>
-    <mat-form-field appearance="outline">
-      <mat-label>Address 2</mat-label>
-      <input matInput formControlName="address2" type="text" placeholder="Address 2">
-    </mat-form-field>
-    <span
-      *ngIf="!billing.get('address2')!.valid && billing.get('address2')!.touched"
-      class="invalid-feedback" style="display: block;">
-       *Please enter Address 2
      </span>
   </div>
 </div>

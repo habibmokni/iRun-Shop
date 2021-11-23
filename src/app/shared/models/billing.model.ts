@@ -3,5 +3,4 @@ export interface Billing{
   email: string;
   phoneNo: string;
   address1: string;
-  address2: string;
 }

@@ -108,7 +108,8 @@ export class ProductPageComponent implements OnInit {
         variantId: product.variants[0].variantId
       },
       maxWidth: '100vw',
-      maxHeight: '100vh'
+      maxHeight: '100vh',
+      panelClass: ['animate__animated','animate__slideInUp']
     });
   }
   //adds product to cart if product is available in selected store or online store and size is selected

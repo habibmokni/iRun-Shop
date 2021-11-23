@@ -102,7 +102,7 @@
               Billing details
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-billingDetails [billing]="billing"></app-billingDetails>
+          <app-billingDetails [billing]="billing" [type]="'Billing Details'"></app-billingDetails>
           <mat-action-row>
             <button class="button-style" mat-flat-button matStepperPrevious>Previous</button>
             <button mat-flat-button class="button-style" (click)="nextStep()">Next</button>
@@ -192,7 +192,6 @@
           <h2>Billing details</h2>
           <span class="details"><h4>Name: </h4><p>{{order.billingDetails.name}}</p></span>
           <span class="details"><h4>Address 1: </h4><p>{{order.billingDetails.address1}}</p></span>
-          <span class="details"><h4>Address 2: </h4><p>{{order.billingDetails.address2}}</p></span>
           <span class="details"><h4>Phone No: </h4><p>{{order.billingDetails.phoneNo}}</p></span>
           <h2>Delivery Method</h2>
           <span class="details"><h4>{{order.pickupType}}</h4></span>
@@ -205,12 +204,17 @@
         </div>
         <div class="filler"></div>
 
-        <mat-card style="background-color: #f7f8f8;">
-          <h4>Shipping costs</h4><div class="filler"></div> <p>Free</p>
-          <div class="filler"></div>
-          <h4>Payment costs</h4><div class="filler"></div> <p>Free</p>
-          <div class="filler"></div>
-          <h4>Gesamtbetrag inkl. MwSt.</h4><div class="filler"></div> <p>{{orderPrice}} €</p>
+        <mat-card style="background-color: #f7f8f8;" fxLayout="column">
+          <div fxLayout>
+            <h4>Shipping costs</h4><div class="filler"></div> <p>Free</p>
+          </div>
+          <div fxLayout>
+            <h4>Payment costs</h4><div class="filler"></div> <p>Free</p>
+          </div>
+          <div fxLayout>
+            <h4>Gesamtbetrag inkl. MwSt.</h4><div class="filler"></div> <p>{{orderPrice}} €</p>
+          </div>
+
         </mat-card>
 
       </mat-card-content>

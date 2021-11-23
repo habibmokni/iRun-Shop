@@ -99,6 +99,15 @@
   text-align: center;
   margin: 2rem 0;
 }
+.cart-items{
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-bottom: 15px;
+}
+.cart-items::-webkit-scrollbar{
+  display: none;
+}
 
 @media (max-width: 599px) {
   .stepper {

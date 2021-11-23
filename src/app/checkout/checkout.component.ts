@@ -34,6 +34,7 @@ export class CheckoutComponent implements OnInit {
   order!: Order;
   //for button style
   preBtn!: Element;
+  preDate!: Date;
   //for storing current address value
   storeAddress: string = '';
   //holds order price
@@ -53,8 +54,7 @@ export class CheckoutComponent implements OnInit {
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required]),
     phoneNo: new FormControl('', [Validators.required]),
-    address1: new FormControl('', [Validators.required]),
-    address2: new FormControl('', [Validators.required])
+    address1: new FormControl('', [Validators.required])
   });
   //sub step in 2nd step (billing)
   paymentMethod= new FormGroup({
@@ -147,8 +147,7 @@ export class CheckoutComponent implements OnInit {
         name: this.secondFormGroup.get('billing.name')?.value,
         email: this.secondFormGroup.get('billing.email')?.value,
         phoneNo: this.secondFormGroup.get('billing.phoneNo')?.value,
-        address1: this.secondFormGroup.get('billing.address1')?.value,
-        address2: this.secondFormGroup.get('billing.address2')?.value
+        address1: this.secondFormGroup.get('billing.address1')?.value
       },
       productsOrdered: this.productService.getLocalCartProducts(),
       storeLocation: {
@@ -259,7 +258,12 @@ export class CheckoutComponent implements OnInit {
   }
 
   nextStep() {
-    this.step++;
+    if(this.secondFormGroup.valid){
+      this.step++;
+    }else{
+      this.snackbarService.info('Please enter billing details to proceed further');
+    }
+
   }
 
   prevStep() {
