@@ -22,6 +22,7 @@ export class AddToCartComponent implements OnInit {
   isSizeSelected=false;
   product: Product;
   user!: User;
+  isLoaded =  false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Product,
@@ -41,6 +42,10 @@ export class AddToCartComponent implements OnInit {
         });
    }
   ngOnInit(): void {
+
+    setTimeout(()=>{
+      this.isLoaded = true;
+    },10)
   }
   //triggers when size is selected
   onSizeSelect(size: number){

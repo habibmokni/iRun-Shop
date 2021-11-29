@@ -154,7 +154,10 @@ export class ProductPageComponent implements OnInit {
   sizeSelected(size: any){
     this.size = size;
     this.isSizeSelected = true;
-    this.checkProductInStore();
+    if(this.user){
+      this.checkProductInStore();
+    }
+
   }
   checkAvailability(product: Product){
     window.scrollTo(0,0);
