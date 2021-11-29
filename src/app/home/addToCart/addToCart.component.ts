@@ -51,7 +51,9 @@ export class AddToCartComponent implements OnInit {
   onSizeSelect(size: number){
     this.size = size;
     this.isSizeSelected = true;
-    this.checkProductInStore();
+    if(this.user){
+      this.checkProductInStore();
+    }
   }
 
 addToCart(product: Product){
