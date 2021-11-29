@@ -10,7 +10,7 @@
     label="Delivery"
   >
   <!--Toggle button for delivery type-->
-    <div fxLayout fxLayoutAlign="center center">
+    <div fxLayout fxLayoutAlign="center center" *ngIf="cartProducts.length>0">
       <a
         mat-flat-button
         fxLayout="column"
@@ -79,13 +79,13 @@
       <div fxLayout fxLayoutAlign="center center">
         <button
           class="button-style"
-          [fxHide]="!isClickNCollect"
+          *ngIf="!isClickNCollect"
           mat-flat-button matStepperNext
           [disabled]="!cncAllItemsAvailable"
         >Next</button>
         <button
           class="button-style"
-          [fxHide]="isClickNCollect"
+          *ngIf="isClickNCollect"
           mat-flat-button matStepperNext
           [disabled]="!onlineAllItemsAvailable"
         >Next</button>
@@ -159,10 +159,10 @@
       <h1 class="title">Your Order Details</h1>
       <mat-card-content fxLayout.gt-xs="row">
         <h2>Your order</h2>
-        <div class="cart-items" fxLayout="row">
+        <div class="cart-items" fxLayout="row" *ngIf="cartProducts.length>0">
           <div *ngFor="let product of cartProducts; let i=index">
             <div class="item-image-container" fxFlex="30%">
-              <img src="{{product.productImage}}" style="width: 8rem; margin-right: 2rem" alt="image">
+              <img [src]="product?.productImage" style="width: 8rem; margin-right: 2rem" alt="image">
               <!-- <span class="details">
                   <a (click)="openDialog()"> See details</a> </span> -->
             </div>

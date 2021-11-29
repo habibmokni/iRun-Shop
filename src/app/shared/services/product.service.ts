@@ -85,7 +85,7 @@ export class ProductService{
       for (let i = 0; i < products.length; i++) {
         delete products[i];
       }
-      this.cartProductsChanged.next(products);
+      this.cartProductsChanged.next([]);
       // Removing the local storage after remove of products
       localStorage.removeItem("avct_item");
     }

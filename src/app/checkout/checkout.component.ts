@@ -120,11 +120,13 @@ export class CheckoutComponent implements OnInit {
     });
     //triggers everytime if cart product changes
     this.productService.cartProductsChanged.subscribe(newProducts=>{
-      this.cartProducts = newProducts;
-      this.checkItemsInOnlineStore();
-      this.orderPrice = 0;
-      for(let products of this.cartProducts){
-        this.orderPrice += products.price*products.noOfItems;
+      if(newProducts.length>0){
+        this.cartProducts = newProducts;
+        this.checkItemsInOnlineStore();
+        this.orderPrice = 0;
+        for(let products of this.cartProducts){
+          this.orderPrice += products.price*products.noOfItems;
+        }
       }
     });
     //calculating order price
@@ -167,6 +169,7 @@ export class CheckoutComponent implements OnInit {
     this.snackbarService.success('Order placed Successfully');
     this.dialog.open(OrderSuccessComponent);
     this.productService.removeAllLocalCartProduct();
+    this.cartProducts = [];
   }
   //fetches date from cnc package
   dateSelected(date: Date){
