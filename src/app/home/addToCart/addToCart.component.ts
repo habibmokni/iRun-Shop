@@ -55,26 +55,23 @@ export class AddToCartComponent implements OnInit {
   }
 
 addToCart(product: Product){
-  if(this.isSizeSelected && this.stock>0){ //checks if size selected and is available is store or not
-    const cartProduct: CartProduct = {
-      productImage: product.variants[0].imageList[0],
-      modelNo : product.modelNo,
-      variantId: product.variants[0].variantId,
-      noOfItems : 1,
-      size : +this.size,
-      vendor: product.companyName!,
-      productName: product.name,
-      price: product.price
-    }
-    this.productService.addToCart(cartProduct);
-  }else{
-    if(this.stock === 0){
-      this.snackbarService.info('Please change store as product is not available in selected store');
+  if(this.user){
+    if(this.isSizeSelected && this.stock>0){
+      this.onAddToCart(product);
     }else{
-      this.snackbarService.info('Please select size of product');
+        //warning message if store does not have product
+        if(this.stock === 0){
+          this.snackbarService.info('Please change store as product is not available in selected store and online store');
+        }else{
+          this.snackbarService.info('Please select size of product');
+        }
+      }
+  }else{
+    if(this.isSizeSelected){
+      this.onAddToCart(product);
     }
-
   }
+
 }
 //triggers when size is selected and checks if store has it or not
 checkProductInStore(){
@@ -91,5 +88,20 @@ checkProductInStore(){
     },1000)
 
   }
+
+  onAddToCart(product: Product){
+    const cartProduct: CartProduct = {
+      productImage: product.variants[0].imageList[0],
+      modelNo : product.modelNo,
+      variantId: product.variants[0].variantId,
+      noOfItems : 1,
+      size : +this.size,
+      vendor: product.companyName!,
+      productName: product.name,
+      price: product.price
+    }
+    this.productService.addToCart(cartProduct);
+  }
+
 
 }
