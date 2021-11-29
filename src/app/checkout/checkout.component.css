@@ -13,6 +13,9 @@
   color: white;
   background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
   margin: 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  padding: 0.5rem;
 }
 .item-image-container {
   width: 100%;
@@ -107,6 +110,13 @@
 }
 .cart-items::-webkit-scrollbar{
   display: none;
+}
+.remove_button{
+  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    padding: 0.5rem;
 }
 
 @media (max-width: 599px) {

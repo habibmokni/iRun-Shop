@@ -35,6 +35,7 @@ export class CheckoutComponent implements OnInit {
   //for button style
   preBtn!: Element;
   preDate!: Date;
+  linear = true;
   //for storing current address value
   storeAddress: string = '';
   //holds order price
@@ -46,7 +47,7 @@ export class CheckoutComponent implements OnInit {
   shippingMethod = new FormGroup({
     type: new FormControl('Click & Collect'),
     pickupDate: new FormControl(null, [Validators.required]),
-    shippingAddress: new FormControl('', [Validators.required]),
+    shippingAddress: new FormControl(''),
     selectedTime: new FormControl('No time selected')
   });
   //second step of checkout
@@ -212,8 +213,14 @@ export class CheckoutComponent implements OnInit {
     });
     if(index===1){
       this.isClickNCollect = false;
+      this.shippingMethod.patchValue({
+        pickupDate: new Date()
+      });
     }else{
       this.isClickNCollect = true;
+      this.shippingMethod.patchValue({
+        pickupDate: null
+      });
     }
   }
   //checks item are available in online store or not
@@ -266,10 +273,19 @@ export class CheckoutComponent implements OnInit {
     }else{
       this.snackbarService.info('Please enter billing details to proceed further');
     }
-
   }
 
   prevStep() {
     this.step--;
+  }
+  onCNCNext(){
+    if(this.shippingMethod.invalid){
+      this.snackbarService.info("Please select date to proceed");
+    }
+  }
+  onDeliveryNext(){
+    if(this.billing.invalid){
+      this.snackbarService.info("Please enter all the fields of delivery");
+    }
   }
 }

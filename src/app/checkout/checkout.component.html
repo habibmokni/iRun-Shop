@@ -6,7 +6,7 @@
   fxFlex.gt-xs="65%"
 >
   <mat-step
-    [stepControl]="firstFormGroup"
+    [stepControl]="isClickNCollect ? firstFormGroup : secondFormGroup"
     label="Delivery"
   >
   <!--Toggle button for delivery type-->
@@ -71,7 +71,7 @@
               </div>
             </mat-card>
             <div style="text-align: center; margin: 10px;">
-              <button mat-flat-button color="warn" type="button" (click)="removeProductsUnavailable()">Remove unavailable items</button>
+              <button mat-flat-button color="warn" type="button" class="remove_button" (click)="removeProductsUnavailable()">Remove unavailable items</button>
             </div>
           </div>
         </div>
@@ -79,15 +79,17 @@
       <div fxLayout fxLayoutAlign="center center">
         <button
           class="button-style"
-          *ngIf="!isClickNCollect"
+          *ngIf="isClickNCollect"
           mat-flat-button matStepperNext
           [disabled]="!cncAllItemsAvailable"
+          (click)="onCNCNext()"
         >Next</button>
         <button
           class="button-style"
-          *ngIf="isClickNCollect"
+          *ngIf="!isClickNCollect"
           mat-flat-button matStepperNext
-          [disabled]="!onlineAllItemsAvailable"
+          [disabled]="!onlineAllItemsAvailable && billing.invalid"
+          (click)="onDeliveryNext()"
         >Next</button>
       </div>
     </form>
