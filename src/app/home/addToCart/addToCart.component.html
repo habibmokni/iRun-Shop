@@ -9,7 +9,7 @@
   </div>
 <cnc-size-selector [product]="product" (sizeSelected)="onSizeSelect($event)"></cnc-size-selector>
   <div style="width: 100%; text-align: center;">
-    <button mat-flat-button type="button" (click)="addToCart(product)" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: white;" type="button" class="button-container">Add to cart</button>
+    <button mat-flat-button class="cart-button" type="button" (click)="addToCart(product)">Add to cart</button>
   </div>
 
 </div>
