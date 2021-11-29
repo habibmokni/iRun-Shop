@@ -47,19 +47,20 @@ export class ShoppingCartComponent implements OnInit {
       this.productService.fetchProduct();
       this.productService.productList.subscribe(products=>{
         this.onlineProducts = products;
-        if(this.user){
-          this.checkProductsStock();
-        }
+        this.checkProductsStock();
       });
     }
 
   ngOnInit(): void {
     this.getCartProduct();
+    for(let product of this.cartProducts){
+      this.grandtotal += (product.price*product.noOfItems);
+    }
   }
   //function to increment noOfitems of a product
   onAddItem(index: number, product: CartProduct){
     if(this.cartProducts[index].noOfItems>0){
-      if(this.cartProducts[index].noOfItems<this.itemInStock[index]){
+      if(this.cartProducts[index].noOfItems<this.itemInStock[index] || this.cartProducts[index].noOfItems<this.onlineStoreStock[index]){
         this.cartProducts[index].noOfItems++;
         this.grandtotal=this.grandtotal+(+this.cartProducts[index].price);
         this.productService.updateNoOfItemsOfProduct(product);
@@ -105,23 +106,24 @@ export class ShoppingCartComponent implements OnInit {
   //to check whether product is available in physical and online store
   checkProductsStock(){
     //physical store check
-    for(let product of this.cartProducts){
-      for(let storeProduct of this.user.storeSelected.products){
-        if(storeProduct.modelNo === product.modelNo){
-          for(let variant of storeProduct.variants){
-            if(variant.variantId === product.variantId){
-              for(let i=0; i<variant.sizes.length; i++){
-                if(+variant.sizes[i] === product.size){
-                  this.itemInStock.push(+variant.inStock[i]);
+    if(this.user){
+      for(let product of this.cartProducts){
+        for(let storeProduct of this.user.storeSelected.products){
+          if(storeProduct.modelNo === product.modelNo){
+            for(let variant of storeProduct.variants){
+              if(variant.variantId === product.variantId){
+                for(let i=0; i<variant.sizes.length; i++){
+                  if(+variant.sizes[i] === product.size){
+                    this.itemInStock.push(+variant.inStock[i]);
+                  }
                 }
               }
             }
           }
-
         }
       }
-      this.grandtotal += (product.price*product.noOfItems);
     }
+
     //online store check
     for(let product of this.cartProducts){
       for(let onlineProduct of this.onlineProducts){
