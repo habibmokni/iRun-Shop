@@ -1,19 +1,17 @@
 <mat-stepper
-  class="stepper"
+  class="stepper col-12 col-sm-8"
   orientation="horizontal"
   labelPosition="bottom"
   [linear]="true"
-  fxFlex.gt-xs="65%"
 >
   <mat-step
     [stepControl]="isClickNCollect ? firstFormGroup : secondFormGroup"
     label="Delivery"
   >
   <!--Toggle button for delivery type-->
-    <div fxLayout fxLayoutAlign="center center" *ngIf="cartProducts.length>0">
-      <a
+    <div class="d-flex flex-row" *ngIf="cartProducts.length>0">
+    <a
         mat-flat-button
-        fxLayout="column"
         class="delivery_button"
         [ngClass]="{'active': isClickNCollect}"
         (click)="selectDelivery('Click N Collect', 0)"
@@ -21,7 +19,7 @@
         <mat-icon class="icons" fontSet="material-icons-outlined">shopping_bag</mat-icon>
         <h4>Click N Collect</h4>
       </a>
-      <a mat-flat-button fxLayout="column" class="delivery_button" [ngClass]="{'active': !isClickNCollect}" (click)="selectDelivery('Home Delivery', 1)">
+      <a mat-flat-button class="delivery_button" [ngClass]="{'active': !isClickNCollect}" (click)="selectDelivery('Home Delivery', 1)">
         <mat-icon class="icons" fontSet="material-icons-outlined">home</mat-icon>
         <h4>Home delivery</h4>
       </a>
@@ -29,6 +27,7 @@
     </div>
     <!--Click and collect selector for checkout-->
     <form [formGroup]="firstFormGroup">
+
       <cnc-click-n-collect
         *ngIf="isClickNCollect"
         [user]="user"
@@ -46,27 +45,25 @@
           [billing]="billing"
         ></app-billingDetails>
         <!--section if not all products available online-->
-        <div *ngIf="!onlineAllItemsAvailable">
+        <div class="d-flex flex-column" *ngIf="!onlineAllItemsAvailable">
           <div
-            fxLayout="column"
-            fxLayoutAlign="center center"
             style="padding: 15px;"
           >
             <h2>Not all items available</h2>
             <h5>All items in cart can not be shipped with this option, please either remove products or change delivery option</h5>
           </div>
-          <div class="cart-items" fxLayout="column">
+          <div class="cart-items d-flex flex-column">
             <mat-card *ngFor="let product of cartItemUnavailable; let i=index">
-              <div class="item-image-container" fxFlex="30%">
+              <div class="item-image-container col-4">
                 <img src="{{product.productImage}}" style="width: 100%;" alt="image">
               </div>
-              <div fxFlex="50%" fxLayout="column" style="padding-left: 15px;">
+              <div class="d-flex flex-column col-6" style="padding-left: 15px;">
                 <h3>{{product.productName}}</h3>
                   <mat-card-subtitle>{{'Size : ' + product.size}}
                   <mat-error>out of stock</mat-error>
                 </mat-card-subtitle>
               </div>
-              <div fxflex="20%">
+              <div class="col-2">
                 <h2 style="line-height: 22px;">{{product.price}}€</h2>
               </div>
             </mat-card>
@@ -76,7 +73,7 @@
           </div>
         </div>
       </form>
-      <div fxLayout fxLayoutAlign="center center">
+      <div class="d-flex flex-row">
         <button
           class="button-style"
           *ngIf="isClickNCollect"
@@ -139,7 +136,7 @@
         </mat-expansion-panel>
       </mat-accordion>
       <app-paymentMethods *ngIf="!isClickNCollect" [paymentMethod]="paymentMethod"></app-paymentMethods>
-      <div fxLayout fxLayoutAlign="center center" *ngIf="!isClickNCollect">
+      <div class="d-flex flex-row" *ngIf="!isClickNCollect">
         <button
           class="button-style"
           mat-flat-button
@@ -155,15 +152,15 @@
     </form>
   </mat-step>
   <!--Overview step-->
-  <mat-step fxLayout="column" fxLayoutAlign="center center">
+  <mat-step class="d-flex flex-column">
     <ng-template matStepLabel >Overview</ng-template>
     <mat-card *ngIf="order">
       <h1 class="title">Your Order Details</h1>
-      <mat-card-content fxLayout.gt-xs="row">
+      <mat-card-content class="d-flex flex-sm-row">
         <h2>Your order</h2>
-        <div class="cart-items" fxLayout="row" *ngIf="cartProducts.length>0">
+        <div class="cart-items d-flex flex-row" *ngIf="cartProducts.length>0">
           <div *ngFor="let product of cartProducts; let i=index">
-            <div class="item-image-container" fxFlex="30%">
+            <div class="item-image-container col-4">
               <img [src]="product?.productImage" style="width: 8rem; margin-right: 2rem" alt="image">
               <!-- <span class="details">
                   <a (click)="openDialog()"> See details</a> </span> -->
@@ -184,7 +181,7 @@
           </div>
         </div>
         <div class="filler"></div>
-        <div fxLayout="column" gdGridAlign="start stretch" class="order-details">
+        <div gdGridAlign="start stretch" class="order-details d-flex flex-column">
           <span class="details"><h4>Order ID: </h4><p>{{order.orderId}}</p></span>
           <h2>Email Address</h2>
           <span class="details"><h4>Email: </h4><p>{{order.billingDetails.email}}</p></span>
@@ -206,14 +203,14 @@
         </div>
         <div class="filler"></div>
 
-        <mat-card style="background-color: #f7f8f8;" fxLayout="column">
-          <div fxLayout>
+        <mat-card style="background-color: #f7f8f8;" class="d-flex flex-column">
+          <div class="row">
             <h4>Shipping costs</h4><div class="filler"></div> <p>Free</p>
           </div>
-          <div fxLayout>
+          <div class="row">
             <h4>Payment costs</h4><div class="filler"></div> <p>Free</p>
           </div>
-          <div fxLayout>
+          <div class="row">
             <h4>Gesamtbetrag inkl. MwSt.</h4><div class="filler"></div> <p>{{orderPrice}} €</p>
           </div>
 
@@ -238,11 +235,11 @@
   </mat-step>
 </mat-stepper>
 
-<div class="cart-items" fxLayout="column" fxHide.xs fxFlex.gt-xs="35%">
+<div class="cart-items d-flex flex-column d-none d-sm-block col-sm-4">
   <h2>Your Order</h2>
   <mat-divider></mat-divider>
   <div *ngFor="let product of cartProducts; let i=index">
-    <div class="item-image-container" fxFlex="30%">
+    <div class="item-image-container">
       <img src="{{product.productImage}}" style="width: 6rem; margin-right: 1rem" alt="image">
     </div>
   </div>

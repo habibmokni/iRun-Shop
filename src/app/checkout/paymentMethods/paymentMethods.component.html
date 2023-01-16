@@ -8,12 +8,11 @@
     </mat-card-subtitle>
     <mat-card-content>
       <mat-radio-group
-        fxLayout="column"
         formControlName="paymentOption"
         aria-labelledby="example-radio-group-label"
-        class="example-radio-group"
+        class="example-radio-group d-flex flex-column"
       >
-        <mat-radio-button fxLayout class="example-radio-button" *ngFor="let payment of paymentPartner" [value]="payment.name">
+        <mat-radio-button class="example-radio-button d-flex flex-row" *ngFor="let payment of paymentPartner" [value]="payment.name">
           <img src="{{payment.logo}}" alt="image" [ngStyle]="{width: '40px'}">{{payment.name}}
         </mat-radio-button>
       </mat-radio-group>

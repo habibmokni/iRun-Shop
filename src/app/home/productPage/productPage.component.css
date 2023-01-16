@@ -10,6 +10,10 @@
   text-align: center;
 }
 
+.buttonContainer{
+  align-items: center;
+}
+
 .image-active {
   border-right: 2px solid #8b283d;
 }

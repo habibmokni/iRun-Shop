@@ -46,7 +46,7 @@ export class CheckoutComponent implements OnInit {
   //first step of checkout
   shippingMethod = new FormGroup({
     type: new FormControl('Click & Collect'),
-    pickupDate: new FormControl(null, [Validators.required]),
+    pickupDate: new FormControl<Date | null>(null, [Validators.required]),
     shippingAddress: new FormControl(''),
     selectedTime: new FormControl('No time selected')
   });
@@ -111,6 +111,7 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     //fetching cart and online store products
     this.cartProducts = this.productService.getLocalCartProducts();
+    this.checkItemsInOnlineStore();
     //fetch products if not fetched before by the app
     if(!this.productService.productList){
       this.productService.fetchProduct();
@@ -147,20 +148,20 @@ export class CheckoutComponent implements OnInit {
       //assign random id to order
       orderId: Math.floor(Math.random()*100000000),
       billingDetails: {
-        name: this.secondFormGroup.get('billing.name')?.value,
-        email: this.secondFormGroup.get('billing.email')?.value,
-        phoneNo: this.secondFormGroup.get('billing.phoneNo')?.value,
-        address1: this.secondFormGroup.get('billing.address1')?.value
+        name: this.secondFormGroup.get('billing.name')!.value,
+        email: this.secondFormGroup.get('billing.email')!.value,
+        phoneNo: this.secondFormGroup.get('billing.phoneNo')!.value,
+        address1: this.secondFormGroup.get('billing.address1')!.value
       },
       productsOrdered: this.productService.getLocalCartProducts(),
       storeLocation: {
         id : 2020,
-        address: this.firstFormGroup.get('shippingMethod.shippingAddress')?.value
+        address: this.firstFormGroup.get('shippingMethod.shippingAddress')!.value
       },
-      pickupDate: this.firstFormGroup.get('shippingMethod.pickupDate')?.value,
-      pickupType: this.firstFormGroup.get('shippingMethod.type')?.value,
-      pickupTime: this.firstFormGroup.get('shippingMethod.selectedTime')?.value,
-      paymentOption: this.thirdFormGroup.get('paymentMethod.paymentOption')?.value,
+      pickupDate: this.firstFormGroup.get('shippingMethod.pickupDate')!.value,
+      pickupType: this.firstFormGroup.get('shippingMethod.type')!.value,
+      pickupTime: this.firstFormGroup.get('shippingMethod.selectedTime')!.value,
+      paymentOption: this.thirdFormGroup.get('paymentMethod.paymentOption')!.value,
       orderPrice: this.orderPrice
     }
   }

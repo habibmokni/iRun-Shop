@@ -1,63 +1,27 @@
-# iRun-Shop
+# IRunV15
 
-https://github.com/habibmokni/Click-And-Collect (Version 2.0)
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.5.
 
-This release bring new design to whole web app along with new improvements and a full featured ecommerce website. 
+## Development server
 
-# What is iRun?
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-i-Run is an ecommerce website powered by Angular click and collect feature built by Habib Mokni. It covers all aspects of click and collect feature. clickNCollect feature is integrated in checkout, product page and store selector component of i-Run.
+## Code scaffolding
 
-# Angular Google Maps component
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-This component provides a Google Maps Angular component that implements the
-[Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial).
-File any bugs against the [angular/components repo](https://github.com/angular/components/issues).
+## Build
 
-## Installation
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-Just copy the code in your machine and run 'npm install' to install all the required modules and dependencies. You will also need Google Maps Api key for the full functioning of click and collect.
-After obtaining the Google Maps Api key just copy paste your api key in below code placed in index.html
+## Running unit tests
 
-```html
-<!-- index.html -->
-<!doctype html>
-<head>
-  ...
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
-</head>
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-**Note:**
-Don't forget to enable google places api in google cloud console.
+## Running end-to-end tests
 
-## Dependencies 
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-- [Angular Material](https://material.angular.io/guide/getting-started)
-- [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API).
-- [FlexLayout](https://github.com/angular/flex-layout)
-- [AngularFire](https://github.com/angular/angularfire)
-- [GoogleMaps](https://www.npmjs.com/package/@angular/google-maps)
+## Further help
 
-
-## Components
-
-- [`Home`](./home) displays the online products
-- [`Information`](./information)  provides information about click and collect 
-- [`Checkout`](./checkout)  is responsible to provide clickAndCollect and delivery option to the user
-- [`Product Page`](./home/productPage) displays information about product, it's images, variants, sizes, avaiability of the product in physical stores(enabling clickNCollect feature productAvailability)
-- [`Shopping Cart`](./shoppingCart) displays cart products
-- [`Store Selector`](./storeSelector) helps user to select a store for future purchases
-- [`Add products`](./addProducts) helps to add products to db (for admin use only)
-- [`Billing Details`](./billingDetails) asks user to enter billing details
-- [`Order Success`](./orderSuccess) displays a success message on order creation
-- [`Payment Method`](./paymentMethods)  asks user to select a payment method
-
-## Services
-
-- [`ProductService`](./shared/services/product.service.ts) contains products related functions and cart related functions
-- [`SnackBarService`](./shared/services/snackbar.service.ts) is used to display snack messages on success, error or information.
-- [`StoreService`](./shared/services/store.service.ts) contains store related functions
-- [`UserService`](./shared/services/user.service.ts) contains user related functions
-
-
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

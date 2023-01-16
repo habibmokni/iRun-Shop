@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +52,20 @@ export class HomeComponent implements OnInit {
     })
     this.isLoading = false;
     //this.getAllProducts();
+    let placesService = new google.maps.places.PlacesService(document.getElementById('map') as HTMLDivElement); // i.e. <div id="map"></div>
+
+    const request = {
+      placeId: 'ChIJX7YUPPrLxUcRV19YH_qKvac',
+      fields: ['place_id']
+    };
+
+    placesService.getDetails(request, (data: any)=>{
+      console.log(data);
+    });
+    //this.http.get('https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJhzd9NKqxxUcRRcSQDWGjils&key=AIzaSyAUtWscrUnwXe5o3S008Gd0Je05C6FxgEA')
+    //.subscribe((data: any)=>{
+    //  console.log(data);
+    //})
   }
   //add product to cart
   addToCart(product: CartProduct) {

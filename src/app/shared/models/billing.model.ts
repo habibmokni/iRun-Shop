@@ -1,6 +1,6 @@
 export interface Billing{
-  name: string;
-  email: string;
-  phoneNo: string;
-  address1: string;
+  name: string | null;
+  email: string | null;
+  phoneNo: string | null;
+  address1: string | null;
 }

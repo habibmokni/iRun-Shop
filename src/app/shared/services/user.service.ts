@@ -5,7 +5,7 @@ import { User } from "../models/user.model";
 @Injectable()
 export class UserService{
   user!: User;
-  userSub =new Subject();
+  userSub =new Subject<any>();
   constructor(){
     this.getUser();
   }
@@ -16,7 +16,7 @@ export class UserService{
     setTimeout(() => {
       localStorage.setItem("avct_user", JSON.stringify(a));
       this.getUser();
-      this.userSub.next();
+      this.userSub.next(true);
     }, 500);
 
   }
@@ -33,7 +33,7 @@ export class UserService{
     a[0] = user;
     localStorage.setItem("avct_user", JSON.stringify(a));
     this.user = a[0];
-    this.userSub.next();
+    this.userSub.next(true);
   }
 
 }

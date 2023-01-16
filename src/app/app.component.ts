@@ -48,6 +48,8 @@ export class AppComponent {
         });
       });
       this.onLoad();
+
+
   }
 
   onShowIntro(value: boolean){
@@ -63,4 +65,11 @@ export class AppComponent {
       this.showIntro = a;
     }
   }
+
+   request = {
+    placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4',
+    fields: ['name', 'rating', 'formatted_phone_number', 'geometry']
+  };
+
+
 }

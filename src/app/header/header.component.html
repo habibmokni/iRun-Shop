@@ -1,5 +1,5 @@
-<mat-toolbar-row fxLayout style="height: 22px; z-index: 100; background-color: white;">
-  <div style="margin: auto;">
+<mat-toolbar-row class="row" style="height: 22px; z-index: 100; background-color: white;">
+  <div style="margin: auto;" class="text-center">
     <span class="filler"></span>
     <a style="color: black; font-size: 12px; font-family: Nunito;" routerLink="/intro">Click And Collect</a>
     <span>|</span>
@@ -8,10 +8,10 @@
   </div>
 
 </mat-toolbar-row>
-<mat-toolbar class="header" fxLayout fxHide.xs style="padding: 0px 25px;">
+<mat-toolbar class="header row d-none d-sm-block" style="padding: 0px 25px;">
   <span><a mat-button style="text-decoration: none; color: white;" routerLink="/"><img style="width: 50px;" src="../../assets/images/logos/iShoes-logo.png" alt="iShoes"></a></span>
   <span class="filler"></span>
-  <div class="navigation" fxHide.lt-sm>
+  <div class="navigation d-none d-sm-block">
     <a mat-button routerLink="/home">
       Home
     </a>
@@ -30,7 +30,7 @@
   </div>
 </mat-toolbar>
 
-<mat-toolbar fxHide.gt-xs class="mobile-header">
+<mat-toolbar class="mobile-header d-xs-block d-sm-none">
   <span>
     <a
       mat-button

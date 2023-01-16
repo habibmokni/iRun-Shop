@@ -12,7 +12,6 @@ import { HeaderComponent } from './header/header.component';
 import { ProductPageComponent } from './home/productPage/productPage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/modules/material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ShoppingCartComponent } from './shoppingCart/shoppingCart.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutComponent } from './checkout/checkout.component';
@@ -65,7 +64,6 @@ import { IntroComponent } from './shared/intro/intro.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,

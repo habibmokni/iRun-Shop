@@ -108,7 +108,7 @@ export class AddProductsComponent implements OnInit {
 
   onAddImages(){
     const control = new FormControl(null);
-    (<FormArray>this.form.get('imageList')).push(control);
+    (<FormArray><unknown>this.form.get('imageList')).push(control);
   }
   onAddVariants(){
 
@@ -124,7 +124,7 @@ export class AddProductsComponent implements OnInit {
         new FormControl()
       ])
     });
-    (<FormArray>this.variants).push(control);
+    (<FormArray><unknown>this.variants).push(control);
   }
   onAddSizes(index: number){
     this.sizes.push(1);
@@ -142,7 +142,7 @@ export class AddProductsComponent implements OnInit {
       subCategory: this.form.get('subCategory')?.value,
       imageList: [],
       price: this.form.get('price')?.value,
-      variants: this.form.get('variants')?.value,
+      variants: this.form.get('variants')!.value,
     }
     console.log(product);
 //    this.productService.addProductToDatabase(product);

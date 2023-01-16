@@ -1,6 +1,6 @@
-<div class="billing_address" fxLayout="column" fxLayoutAlign="center center">
+<div class="billing_address d-flex flex-column text-center">
   <h2>{{type}}</h2>
-  <div [formGroup]="billing" class="billing_address_form" fxLayout="column">
+  <div [formGroup]="billing" class="billing_address_form d-flex flex-column">
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" type="text" placeholder="Name">

@@ -8,11 +8,11 @@ export interface Order{
   productsOrdered: CartProduct[];
   storeLocation: {
     id: number;
-    address: string;
+    address: string | null;
   }
-  pickupType: string;
-  pickupDate: Date;
-  pickupTime?: string;
-  paymentOption: String;
-  orderPrice: number;
+  pickupType: string | null;
+  pickupDate: Date | null;
+  pickupTime?: string | null;
+  paymentOption: String | null;
+  orderPrice: number | null;
 }

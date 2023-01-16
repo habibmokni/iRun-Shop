@@ -23,6 +23,7 @@
   padding: 1rem;
   width: 90%;
   margin: 2rem auto 2rem auto;
+  text-decoration: none;
 }
 .product_total_amount{
   position: fixed;

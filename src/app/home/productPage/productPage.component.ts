@@ -69,7 +69,7 @@ export class ProductPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe((params) => {
-      const id: string = params.id; //extracting id from route url
+      const id: string = params['id']; //extracting id from route url
       this.getProductDetail(id); //fetching product from db
       this.product= this.productService.product;
       this.product.subscribe(product=>{
@@ -99,6 +99,7 @@ export class ProductPageComponent implements OnInit {
   }
   //triggers when check avaialbility button is pressed
   openDialog(product: Product) {
+    /* --Commented out code call cnc-package checkAvailability
     this.dialog.open(CheckAvailabilityComponent, {
       data: {                                     //passing data to cnc package CheckAvailability component
         call: 'product',
@@ -110,7 +111,7 @@ export class ProductPageComponent implements OnInit {
       maxWidth: '100vw',
       maxHeight: '100vh',
       panelClass: ['animate__animated','animate__slideInUp']
-    });
+    }); */
   }
   //adds product to cart if product is available in selected store or online store and size is selected
   addToCart(product: Product){
