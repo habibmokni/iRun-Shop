@@ -7,7 +7,7 @@
       <mat-tab-group mat-align-tabs="start" style="overflow: hidden;">
         <mat-tab label="All">
           <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
-          <div class="row" *ngIf="!isLoading">
+          <div class="row w-100 mx-auto overflow-hidden" *ngIf="!isLoading">
             <div class="d-flex flex-column col-6 col-sm-6 col-md-3" *ngFor="let product of productList|async" style="padding: 0px 10px;">
               <div class="item-image-container">
                 <a routerLink="/products/{{product.modelNo}}"><img [src]="product.variants[0].imageList[0]" class="item-image" alt="image" matCardImage></a>
@@ -34,7 +34,7 @@
                 <h2>{{product.name}}</h2>
                 <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
                 <span class="filler"></span>
-              <mat-card-actions class="d-flex flex-row" style="margin: 0px;">
+              <mat-card-actions class="d-flex flex-row">
                 <h2>{{product.price}}€</h2>
                 <span class="filler"></span>
                 <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>

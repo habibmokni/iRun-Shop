@@ -73,7 +73,7 @@
           </div>
         </div>
       </form>
-      <div class="d-flex flex-row">
+      <div class="d-flex flex-row justify-content-center">
         <button
           class="button-style"
           *ngIf="isClickNCollect"
@@ -102,7 +102,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-billingDetails [billing]="billing" [type]="'Billing Details'"></app-billingDetails>
-          <mat-action-row>
+          <mat-action-row class="justify-content-space-around">
             <button class="button-style" mat-flat-button matStepperPrevious>Previous</button>
             <button mat-flat-button class="button-style" (click)="nextStep()">Next</button>
           </mat-action-row>
@@ -136,7 +136,7 @@
         </mat-expansion-panel>
       </mat-accordion>
       <app-paymentMethods *ngIf="!isClickNCollect" [paymentMethod]="paymentMethod"></app-paymentMethods>
-      <div class="d-flex flex-row" *ngIf="!isClickNCollect">
+      <div class="d-flex flex-row justify-content-center" *ngIf="!isClickNCollect">
         <button
           class="button-style"
           mat-flat-button
@@ -156,7 +156,7 @@
     <ng-template matStepLabel >Overview</ng-template>
     <mat-card *ngIf="order">
       <h1 class="title">Your Order Details</h1>
-      <mat-card-content class="d-flex flex-sm-row">
+      <mat-card-content class="d-flex flex-column flex-sm-row">
         <h2>Your order</h2>
         <div class="cart-items d-flex flex-row" *ngIf="cartProducts.length>0">
           <div *ngFor="let product of cartProducts; let i=index">
@@ -204,23 +204,23 @@
         <div class="filler"></div>
 
         <mat-card style="background-color: #f7f8f8;" class="d-flex flex-column">
-          <div class="row">
+          <div class="d-flex flex-row">
             <h4>Shipping costs</h4><div class="filler"></div> <p>Free</p>
           </div>
-          <div class="row">
+          <div class="d-flex flex-row">
             <h4>Payment costs</h4><div class="filler"></div> <p>Free</p>
           </div>
-          <div class="row">
+          <div class="d-flex flex-row">
             <h4>Gesamtbetrag inkl. MwSt.</h4><div class="filler"></div> <p>{{orderPrice}} €</p>
           </div>
 
         </mat-card>
 
       </mat-card-content>
-      <mat-card-actions style="text-align: center;">
+      <mat-card-actions>
         <button
           mat-flat-button
-          class="button-style"
+          class="button-style mx-auto"
           (click)="onOrderConfirmation()"
           >Confirm</button>
       </mat-card-actions>
