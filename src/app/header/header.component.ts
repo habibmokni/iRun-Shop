@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { ProductService } from '../shared/services/product.service';
 import { SnackbarService } from '../shared/services/snackbar.service';
@@ -12,7 +13,12 @@ export class HeaderComponent implements OnInit {
 
   isLoggedIn: boolean = false;
   user: any;
-  constructor(public productService: ProductService, private snackbar: SnackbarService, private authService: AuthService) {
+  constructor(
+    public productService: ProductService,
+    private snackbar: SnackbarService,
+    private authService: AuthService,
+    private router: Router
+    ) {
    }
 
   ngOnInit(): void {
@@ -29,7 +35,8 @@ export class HeaderComponent implements OnInit {
   onLogout(){
     localStorage.removeItem("isLoggedIn");
     this.authService.checkLogIn();
-    this.snackbar.success("User removed successfully!");
+    this.router.navigate(['home']);
+    this.snackbar.success("Logout successfully!");
   }
 
 }
