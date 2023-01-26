@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
 import { ProductService } from '../shared/services/product.service';
+import { SnackbarService } from '../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-header',
@@ -8,10 +10,26 @@ import { ProductService } from '../shared/services/product.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public productService: ProductService) {
+  isLoggedIn: boolean = false;
+  user: any;
+  constructor(public productService: ProductService, private snackbar: SnackbarService, private authService: AuthService) {
    }
 
   ngOnInit(): void {
+    if(localStorage.getItem("isLoggedIn")){
+      this.isLoggedIn = true;
+      this.user = JSON.parse(localStorage.getItem("user")!);
+      console.log(this.user);
+    }
+    this.authService.isLoggedIn.subscribe((data:any)=>{
+      this.isLoggedIn = data;
+    });
+  }
+
+  onLogout(){
+    localStorage.removeItem("isLoggedIn");
+    this.authService.checkLogIn();
+    this.snackbar.success("User removed successfully!");
   }
 
 }

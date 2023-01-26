@@ -11,7 +11,7 @@
 <mat-toolbar class="header row d-none d-sm-block" style="padding: 0px 25px;">
   <span><a mat-button style="text-decoration: none; color: white;" routerLink="/"><img style="width: 50px;" src="../../assets/images/logos/iShoes-logo.png" alt="iShoes"></a></span>
   <span class="filler"></span>
-  <div class="navigation d-none d-sm-block">
+  <div class="navigation navbar d-none d-sm-block">
     <a mat-button routerLink="/home">
       Home
     </a>
@@ -30,7 +30,7 @@
   </div>
 </mat-toolbar>
 
-<mat-toolbar class="mobile-header d-xs-block d-sm-none">
+<mat-toolbar class="mobile-header d-xs-block d-sm-none navbar-nav">
   <span>
     <a
       mat-button
@@ -45,13 +45,34 @@
   </span>
   <span class="filler"></span>
   <button mat-icon-button type="button" routerLink="/storeselector"><mat-icon fontSet="material-icons-outlined">where_to_vote</mat-icon></button>
-  <button mat-icon-button type="button">
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
     <mat-icon>person_outline</mat-icon>
   </button>
-    <button mat-icon-button
-      type="button">
-      <mat-icon>favorite_border</mat-icon>
-    </button>
+  <mat-menu #menu="matMenu">
+    <div *ngIf="isLoggedIn" routerLink="user-profile" class="text-center" mat-menu-item>
+      <img src="../../assets/images/profile-logo.jpg" alt="" width="40" height="40" class="rounded-circle">
+      <div class="ml-2">
+        <h4 class="mb-0">{{user.firstName}}</h4>
+        <h5 class="mb-0">{{user.email}}</h5>
+      </div>
+    </div>
+  <a *ngIf="!isLoggedIn" mat-menu-item routerLink="/login">
+      <mat-icon>login</mat-icon>
+      Login
+  </a>
+  <a *ngIf="!isLoggedIn" mat-menu-item routerLink="/add-user">
+    <mat-icon>how_to_reg</mat-icon>
+    Register
+</a>
+  <a *ngIf="isLoggedIn" mat-menu-item (click)="onLogout()">
+    <mat-icon>logout</mat-icon>
+    Logout
+  </a>
+  </mat-menu>
+  <button mat-icon-button
+    type="button">
+    <mat-icon>favorite_border</mat-icon>
+  </button>
   <button
     mat-icon-button
     type="button"

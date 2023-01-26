@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ClickNCollectService } from '@habibmokni/cnc';
+import { AuthService } from './auth/auth.service';
 import { ProductService } from './shared/services/product.service';
 import { StoreService} from './shared/services/store.service';
 import { UserService } from './shared/services/user.service';
@@ -7,7 +8,7 @@ import { UserService } from './shared/services/user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'click-and-collect';
@@ -17,8 +18,11 @@ export class AppComponent {
     private storeService: StoreService,
     private userService: UserService,
     private cncService: ClickNCollectService,
-    private productService: ProductService)
+    private productService: ProductService,
+    private authService: AuthService
+    )
     {
+      this.authService.checkLogIn();
       this.storeService.fetchStore();
       this.storeService.getStoreLocations();
       this.userService.getUser();

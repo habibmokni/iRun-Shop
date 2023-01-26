@@ -19,6 +19,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatListModule,
     MatBottomSheetModule,
     MatExpansionModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule
   ],
   exports: [
     MatToolbarModule,
@@ -63,7 +65,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatListModule,
     MatBottomSheetModule,
     MatExpansionModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule
   ],
   providers: [MatDatepickerModule]
 })

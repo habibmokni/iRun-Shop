@@ -32,6 +32,9 @@ import { ClickNCollectModule } from '@habibmokni/cnc';
 import { InformationComponent } from './information/information.component';
 import { HomeComponent } from './home/home.component';
 import { IntroComponent } from './shared/intro/intro.component';
+import { LoginComponent } from './auth/login/login.component';
+import { UserProfileComponent } from './shared/user-profile/user-profile.component';
+import { AddUserComponent } from './shared/add-user/add-user.component';
 
 
 
@@ -52,7 +55,10 @@ import { IntroComponent } from './shared/intro/intro.component';
     AddToCartComponent,
     StoreSelectedComponent,
     InformationComponent,
-    IntroComponent
+    IntroComponent,
+    LoginComponent,
+    UserProfileComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,

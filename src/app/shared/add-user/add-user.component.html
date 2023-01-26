@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h5 class="card-title fs-3 fw-bold mt-5 text-center">Become a part of iRun</h5>
+    </div>
+    <div class="col-8 col-md-6 col-lg-4 mx-auto my-3">
+      <div class="card " style="border: none;">
+        <div class="card-body">
+          <form [formGroup]="registerForm" *ngIf="!isLoading">
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input
+              type="text"
+              class="form-control"
+              [ngClass]="registerForm.get('firstName')!.invalid && registerForm.get('firstName')!.touched ? 'is-invalid':''"
+              id="firstName"
+              formControlName="firstName"
+              >
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input
+               type="text"
+               class="form-control"
+               id="lastName"
+               formControlName="lastName"
+               [ngClass]="registerForm.get('lastName')!.invalid && registerForm.get('lastName')!.touched ? 'is-invalid':''"
+               >
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+              type="text"
+              class="form-control"
+              id="email"
+              formControlName="email"
+              [ngClass]="registerForm.get('email')!.invalid && registerForm.get('email')!.touched ? 'is-invalid':''" >
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <input
+                [type]="hide? 'password' : 'text'"
+                class="form-control"
+                id="password"
+                formControlName="password"
+                [ngClass]="registerForm.get('password')!.invalid && registerForm.get('password')!.touched ? 'is-invalid':''"
+                >
+                <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <div class="input-group">
+                <input
+                [type]="hide? 'password' : 'text'"
+                class="form-control"
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                [ngClass]="registerForm.get('confirmPassword')!.invalid && registerForm.get('confirmPassword')!.touched ? 'is-invalid':''"
+                >
+                <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label">Address</label>
+              <input
+              type="text"
+              class="form-control"
+              id="address"
+              formControlName="address"
+              [ngClass]="registerForm.get('address')!.invalid && registerForm.get('address')!.touched ? 'is-invalid':''"
+              >
+            </div>
+            <div class="mb-3">
+              <label for="zipCode" class="form-label">Zip Code</label>
+              <input
+              type="text"
+              class="form-control"
+              id="zipCode"
+              formControlName="zipCode"
+              [ngClass]="registerForm.get('zipCode')!.invalid && registerForm.get('zipCode')!.touched ? 'is-invalid':''"
+              >
+            </div>
+            <div class="w-100 text-center">
+              <button mat-flat-button class="primary-button" type="button" (click)="onRegister()">Register</button>
+              <button mat-flat-button class="primary-button mx-1" type="button" (click)="onCancel()">Cancel</button>
+            </div>
+          </form>
+          <div *ngIf="isLoading" class="pt-3 text-center">
+            <mat-spinner style="margin: auto;"></mat-spinner>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

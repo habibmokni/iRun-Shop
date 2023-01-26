@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="row" *ngIf="!user">
+    <div class="col-10 mx-auto my-5">
+      <div class="fs-5 fw-bold">Please login to view account details</div>
+      <div class="text-center mt-3">
+        <button mat-button class="primary-button" routerLink="/home" type="button">Back to home</button>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="user">
+    <div class="col-12 col-sm-4 col-md-4 col-lg-4 text-center d-flex">
+      <div class="card-image"></div>
+      <img src="../../../assets/images/profile-logo.jpg" alt="profile-image" class="round-circle profile-image" width="150" height="150">
+    </div>
+
+    <div class="col-12 col-sm-8 col-md-8 col-lg-8 px-3 mt-5 account-info">
+      <div class="col-12 d-flex flex-row">
+        <div class="col-4 fw-bold">First Name:</div>
+        <div>{{user.firstName}}</div>
+      </div>
+      <hr>
+      <div class="col-12 d-flex flex-row">
+        <div class="col-4 fw-bold">Last Name:</div>
+        <div>{{user.lastName}}</div>
+      </div>
+      <hr>
+      <div class="col-12 d-flex flex-row">
+        <div class="col-4 fw-bold">Email:</div>
+        <div>{{user.email}}</div>
+      </div>
+      <hr>
+      <div class="col-12 d-flex flex-row">
+        <div class="col-4 fw-bold">Address:</div>
+        <div>{{user.address}}</div>
+      </div>
+      <hr>
+      <div class="col-12 d-flex flex-row">
+        <div class="col-4 fw-bold">Zip Code:</div>
+        <div>{{user.zipCode}}</div>
+      </div>
+
+    </div>
+  </div>
+</div>
