@@ -8,7 +8,7 @@
     </div>
   </div>
 <!-- Commented out size selector in (+)button of home page -->
-  <cnc-size-selector [product]="product" (sizeSelected)="onSizeSelect($event)"></cnc-size-selector>
+  <cnc-size-selector [product]="product" (sizeSelected)="onSizeSelect($any($event))"></cnc-size-selector>
 
 
   <div style="width: 100%; text-align: center;">

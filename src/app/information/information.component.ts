@@ -4,7 +4,8 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-information',
   templateUrl: './information.component.html',
   styleUrls: ['./information.component.css'],
-  standalone: false
+  standalone: true,
+  imports: []
 })
 export class InformationComponent implements OnInit {
 

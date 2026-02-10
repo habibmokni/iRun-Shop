@@ -1,6 +1,9 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MapInfoWindow, MapMarker, GoogleMapsModule } from '@angular/google-maps';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Observable} from 'rxjs';
 import { Store } from '../shared/models/store.model';
 import { SnackbarService } from '../shared/services/snackbar.service';
@@ -13,7 +16,14 @@ import { MapsService } from '../shared/services/maps.service';
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    GoogleMapsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule
+  ]
 })
 export class MapsComponent implements OnInit {
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow ;

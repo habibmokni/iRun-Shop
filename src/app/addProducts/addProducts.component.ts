@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Product } from '../shared/models/product.model';
 import { Store } from '../shared/models/store.model';
 import { ProductService } from '../shared/services/product.service';
@@ -9,7 +14,15 @@ import { StoreService } from '../shared/services/store.service';
   selector: 'app-addProducts',
   templateUrl: './addProducts.component.html',
   styleUrls: ['./addProducts.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule
+  ]
 })
 export class AddProductsComponent implements OnInit {
   //dummy component to add products to db

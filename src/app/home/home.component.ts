@@ -1,17 +1,38 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { CartProduct } from '../shared/models/cartProduct.model';
 import { Product } from '../shared/models/product.model';
 import { ProductService } from '../shared/services/product.service';
 import { AddToCartComponent } from './addToCart/addToCart.component';
+import { ImageSliderComponent } from './imageSlider/imageSlider.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatTabsModule,
+    MatProgressSpinnerModule,
+    MatChipsModule,
+    ImageSliderComponent
+  ]
 })
 export class HomeComponent implements OnInit {
 

@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { AddProductsComponent } from './addProducts/addProducts.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { InformationComponent } from './information/information.component';
@@ -12,13 +11,13 @@ import { LoginComponent } from './auth/login/login.component';
 import { AddUserComponent } from './shared/add-user/add-user.component';
 import { UserProfileComponent } from './shared/user-profile/user-profile.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'login', component: LoginComponent
   },
   {
     path: 'shoppingcart', component: ShoppingCartComponent
-  } ,
+  },
   {
     path: 'checkout', component: CheckoutComponent
   },
@@ -50,9 +49,3 @@ const routes: Routes = [
     path: '**', redirectTo: '/home', pathMatch: 'full'
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes , {scrollPositionRestoration: 'enabled'})],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }

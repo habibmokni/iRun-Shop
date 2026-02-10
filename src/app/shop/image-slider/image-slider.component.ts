@@ -4,7 +4,8 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'app-image-slider',
   templateUrl: './image-slider.component.html',
   styleUrls: ['./image-slider.component.css'],
-  standalone: false
+  standalone: true,
+  imports: []
 })
 export class ImageSliderComponent implements OnInit {
 

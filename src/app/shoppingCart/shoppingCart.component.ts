@@ -1,5 +1,9 @@
 import { Component, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { CartProduct } from '../shared/models/cartProduct.model';
 import { Product } from '../shared/models/product.model';
 import { User } from '../shared/models/user.model';
@@ -7,12 +11,18 @@ import { ProductService } from '../shared/services/product.service';
 import { SnackbarService } from '../shared/services/snackbar.service';
 import { UserService } from '../shared/services/user.service';
 
-
 @Component({
   selector: 'app-shoppingCart',
   templateUrl: './shoppingCart.component.html',
   styleUrls: ['./shoppingCart.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule
+  ]
 })
 export class ShoppingCartComponent implements OnInit {
 

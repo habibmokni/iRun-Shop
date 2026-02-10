@@ -31,10 +31,10 @@
       <cnc-click-n-collect
         *ngIf="isClickNCollect"
         [user]="user"
-        (storeChanged)="onStoreChange($event)"
-        (productsToRemove)="onProductsToRemove($event)"
-        (dateSelected)="dateSelected($event)"
-        (timeSelected)="timeSelected($event)"
+        (storeChanged)="onStoreChange($any($event))"
+        (productsToRemove)="onProductsToRemove($any($event))"
+        (dateSelected)="dateSelected($any($event))"
+        (timeSelected)="timeSelected($any($event))"
         (isAllItemsAvailable)="cncItemsAvailable($event)"
       >
       </cnc-click-n-collect>

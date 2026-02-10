@@ -1,11 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-paymentMethods',
   templateUrl: './paymentMethods.component.html',
   styleUrls: ['./paymentMethods.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MatRadioModule, MatCardModule]
 })
 export class PaymentMethodsComponent implements OnInit {
   //gets formGroup from parent

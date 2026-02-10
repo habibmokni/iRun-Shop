@@ -1,7 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import { CommonModule } from '@angular/common';
+import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { CartProduct } from 'src/app/shared/models/cartProduct.model';
 import { Product } from 'src/app/shared/models/product.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -14,7 +18,16 @@ import { AvailabilityComponent } from '../product-page/availability/availability
   selector: 'app-add-to-cart',
   templateUrl: './add-to-cart.component.html',
   styleUrls: ['./add-to-cart.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatBottomSheetModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatIconModule,
+    MatRadioModule
+  ]
 })
 export class AddToCartComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;

@@ -1,15 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 import { ClickNCollectService } from '@habibmokni/cnc';
 import { AuthService } from './auth/auth.service';
 import { ProductService } from './shared/services/product.service';
 import { StoreService} from './shared/services/store.service';
 import { UserService } from './shared/services/user.service';
+import { HeaderComponent } from './header/header.component';
+import { IntroComponent } from './shared/intro/intro.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    HeaderComponent,
+    IntroComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent {
   title = 'click-and-collect';

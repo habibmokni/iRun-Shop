@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
   selector: 'app-intro',
   templateUrl: './intro.component.html',
   styleUrls: ['./intro.component.css'],
-  standalone: false
+  standalone: true,
+  imports: []
 })
 export class IntroComponent implements OnInit {
 

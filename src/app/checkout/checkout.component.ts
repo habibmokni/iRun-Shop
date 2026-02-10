@@ -1,24 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Order } from '../shared/models/order.model';
 import { ProductService } from '../shared/services/product.service';
 import { StoreService } from '../shared/services/store.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { SnackbarService } from '../shared/services/snackbar.service';
-import { MatDialog } from '@angular/material/dialog';
 import { OrderSuccessComponent } from './orderSuccess/order-success.component';
 import { UserService } from '../shared/services/user.service';
 import { User } from '../shared/models/user.model';
 import { Store } from '../shared/models/store.model';
 import { CartProduct } from '../shared/models/cartProduct.model';
 import { Product } from '../shared/models/product.model';
-
+import { BillingDetailsComponent } from './billingDetails/billingDetails.component';
+import { PaymentMethodsComponent } from './paymentMethods/paymentMethods.component';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatStepperModule,
+    MatButtonModule,
+    MatRadioModule,
+    MatIconModule,
+    MatDialogModule,
+    BillingDetailsComponent,
+    PaymentMethodsComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CheckoutComponent implements OnInit {
   //checks for delivery type and products avalability

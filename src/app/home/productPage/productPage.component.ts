@@ -1,10 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { MatDialog } from '@angular/material/dialog';
-import { MatExpansionPanel } from '@angular/material/expansion';
-import { MatRadioChange } from '@angular/material/radio';
+import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import { CheckAvailabilityComponent } from '@habibmokni/cnc';
+import { ImageSliderComponent } from '../imageSlider/imageSlider.component';
 
 
 import { Observable } from 'rxjs';
@@ -18,7 +23,19 @@ import { Product } from '../../shared/models/product.model';
 
 @Component({
   selector: 'app-productPage',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatIconModule,
+    MatRadioModule,
+    MatExpansionModule,
+    ImageSliderComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './productPage.component.html',
   styleUrls: ['./productPage.component.css']
 })
