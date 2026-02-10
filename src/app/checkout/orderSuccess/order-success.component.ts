@@ -4,7 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-order-success',
   templateUrl: './order-success.component.html',
-  styleUrls: ['./order-success.component.css']
+  styleUrls: ['./order-success.component.css'],
+  standalone: false
 })
 export class OrderSuccessComponent implements OnInit {
 

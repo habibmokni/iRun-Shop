@@ -17,7 +17,8 @@ import { Product } from '../shared/models/product.model';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.css']
+  styleUrls: ['./checkout.component.css'],
+  standalone: false
 })
 export class CheckoutComponent implements OnInit {
   //checks for delivery type and products avalability

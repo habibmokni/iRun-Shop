@@ -18,6 +18,7 @@ import { Product } from '../../shared/models/product.model';
 
 @Component({
   selector: 'app-productPage',
+  standalone: false,
   templateUrl: './productPage.component.html',
   styleUrls: ['./productPage.component.css']
 })

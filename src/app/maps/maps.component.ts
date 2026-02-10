@@ -3,16 +3,17 @@ import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable} from 'rxjs';
 import { Store } from '../shared/models/store.model';
-import { MapsService } from '../shared/services/maps.service';
 import { SnackbarService } from '../shared/services/snackbar.service';
 import { StoreService } from '../shared/services/store.service';
 import { UserService } from '../shared/services/user.service';
 import { Location} from './../shared/models/location.model';
+import { MapsService } from '../shared/services/maps.service';
 
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
-  styleUrls: ['./maps.component.css']
+  styleUrls: ['./maps.component.css'],
+  standalone: false
 })
 export class MapsComponent implements OnInit {
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow ;
@@ -89,8 +90,10 @@ export class MapsComponent implements OnInit {
     this.currentStore = store;
     console.log(this.currentStore.name);
     this.infoWindow.open(marker);
-    this.storeService.currentStoreLocation = event.latLng.toJSON();
-    console.log(this.storeService.currentStoreLocation);
+    if (event.latLng) {
+      this.storeService.currentStoreLocation = event.latLng.toJSON();
+      console.log(this.storeService.currentStoreLocation);
+    }
     this.storeService.currentStore = this.currentStore;
   }
   onSelectStore(store: Store){

@@ -13,7 +13,8 @@ import { AvailabilityComponent } from '../product-page/availability/availability
 @Component({
   selector: 'app-add-to-cart',
   templateUrl: './add-to-cart.component.html',
-  styleUrls: ['./add-to-cart.component.css']
+  styleUrls: ['./add-to-cart.component.css'],
+  standalone: false
 })
 export class AddToCartComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;

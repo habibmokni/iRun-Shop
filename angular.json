@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "iRun-v15": {
+    "iRun-v21": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/i-run-v15",
+            "outputPath": "dist/i-run-v21",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "iRun-v15:build:production"
+              "buildTarget": "iRun-v21:build:production"
             },
             "development": {
-              "browserTarget": "iRun-v15:build:development"
+              "buildTarget": "iRun-v21:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "iRun-v15:build"
+            "buildTarget": "iRun-v21:build"
           }
         },
         "test": {

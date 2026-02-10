@@ -4,7 +4,8 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-paymentMethods',
   templateUrl: './paymentMethods.component.html',
-  styleUrls: ['./paymentMethods.component.css']
+  styleUrls: ['./paymentMethods.component.css'],
+  standalone: false
 })
 export class PaymentMethodsComponent implements OnInit {
   //gets formGroup from parent

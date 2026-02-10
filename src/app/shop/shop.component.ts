@@ -10,7 +10,8 @@ import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.css']
+  styleUrls: ['./shop.component.css'],
+  standalone: false
 })
 export class ShopComponent implements OnInit {
 

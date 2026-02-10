@@ -12,7 +12,8 @@ import { UserService } from 'src/app/shared/services/user.service';
 @Component({
   selector: 'app-addToCart',
   templateUrl: './addToCart.component.html',
-  styleUrls: ['./addToCart.component.css']
+  styleUrls: ['./addToCart.component.css'],
+  standalone: false
 })
 export class AddToCartComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;

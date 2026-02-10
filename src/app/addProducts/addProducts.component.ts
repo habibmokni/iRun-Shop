@@ -8,7 +8,8 @@ import { StoreService } from '../shared/services/store.service';
 @Component({
   selector: 'app-addProducts',
   templateUrl: './addProducts.component.html',
-  styleUrls: ['./addProducts.component.css']
+  styleUrls: ['./addProducts.component.css'],
+  standalone: false
 })
 export class AddProductsComponent implements OnInit {
   //dummy component to add products to db

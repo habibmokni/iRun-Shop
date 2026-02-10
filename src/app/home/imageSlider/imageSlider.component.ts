@@ -3,7 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-imageSlider',
   templateUrl: './imageSlider.component.html',
-  styleUrls: ['./imageSlider.component.css']
+  styleUrls: ['./imageSlider.component.css'],
+  standalone: false
 })
 export class ImageSliderComponent implements OnInit {
 

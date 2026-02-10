@@ -1,7 +1,6 @@
 import { Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CartProduct } from 'src/app/shared/models/cartProduct.model';
-import { Product } from 'src/app/shared/models/product.model';
 import { Store } from 'src/app/shared/models/store.model';
 import { MapsService } from 'src/app/shared/services/maps.service';
 import { ProductService } from 'src/app/shared/services/product.service';
@@ -12,7 +11,8 @@ import { UserService } from 'src/app/shared/services/user.service';
 @Component({
   selector: 'app-availability',
   templateUrl: './availability.component.html',
-  styleUrls: ['./availability.component.css']
+  styleUrls: ['./availability.component.css'],
+  standalone: false
 })
 export class AvailabilityComponent implements OnInit {
 
@@ -69,7 +69,7 @@ export class AvailabilityComponent implements OnInit {
         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
         //verify result
-        if (place.geometry === undefined || place.geometry === null) {
+        if (place.geometry === undefined || place.geometry === null || !place.geometry.location) {
           return;
         }
         const container = document.querySelector('.pac-container') as HTMLElement;

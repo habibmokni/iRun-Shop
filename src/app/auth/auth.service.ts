@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { EventEmitter } from 'stream';
 import { SnackbarService } from '../shared/services/snackbar.service';
 
 

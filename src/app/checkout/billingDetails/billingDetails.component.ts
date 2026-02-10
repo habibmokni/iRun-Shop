@@ -4,7 +4,8 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-billingDetails',
   templateUrl: './billingDetails.component.html',
-  styleUrls: ['./billingDetails.component.css']
+  styleUrls: ['./billingDetails.component.css'],
+  standalone: false
 })
 export class BillingDetailsComponent implements OnInit {
   //gets form from parent through property binding

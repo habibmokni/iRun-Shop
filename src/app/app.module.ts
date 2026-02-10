@@ -1,16 +1,19 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularFireModule } from '@angular/fire/compat';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { provideZoneChangeDetection } from '@angular/core';
+import { provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 import { AppRoutingModule } from './appRouting.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { ProductPageComponent } from './home/productPage/productPage.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/modules/material.module';
 import { ShoppingCartComponent } from './shoppingCart/shoppingCart.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -62,20 +65,26 @@ import { AddUserComponent } from './shared/add-user/add-user.component';
   ],
   imports: [
     BrowserModule,
-    GoogleMapsModule,
+    CommonModule,
     HttpClientModule,
     HttpClientJsonpModule,
+    GoogleMapsModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     ClickNCollectModule
   ],
-  providers: [StoreService, ProductService, SnackbarService, UserService],
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideAnimationsAsync(),
+    StoreService,
+    ProductService,
+    SnackbarService,
+    UserService
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

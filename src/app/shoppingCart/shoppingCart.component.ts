@@ -11,7 +11,8 @@ import { UserService } from '../shared/services/user.service';
 @Component({
   selector: 'app-shoppingCart',
   templateUrl: './shoppingCart.component.html',
-  styleUrls: ['./shoppingCart.component.css']
+  styleUrls: ['./shoppingCart.component.css'],
+  standalone: false
 })
 export class ShoppingCartComponent implements OnInit {
 

@@ -6,7 +6,8 @@ import { SnackbarService } from '../services/snackbar.service';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.scss']
+  styleUrls: ['./add-user.component.scss'],
+  standalone: false
 })
 export class AddUserComponent {
 
