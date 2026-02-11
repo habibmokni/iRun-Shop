@@ -75,8 +75,6 @@ export class ProductPageComponent implements OnInit {
   preBtn!: Element;
   fee: number = 0;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
   constructor(){
       const userService = this.userService;
 

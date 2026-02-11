@@ -54,15 +54,12 @@ export class MapsComponent implements OnInit {
   currentLocation: google.maps.LatLngLiteral = { lat: 51.44157584725519, lng: 7.565725496333208};
   logo="../../assets/images/logos/location.png";
   icon = {
-    url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png", // url
+    url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
 };
 
   directionsResults$!: Observable<google.maps.DirectionsResult|undefined>;
 
   storeLocations: google.maps.LatLngLiteral[];
-
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
 
   constructor(){
         const userService = this.userService;

@@ -32,9 +32,6 @@ export class AppComponent {
   title = 'click-and-collect';
   showIntro = true;
 
-  /** Inserted by Angular inject() migration for backwards compatibility */
-  constructor(...args: unknown[]);
-
   constructor()
     {
       this.authService.checkLogIn();
