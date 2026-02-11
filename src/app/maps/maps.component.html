@@ -1,8 +1,8 @@
 <div style="text-align: center;">
   <google-map #maps
     [options]="options"
-    [height]="mapHeight"
-    [width]="mapWidth"
+    [height]="mapHeight()"
+    [width]="mapWidth()"
     >
     <map-marker [position]="currentLocation" [icon]="icon"></map-marker>
     @for (store of storeList| async; track store; let i = $index) {

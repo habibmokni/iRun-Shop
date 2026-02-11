@@ -1,6 +1,6 @@
 
 
-@if (productImages) {
+@if (productImages()) {
   <section class="branding">
     <!-- Carousel -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-touch="true">
@@ -11,9 +11,9 @@
       </ol>
       <div class="carousel-inner" role="listbox">
         <!-- Slide One - Set the background image for this slide in the line below -->
-        @for (image of productImages; track image; let i = $index) {
+        @for (image of productImages(); track image; let i = $index) {
           <div class="carousel-item" [ngClass]="{'active': i ===0}">
-            <img class="d-block w-60" style="margin: auto; height: 100%;" [src]="productImages[i]" alt="image">
+            <img class="d-block w-60" style="margin: auto; height: 100%;" [src]="productImages()[i]" alt="image">
           </div>
         }
       </div>

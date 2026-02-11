@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ImageSliderComponent implements OnInit {
 
-  @Input() productImages: string[] = []
+  readonly productImages = input<string[]>([]);
 
   constructor() { }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatRadioModule } from '@angular/material/radio';
@@ -12,8 +12,7 @@ import { MatCardModule } from '@angular/material/card';
   imports: [CommonModule, ReactiveFormsModule, MatRadioModule, MatCardModule]
 })
 export class PaymentMethodsComponent implements OnInit {
-  //gets formGroup from parent
-  @Input() paymentMethod!: FormGroup;
+  readonly paymentMethod = input.required<FormGroup>();
   paymentPartner:
     {name:string,
     logo: string}[] = [

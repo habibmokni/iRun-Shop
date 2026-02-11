@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, input } from '@angular/core';
 import { MapInfoWindow, MapMarker, GoogleMapsModule } from '@angular/google-maps';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -27,11 +27,11 @@ import { MapsService } from '../shared/services/maps.service';
 })
 export class MapsComponent implements OnInit {
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow ;
-  @Input() mapHeight: number= 450;
-  @Input() mapWidth: number= screen.width;
-  @Input() storesWithProduct: google.maps.LatLngLiteral[] = [];
-  @Input() ModelNo: any;
-  @Input() size: number = 0;
+  readonly mapHeight = input<number>(450);
+  readonly mapWidth = input<number>(screen.width);
+  readonly storesWithProduct = input<google.maps.LatLngLiteral[]>([]);
+  readonly ModelNo = input<any>();
+  readonly size = input<number>(0);
 
   stores: Store[] = [];
 
@@ -76,7 +76,7 @@ export class MapsComponent implements OnInit {
 
     this.storeList.subscribe(stores=>{
       this.stores = stores;
-      this.checkProductAvailabilty(this.ModelNo, this.size);
+      this.checkProductAvailabilty(this.ModelNo(), this.size());
     })
   }
   currentUserLocation: google.maps.LatLngLiteral = { lat: 31.4914, lng: 74.2385};

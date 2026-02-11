@@ -1,4 +1,4 @@
-<div class="payment_method" [formGroup]="paymentMethod">
+<div class="payment_method" [formGroup]="paymentMethod()">
   <div class="card" style="border: none; padding: 25px;">
     <mat-card-title>
       Secure Payments
@@ -18,7 +18,7 @@
           </mat-radio-button>
         }
       </mat-radio-group>
-      @if (!paymentMethod.get('paymentOption')!.valid && paymentMethod.get('paymentOption')!.touched) {
+      @if (!paymentMethod().get('paymentOption')!.valid && paymentMethod().get('paymentOption')!.touched) {
         <span
           class="invalid-feedback" style="display: block;">
           *Please select a payment method
