@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StoreSelectedComponent } from './store-select.component';
+import { StoreSelectedComponent } from './store-selection.component';
 
 describe('StoreSelectedComponent', () => {
   let component: StoreSelectedComponent;
