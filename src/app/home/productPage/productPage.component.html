@@ -35,7 +35,7 @@
     </div>
     <div class="col-sm-4" style="margin: 20px;">
       <div class="image-container d-xs-block d-sm-none" >
-        <app-imageSlider [productImages]="variant.imageList"></app-imageSlider>
+        <app-imageSlider [productImages]="variant.imageList" />
       </div>
       <div class="article-header col-12 col-sm-12">
         <h2>{{product.name}}</h2>
@@ -62,7 +62,7 @@
       </ng-container>
       <span class="filler"></span>
       <!-- commented out size selector of cnc-package --->
-      <cnc-size-selector (sizeSelected)="sizeSelected($event)" [product]="selectedProduct"></cnc-size-selector>
+      <cnc-size-selector (sizeSelected)="sizeSelected($event)" [product]="selectedProduct" />
       <div class="buttonContainer d-flex">
         <button
           mat-flat-button

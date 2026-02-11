@@ -4,13 +4,11 @@
     [height]="mapHeight()"
     [width]="mapWidth()"
     >
-    <map-marker [position]="currentLocation" [icon]="icon"></map-marker>
+    <map-marker [position]="currentLocation" [icon]="icon" />
     @for (store of storeList| async; track store; let i = $index) {
-      <map-marker
-        #marker="mapMarker"
+      <map-marker #marker="mapMarker"
         [position]="storeLocations[i]"
-        (mapClick)="openInfoWindow(marker,store,$event)">
-      </map-marker>
+        (mapClick)="openInfoWindow(marker,store,$event)" />
     }
     @if (userService.user) {
       <map-info-window>
@@ -20,10 +18,9 @@
         <button mat-raised-button color="accent" (click)="onGetDirections(this.currentStore.location)" >Directions</button>
       </map-info-window>
     }
-    <map-marker [position]="currentUserLocation"></map-marker>
+    <map-marker [position]="currentUserLocation" />
     @if ((directionsResults$ | async); as directionsResults) {
-      <map-directions-renderer
-      [directions]="directionsResults"></map-directions-renderer>
+      <map-directions-renderer [directions]="directionsResults" />
     }
   </google-map>
   <button mat-raised-button class="button" (click)="onGetCurrentLocation()">Stores Nearby</button>

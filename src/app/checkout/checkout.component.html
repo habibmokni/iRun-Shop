@@ -30,23 +30,20 @@
     <form [formGroup]="firstFormGroup">
 
       @if (isClickNCollect) {
-        <cnc-click-n-collect
-          [user]="user"
+        <cnc-click-n-collect [user]="user"
           (storeChanged)="onStoreChange($any($event))"
           (productsToRemove)="onProductsToRemove($any($event))"
           (dateSelected)="dateSelected($any($event))"
           (timeSelected)="timeSelected($any($event))"
           (isAllItemsAvailable)="cncItemsAvailable($event)"
-          >
-        </cnc-click-n-collect>
+           />
       }
       <!--if home delivery-->
       @if (!isClickNCollect) {
         <form [formGroup]="secondFormGroup">
           @if (onlineAllItemsAvailable) {
-            <app-billingDetails
-              [billing]="billing"
-            ></app-billingDetails>
+            <app-billingDetails [billing]="billing"
+             />
           }
           <!--section if not all products available online-->
           @if (!onlineAllItemsAvailable) {
@@ -113,7 +110,7 @@
                 Billing details
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <app-billingDetails [billing]="billing" [type]="'Billing Details'"></app-billingDetails>
+            <app-billingDetails [billing]="billing" [type]="'Billing Details'" />
             <mat-action-row class="justify-content-space-around">
               <button class="button-style" mat-flat-button matStepperPrevious>Previous</button>
               <button mat-flat-button class="button-style" (click)="nextStep()">Next</button>
@@ -132,7 +129,7 @@
                 Payment Methods
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <app-paymentMethods [paymentMethod]="paymentMethod"></app-paymentMethods>
+            <app-paymentMethods [paymentMethod]="paymentMethod" />
             <mat-action-row>
               <button
                 mat-flat-button
@@ -150,7 +147,7 @@
         </mat-accordion>
       }
       @if (!isClickNCollect) {
-        <app-paymentMethods [paymentMethod]="paymentMethod"></app-paymentMethods>
+        <app-paymentMethods [paymentMethod]="paymentMethod" />
       }
       @if (!isClickNCollect) {
         <div class="d-flex flex-row justify-content-center">
@@ -258,7 +255,7 @@
 
 <div class="cart-items d-flex flex-column d-none d-sm-block col-sm-4">
   <h2>Your Order</h2>
-  <mat-divider></mat-divider>
+  <mat-divider />
   @for (product of cartProducts; track product; let i = $index) {
     <div>
       <div class="item-image-container">

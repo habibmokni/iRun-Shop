@@ -7,14 +7,14 @@
     }
     @for (size of data.sizes; track size; let i = $index) {
       <div class="product_size_list_expansion">
-        <mat-divider></mat-divider>
+        <mat-divider />
         <a fxLayout
           style="color: #8B283D; background-color: white;"
           (click)="changeSize(size)"
         >
           {{size}}
         </a>
-        <mat-divider></mat-divider>
+        <mat-divider />
       </div>
     }
   </div>
@@ -37,7 +37,7 @@
         <div>
           @for (store of nearByStores; track store; let i = $index) {
             <div>
-              <mat-divider></mat-divider>
+              <mat-divider />
               <mat-card-content>
                 <div fxLayout>
                   <h2>{{store.stores.name}}</h2>
@@ -54,7 +54,7 @@
                   <h5 style="color: red;">Size {{size}} is out of stock</h5>
                 }
               </mat-card-content>
-              <mat-divider></mat-divider>
+              <mat-divider />
             </div>
           }
         </div>
@@ -62,12 +62,11 @@
     </mat-tab>
     <mat-tab label="Map" class="maps">
       @if (isSizeSelected) {
-        <app-maps
-          [mapHeight]="mapHeight"
+        <app-maps [mapHeight]="mapHeight"
           [mapWidth]="mapWidth"
           [ModelNo]="data.modelNo"
           [size]="size"
-        ></app-maps>
+         />
       }
     </mat-tab>
   </mat-tab-group>

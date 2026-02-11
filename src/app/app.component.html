@@ -1,15 +1,15 @@
 @if (showIntro) {
-  <app-intro (showIntro)="onShowIntro($event)"></app-intro>
+  <app-intro (showIntro)="onShowIntro($event)" />
 }
 @if (!showIntro) {
   <div class="shopping">
-    <app-header></app-header>
-    <mat-divider></mat-divider>
+    <app-header />
+    <mat-divider />
   </div>
 }
 @if (!showIntro) {
   <div [style.marginTop]="'80px'">
-    <router-outlet></router-outlet>
+    <router-outlet />
   </div>
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy, viewChild } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, viewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -20,6 +20,7 @@ import { AvailabilityComponent } from '../product-page/availability/availability
   styleUrls: ['./add-to-cart.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     MatBottomSheetModule,
     MatDialogModule,

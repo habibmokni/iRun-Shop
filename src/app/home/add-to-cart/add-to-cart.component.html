@@ -8,7 +8,7 @@
       </div>
     </div>
     <!-- Commented out size selector in (+)button of home page -->
-    <cnc-size-selector [product]="product" (sizeSelected)="onSizeSelect($any($event))"></cnc-size-selector>
+    <cnc-size-selector [product]="product" (sizeSelected)="onSizeSelect($any($event))" />
     <div style="width: 100%; text-align: center;">
       <button mat-flat-button class="cart-button" type="button" (click)="addToCart(product)">Add to cart</button>
     </div>
