@@ -1,61 +1,74 @@
 
-<div *ngIf="!isSizeSelected" style="width: 270px;">
-  <mat-card-title style="display: block;">Select Size</mat-card-title>
-  <mat-card-subtitle *ngIf="size>0">Your current size selection is: {{size}}</mat-card-subtitle>
-  <div class="product_size_list_expansion" *ngFor="let size of data.sizes; let i=index">
-    <mat-divider></mat-divider>
-    <a fxLayout
-    style=" color: #8B283D; background-color: white;"
-    (click)="changeSize(size)"
-    >
-    {{size}}
-    </a>
-    <mat-divider></mat-divider>
+@if (!isSizeSelected) {
+  <div style="width: 270px;">
+    <mat-card-title style="display: block;">Select Size</mat-card-title>
+    @if (size > 0) {
+      <mat-card-subtitle>Your current size selection is: {{size}}</mat-card-subtitle>
+    }
+    @for (size of data.sizes; track size; let i = $index) {
+      <div class="product_size_list_expansion">
+        <mat-divider></mat-divider>
+        <a fxLayout
+          style="color: #8B283D; background-color: white;"
+          (click)="changeSize(size)"
+        >
+          {{size}}
+        </a>
+        <mat-divider></mat-divider>
+      </div>
+    }
   </div>
-</div>
+}
 
-
-<div mat-dialog-content class="content" [fxShow]="isSizeSelected">
+<div mat-dialog-content class="content" [hidden]="!isSizeSelected">
   <mat-card-title style="display: block;">Check Availability</mat-card-title>
   <mat-card-subtitle>Enter the location or zip code to check which nearest store has the selected product</mat-card-subtitle>
   <a mat-flat-button type="button" style="width: 100%; text-align: start;" (click)="isSizeSelected=false">Size Selected: {{size}}</a>
   <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Address">
       <div fxLayout>
-        <mat-form-field class="product_availability_zipcode" fxFlex="80%" style=" margin-top: 10px;">
+        <mat-form-field class="product_availability_zipcode" fxFlex="80%" style="margin-top: 10px;">
           <input id="search" matInput type="text" placeholder="Enter zip code or address">
         </mat-form-field>
         <button mat-icon-button type="button" (click)="currentLocation()"><mat-icon fontSet="material-icons-outlined">room</mat-icon></button>
       </div>
 
-      <div *ngIf="nearByStores">
-        <div *ngFor="let store of nearByStores; let i= index;">
-          <mat-divider></mat-divider>
-            <mat-card-content>
-              <div fxLayout>
-                <h2>{{store.stores.name}}</h2>
-                <span class="filler"></span>
-                <mat-icon fontSet="material-icons-outlined">room</mat-icon><h5>{{store.distances.toFixed(2)}}km</h5>
-              </div>
+      @if (nearByStores) {
+        <div>
+          @for (store of nearByStores; track store; let i = $index) {
+            <div>
+              <mat-divider></mat-divider>
+              <mat-card-content>
+                <div fxLayout>
+                  <h2>{{store.stores.name}}</h2>
+                  <span class="filler"></span>
+                  <mat-icon fontSet="material-icons-outlined">room</mat-icon><h5>{{store.distances.toFixed(2)}}km</h5>
+                </div>
 
-              <h4 style="display: contents;">Address: {{store.stores.address}}</h4>
-              <h5 *ngIf="store.stock>5" style="color: green;">Size {{size}} is in good stock</h5>
-              <h5 *ngIf="store.stock<=5 && store.stock>0" style="color: yellow;">Size {{size}} is almost sold out</h5>
-              <h5 *ngIf="store.stock===0"style="color: red;">Size {{size}} is out of stock</h5>
-
+                <h4 style="display: contents;">Address: {{store.stores.address}}</h4>
+                @if (store.stock > 5) {
+                  <h5 style="color: green;">Size {{size}} is in good stock</h5>
+                } @else if (store.stock > 0) {
+                  <h5 style="color: yellow;">Size {{size}} is almost sold out</h5>
+                } @else {
+                  <h5 style="color: red;">Size {{size}} is out of stock</h5>
+                }
               </mat-card-content>
-            <mat-divider></mat-divider>
-          </div>
-      </div>
+              <mat-divider></mat-divider>
+            </div>
+          }
+        </div>
+      }
     </mat-tab>
     <mat-tab label="Map" class="maps">
-      <app-maps
-      *ngIf="isSizeSelected"
-      [mapHeight]="mapHeight"
-      [mapWidth]="mapWidth"
-      [ModelNo]="data.modelNo"
-      [size]="size"
-      ></app-maps>
+      @if (isSizeSelected) {
+        <app-maps
+          [mapHeight]="mapHeight"
+          [mapWidth]="mapWidth"
+          [ModelNo]="data.modelNo"
+          [size]="size"
+        ></app-maps>
+      }
     </mat-tab>
   </mat-tab-group>
 </div>

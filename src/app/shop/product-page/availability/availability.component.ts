@@ -1,5 +1,4 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +11,10 @@ import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { StoreService } from 'src/app/shared/services/store.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { MapsComponent } from 'src/app/maps/maps.component';
+import { MatCardTitle, MatCardSubtitle, MatCardContent } from "@angular/material/card";
+import { MatDivider } from "@angular/material/divider";
+import { MatTabGroup, MatTab } from "@angular/material/tabs";
+import { MatFormField } from "@angular/material/input";
 
 @Component({
   selector: 'app-availability',
@@ -25,8 +28,13 @@ import { MapsComponent } from 'src/app/maps/maps.component';
     MatIconModule,
     MatRadioModule,
     MapsComponent,
-    NgFor,
-    NgIf
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+    MatDivider,
+    MatTabGroup,
+    MatTab,
+    MatFormField
 ]
 })
 export class AvailabilityComponent implements OnInit {
