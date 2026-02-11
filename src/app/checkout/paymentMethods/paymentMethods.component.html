@@ -14,7 +14,7 @@
         >
         @for (payment of paymentPartner; track payment) {
           <mat-radio-button class="example-radio-button d-flex flex-row" [value]="payment.name">
-            <img src="{{payment.logo}}" alt="image" [ngStyle]="{width: '40px'}">{{payment.name}}
+            <img src="{{payment.logo}}" alt="image" [style.width]="'40px'">{{payment.name}}
           </mat-radio-button>
         }
       </mat-radio-group>

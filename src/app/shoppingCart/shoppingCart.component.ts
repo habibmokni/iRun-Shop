@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,12 +18,11 @@ import { UserService } from '../shared/services/user.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     RouterModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule
-  ]
+]
 })
 export class ShoppingCartComponent implements OnInit {
   private productService = inject(ProductService);

@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterOutlet } from '@angular/router';
 import { ClickNCollectService } from '@habibmokni/cnc';
 import { AuthService } from './auth/auth.service';
@@ -16,11 +16,10 @@ import { IntroComponent } from './shared/intro/intro.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     RouterOutlet,
     HeaderComponent,
     IntroComponent
-  ],
+],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent {

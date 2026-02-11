@@ -8,7 +8,7 @@
   </div>
 }
 @if (!showIntro) {
-  <div [ngStyle]="{marginTop: '80px'}">
+  <div [style.marginTop]="'80px'">
     <router-outlet></router-outlet>
   </div>
 }
