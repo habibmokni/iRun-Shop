@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild, input } from '@angular/core';
+import { Component, OnInit, ViewChild, input, inject } from '@angular/core';
 import { MapInfoWindow, MapMarker, GoogleMapsModule } from '@angular/google-maps';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -26,6 +26,12 @@ import { MapsService } from '../shared/services/maps.service';
   ]
 })
 export class MapsComponent implements OnInit {
+  private storeService = inject(StoreService);
+  private mapsService = inject(MapsService);
+  private snackBarService = inject(SnackbarService);
+  private dialog = inject(MatDialog);
+  userService = inject(UserService);
+
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow ;
   readonly mapHeight = input<number>(450);
   readonly mapWidth = input<number>(screen.width);
@@ -55,14 +61,12 @@ export class MapsComponent implements OnInit {
 
   storeLocations: google.maps.LatLngLiteral[];
 
-  constructor(
-    private storeService: StoreService,
-    private mapsService: MapsService,
-    private snackBarService: SnackbarService,
-    private dialog: MatDialog,
-    public userService: UserService,
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
 
-    ){
+  constructor(){
+        const userService = this.userService;
+
         if(userService.user){
           this.currentStore = this.userService.user.storeSelected;
         }

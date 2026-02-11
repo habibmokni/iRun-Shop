@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +26,10 @@ import { AuthService } from '../auth.service';
   ]
 })
 export class LoginComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private snackbarService = inject(SnackbarService);
+
 
   loginForm: FormGroup = new FormGroup({
     email : new FormControl('', [Validators.required]),
@@ -35,7 +39,6 @@ export class LoginComponent {
   hide = true;
   isLoading: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router, private snackbarService: SnackbarService) { }
 
   ngOnInit(): void {
     if(localStorage.getItem("isLoggedIn")){

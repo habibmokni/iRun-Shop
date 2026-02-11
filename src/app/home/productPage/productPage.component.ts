@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -40,6 +40,12 @@ import { Product } from '../../shared/models/product.model';
   styleUrls: ['./productPage.component.css']
 })
 export class ProductPageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  dialog = inject(MatDialog);
+  private productService = inject(ProductService);
+  userService = inject(UserService);
+  private snackBar = inject(SnackbarService);
+
   //instance of DOM element MatExpansionPanel
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
   //stores current variant info
@@ -68,13 +74,12 @@ export class ProductPageComponent implements OnInit {
   //apiKey = 'AIzaSyCKj-l5U2bLY3wEx-9DN1owQhs3a9iJ-Uw';
   preBtn!: Element;
   fee: number = 0;
-  constructor(
-    private route: ActivatedRoute,
-    public dialog: MatDialog,
-    private productService: ProductService,
-    public userService: UserService,
-    private snackBar: SnackbarService
-    ){
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor(){
+      const userService = this.userService;
+
       if(userService.user){
         this.user = this.userService.user;
       }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
   imports: []
 })
 export class IntroComponent implements OnInit {
+  private router = inject(Router);
+
 
   @Output() showIntro = new EventEmitter<boolean>();
-  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }

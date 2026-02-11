@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,8 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [MatDialogModule, MatButtonModule, MatCardModule, MatIconModule]
 })
 export class OrderSuccessComponent implements OnInit {
-
-  constructor(private dialog: MatDialog) { }
+  private dialog = inject(MatDialog);
 
   ngOnInit(): void {
   }

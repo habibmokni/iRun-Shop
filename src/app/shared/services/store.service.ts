@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/compat/firestore";
 import { Store } from "../models/store.model";
 import { map } from "rxjs/operators"
@@ -8,6 +8,8 @@ import { Product } from "../models/product.model";
 
 @Injectable()
 export class StoreService{
+  private db = inject(AngularFirestore);
+
   //stores current store selected by user location
   currentStoreLocation: {lat: number, lng: number} = {lat: 0, lng: 0};
   currentStore!: Store;
@@ -20,7 +22,9 @@ export class StoreService{
   store = new Observable<Store[]>();
 
 
-  constructor(private db: AngularFirestore){
+  constructor(){
+    const db = this.db;
+
     this.storeCollection = db.collection<Store>('storeList');
       //this.updateProducts();
       //this.addStoreToDatabase(this.currentStore);

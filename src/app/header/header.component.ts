@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -25,16 +25,15 @@ import { SnackbarService } from '../shared/services/snackbar.service';
 ]
 })
 export class HeaderComponent implements OnInit {
+  productService = inject(ProductService);
+  private snackbar = inject(SnackbarService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
 
   isLoggedIn: boolean = false;
   user: any;
-  constructor(
-    public productService: ProductService,
-    private snackbar: SnackbarService,
-    private authService: AuthService,
-    private router: Router
-    ) {
-   }
+
 
   ngOnInit(): void {
     this.checkUserLogin();

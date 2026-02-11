@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,6 +28,15 @@ import { MapsComponent } from 'src/app/maps/maps.component';
   ]
 })
 export class AvailabilityComponent implements OnInit {
+  private ngZone = inject(NgZone);
+  private mapService = inject(MapsService);
+  private storeService = inject(StoreService);
+  private snackbarService = inject(SnackbarService);
+  private dialog = inject(MatDialog);
+  private productService = inject(ProductService);
+  private userService = inject(UserService);
+  data = inject(MAT_DIALOG_DATA);
+
 
   mapHeight = 410;
   mapWidth = 700;
@@ -39,16 +48,8 @@ export class AvailabilityComponent implements OnInit {
   size=0;
   isSizeSelected = false;
 
-  constructor(
-    private ngZone: NgZone,
-    private mapService: MapsService,
-    private storeService: StoreService,
-    private snackbarService: SnackbarService,
-    private dialog: MatDialog,
-    private productService: ProductService,
-    private userService: UserService,
-    @Inject(MAT_DIALOG_DATA) public data: any
-    ) {
+
+  constructor() {
 
     this.storeService.store.subscribe(stores=>{
       console.log(stores);

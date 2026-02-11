@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { SnackbarService } from '../shared/services/snackbar.service';
@@ -9,12 +9,15 @@ import { SnackbarService } from '../shared/services/snackbar.service';
   providedIn: 'root'
 })
 export class AuthService {
+  private httpClient = inject(HttpClient);
+  private router = inject(Router);
+  private snackbar = inject(SnackbarService);
+
 
   user = new Subject<any>();
   install = new Subject<any>();
   isLoggedIn = new Subject<boolean>();
 
-  constructor(private httpClient: HttpClient, private router: Router, private snackbar: SnackbarService) {}
 
   login(credientials: any){
     let user = JSON.parse(localStorage.getItem('user')!);

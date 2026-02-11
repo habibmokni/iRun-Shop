@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/compat/firestore";
 import { Product } from "../models/product.model";
 import { StoreService } from "./store.service";
@@ -8,6 +8,9 @@ import { CartProduct } from "../models/cartProduct.model";
 
 @Injectable()
 export class ProductService{
+  private snackBarService = inject(SnackbarService);
+  private db = inject(AngularFirestore);
+
 
   //stores products List from db
   productList = new Observable<Product[]>();
@@ -21,10 +24,8 @@ export class ProductService{
   //for emitting changed cart products
   cartProductsChanged = new Subject<CartProduct[]>();
 
-  constructor(
-    private snackBarService: SnackbarService,
-    private db: AngularFirestore
-    ){
+
+  constructor(){
       this.selectedModelAndSize = {modelNo: '', size: 0};
   }
   //adds product to firebase db online store

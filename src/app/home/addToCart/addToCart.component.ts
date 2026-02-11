@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
@@ -27,6 +27,12 @@ import { UserService } from 'src/app/shared/services/user.service';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AddToCartComponent implements OnInit {
+  data = inject<Product>(MAT_DIALOG_DATA);
+  private productService = inject(ProductService);
+  private snackbarService = inject(SnackbarService);
+  dialog = inject(MatDialog);
+  private userService = inject(UserService);
+
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
   noOfItems=1;
   size = 0;
@@ -36,13 +42,11 @@ export class AddToCartComponent implements OnInit {
   user!: User;
   isLoaded =  false;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Product,
-    private productService: ProductService,
-    private snackbarService: SnackbarService,
-    public dialog: MatDialog,
-    private userService: UserService
-    ) {
+
+  constructor() {
+      const data = this.data;
+      const userService = this.userService;
+
       this.product = data;
       if(userService.user){
         this.user = this.userService.user;

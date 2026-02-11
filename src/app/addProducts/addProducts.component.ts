@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { ReactiveFormsModule, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -24,6 +24,9 @@ import { StoreService } from '../shared/services/store.service';
 ]
 })
 export class AddProductsComponent implements OnInit {
+  private productService = inject(ProductService);
+  private storeService = inject(StoreService);
+
   //dummy component to add products to db
   productList: Product[] = [];
   adidasProducts: Product[] = [];
@@ -50,8 +53,9 @@ export class AddProductsComponent implements OnInit {
   });
 
 
+  constructor() {
+    const productService = this.productService;
 
-  constructor(private productService: ProductService, private storeService: StoreService) {
     productService.fetchProduct();
 
    }

@@ -1,4 +1,4 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -39,6 +39,14 @@ import { PaymentMethodsComponent } from './paymentMethods/paymentMethods.compone
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CheckoutComponent implements OnInit {
+  private _formBuilder = inject(FormBuilder);
+  private db = inject(AngularFirestore);
+  private productService = inject(ProductService);
+  private storeService = inject(StoreService);
+  private snackbarService = inject(SnackbarService);
+  private userService = inject(UserService);
+  private dialog = inject(MatDialog);
+
   //checks for delivery type and products avalability
   isClickNCollect = true;
   cncAllItemsAvailable = true;
@@ -93,16 +101,11 @@ export class CheckoutComponent implements OnInit {
     paymentMethod: this.paymentMethod
   });
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private db: AngularFirestore,
-    private productService: ProductService,
-    private storeService: StoreService,
-    private snackbarService: SnackbarService,
-    private userService: UserService,
-    private dialog: MatDialog
-    )
+  constructor()
     {
+      const productService = this.productService;
+      const userService = this.userService;
+
       if(userService.user){
         this.user = userService.user;
       }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -35,6 +35,10 @@ import { ImageSliderComponent } from './imageSlider/imageSlider.component';
   ]
 })
 export class HomeComponent implements OnInit {
+  private productService = inject(ProductService);
+  private dialog = inject(MatDialog);
+  private http = inject(HttpClient);
+
 
   //stores products fetched
   productList = new Observable<Product[]>();
@@ -45,11 +49,7 @@ export class HomeComponent implements OnInit {
   balanceProducts: Product[] = [];
   topRatedProducts: Product[] = [];
 
-  constructor(
-    private productService: ProductService,
-    private dialog: MatDialog,
-    private http: HttpClient
-  ) { }
+
 
   ngOnInit(): void {
     //fetching products from db

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -25,8 +25,12 @@ import { UserService } from '../shared/services/user.service';
   ]
 })
 export class ShoppingCartComponent implements OnInit {
+  private productService = inject(ProductService);
+  private router = inject(Router);
+  private userService = inject(UserService);
+  private snackbarService = inject(SnackbarService);
 
-  // Not Found Message
+
   messageTitle = "No Products Found in Cart";
   messageDescription = "Please add Products to Cart";
 
@@ -39,13 +43,11 @@ export class ShoppingCartComponent implements OnInit {
   onlineProducts: Product[] = [];
   onlineStoreStock: number[] = [];
 
-  constructor(
-    private productService: ProductService,
-    private router: Router,
-    private userService: UserService,
-    private snackbarService: SnackbarService
-    )
+
+  constructor()
     {
+      const userService = this.userService;
+
       //check if user already exists
       if(userService.user){
         this.user = this.userService.user;

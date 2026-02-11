@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -25,6 +25,9 @@ import { SnackbarService } from '../services/snackbar.service';
   ]
 })
 export class AddUserComponent {
+  private router = inject(Router);
+  private snackbarService = inject(SnackbarService);
+
 
   registerForm: FormGroup = new FormGroup({
     firstName : new FormControl('', [Validators.required]),
@@ -39,7 +42,6 @@ export class AddUserComponent {
   hide = true;
   isLoading: boolean = false;
 
-  constructor(private router: Router, private snackbarService: SnackbarService) { }
 
   ngOnInit(): void {
 

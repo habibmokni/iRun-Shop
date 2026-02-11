@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -29,6 +29,12 @@ import { AvailabilityComponent } from '../product-page/availability/availability
 ]
 })
 export class AddToCartComponent implements OnInit {
+  data = inject<Product>(MAT_DIALOG_DATA);
+  private productService = inject(ProductService);
+  private snackbarService = inject(SnackbarService);
+  dialog = inject(MatDialog);
+  private userService = inject(UserService);
+
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
   noOfItems=1;
   size = 0;
@@ -38,13 +44,11 @@ export class AddToCartComponent implements OnInit {
   product: Product;
   user!: User;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Product,
-    private productService: ProductService,
-    private snackbarService: SnackbarService,
-    public dialog: MatDialog,
-    private userService: UserService
-    ) {
+
+  constructor() {
+      const data = this.data;
+      const userService = this.userService;
+
       this.product = data;
       if(userService.user){
         this.user = this.userService.user;
@@ -70,6 +74,7 @@ addToCart(product: Product){
     const cartProduct: CartProduct = {
       productImage: product.imageList?.[0] ?? '',
       modelNo : product.modelNo,
+      variantId: product.variants[0].variantId,
       noOfItems : 1,
       size : +this.size,
       vendor: product.companyName!,

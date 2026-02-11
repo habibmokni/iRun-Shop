@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { ClickNCollectService } from '@habibmokni/cnc';
@@ -23,16 +23,19 @@ import { IntroComponent } from './shared/intro/intro.component';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent {
+  private storeService = inject(StoreService);
+  private userService = inject(UserService);
+  private cncService = inject(ClickNCollectService);
+  private productService = inject(ProductService);
+  private authService = inject(AuthService);
+
   title = 'click-and-collect';
   showIntro = true;
 
-  constructor(
-    private storeService: StoreService,
-    private userService: UserService,
-    private cncService: ClickNCollectService,
-    private productService: ProductService,
-    private authService: AuthService
-    )
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor()
     {
       this.authService.checkLogIn();
       this.storeService.fetchStore();
