@@ -10,11 +10,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { Observable } from 'rxjs';
-import { CartProduct } from '../shared/models/cartProduct.model';
+import { CartProduct } from '../shared/models/cart-product.model';
 import { Product } from '../shared/models/product.model';
 import { ProductService } from '../shared/services/product.service';
 import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
-import { ImageSliderComponent } from './imageSlider/imageSlider.component';
+import { ImageSliderComponent } from './image-slider/image-slider.component';
 
 @Component({
   selector: 'app-home',

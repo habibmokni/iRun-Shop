@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Observable } from 'rxjs';
-import { CartProduct } from '../shared/models/cartProduct.model';
+import { CartProduct } from '../shared/models/cart-product.model';
 import { Product } from '../shared/models/product.model';
 import { ProductService } from '../shared/services/product.service';
 import { AddToCartComponent } from './add-to-cart/add-to-cart.component';

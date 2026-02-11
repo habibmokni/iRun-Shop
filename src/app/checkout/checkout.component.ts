@@ -11,14 +11,14 @@ import { ProductService } from '../shared/services/product.service';
 import { StoreService } from '../shared/services/store.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { SnackbarService } from '../shared/services/snackbar.service';
-import { OrderSuccessComponent } from './orderSuccess/order-success.component';
+import { OrderSuccessComponent } from './order-success/order-success.component';
 import { UserService } from '../shared/services/user.service';
 import { User } from '../shared/models/user.model';
 import { Store } from '../shared/models/store.model';
-import { CartProduct } from '../shared/models/cartProduct.model';
+import { CartProduct } from '../shared/models/cart-product.model';
 import { Product } from '../shared/models/product.model';
-import { BillingDetailsComponent } from './billingDetails/billingDetails.component';
-import { PaymentMethodsComponent } from './paymentMethods/paymentMethods.component';
+import { BillingDetailsComponent } from './billing-details/billing-details.component';
+import { PaymentMethodsComponent } from './payment-methods/payment-methods.component';
 
 @Component({
   selector: 'app-checkout',

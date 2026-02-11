@@ -3,7 +3,7 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/d
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
-import { CartProduct } from 'src/app/shared/models/cartProduct.model';
+import { CartProduct } from 'src/app/shared/models/cart-product.model';
 import { Store } from 'src/app/shared/models/store.model';
 import { MapsService } from 'src/app/shared/services/maps.service';
 import { ProductService } from 'src/app/shared/services/product.service';

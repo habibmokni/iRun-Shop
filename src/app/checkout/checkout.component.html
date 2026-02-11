@@ -42,7 +42,7 @@
       @if (!isClickNCollect) {
         <form [formGroup]="secondFormGroup">
           @if (onlineAllItemsAvailable) {
-            <app-billingDetails [billing]="billing"
+            <app-billing-details [billing]="billing"
              />
           }
           <!--section if not all products available online-->
@@ -110,7 +110,7 @@
                 Billing details
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <app-billingDetails [billing]="billing" [type]="'Billing Details'" />
+            <app-billing-details [billing]="billing" [type]="'Billing Details'" />
             <mat-action-row class="justify-content-space-around">
               <button class="button-style" mat-flat-button matStepperPrevious>Previous</button>
               <button mat-flat-button class="button-style" (click)="nextStep()">Next</button>
@@ -129,7 +129,7 @@
                 Payment Methods
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <app-paymentMethods [paymentMethod]="paymentMethod" />
+            <app-payment-methods [paymentMethod]="paymentMethod" />
             <mat-action-row>
               <button
                 mat-flat-button
@@ -147,7 +147,7 @@
         </mat-accordion>
       }
       @if (!isClickNCollect) {
-        <app-paymentMethods [paymentMethod]="paymentMethod" />
+        <app-payment-methods [paymentMethod]="paymentMethod" />
       }
       @if (!isClickNCollect) {
         <div class="d-flex flex-row justify-content-center">

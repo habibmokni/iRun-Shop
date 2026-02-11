@@ -2,9 +2,9 @@ import { Component, OnInit, input, ChangeDetectionStrategy } from '@angular/core
 
 
 @Component({
-  selector: 'app-imageSlider',
-  templateUrl: './imageSlider.component.html',
-  styleUrls: ['./imageSlider.component.css'],
+  selector: 'app-image-slider',
+  templateUrl: './image-slider.component.html',
+  styleUrls: ['./image-slider.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   

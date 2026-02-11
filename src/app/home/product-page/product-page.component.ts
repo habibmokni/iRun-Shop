@@ -9,11 +9,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import { CheckAvailabilityComponent } from '@habibmokni/cnc';
-import { ImageSliderComponent } from '../imageSlider/imageSlider.component';
+import { ImageSliderComponent } from '../image-slider/image-slider.component';
 
 
 import { Observable } from 'rxjs';
-import { CartProduct } from 'src/app/shared/models/cartProduct.model';
+import { CartProduct } from 'src/app/shared/models/cart-product.model';
 import { User } from 'src/app/shared/models/user.model';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
@@ -22,7 +22,7 @@ import { Product } from '../../shared/models/product.model';
 
 
 @Component({
-  selector: 'app-productPage',
+  selector: 'app-product-page',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -37,8 +37,8 @@ import { Product } from '../../shared/models/product.model';
     AsyncPipe
 ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './productPage.component.html',
-  styleUrls: ['./productPage.component.css']
+  templateUrl: './product-page.component.html',
+  styleUrls: ['./product-page.component.css']
 })
 export class ProductPageComponent implements OnInit {
   private route = inject(ActivatedRoute);

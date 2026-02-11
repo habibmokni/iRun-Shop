@@ -13,7 +13,7 @@ import { CheckAvailabilityComponent } from '@habibmokni/cnc';
 
 
 import { Observable } from 'rxjs';
-import { CartProduct } from 'src/app/shared/models/cartProduct.model';
+import { CartProduct } from 'src/app/shared/models/cart-product.model';
 import { User } from 'src/app/shared/models/user.model';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';

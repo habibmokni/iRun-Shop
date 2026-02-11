@@ -4,7 +4,7 @@ import { Product } from "../models/product.model";
 import { StoreService } from "./store.service";
 import { SnackbarService } from "./snackbar.service";
 import { Observable, Subject} from "rxjs";
-import { CartProduct } from "../models/cartProduct.model";
+import { CartProduct } from "../models/cart-product.model";
 
 @Injectable()
 export class ProductService{

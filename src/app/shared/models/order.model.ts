@@ -1,5 +1,5 @@
 import { Billing } from "./billing.model";
-import { CartProduct } from "./cartProduct.model";
+import { CartProduct } from "./cart-product.model";
 
 
 export interface Order{

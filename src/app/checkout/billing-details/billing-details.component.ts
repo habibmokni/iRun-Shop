@@ -5,9 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-billingDetails',
-  templateUrl: './billingDetails.component.html',
-  styleUrls: ['./billingDetails.component.css'],
+  selector: 'app-billing-details',
+  templateUrl: './billing-details.component.html',
+  styleUrls: ['./billing-details.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule]

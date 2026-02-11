@@ -5,9 +5,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-paymentMethods',
-  templateUrl: './paymentMethods.component.html',
-  styleUrls: ['./paymentMethods.component.css'],
+  selector: 'app-payment-methods',
+  templateUrl: './payment-methods.component.html',
+  styleUrls: ['./payment-methods.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, MatRadioModule, MatCardModule]

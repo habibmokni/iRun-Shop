@@ -11,9 +11,9 @@ import { ProductService } from '../shared/services/product.service';
 import { StoreService } from '../shared/services/store.service';
 
 @Component({
-  selector: 'app-addProducts',
-  templateUrl: './addProducts.component.html',
-  styleUrls: ['./addProducts.component.css'],
+  selector: 'app-add-products',
+  templateUrl: './add-products.component.html',
+  styleUrls: ['./add-products.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
