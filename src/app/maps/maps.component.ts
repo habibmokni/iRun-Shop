@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MapInfoWindow, MapMarker, GoogleMapsModule } from '@angular/google-maps';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable} from 'rxjs';
@@ -19,12 +19,12 @@ import { MapsService } from '../shared/services/maps.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     GoogleMapsModule,
     MatDialogModule,
     MatButtonModule,
-    MatIconModule
-  ]
+    MatIconModule,
+    AsyncPipe
+]
 })
 export class MapsComponent implements OnInit {
   private storeService = inject(StoreService);

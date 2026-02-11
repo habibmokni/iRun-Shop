@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -26,7 +26,6 @@ import { Product } from '../../shared/models/product.model';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     RouterModule,
     MatDialogModule,
     MatButtonModule,
@@ -34,8 +33,9 @@ import { Product } from '../../shared/models/product.model';
     MatIconModule,
     MatRadioModule,
     MatExpansionModule,
-    ImageSliderComponent
-  ],
+    ImageSliderComponent,
+    AsyncPipe
+],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './productPage.component.html',
   styleUrls: ['./productPage.component.css']

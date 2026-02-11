@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,7 +23,6 @@ import { ImageSliderComponent } from './imageSlider/imageSlider.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     RouterModule,
     MatDialogModule,
     MatButtonModule,
@@ -32,8 +31,9 @@ import { ImageSliderComponent } from './imageSlider/imageSlider.component';
     MatTabsModule,
     MatProgressSpinnerModule,
     MatChipsModule,
-    ImageSliderComponent
-  ]
+    ImageSliderComponent,
+    AsyncPipe
+]
 })
 export class HomeComponent implements OnInit {
   private productService = inject(ProductService);

@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CommonModule } from '@angular/common';
+
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { AuthService } from '../auth.service';
 
@@ -17,14 +17,13 @@ import { AuthService } from '../auth.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule
-  ]
+]
 })
 export class LoginComponent {
   private authService = inject(AuthService);

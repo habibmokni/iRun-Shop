@@ -1,5 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,7 +27,6 @@ import { PaymentMethodsComponent } from './paymentMethods/paymentMethods.compone
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     MatStepperModule,
     MatButtonModule,
@@ -35,8 +34,9 @@ import { PaymentMethodsComponent } from './paymentMethods/paymentMethods.compone
     MatIconModule,
     MatDialogModule,
     BillingDetailsComponent,
-    PaymentMethodsComponent
-  ],
+    PaymentMethodsComponent,
+    DatePipe
+],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CheckoutComponent implements OnInit {

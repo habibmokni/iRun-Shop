@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -21,7 +21,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
+    AsyncPipe,
     RouterModule,
     MatBottomSheetModule,
     MatDialogModule,

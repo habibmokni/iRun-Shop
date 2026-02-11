@@ -1,5 +1,5 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,13 +20,14 @@ import { MapsComponent } from 'src/app/maps/maps.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
     MatRadioModule,
-    MapsComponent
-  ]
+    MapsComponent,
+    NgFor,
+    NgIf
+]
 })
 export class AvailabilityComponent implements OnInit {
   private ngZone = inject(NgZone);
