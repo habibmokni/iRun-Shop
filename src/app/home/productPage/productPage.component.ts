@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject, ChangeDetectionStrategy, viewChild } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -48,7 +48,7 @@ export class ProductPageComponent implements OnInit {
   private snackBar = inject(SnackbarService);
 
   //instance of DOM element MatExpansionPanel
-  @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
+  readonly expansionPanel = viewChild.required(MatExpansionPanel);
   //stores current variant info
   variant!: {
     variantId: string,

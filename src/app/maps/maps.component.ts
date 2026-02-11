@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, input, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, input, inject, ChangeDetectionStrategy, viewChild } from '@angular/core';
 import { MapInfoWindow, MapMarker, GoogleMapsModule } from '@angular/google-maps';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { AsyncPipe } from '@angular/common';
@@ -33,7 +33,7 @@ export class MapsComponent implements OnInit {
   private dialog = inject(MatDialog);
   userService = inject(UserService);
 
-  @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow ;
+  readonly infoWindow = viewChild.required(MapInfoWindow);
   readonly mapHeight = input<number>(450);
   readonly mapWidth = input<number>(screen.width);
   readonly storesWithProduct = input<google.maps.LatLngLiteral[]>([]);
@@ -101,7 +101,7 @@ export class MapsComponent implements OnInit {
   openInfoWindow(marker: MapMarker, store: Store, event: google.maps.MapMouseEvent) {
     this.currentStore = store;
     console.log(this.currentStore.name);
-    this.infoWindow.open(marker);
+    this.infoWindow().open(marker);
     if (event.latLng) {
       this.storeService.currentStoreLocation = event.latLng.toJSON();
       console.log(this.storeService.currentStoreLocation);
@@ -121,7 +121,7 @@ export class MapsComponent implements OnInit {
       });
     }
     this.snackBarService.success('Store Selected Successfully');
-    this.infoWindow.close();
+    this.infoWindow().close();
     this.dialog.closeAll();
   }
 

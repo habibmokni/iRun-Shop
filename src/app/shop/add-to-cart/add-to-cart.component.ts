@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, viewChild } from '@angular/core';
 
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -36,7 +36,7 @@ export class AddToCartComponent implements OnInit {
   dialog = inject(MatDialog);
   private userService = inject(UserService);
 
-  @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
+  readonly expansionPanel = viewChild.required(MatExpansionPanel);
   noOfItems=1;
   size = 0;
   stock = 0;
