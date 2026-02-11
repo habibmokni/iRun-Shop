@@ -1,20 +1,36 @@
-import { Component, ElementRef, NgZone, OnInit, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  Component,
+  NgZone,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+  afterNextRender,
+} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { CartProduct } from 'src/app/shared/models/cart-product.model';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 import { Store } from 'src/app/shared/models/store.model';
+import { CartProduct } from 'src/app/shared/models/cart-product.model';
 import { MapsService } from 'src/app/shared/services/maps.service';
-import { ProductService } from 'src/app/shared/services/product.service';
-import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { StoreService } from 'src/app/shared/services/store.service';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { ProductService } from 'src/app/shared/services/product.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { MapsComponent } from 'src/app/maps/maps.component';
-import { MatCardTitle, MatCardSubtitle, MatCardContent } from "@angular/material/card";
-import { MatDivider } from "@angular/material/divider";
-import { MatTabGroup, MatTab } from "@angular/material/tabs";
-import { MatFormField } from "@angular/material/input";
+
+export interface NearByStore {
+  readonly store: Store;
+  readonly distance: number;
+  readonly stock: number;
+}
 
 @Component({
   selector: 'app-availability',
@@ -26,233 +42,169 @@ import { MatFormField } from "@angular/material/input";
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
-    MatRadioModule,
+    MatCardModule,
+    MatDividerModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MapsComponent,
-    MatCardTitle,
-    MatCardSubtitle,
-    MatCardContent,
-    MatDivider,
-    MatTabGroup,
-    MatTab,
-    MatFormField
-]
+  ],
 })
-export class AvailabilityComponent implements OnInit {
-  private ngZone = inject(NgZone);
-  private mapService = inject(MapsService);
-  private storeService = inject(StoreService);
-  private snackbarService = inject(SnackbarService);
-  private dialog = inject(MatDialog);
-  private productService = inject(ProductService);
-  private userService = inject(UserService);
-  data = inject(MAT_DIALOG_DATA);
+export class AvailabilityComponent {
+  // Services
+  private readonly ngZone = inject(NgZone);
+  private readonly mapService = inject(MapsService);
+  private readonly storeService = inject(StoreService);
+  private readonly snackbarService = inject(SnackbarService);
+  private readonly dialog = inject(MatDialog);
+  private readonly productService = inject(ProductService);
+  private readonly userService = inject(UserService);
 
+  // Dialog data (injected once, immutable)
+  protected readonly data: any = inject(MAT_DIALOG_DATA);
 
-  mapHeight = 410;
-  mapWidth = 700;
-  private screenSize = screen.width;
-  closestStore!: Store;
-  nearByStores: {stores: Store, distances: number, stock: number}[] =[];
-  productAvailabilty: string[] = [];
-  stores: Store[] = [];
-  size=0;
-  isSizeSelected = false;
+  // Responsive map dimensions
+  protected readonly mapDimensions = computed(() =>
+    window.innerWidth <= 599
+      ? { height: 350, width: 250 }
+      : { height: 410, width: 700 }
+  );
 
+  // State signals
+  private readonly selectedSizeSig = signal<number | null>(this.data.size ?? null);
+  private readonly nearByStoresSig = signal<NearByStore[]>([]);
+
+  // Template-accessible readonly state
+  protected readonly selectedSize = this.selectedSizeSig.asReadonly();
+  protected readonly isSizeSelected = computed(() => this.selectedSize() !== null);
+  protected readonly nearByStores = this.nearByStoresSig.asReadonly();
+  private readonly stores = toSignal(this.storeService.store, { initialValue: [] as Store[] });
 
   constructor() {
-
-    this.storeService.store.subscribe(stores=>{
-      console.log(stores);
-      this.stores = stores;
-      console.log(this.stores);
-    });
+    // Set up Google Places Autocomplete after DOM renders
+    afterNextRender(() => this.initAutocomplete());
   }
 
-  ngOnInit(): void {
-    if(this.screenSize <= 599){
-      this.mapHeight= 350;
-      this.mapWidth= 250;
-    };
-    const colorAndModelSelected = this.productService.selectedModelAndSize;
-    console.log(colorAndModelSelected);
-    if(this.data.size){
-      this.size = this.data.size;
-      this.isSizeSelected = true;
+  // --- Template methods ---
+
+  protected changeSize(size: number): void {
+    this.selectedSizeSig.set(size);
+    this.nearByStoresSig.set([]);
+  }
+
+  protected resetSize(): void {
+    this.selectedSizeSig.set(null);
+    this.nearByStoresSig.set([]);
+  }
+
+  protected onStoreSelect(store: Store): void {
+    const userUpdate = { name: 'Anonymous', storeSelected: store };
+    if (!this.userService.user) {
+      this.userService.addUserTodb(userUpdate);
+    } else {
+      this.userService.updateSelectedStore(userUpdate);
     }
+    this.snackbarService.success('Store selected as preferred');
+    this.dialog.closeAll();
+  }
 
-    setTimeout(()=>{
-      const input= document.getElementById("search") as HTMLInputElement;
+  protected currentLocation(): void {
+    this.mapService.getCurrentLocation();
+    // Geolocation is async; wait for position then recalculate
+    setTimeout(() => {
+      const loc = this.mapService.currentLocation;
+      this.mapService.find_closest_marker(loc.lat, loc.lng);
+      this.runAvailabilityCheck();
+    }, 1000);
+  }
 
-      const autocomplete = new google.maps.places.Autocomplete(input);
+  // --- Private methods ---
 
-      autocomplete.addListener("place_changed", () => {
+  private initAutocomplete(): void {
+    const input = document.getElementById('search') as HTMLInputElement;
+    if (!input) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(input, {
+      fields: ['formatted_address', 'geometry', 'name'],
+      strictBounds: false,
+      types: ['establishment'],
+    });
+
+    autocomplete.addListener('place_changed', () => {
       this.ngZone.run(() => {
-        this.nearByStores= [];
+        const place = autocomplete.getPlace();
+        if (!place.geometry?.location) return;
 
-        //get the place result
-        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
 
-        //verify result
-        if (place.geometry === undefined || place.geometry === null || !place.geometry.location) {
-          return;
-        }
-        const container = document.querySelector('.pac-container') as HTMLElement;
-        if(container){
-          console.log('found container');
-          container.style.top = '500px';
-        }
-        //set latitude, longitude and zoom
-        let latitude = place.geometry.location.lat();
-        let longitude = place.geometry.location.lng();
-        let zoom = 12;
-
-        console.log(latitude + "longitude" + longitude);
-
-        if(this.data.call === "product"){
-          this.mapService.find_closest_marker(latitude, longitude);
-          setTimeout(() => {
-            this.checkProductAvailabilty(this.data.modelNo,this.size);
-          }, 100);
-
-        }
-        if(this.data.call === "checkout"){
-          this.mapService.find_closest_marker(latitude, longitude);
-          setTimeout(() => {
-            this.checkAllProductsAvailabilty(this.productService.getLocalCartProducts());
-          },100);
-
-        }
-        console.log(this.nearByStores);
+        this.mapService.find_closest_marker(lat, lng);
+        this.runAvailabilityCheck();
       });
     });
-
-    },500);
-
-
-    const options= {
-      fields: ["formatted_address", "geometry", "name"],
-      strictBounds: false,
-      types: ["establishment"]
-    };
-
-
   }
 
-  findClosestStore(){
-    this.storeService.store.forEach(stores=>{
-      for(let store of stores){
-        if(store.location.lat === this.mapService.closestMarker.lat && store.location.lng === this.mapService.closestMarker.lng){
-          this.closestStore = store;
-        }
-      }
-    })
+  private runAvailabilityCheck(): void {
+    this.nearByStoresSig.set([]);
+    const size = this.selectedSize();
 
+    if (this.data.call === 'product' && size) {
+      this.nearByStoresSig.set(
+        this.findNearByStoresForProduct(this.data.modelNo, size)
+      );
+    }
+
+    if (this.data.call === 'checkout') {
+      this.nearByStoresSig.set(
+        this.findNearByStoresForCart(this.productService.getLocalCartProducts())
+      );
+    }
   }
 
-  checkProductAvailabilty(modelNo: string, productSize: number){
-    let i=0;
+  private findNearByStoresForProduct(modelNo: string, size: number): NearByStore[] {
+    return this.stores()
+      .map((store, i) => {
+        const product = store.products.find((p: any) => p.modelNo === modelNo);
+        if (!product?.variants?.[0]) return null;
 
-      for(let store of this.stores){
-        console.log(store);
-          //yahan products ki for loop use karni h
-          for(let product of store.products){
-            if(product.modelNo === modelNo){
-              console.log("model true");
-              for(let variant of store.products[0].variants){
-                for(let index=0; index<variant.sizes.length; index++){
+        const variant = product.variants[0];
+        const idx = variant.sizes.findIndex((s: any) => +s === size);
+        if (idx === -1) return null;
 
-                  if(+variant.sizes[index] === +productSize){
-                    console.log(variant.sizes[index]);
-                    this.nearByStores.push({
-                      stores: store,
-                      stock: +variant.inStock[index],
-                      distances: this.mapService.distanceInKm[i]
-                    });
-                    console.log(this.nearByStores);
-                 }
-                    this.nearByStores.sort((a,b)=> a.distances-b.distances)
-                }
-              }
-            }
+        return {
+          store,
+          stock: +(variant.inStock[idx] ?? 0),
+          distance: this.mapService.distanceInKm[i] ?? 0,
+        };
+      })
+      .filter((r): r is NearByStore => r !== null)
+      .sort((a, b) => a.distance - b.distance);
+  }
 
-          }
-          i++;
+  private findNearByStoresForCart(cartProducts: CartProduct[]): NearByStore[] {
+    return this.stores()
+      .map((store, i) => {
+        let stockLevel = 0;
+
+        for (const cartProduct of cartProducts) {
+          const storeProduct = store.products.find(
+            (p: any) => p.modelNo === cartProduct.modelNo
+          );
+          if (!storeProduct?.variants?.[0]) continue;
+
+          const variant = storeProduct.variants[0];
+          const idx = variant.sizes.findIndex((s: any) => s === cartProduct.size);
+          if (idx === -1) continue;
+
+          stockLevel = +variant.inStock[idx] >= cartProduct.noOfItems ? 10 : 0;
         }
-        console.log(this.nearByStores);
-    }
 
-
-    checkAllProductsAvailabilty(cartProducts: CartProduct[]){
-      let i=0;
-      let isAvailable = 0;
-        for(let store of this.stores){
-          console.log('store changed');
-
-            //yahan products ki for loop use karni h
-            for(let product of store.products){
-              for(let a=0; a<cartProducts.length; a++){
-                if(product.modelNo === cartProducts[a].modelNo){
-
-                  for(let variant of store.products[0].variants){
-                    for(let index=0; index<variant.sizes.length; index++){
-
-                      if(variant.sizes[index] === cartProducts[a].size && +variant.inStock[index] >= cartProducts[a].noOfItems!){
-                        isAvailable = 10;
-                        console.log('product found with all the requirements');
-
-                     }
-                     if(variant.sizes[index] === cartProducts[a].size && +variant.inStock[index] <= cartProducts[a].noOfItems!){
-                       isAvailable = 0;
-                       console.log('no of items in cart exceed no of items available');
-                     }
-                    }
-                  }
-                }
-              }
-            }
-            this.nearByStores.push({
-              stores: store,
-              stock: isAvailable,
-              distances: this.mapService.distanceInKm[i]
-            });
-            this.nearByStores.sort((a,b)=> a.distances-b.distances);
-            i++;
-          }
-
-      }
-
-
-
-    onStoreSelect(store: Store){
-      if(!this.userService.user){
-        this.userService.addUserTodb({
-          name: "Anonymous",
-          storeSelected: store
-        });
-      }else{
-        this.userService.updateSelectedStore({
-          name: "Anonymous",
-          storeSelected: store
-        });
-      }
-
-      this.snackbarService.success('Store selected as prefered');
-      this.dialog.closeAll();
-    }
-    changeSize(size: any){
-      if(this.nearByStores){
-       this.nearByStores = [];
-      }
-      this.size = size;
-      this.isSizeSelected = true;
-    }
-    currentLocation(){
-      this.mapService.getCurrentLocation();
-      setTimeout(()=>{
-        this.nearByStores = [];
-        this.checkProductAvailabilty(this.data.modelNo,this.size);
-      },1000)
-
-    }
-
+        return {
+          store,
+          stock: stockLevel,
+          distance: this.mapService.distanceInKm[i] ?? 0,
+        };
+      })
+      .sort((a, b) => a.distance - b.distance);
+  }
 }

@@ -1,6 +1,5 @@
-import { Component, OnInit, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 
@@ -12,7 +11,7 @@ import { MatCardModule } from '@angular/material/card';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, MatRadioModule, MatCardModule]
 })
-export class PaymentMethodsComponent implements OnInit {
+export class PaymentMethodsComponent {
   readonly paymentMethod = input.required<FormGroup>();
   paymentPartner:
     {name:string,
@@ -20,9 +19,6 @@ export class PaymentMethodsComponent implements OnInit {
       {name:'MasterCard', logo: '../../assets/images/logos/mastercard-logo.png'},
       {name:'Visa', logo: '../../assets/images/logos/Visa-logo.png'},
       {name:'Paypal', logo: '../../assets/images/logos/paypal-logo.jpg'}];
-  constructor() { }
 
-  ngOnInit(): void {
-  }
 
 }
