@@ -13,7 +13,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  [ngClass]="registerForm.get('firstName')!.invalid && registerForm.get('firstName')!.touched ? 'is-invalid':''"
+                  [class.is-invalid]="registerForm.get('firstName')!.invalid && registerForm.get('firstName')!.touched"
                   id="firstName"
                   formControlName="firstName"
                   >
@@ -25,7 +25,7 @@
                   class="form-control"
                   id="lastName"
                   formControlName="lastName"
-                  [ngClass]="registerForm.get('lastName')!.invalid && registerForm.get('lastName')!.touched ? 'is-invalid':''"
+                  [class.is-invalid]="registerForm.get('lastName')!.invalid && registerForm.get('lastName')!.touched"
                   >
               </div>
               <div class="mb-3">
@@ -35,7 +35,7 @@
                   class="form-control"
                   id="email"
                   formControlName="email"
-                  [ngClass]="registerForm.get('email')!.invalid && registerForm.get('email')!.touched ? 'is-invalid':''" >
+                  [class.is-invalid]="registerForm.get('email')!.invalid && registerForm.get('email')!.touched" >
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
@@ -45,7 +45,7 @@
                     class="form-control"
                     id="password"
                     formControlName="password"
-                    [ngClass]="registerForm.get('password')!.invalid && registerForm.get('password')!.touched ? 'is-invalid':''"
+                    [class.is-invalid]="registerForm.get('password')!.invalid && registerForm.get('password')!.touched"
                     >
                   <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
                 </div>
@@ -58,7 +58,7 @@
                     class="form-control"
                     id="confirmPassword"
                     formControlName="confirmPassword"
-                    [ngClass]="registerForm.get('confirmPassword')!.invalid && registerForm.get('confirmPassword')!.touched ? 'is-invalid':''"
+                    [class.is-invalid]="registerForm.get('confirmPassword')!.invalid && registerForm.get('confirmPassword')!.touched"
                     >
                   <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
                 </div>
@@ -70,7 +70,7 @@
                   class="form-control"
                   id="address"
                   formControlName="address"
-                  [ngClass]="registerForm.get('address')!.invalid && registerForm.get('address')!.touched ? 'is-invalid':''"
+                  [class.is-invalid]="registerForm.get('address')!.invalid && registerForm.get('address')!.touched"
                   >
               </div>
               <div class="mb-3">
@@ -80,7 +80,7 @@
                   class="form-control"
                   id="zipCode"
                   formControlName="zipCode"
-                  [ngClass]="registerForm.get('zipCode')!.invalid && registerForm.get('zipCode')!.touched ? 'is-invalid':''"
+                  [class.is-invalid]="registerForm.get('zipCode')!.invalid && registerForm.get('zipCode')!.touched"
                   >
               </div>
               <div class="w-100 text-center">

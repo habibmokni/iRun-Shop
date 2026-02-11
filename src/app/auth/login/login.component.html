@@ -15,7 +15,7 @@
                   class="form-control"
                   id="email"
                   formControlName="email"
-                  [ngClass]="loginForm.get('email')!.invalid && loginForm.get('email')!.touched ? 'is-invalid':''"
+                  [class.is-invalid]="loginForm.get('email')!.invalid && loginForm.get('email')!.touched"
                   >
               </div>
               <div class="mb-3">
@@ -26,7 +26,7 @@
                     class="form-control"
                     id="password"
                     formControlName="password"
-                    [ngClass]="loginForm.get('password')!.invalid && loginForm.get('password')!.touched ? 'is-invalid':''"
+                    [class.is-invalid]="loginForm.get('password')!.invalid && loginForm.get('password')!.touched"
                     >
                   <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
                 </div>

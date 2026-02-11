@@ -5,7 +5,7 @@
       <div class="row d-none d-sm-block">
         <div class="sub-images col">
           @for (image of variant.imageList; track image; let i = $index) {
-            <a class="sub-image" [ngClass]="{'image-active': image===mainImage}" (click)="onImageSelect(image, i)">
+            <a class="sub-image" [class.image-active]="image===mainImage" (click)="onImageSelect(image, i)">
               <img style="width: 50px; height: 70px; margin-right: 20px; margin-bottom: 20px;" [src]="image" alt="other images">
             </a>
           }
@@ -51,7 +51,7 @@
         <div class="variant-selection row row-wrap">
           @for (variant of product.variants; track variant; let i = $index) {
             <a class="variant-image"
-              [ngClass]="{'active': variant.imageList[0]===productImage}"
+              [class.active]="variant.imageList[0]===productImage"
               (click)="variantSelect(i,variant)">
               <div>
                 <img [src]="variant.imageList[0]" alt="image" style="width: auto; height: 55px;">

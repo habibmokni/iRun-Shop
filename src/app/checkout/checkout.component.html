@@ -14,13 +14,13 @@
         <a
           mat-flat-button
           class="delivery_button"
-          [ngClass]="{'active': isClickNCollect}"
+          [class.active]="isClickNCollect"
           (click)="selectDelivery('Click N Collect', 0)"
           >
           <mat-icon class="icons" fontSet="material-icons-outlined">shopping_bag</mat-icon>
           <h4>Click N Collect</h4>
         </a>
-        <a mat-flat-button class="delivery_button" [ngClass]="{'active': !isClickNCollect}" (click)="selectDelivery('Home Delivery', 1)">
+        <a mat-flat-button class="delivery_button" [class.active]="!isClickNCollect" (click)="selectDelivery('Home Delivery', 1)">
           <mat-icon class="icons" fontSet="material-icons-outlined">home</mat-icon>
           <h4>Home delivery</h4>
         </a>
