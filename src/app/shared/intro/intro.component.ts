@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ export class IntroComponent implements OnInit {
   private router = inject(Router);
 
 
-  @Output() showIntro = new EventEmitter<boolean>();
+  readonly showIntro = output<boolean>();
 
   ngOnInit(): void {
   }
