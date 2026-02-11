@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 import { CartProduct } from '../shared/models/cartProduct.model';
 import { Product } from '../shared/models/product.model';
 import { ProductService } from '../shared/services/product.service';
-import { AddToCartComponent } from './addToCart/addToCart.component';
+import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
 import { ImageSliderComponent } from './imageSlider/imageSlider.component';
 
 @Component({
@@ -21,6 +21,7 @@ import { ImageSliderComponent } from './imageSlider/imageSlider.component';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     RouterModule,

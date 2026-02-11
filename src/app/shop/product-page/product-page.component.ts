@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -24,6 +24,7 @@ import { Product } from '../../shared/models/product.model';
 @Component({
   selector: 'app-product-page',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     RouterModule,

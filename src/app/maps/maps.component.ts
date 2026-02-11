@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, input, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MapInfoWindow, MapMarker, GoogleMapsModule } from '@angular/google-maps';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,7 @@ import { MapsService } from '../shared/services/maps.service';
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     GoogleMapsModule,

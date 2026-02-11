@@ -1,4 +1,4 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -25,6 +25,7 @@ import { PaymentMethodsComponent } from './paymentMethods/paymentMethods.compone
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     ReactiveFormsModule,

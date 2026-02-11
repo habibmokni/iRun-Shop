@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { AuthService } from 'src/app/auth/auth.service';
 
@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })
 export class UserProfileComponent implements OnInit {

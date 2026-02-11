@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, input, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatRadioModule } from '@angular/material/radio';
@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './paymentMethods.component.html',
   styleUrls: ['./paymentMethods.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, ReactiveFormsModule, MatRadioModule, MatCardModule]
 })
 export class PaymentMethodsComponent implements OnInit {

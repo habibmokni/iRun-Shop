@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, input, ChangeDetectionStrategy } from '@angular/core';
 
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './billingDetails.component.html',
   styleUrls: ['./billingDetails.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule]
 })
 export class BillingDetailsComponent implements OnInit {

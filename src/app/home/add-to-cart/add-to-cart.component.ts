@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
@@ -13,10 +13,11 @@ import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
-  selector: 'app-addToCart',
-  templateUrl: './addToCart.component.html',
-  styleUrls: ['./addToCart.component.css'],
+  selector: 'app-add-to-cart',
+  templateUrl: './add-to-cart.component.html',
+  styleUrls: ['./add-to-cart.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatDialogModule,
     MatExpansionModule,

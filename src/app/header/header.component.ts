@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -15,6 +15,7 @@ import { SnackbarService } from '../shared/services/snackbar.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterModule,
     MatToolbarModule,

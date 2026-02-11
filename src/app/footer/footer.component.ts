@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ProductService } from '../shared/services/product.service';
@@ -8,6 +8,7 @@ import { ProductService } from '../shared/services/product.service';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterModule, MatToolbarModule]
 })
 export class FooterComponent implements OnInit {

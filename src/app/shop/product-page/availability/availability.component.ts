@@ -1,4 +1,4 @@
-import { Component, ElementRef, NgZone, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,6 +18,7 @@ import { MapsComponent } from 'src/app/maps/maps.component';
   templateUrl: './availability.component.html',
   styleUrls: ['./availability.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     MatDialogModule,

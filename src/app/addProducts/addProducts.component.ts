@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { ReactiveFormsModule, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +15,7 @@ import { StoreService } from '../shared/services/store.service';
   templateUrl: './addProducts.component.html',
   styleUrls: ['./addProducts.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     MatInputModule,

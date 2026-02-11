@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './intro.component.html',
   styleUrls: ['./intro.component.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: []
 })
 export class IntroComponent implements OnInit {
