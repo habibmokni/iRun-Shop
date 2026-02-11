@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
@@ -20,14 +20,13 @@ import { AvailabilityComponent } from '../product-page/availability/availability
   styleUrls: ['./add-to-cart.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     MatBottomSheetModule,
     MatDialogModule,
     MatExpansionModule,
     MatButtonModule,
     MatIconModule,
     MatRadioModule
-  ]
+]
 })
 export class AddToCartComponent implements OnInit {
   @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
@@ -69,7 +68,7 @@ export class AddToCartComponent implements OnInit {
 addToCart(product: Product){
   if(this.isSizeSelected){
     const cartProduct: CartProduct = {
-      productImage: product.imageList[0],
+      productImage: product.imageList?.[0] ?? '',
       modelNo : product.modelNo,
       noOfItems : 1,
       size : +this.size,

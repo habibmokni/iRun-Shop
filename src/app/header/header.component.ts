@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,14 +16,13 @@ import { SnackbarService } from '../shared/services/snackbar.service';
   styleUrls: ['./header.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
     MatBadgeModule,
     MatMenuModule
-  ]
+]
 })
 export class HeaderComponent implements OnInit {
 

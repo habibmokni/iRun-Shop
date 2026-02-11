@@ -1,79 +1,95 @@
 <mat-tab-group mat-align-tabs="start">
   <mat-tab label="All">
     <div fxLayout="row wrap">
-      <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
-      <div fxFlex="50%" fxLayout="column" *ngFor="let product of productList|async" style="padding: 0px 10px;">
-        <div class="item-image-container">
-          <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
-        </div>
+      @if (isLoading) {
+        <mat-spinner color="primary"></mat-spinner>
+      }
+      @for (product of productList|async; track product) {
+        <div fxFlex="50%" fxLayout="column" style="padding: 0px 10px;">
+          <div class="item-image-container">
+            <a routerLink="/products/{{product.modelNo}}"><img [src]="product.imageList?.[0]" class="item-image" alt="image" matCardImage></a>
+          </div>
           <h2>{{product.name}}</h2>
           <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
           <span class="filler"></span>
-        <mat-card-actions fxLayout style="margin: 0px;">
-          <h2>{{product.price}}€</h2>
-          <span class="filler"></span>
-          <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-        </mat-card-actions>
-      </div>
+          <mat-card-actions fxLayout style="margin: 0px;">
+            <h2>{{product.price}}€</h2>
+            <span class="filler"></span>
+            <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
+          </mat-card-actions>
+        </div>
+      }
     </div>
 
   </mat-tab>
   <mat-tab label="Adidas">
     <div fxLayout="row wrap">
-      <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
-      <mat-card fxFlex="50%" fxLayout="column" *ngFor="let product of adidasProducts">
-        <div class="item-image-container">
-          <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
-        </div>
+      @if (isLoading) {
+        <mat-spinner color="primary"></mat-spinner>
+      }
+      @for (product of adidasProducts; track product) {
+        <mat-card fxFlex="50%" fxLayout="column">
+          <div class="item-image-container">
+            <a routerLink="/products/{{product.modelNo}}"><img [src]="product.imageList?.[0]" class="item-image" alt="image" matCardImage></a>
+          </div>
           <h2>{{product.name}}</h2>
           <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
           <span class="filler"></span>
-        <mat-card-actions fxLayout style="margin: 0px;">
-          <h2>{{product.price}}€</h2>
-          <span class="filler"></span>
-          <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-        </mat-card-actions>
-      </mat-card>
+          <mat-card-actions fxLayout style="margin: 0px;">
+            <h2>{{product.price}}€</h2>
+            <span class="filler"></span>
+            <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
+          </mat-card-actions>
+        </mat-card>
+      }
     </div>
 
 
   </mat-tab>
   <mat-tab label="Nike">
     <div fxLayout="row wrap">
-      <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
-      <mat-card fxFlex="50%" fxLayout="column" *ngFor="let product of nikeProducts">
-        <div class="item-image-container">
-          <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
-        </div>
+      @if (isLoading) {
+        <mat-spinner color="primary"></mat-spinner>
+      }
+      @for (product of nikeProducts; track product) {
+        <mat-card fxFlex="50%" fxLayout="column">
+          <div class="item-image-container">
+            <a routerLink="/products/{{product.modelNo}}"><img [src]="product.imageList?.[0]" class="item-image" alt="image" matCardImage></a>
+          </div>
           <h2>{{product.name}}</h2>
           <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
           <span class="filler"></span>
-        <mat-card-actions fxLayout style="margin: 0px;">
-          <h2>{{product.price}}€</h2>
-          <span class="filler"></span>
-          <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-        </mat-card-actions>
-      </mat-card>
+          <mat-card-actions fxLayout style="margin: 0px;">
+            <h2>{{product.price}}€</h2>
+            <span class="filler"></span>
+            <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
+          </mat-card-actions>
+        </mat-card>
+      }
     </div>
 
 
   </mat-tab>
   <mat-tab label="New Balance">
     <div fxLayout="row wrap">
-      <mat-spinner color="primary" *ngIf="isLoading"></mat-spinner>
-      <mat-card fxFlex="50%" fxLayout="column" *ngFor="let product of balanceProducts">
-        <div class="item-image-container">
-          <a routerLink="/products/{{product.modelNo}}"><img src="{{product.imageList[0]}}" class="item-image" alt="image" matCardImage></a>
-        </div>
+      @if (isLoading) {
+        <mat-spinner color="primary"></mat-spinner>
+      }
+      @for (product of balanceProducts; track product) {
+        <mat-card fxFlex="50%" fxLayout="column">
+          <div class="item-image-container">
+            <a routerLink="/products/{{product.modelNo}}"><img [src]="product.imageList?.[0]" class="item-image" alt="image" matCardImage></a>
+          </div>
           <h2>{{product.name}}</h2>
           <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
           <span class="filler"></span>
-        <mat-card-actions fxLayout style="margin: 0px;">
-          <h2>{{product.price}}€</h2>
-          <span class="filler"></span>
-          <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-        </mat-card-actions>
-      </mat-card>
+          <mat-card-actions fxLayout style="margin: 0px;">
+            <h2>{{product.price}}€</h2>
+            <span class="filler"></span>
+            <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
+          </mat-card-actions>
+        </mat-card>
+      }
     </div>
 
   </mat-tab>

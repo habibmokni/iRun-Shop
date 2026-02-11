@@ -130,7 +130,7 @@ export class ProductPageComponent implements OnInit {
   addToCart(product: Product){
     if(this.isSizeSelected){
       const cartProduct: CartProduct = {
-        productImage: product.imageList[0],
+        productImage: product.imageList?.[0] ?? '',
         modelNo : product.modelNo,
         noOfItems : 1,
         size : +this.size,

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,13 +18,12 @@ import { UserService } from 'src/app/shared/services/user.service';
   styleUrls: ['./addToCart.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     MatDialogModule,
     MatExpansionModule,
     MatButtonModule,
     MatIconModule,
     MatRadioModule
-  ],
+],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AddToCartComponent implements OnInit {

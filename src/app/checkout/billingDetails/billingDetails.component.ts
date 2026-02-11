@@ -1,5 +1,5 @@
 import { Component, Input, OnInit} from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './billingDetails.component.html',
   styleUrls: ['./billingDetails.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule]
+  imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule]
 })
 export class BillingDetailsComponent implements OnInit {
   //gets form from parent through property binding

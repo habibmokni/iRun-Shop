@@ -6,37 +6,41 @@
           <img src="../../../assets/images/logos/iRun-pink-logo.png" class="card-img-top px-5 py-4" alt="...">
         </div>
         <div class="card-body">
-          <form [formGroup]="loginForm" *ngIf="!isLoading">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-              type="text"
-              class="form-control"
-              id="email"
-              formControlName="email"
-              [ngClass]="loginForm.get('email')!.invalid && loginForm.get('email')!.touched ? 'is-invalid':''"
-              >
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <div class="input-group">
+          @if (!isLoading) {
+            <form [formGroup]="loginForm">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
                 <input
-                [type]="hide? 'password' : 'text'"
-                class="form-control"
-                id="password"
-                formControlName="password"
-                [ngClass]="loginForm.get('password')!.invalid && loginForm.get('password')!.touched ? 'is-invalid':''"
-                >
-                <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
+                  type="text"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                  [ngClass]="loginForm.get('email')!.invalid && loginForm.get('email')!.touched ? 'is-invalid':''"
+                  >
               </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <input
+                    [type]="hide? 'password' : 'text'"
+                    class="form-control"
+                    id="password"
+                    formControlName="password"
+                    [ngClass]="loginForm.get('password')!.invalid && loginForm.get('password')!.touched ? 'is-invalid':''"
+                    >
+                  <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
+                </div>
+              </div>
+              <div class="w-100 text-center">
+                <button mat-flat-button class="primary-button" type="button" [disabled]="loginForm.invalid" (click)="login()">Login</button>
+              </div>
+            </form>
+          }
+          @if (isLoading) {
+            <div class="pt-3 text-center">
+              <mat-spinner style="margin: auto;"></mat-spinner>
             </div>
-            <div class="w-100 text-center">
-              <button mat-flat-button class="primary-button" type="button" [disabled]="loginForm.invalid" (click)="login()">Login</button>
-            </div>
-          </form>
-          <div *ngIf="isLoading" class="pt-3 text-center">
-            <mat-spinner style="margin: auto;"></mat-spinner>
-          </div>
+          }
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ import { CartProduct } from '../shared/models/cartProduct.model';
 import { Product } from '../shared/models/product.model';
 import { ProductService } from '../shared/services/product.service';
 import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-shop',
@@ -26,8 +27,9 @@ import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    MatTabsModule
-  ]
+    MatTabsModule,
+    MatProgressSpinnerModule
+]
 })
 export class ShopComponent implements OnInit {
 

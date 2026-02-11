@@ -1,36 +1,48 @@
 <div class="container">
   <div class="row">
     <div class="cart-items d-flex flex-column col-12 col-sm-7" style="margin-bottom: 125px;">
-      <div class="d-flex flex-row" *ngFor="let product of cartProducts; let i=index" style="border-bottom: 1px solid #eee; padding: 10px 20px; ">
-        <div class="item-image-container">
-          <img routerLink="/products/{{product.modelNo}}" src="{{product.productImage}}" style="width: 100%;" alt="image">
-        </div>
-        <div class="col-6 d-flex flex-column" style="padding-left: 15px;">
-          <h3>{{product.productName}}</h3>
-          <mat-card-subtitle>
-            {{'Size : ' + product.size}}
-            <mat-icon *ngIf="itemInStock[i]>5" style="color: green; margin-left: 35px;" fontSet="material-icons-outlined">shopping_bag</mat-icon>
-            <mat-icon *ngIf="itemInStock[i]<5 && itemInStock[i]>0" style="color: #dfdf53; margin-left: 35px;" fontSet="material-icons-outlined">shopping_bag</mat-icon>
-            <mat-icon *ngIf="itemInStock[i]===0" style="color: red; margin-left: 35px;" fontSet="material-icons-outlined">shopping_bag</mat-icon>
-            <mat-icon *ngIf="onlineStoreStock[i]>5" style="color: green;" fontSet="material-icons-outlined">home</mat-icon>
-            <mat-icon *ngIf="onlineStoreStock[i]<5 && onlineStoreStock[i]>0" style="color: #dfdf53;" fontSet="material-icons-outlined">home</mat-icon>
-            <mat-icon *ngIf="onlineStoreStock[i]===0" style="color: red;" fontSet="material-icons-outlined">home</mat-icon>
-          </mat-card-subtitle>
-          <mat-card-subtitle>{{'Model no: '+ product.modelNo}}</mat-card-subtitle>
-          <div class="d-flex">
-            <button mat-flat-button type="button" style="background: #fff; color: #8B283D;" (click)="onRemoveItem(i, product)"><mat-icon>remove</mat-icon></button>
-            <h3 style="padding: 8px 15px;">{{product.noOfItems}}</h3>
-            <button mat-flat-button type="button" style="background: #fff; color: #8B283D;" (click)="onAddItem(i, product)"><mat-icon>add</mat-icon></button>
+      @for (product of cartProducts; track product; let i = $index) {
+        <div class="d-flex flex-row" style="border-bottom: 1px solid #eee; padding: 10px 20px; ">
+          <div class="item-image-container">
+            <img routerLink="/products/{{product.modelNo}}" src="{{product.productImage}}" style="width: 100%;" alt="image">
           </div>
-
-          <div>
-
+          <div class="col-6 d-flex flex-column" style="padding-left: 15px;">
+            <h3>{{product.productName}}</h3>
+            <mat-card-subtitle>
+              {{'Size : ' + product.size}}
+              @if (itemInStock[i]>5) {
+                <mat-icon style="color: green; margin-left: 35px;" fontSet="material-icons-outlined">shopping_bag</mat-icon>
+              }
+              @if (itemInStock[i]<5 && itemInStock[i]>0) {
+                <mat-icon style="color: #dfdf53; margin-left: 35px;" fontSet="material-icons-outlined">shopping_bag</mat-icon>
+              }
+              @if (itemInStock[i]===0) {
+                <mat-icon style="color: red; margin-left: 35px;" fontSet="material-icons-outlined">shopping_bag</mat-icon>
+              }
+              @if (onlineStoreStock[i]>5) {
+                <mat-icon style="color: green;" fontSet="material-icons-outlined">home</mat-icon>
+              }
+              @if (onlineStoreStock[i]<5 && onlineStoreStock[i]>0) {
+                <mat-icon style="color: #dfdf53;" fontSet="material-icons-outlined">home</mat-icon>
+              }
+              @if (onlineStoreStock[i]===0) {
+                <mat-icon style="color: red;" fontSet="material-icons-outlined">home</mat-icon>
+              }
+            </mat-card-subtitle>
+            <mat-card-subtitle>{{'Model no: '+ product.modelNo}}</mat-card-subtitle>
+            <div class="d-flex">
+              <button mat-flat-button type="button" style="background: #fff; color: #8B283D;" (click)="onRemoveItem(i, product)"><mat-icon>remove</mat-icon></button>
+              <h3 style="padding: 8px 15px;">{{product.noOfItems}}</h3>
+              <button mat-flat-button type="button" style="background: #fff; color: #8B283D;" (click)="onAddItem(i, product)"><mat-icon>add</mat-icon></button>
+            </div>
+            <div>
+            </div>
+          </div>
+          <div class="col-3">
+            <h2 style="line-height: 125px; margin-left: 25px;">{{product.price}}€</h2>
           </div>
         </div>
-        <div class="col-3">
-          <h2 style="line-height: 125px; margin-left: 25px;">{{product.price}}€</h2>
-        </div>
-      </div>
+      }
     </div>
     <div class="checkout-container d-block d-sm-none">
       <a type="button" class="checkout-button d-flex" (click)="onSubmit()">
@@ -54,35 +66,37 @@
             <h2>$0.00</h2>
           </div>
           <hr>
-          <div class="grand_total d-flex">
-            <h2>Grand Total:</h2>
-            <span class="filler"></span>
-            <h2>{{grandtotal}}€</h2>
+            <div class="grand_total d-flex">
+              <h2>Grand Total:</h2>
+              <span class="filler"></span>
+              <h2>{{grandtotal}}€</h2>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <div style="text-align: center;">
+            <button
+              class="add_to_cart"
+              mat-raised-button
+              (click)="onSubmit()"
+              >
+              <h3 [ngStyle]="{marginBottom: '0px'}">Proceed to Checkout</h3>
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+
+
+
+      @if (cartProducts.length===0) {
+        <div class="d-flex">
+          <div class="d-flex flex-column m-auto">
+            <h2>Cart is empty!</h2>
+            <mat-card-subtitle>Please add products to cart</mat-card-subtitle>
+            <button mat-flat-button type="button" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: #fff;" routerLink="/home">Go to shop</button>
           </div>
         </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <div style="text-align: center;">
-          <button
-          class="add_to_cart"
-          mat-raised-button
-          (click)="onSubmit()"
-          >
-            <h3 [ngStyle]="{marginBottom: '0px'}">Proceed to Checkout</h3>
-          </button>
-        </div>
-      </mat-card-actions>
-    </mat-card>
+      }
 
-
-
-    <div class="d-flex" *ngIf="cartProducts.length===0">
-      <div class="d-flex flex-column m-auto">
-        <h2>Cart is empty!</h2>
-        <mat-card-subtitle>Please add products to cart</mat-card-subtitle>
-        <button mat-flat-button type="button" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: #fff;" routerLink="/home">Go to shop</button>
-      </div>
     </div>
-
   </div>
-</div>

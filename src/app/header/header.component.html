@@ -49,25 +49,33 @@
     <mat-icon>person_outline</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <div *ngIf="isLoggedIn" routerLink="user-profile" class="text-center" mat-menu-item>
-      <img src="../../assets/images/profile-logo.jpg" alt="" width="40" height="40" class="rounded-circle">
-      <div class="ml-2">
-        <h4 class="mb-0">{{user.firstName}}</h4>
-        <h5 class="mb-0">{{user.email}}</h5>
+    @if (isLoggedIn) {
+      <div routerLink="user-profile" class="text-center" mat-menu-item>
+        <img src="../../assets/images/profile-logo.jpg" alt="" width="40" height="40" class="rounded-circle">
+        <div class="ml-2">
+          <h4 class="mb-0">{{user.firstName}}</h4>
+          <h5 class="mb-0">{{user.email}}</h5>
+        </div>
       </div>
-    </div>
-  <a *ngIf="!isLoggedIn" mat-menu-item routerLink="/login">
-      <mat-icon>login</mat-icon>
-      Login
-  </a>
-  <a *ngIf="!isLoggedIn" mat-menu-item routerLink="/add-user">
-    <mat-icon>how_to_reg</mat-icon>
-    Register
-</a>
-  <a *ngIf="isLoggedIn" mat-menu-item (click)="onLogout()">
-    <mat-icon>logout</mat-icon>
-    Logout
-  </a>
+    }
+    @if (!isLoggedIn) {
+      <a mat-menu-item routerLink="/login">
+        <mat-icon>login</mat-icon>
+        Login
+      </a>
+    }
+    @if (!isLoggedIn) {
+      <a mat-menu-item routerLink="/add-user">
+        <mat-icon>how_to_reg</mat-icon>
+        Register
+      </a>
+    }
+    @if (isLoggedIn) {
+      <a mat-menu-item (click)="onLogout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </a>
+    }
   </mat-menu>
   <button mat-icon-button
     type="button">
@@ -87,13 +95,13 @@
 </mat-toolbar>
 
 <!-- <mat-toolbar fxHide.gt-xs>
-  <button mat-icon-button type="button">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span class="minifiller"></span>
-  <mat-form-field class="example-full-width" style="min-width: 18rem;">
-      <input type="text" matInput>
-      <mat-placeholder>Find favourite shoes</mat-placeholder>
-      <mat-icon matSuffix style="font-size: 1.2em">search</mat-icon>
-  </mat-form-field>
+<button mat-icon-button type="button">
+  <mat-icon>menu</mat-icon>
+</button>
+<span class="minifiller"></span>
+<mat-form-field class="example-full-width" style="min-width: 18rem;">
+  <input type="text" matInput>
+  <mat-placeholder>Find favourite shoes</mat-placeholder>
+  <mat-icon matSuffix style="font-size: 1.2em">search</mat-icon>
+</mat-form-field>
 </mat-toolbar> -->

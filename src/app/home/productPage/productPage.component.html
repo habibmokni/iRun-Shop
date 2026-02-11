@@ -1,194 +1,185 @@
 
-    <div class="container" *ngFor="let product of product|async">
-      <div class="image-container row row-wrap d-none d-sm-block">
-        <div class="row d-none d-sm-block">
-          <div class="sub-images col">
-            <a class="sub-image" *ngFor="let image of variant.imageList;let i=index" [ngClass]="{'image-active': image===mainImage}" (click)="onImageSelect(image, i)">
+@for (product of product|async; track product) {
+  <div class="container">
+    <div class="image-container row row-wrap d-none d-sm-block">
+      <div class="row d-none d-sm-block">
+        <div class="sub-images col">
+          @for (image of variant.imageList; track image; let i = $index) {
+            <a class="sub-image" [ngClass]="{'image-active': image===mainImage}" (click)="onImageSelect(image, i)">
               <img style="width: 50px; height: 70px; margin-right: 20px; margin-bottom: 20px;" [src]="image" alt="other images">
             </a>
-          </div>
-
-          <div class="main-image">
-            <img style="width: 425px; height: 425px;" [src]="mainImage" alt="main image">
-          </div>
-
+          }
         </div>
-        <mat-card class="checkAvailabilitySection d-none d-sm-block">
-          <h2 style="font-weight: 700;">Check branch Availability</h2>
-          <h3>Find your favourite shoe in your nearest shop now.</h3>
-          <p>Note: Due to regional lockdowns & store closures only limited availability.
-            Check out the iRun shop near you.
-          </p>
-          <button
+        <div class="main-image">
+          <img style="width: 425px; height: 425px;" [src]="mainImage" alt="main image">
+        </div>
+      </div>
+      <mat-card class="checkAvailabilitySection d-none d-sm-block">
+        <h2 style="font-weight: 700;">Check branch Availability</h2>
+        <h3>Find your favourite shoe in your nearest shop now.</h3>
+        <p>Note: Due to regional lockdowns & store closures only limited availability.
+          Check out the iRun shop near you.
+        </p>
+        <button
           mat-flat-button
           type="button"
           class="availability_button"
           (click)="checkAvailability(product)"
           >
           <mat-icon
-          fontSet="material-icons-outlined"
+            fontSet="material-icons-outlined"
           style="color: #d53d5e; font-size: 25px;">room</mat-icon>
           <span style="font-weight: bold;">Check availability</span>
         </button>
-        </mat-card>
-
+      </mat-card>
+    </div>
+    <div class="col-sm-4" style="margin: 20px;">
+      <div class="image-container d-xs-block d-sm-none" >
+        <app-imageSlider [productImages]="variant.imageList"></app-imageSlider>
       </div>
-
-      <div class="col-sm-4" style="margin: 20px;">
-        <div class="image-container d-xs-block d-sm-none" >
-          <app-imageSlider [productImages]="variant.imageList"></app-imageSlider>
+      <div class="article-header col-12 col-sm-12">
+        <h2>{{product.name}}</h2>
+        <mat-card-subtitle>{{product.subCategory}}, Sports Shoes</mat-card-subtitle>
+      </div>
+      <div class="article-quantity col-12">
+        <div class="article-price row">
+          <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
+          <h2 style="margin-left: 5px; font-size: 28px; color: #d53d5e;">{{product.price}}€</h2>
         </div>
-        <div class="article-header col-12 col-sm-12">
-          <h2>{{product.name}}</h2>
-          <mat-card-subtitle>{{product.subCategory}}, Sports Shoes</mat-card-subtitle>
-        </div>
-        <div class="article-quantity col-12">
-          <div class="article-price row">
-            <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
-            <h2 style="margin-left: 5px; font-size: 28px; color: #d53d5e;">{{product.price}}€</h2>
-          </div>
-        </div>
-        <ng-container>
-          <div class="variant-selection row row-wrap">
+      </div>
+      <ng-container>
+        <div class="variant-selection row row-wrap">
+          @for (variant of product.variants; track variant; let i = $index) {
             <a class="variant-image"
-              *ngFor="let variant of product.variants let i=index"
               [ngClass]="{'active': variant.imageList[0]===productImage}"
               (click)="variantSelect(i,variant)">
               <div>
                 <img [src]="variant.imageList[0]" alt="image" style="width: auto; height: 55px;">
               </div>
             </a>
-          </div>
-        </ng-container>
-        <span class="filler"></span>
-        <!-- commented out size selector of cnc-package --->
-        <cnc-size-selector (sizeSelected)="sizeSelected($event)" [product]="selectedProduct"></cnc-size-selector>
-        <div class="buttonContainer d-flex">
-          <button
-            mat-flat-button
-            class="addToCartBtn"
-            type="button"
-            (click)="addToCart(selectedProduct)"
-            type="button">
-            Add to cart
-          </button>
-          <button mat-mini-fab
-          style="background-color: #fff; color: #d53d5e; margin-left: 10px;"
-          type="button">
-          <mat-icon>favorite_border</mat-icon>
-        </button>
+          }
         </div>
-
-        <!--<select #sizeSelect (change)="size = +sizeSelect.value">
-          <option value="36">36</option>
-          <option value="37">37</option>
-          <option value="38">38</option>
-          <option value="39">39</option>
-          <option value="40">40</option>
-          <option value="41">41</option>
-          <option value="42">42</option>
-        </select>
-        <div class="buttonContainer" fxLayout fxLayoutAlign="center center">
-          <button
-            mat-flat-button
-            class="addToCartBtn"
-            type="button"
-            (click)="onAddToCart(selectedProduct)"
-            type="button">
-            Add to cart
-          </button>
-          <button mat-mini-fab
-          style="background-color: #fff; color: #d53d5e; margin-left: 10px;"
-          type="button">
-          <mat-icon>favorite_border</mat-icon>
-        </button>
-        </div>
-      -->
-        <mat-list role="list">
-          <mat-list-item role="listitem">
-            <mat-icon class="done">done</mat-icon> Free store collection and returns
-          </mat-list-item>
-          <mat-list-item role="listitem">
-            <mat-icon class="done">done</mat-icon> Free home delivery from 80 €
-          </mat-list-item>
-          <mat-list-item role="listitem">
-            <mat-icon class="done">done</mat-icon> Same day pick up
-          </mat-list-item>
-        </mat-list>
-
-        <mat-card class="checkAvailabilitySection d-none d-sm-block">
-          <h2>Check branch Availability</h2>
-          <h3>Find your favourite shoe in your nearest shop now.</h3>
-          <p>Note: Due to regional lockdowns & store closures only limited availability.
-            Check out the iRun shop near you.
-          </p>
-          <button
+      </ng-container>
+      <span class="filler"></span>
+      <!-- commented out size selector of cnc-package --->
+      <cnc-size-selector (sizeSelected)="sizeSelected($event)" [product]="selectedProduct"></cnc-size-selector>
+      <div class="buttonContainer d-flex">
+        <button
           mat-flat-button
+          class="addToCartBtn"
           type="button"
-          class="availability_button"
-          (click)="checkAvailability(product)"
-          >
-          <mat-icon
-          fontSet="material-icons-outlined"
-          style="color: #d53d5e; font-size: 25px;">room</mat-icon>
-          <span style="font-weight: bold;">Check availability in branch nearby</span>
+          (click)="addToCart(selectedProduct)"
+          type="button">
+          Add to cart
         </button>
-        </mat-card>
-
-        <mat-chip-list aria-label="Shoes selection">
-          <mat-chip class="chips">Running</mat-chip>
-          <mat-chip class="chips">Gym</mat-chip>
-          <mat-chip class="chips">Outdoor</mat-chip>
-          <mat-chip class="chips">waterproof</mat-chip>
-          <mat-chip class="chips">Unisex</mat-chip>
-          <mat-chip class="chips"> GEL® elements</mat-chip>
-        </mat-chip-list>
-
-        <mat-accordion>
-          <mat-expansion-panel
-          style="margin-bottom: 2rem;"
-            (opened)="panelOpenState = true"
-            (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Product Description
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-              <p> -Neutral shoes, the all-rounder </p>
-              <p> - Suitable for normal sproners </p>
-              <p> - Ideal for street & park </p>
-              <p> - Thanks to the GORE-TEX membrane, the shoe is breathable, waterproof and windproof </p>
-              <p> - Unisex specific fit </p>
-              <p> - GORE-TEX membrane </p>
-              <p> - Waterproof </p>
-              <p> - Windproof </p>
-              <p> - Breathable </p>
-              <p> - FlyteFoam™ </p>
-              <p> - GEL® elements </p>
-          </mat-expansion-panel>
-
-          <mat-expansion-panel (opened)="panelOpenState = true"
-                               (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Reviews
-              </mat-panel-title>
-              <mat-panel-description>
-                <mat-icon class="star">star</mat-icon>
-                <mat-icon class="star">star</mat-icon>
-                <mat-icon class="star">star</mat-icon>
-                <mat-icon class="star">star</mat-icon>
-                <mat-icon class="star">star_half</mat-icon>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>Customer reviews here!!</p>
-          </mat-expansion-panel>
-        </mat-accordion>
-
-
-
+        <button mat-mini-fab
+          style="background-color: #fff; color: #d53d5e; margin-left: 10px;"
+          type="button">
+          <mat-icon>favorite_border</mat-icon>
+        </button>
       </div>
-
-
+      <!--<select #sizeSelect (change)="size = +sizeSelect.value">
+      <option value="36">36</option>
+      <option value="37">37</option>
+      <option value="38">38</option>
+      <option value="39">39</option>
+      <option value="40">40</option>
+      <option value="41">41</option>
+      <option value="42">42</option>
+    </select>
+    <div class="buttonContainer" fxLayout fxLayoutAlign="center center">
+      <button
+        mat-flat-button
+        class="addToCartBtn"
+        type="button"
+        (click)="onAddToCart(selectedProduct)"
+        type="button">
+        Add to cart
+      </button>
+      <button mat-mini-fab
+        style="background-color: #fff; color: #d53d5e; margin-left: 10px;"
+        type="button">
+        <mat-icon>favorite_border</mat-icon>
+      </button>
     </div>
+    -->
+    <mat-list role="list">
+      <mat-list-item role="listitem">
+        <mat-icon class="done">done</mat-icon> Free store collection and returns
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <mat-icon class="done">done</mat-icon> Free home delivery from 80 €
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <mat-icon class="done">done</mat-icon> Same day pick up
+      </mat-list-item>
+    </mat-list>
+    <mat-card class="checkAvailabilitySection d-none d-sm-block">
+      <h2>Check branch Availability</h2>
+      <h3>Find your favourite shoe in your nearest shop now.</h3>
+      <p>Note: Due to regional lockdowns & store closures only limited availability.
+        Check out the iRun shop near you.
+      </p>
+      <button
+        mat-flat-button
+        type="button"
+        class="availability_button"
+        (click)="checkAvailability(product)"
+        >
+        <mat-icon
+          fontSet="material-icons-outlined"
+        style="color: #d53d5e; font-size: 25px;">room</mat-icon>
+        <span style="font-weight: bold;">Check availability in branch nearby</span>
+      </button>
+    </mat-card>
+    <mat-chip-list aria-label="Shoes selection">
+      <mat-chip class="chips">Running</mat-chip>
+      <mat-chip class="chips">Gym</mat-chip>
+      <mat-chip class="chips">Outdoor</mat-chip>
+      <mat-chip class="chips">waterproof</mat-chip>
+      <mat-chip class="chips">Unisex</mat-chip>
+      <mat-chip class="chips"> GEL® elements</mat-chip>
+    </mat-chip-list>
+    <mat-accordion>
+      <mat-expansion-panel
+        style="margin-bottom: 2rem;"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Product Description
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p> -Neutral shoes, the all-rounder </p>
+        <p> - Suitable for normal sproners </p>
+        <p> - Ideal for street & park </p>
+        <p> - Thanks to the GORE-TEX membrane, the shoe is breathable, waterproof and windproof </p>
+        <p> - Unisex specific fit </p>
+        <p> - GORE-TEX membrane </p>
+        <p> - Waterproof </p>
+        <p> - Windproof </p>
+        <p> - Breathable </p>
+        <p> - FlyteFoam™ </p>
+        <p> - GEL® elements </p>
+      </mat-expansion-panel>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Reviews
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon class="star">star</mat-icon>
+            <mat-icon class="star">star</mat-icon>
+            <mat-icon class="star">star</mat-icon>
+            <mat-icon class="star">star</mat-icon>
+            <mat-icon class="star">star_half</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>Customer reviews here!!</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+}
 

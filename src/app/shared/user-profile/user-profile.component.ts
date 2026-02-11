@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: []
 })
 export class UserProfileComponent implements OnInit {
 
