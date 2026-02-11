@@ -1,189 +1,185 @@
-import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MatButtonToggleChange, MatButtonToggleModule } from '@angular/material/button-toggle';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  CUSTOM_ELEMENTS_SCHEMA,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { DecimalPipe } from '@angular/common';
+import { BehaviorSubject, filter, map, switchMap } from 'rxjs';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+// Material
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
-import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute } from '@angular/router';
-import { CheckAvailabilityComponent } from '@habibmokni/cnc';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
 
-
-import { Observable } from 'rxjs';
+// App
 import { CartProduct } from 'src/app/shared/models/cart-product.model';
-import { User } from 'src/app/shared/models/user.model';
+import { Product } from 'src/app/shared/models/product.model';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { UserService } from 'src/app/shared/services/user.service';
-import { Product } from '../../shared/models/product.model';
-
+import { ImageSliderComponent } from '../image-slider/image-slider.component';
+import { AvailabilityComponent } from './availability/availability.component';
 
 @Component({
   selector: 'app-product-page',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  templateUrl: './product-page.component.html',
+  styleUrls: ['./product-page.component.css'],
   imports: [
-    AsyncPipe,
     RouterModule,
     MatDialogModule,
     MatButtonModule,
-    MatButtonToggleModule,
     MatIconModule,
-    MatRadioModule,
+    MatCardModule,
+    MatListModule,
+    MatChipsModule,
     MatExpansionModule,
-    MatBottomSheetModule
+    ImageSliderComponent,
+    DecimalPipe,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './product-page.component.html',
-  styleUrls: ['./product-page.component.css']
 })
-export class ProductPageComponent implements OnInit {
-  @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
+export class ProductPageComponent {
+  // Services
+  private readonly route = inject(ActivatedRoute);
+  private readonly dialog = inject(MatDialog);
+  private readonly productService = inject(ProductService);
+  private readonly userService = inject(UserService);
+  private readonly snackbar = inject(SnackbarService);
 
-  panelOpenState = false;
-  sub: any;
-  product!: Observable<Product[]>;
-  size: number = 0;
-  user!: User;
-  stock: number = 0;
-  selectedProduct!: Product;
-  similarProducts: Product[] = [];
+  // Product loading (supports both route navigation and variant switching)
+  private readonly productModelNo$ = new BehaviorSubject<string>('');
 
-  productImage!: string;
-  colorSelected!: string;
-  isColorSelected = false;
-  isSizeSelected = false;
-  grandTotal: number = 0;
+  private readonly products$ = this.productModelNo$.pipe(
+    filter((id) => !!id),
+    switchMap((id) => {
+      this.productService.getProductById(id);
+      return this.productService.product;
+    })
+  );
 
-  apiKey = 'AIzaSyCKj-l5U2bLY3wEx-9DN1owQhs3a9iJ-Uw';
-  preBtn!: Element;
-  fee: number = 0;
-  constructor(
-    private route: ActivatedRoute,
-    public dialog: MatDialog,
-    private productService: ProductService,
-    public userService: UserService,
-    private snackBar: SnackbarService
-    ) {
-      if(userService.user){
-        this.user = this.userService.user;
-      }
-        userService.userSub.subscribe(()=>{
-          this.user = userService.user;
-          this.checkProductInStore();
+  protected readonly products = toSignal(this.products$, {
+    initialValue: [] as Product[],
+  });
+  protected readonly product = computed(() => this.products()[0] ?? null);
 
-        });
+  // Similar products (same model family prefix)
+  private readonly allProducts = toSignal(this.productService.productList, {
+    initialValue: [] as Product[],
+  });
+  protected readonly similarProducts = computed(() => {
+    const current = this.product();
+    const all = this.allProducts();
+    if (!current?.modelNo || !all.length) return [];
+    const prefix = current.modelNo.split('-')[0];
+    return all.filter((p) => p.modelNo?.split('-')[0] === prefix);
+  });
 
+  // Local state signals
+  private readonly selectedSizeSig = signal(0);
+  private readonly isSizeSelectedSig = signal(false);
+  private readonly activeVariantIndexSig = signal(-1);
+
+  protected readonly selectedSize = this.selectedSizeSig.asReadonly();
+  protected readonly isSizeSelected = this.isSizeSelectedSig.asReadonly();
+  protected readonly activeVariantIndex = this.activeVariantIndexSig.asReadonly();
+
+  // Derived: stock for the selected size at the user's store
+  protected readonly stock = computed(() => {
+    const product = this.product();
+    const size = this.selectedSize();
+    const user = this.userService.user;
+
+    if (!product || !size || !user?.storeSelected) return 0;
+
+    const storeProduct = user.storeSelected.products?.find(
+      (p: any) => p.modelNo === product.modelNo
+    );
+    if (!storeProduct?.variants?.[0]) return 0;
+
+    const variant = storeProduct.variants[0];
+    const idx = variant.sizes.findIndex((s: any) => s === size);
+    return idx === -1 ? 0 : +(variant.inStock[idx] ?? 0);
+  });
+
+  // Derived: original price before discount
+  protected readonly originalPrice = computed(() => {
+    const price = this.product()?.price ?? 0;
+    return price + price * 0.2;
+  });
+
+  constructor() {
+    // Route params → product model number
+    this.route.params
+      .pipe(
+        map((params) => params['id'] as string),
+        takeUntilDestroyed()
+      )
+      .subscribe((id) => this.productModelNo$.next(id));
+  }
+
+  // --- Template methods ---
+
+  protected sizeSelected(size: number): void {
+    this.selectedSizeSig.set(size);
+    this.isSizeSelectedSig.set(true);
+  }
+
+  protected variantSelect(index: number, modelNo: string): void {
+    this.productModelNo$.next(modelNo);
+    this.activeVariantIndexSig.set(index);
+  }
+
+  protected addToCart(): void {
+    const product = this.product();
+    if (!product) return;
+
+    if (!this.isSizeSelected()) {
+      this.snackbar.info(
+        this.stock() === 0
+          ? 'Please change store as product is not available in selected store'
+          : 'Please select size of product'
+      );
+      return;
     }
 
-  ngOnInit(): void {
-    this.sub = this.route.params.subscribe((params) => {
-      const id: string = params.id; // (+) converts string 'id' to a number
-      this.getProductDetail(id);
-      this.product= this.productService.product;
-      if(this.productService.productList){
-        this.getSimilarProducts(id);
-      }
-    });
+    const cartProduct: CartProduct = {
+      productImage: product.imageList?.[0] ?? '',
+      modelNo: product.modelNo,
+      variantId: product.variants?.[0]?.variantId ?? '',
+      noOfItems: 1,
+      size: +this.selectedSize(),
+      vendor: product.companyName ?? '',
+      productName: product.name,
+      price: product.price,
+    };
+
+    this.productService.addToCart(cartProduct);
   }
 
-  getSimilarProducts(id: string){
-    const productModel = id.split('-');
-    this.productService.productList.subscribe(products=>{
-      for(let i=0; i<products.length; i++){
-        const model = products[i].modelNo?.split('-');
-        if(model![0] === productModel[0]){
-          this.similarProducts.push(products[i]);
-        }
-      }
-      console.log(this.similarProducts);
-    });
-  }
+  protected checkAvailability(): void {
+    const product = this.product();
+    if (!product) return;
 
-
-  getProductDetail(id: string) {
-    this.productService.getProductById(id);
-  }
-
-
-  onColorPick(event: MatRadioChange | MatButtonToggleChange){
-    this.isColorSelected = true;
-    //this.productImage = this.product.imageList[event.value];
-    //this.colorSelected =  this.product.variants[event.value].color;
-  }
-
-  openDialog(product: Product) {
-    this.dialog.open(CheckAvailabilityComponent, {
+    this.dialog.open(AvailabilityComponent, {
       data: {
         call: 'product',
-        size: this.size,
-        modelNo: product.modelNo!,
-        sizes: product.variants[0].sizes
+        size: this.selectedSize(),
+        modelNo: product.modelNo,
+        sizes: product.variants?.[0]?.sizes ?? [],
       },
       maxWidth: '100vw',
-      maxHeight: '100vh'
+      maxHeight: '100vh',
     });
-  }
-
-  addToCart(product: Product){
-    if(this.isSizeSelected){
-      const cartProduct: CartProduct = {
-        productImage: product.imageList?.[0] ?? '',
-        modelNo : product.modelNo,
-        noOfItems : 1,
-        size : +this.size,
-        vendor: product.companyName!,
-        productName: product.name,
-        price: product.price
-      }
-      this.productService.addToCart(cartProduct);
-    }else{
-      if(this.stock === 0){
-        this.snackBar.info('Please change store as product is not available in selected store');
-      }else{
-        this.snackBar.info('Please select size of product');
-      }
-
-    }
-
-  }
-  variantSelect(index: number, modelNo: string){
-    this.productService.getProductById(modelNo);
-    this.product = this.productService.product;
-    const buttonList = document.getElementsByClassName('variant-image');
-    buttonList[index].classList.add("active");
-    if(this.preBtn){
-      this.preBtn.classList.remove("active");
-    }
-    this.preBtn = buttonList[index];
-  }
-  sizeSelected(size: any){
-    this.size = size;
-    this.isSizeSelected = true;
-    this.checkProductInStore();
-  }
-  checkAvailability(product: Product){
-    this.openDialog(product);
-  }
-
-  checkProductInStore(){
-    this.product.subscribe(product=>{
-      this.selectedProduct = product[0];
-    });
-    setTimeout(()=>{
-      for(let products of this.user.storeSelected.products){
-        if(products.modelNo === this.selectedProduct.modelNo){
-          for(let i=0; i<products.variants[0].sizes.length; i++){
-            if(products.variants[0].sizes[i] === this.size){
-              this.stock = +products.variants[0].inStock[i];
-            }
-          }
-        }
-      }
-    },1000)
-
   }
 }

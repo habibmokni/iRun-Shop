@@ -1,121 +1,121 @@
-
-@for (product of product|async; track product) {
-  <div fxLayout>
-    <div class="image-container" fxHide.xs fxFlex.gt-xs="70%">
-      <app-image-slider [productImages]="product.imageList"></app-image-slider>
+@if (product(); as product) {
+  <div class="product-layout">
+    <!-- Image slider -->
+    <div class="product-images">
+      <app-image-slider [productImages]="product.imageList ?? []" />
     </div>
-    <div fxLayout="column" style="margin: 20px;" fxFlex.gt-xs="30%">
-      <div class="image-container" fxHide.gt-xs>
-        <app-image-slider [productImages]="product.imageList"></app-image-slider>
+
+    <!-- Product details -->
+    <div class="product-details">
+      <div class="article-header">
+        <h2>{{ product.name }}</h2>
+        <mat-card-subtitle>{{ product.subCategory }}, Sports Shoes</mat-card-subtitle>
       </div>
-      <div class="article-header" fxFlex="100%">
-        <h2>{{product.name}}</h2>
-        <mat-card-subtitle>{{product.subCategory}}, Sports Shoes</mat-card-subtitle>
+
+      <div class="article-price">
+        <h3 class="original-price">{{ originalPrice() | number:'1.2-2' }}€</h3>
+        <h2 class="current-price">{{ product.price }}€</h2>
       </div>
-      <div class="article-quantity" fxFlex="100%" fxLayout>
-        <div class="article-price" fxLayout>
-          <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
-          <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
-        </div>
-      </div>
-      @if (!!similarProducts) {
-        <div class="variant-selection" fxFlex="100%" fxLayout="row wrap">
-          @for (product of similarProducts; track product; let i = $index) {
-            <a class="variant-image" (click)="variantSelect(i,product.modelNo!)">
-              <div>
-                <img [src]="product.imageList?.[0]" alt="image" style="width: auto; height: 44px;">
-              </div>
+
+      <!-- Variant thumbnails -->
+      @if (similarProducts().length > 0) {
+        <div class="variant-selection">
+          @for (variant of similarProducts(); track variant.modelNo; let i = $index) {
+            <a class="variant-image"
+               [class.active]="activeVariantIndex() === i"
+               (click)="variantSelect(i, variant.modelNo!)">
+              <img [src]="variant.imageList?.[0]" [alt]="variant.name">
             </a>
           }
         </div>
       }
-      <span class="filler"></span>
-      <cnc-size-selector (sizeSelected)="sizeSelected($event)" [product]="product"></cnc-size-selector>
-      <div class="buttonContainer" fxLayout fxLayoutAlign="center center">
+
+      <!-- Size selector (cnc web component) -->
+      <cnc-size-selector
+        [product]="product"
+        (sizeSelected)="sizeSelected($any($event))" />
+
+      <!-- Cart + favorite buttons -->
+      <div class="button-row">
         <button
           mat-flat-button
-          class="addToCartBtn"
           type="button"
-          (click)="addToCart(product)"
-          type="button">
+          class="add-to-cart-btn"
+          (click)="addToCart()">
           Add to cart
         </button>
-        <button mat-mini-fab
-          style="background-color: #fff; color: #d53d5e; margin-left: 10px;"
-          type="button">
+        <button mat-mini-fab type="button" class="favorite-btn">
           <mat-icon>favorite_border</mat-icon>
         </button>
       </div>
+
+      <!-- Shipping info -->
       <mat-list role="list">
         <mat-list-item role="listitem">
-          <mat-icon class="done">done</mat-icon> Free store collection and returns
+          <mat-icon class="done-icon">done</mat-icon> Free store collection and returns
         </mat-list-item>
         <mat-list-item role="listitem">
-          <mat-icon class="done">done</mat-icon> Free home delivery from 80 €
+          <mat-icon class="done-icon">done</mat-icon> Free home delivery from 80 €
         </mat-list-item>
         <mat-list-item role="listitem">
-          <mat-icon class="done">done</mat-icon> Same day pick up
+          <mat-icon class="done-icon">done</mat-icon> Same day pick up
         </mat-list-item>
       </mat-list>
-      <mat-card class="checkAvailabilitySection">
+
+      <!-- Check availability card -->
+      <mat-card class="availability-card">
         <h2>Check branch Availability</h2>
         <h3>Find your favourite shoe in your nearest shop now.</h3>
-        <p>Note: Due to regional lockdowns & store closures only limited availability.
-          Check out the iRun shop near you.
-        </p>
+        <p>Note: Due to regional lockdowns &amp; store closures only limited availability.
+          Check out the iRun shop near you.</p>
         <button
           mat-flat-button
           type="button"
-          class="availability_button"
-          (click)="checkAvailability(product)"
-          >
-          <mat-icon
-            fontSet="material-icons-outlined"
-          style="color: #d53d5e; font-size: 25px;">room</mat-icon>
-          <span style="font-weight: bold;">Check availability in branch nearby</span>
+          class="availability-btn"
+          (click)="checkAvailability()">
+          <mat-icon fontSet="material-icons-outlined" class="availability-icon">room</mat-icon>
+          <span class="availability-label">Check availability in branch nearby</span>
         </button>
       </mat-card>
-      <mat-chip-list aria-label="Shoes selection">
-        <mat-chip class="chips">Running</mat-chip>
-        <mat-chip class="chips">Gym</mat-chip>
-        <mat-chip class="chips">Outdoor</mat-chip>
-        <mat-chip class="chips">waterproof</mat-chip>
-        <mat-chip class="chips">Unisex</mat-chip>
-        <mat-chip class="chips"> GEL® elements</mat-chip>
-      </mat-chip-list>
+
+      <!-- Tags -->
+      <mat-chip-set aria-label="Shoes selection">
+        <mat-chip class="chip">Running</mat-chip>
+        <mat-chip class="chip">Gym</mat-chip>
+        <mat-chip class="chip">Outdoor</mat-chip>
+        <mat-chip class="chip">Waterproof</mat-chip>
+        <mat-chip class="chip">Unisex</mat-chip>
+        <mat-chip class="chip">GEL® elements</mat-chip>
+      </mat-chip-set>
+
+      <!-- Accordion -->
       <mat-accordion>
-        <mat-expansion-panel
-          (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false">
+        <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Product Description
-            </mat-panel-title>
+            <mat-panel-title>Product Description</mat-panel-title>
           </mat-expansion-panel-header>
-          <p> -Neutral shoes, the all-rounder </p>
-          <p> - Suitable for normal sproners </p>
-          <p> - Ideal for street & park </p>
-          <p> - Thanks to the GORE-TEX membrane, the shoe is breathable, waterproof and windproof </p>
-          <p> - Unisex specific fit </p>
-          <p> - GORE-TEX membrane </p>
-          <p> - Waterproof </p>
-          <p> - Windproof </p>
-          <p> - Breathable </p>
-          <p> - FlyteFoam™ </p>
-          <p> - GEL® elements </p>
+          <p>- Neutral shoes, the all-rounder</p>
+          <p>- Suitable for normal sproners</p>
+          <p>- Ideal for street &amp; park</p>
+          <p>- Thanks to the GORE-TEX membrane, the shoe is breathable, waterproof and windproof</p>
+          <p>- Unisex specific fit</p>
+          <p>- GORE-TEX membrane</p>
+          <p>- Waterproof</p>
+          <p>- Windproof</p>
+          <p>- Breathable</p>
+          <p>- FlyteFoam™</p>
+          <p>- GEL® elements</p>
         </mat-expansion-panel>
-        <mat-expansion-panel (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false">
+
+        <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Reviews
-            </mat-panel-title>
+            <mat-panel-title>Reviews</mat-panel-title>
             <mat-panel-description>
-              <mat-icon class="star">star</mat-icon>
-              <mat-icon class="star">star</mat-icon>
-              <mat-icon class="star">star</mat-icon>
-              <mat-icon class="star">star</mat-icon>
-              <mat-icon class="star">star_half</mat-icon>
+              <mat-icon class="star-icon">star</mat-icon>
+              <mat-icon class="star-icon">star</mat-icon>
+              <mat-icon class="star-icon">star</mat-icon>
+              <mat-icon class="star-icon">star</mat-icon>
+              <mat-icon class="star-icon">star_half</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
           <p>Customer reviews here!!</p>
@@ -124,4 +124,3 @@
     </div>
   </div>
 }
-
