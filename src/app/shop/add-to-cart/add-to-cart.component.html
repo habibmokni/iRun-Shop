@@ -1,15 +1,55 @@
-<div fxLayout="column">
-  <div class="article-quantity" fxFlex="100%" fxLayout>
-
+<div class="add-to-cart-container">
+  <div class="article-quantity">
     <span class="filler"></span>
-    <div class="article-price" fxLayout>
-      <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
-      <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
+
+    <div class="article-price">
+      <h3 class="original-price">
+        {{ originalPrice() | number : '1.2-2' }}€
+      </h3>
+      <h2 class="discounted-price">
+        {{ product().price }}€
+      </h2>
     </div>
   </div>
-<cnc-size-selector [product]="product" (sizeSelected)="onSizeSelect($any($event))" />
-  <div style="width: 100%; text-align: center;">
-    <button mat-flat-button type="button" (click)="addToCart(product)" style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%); color: white;" type="button" class="button-container">Add to cart</button>
+
+  <cnc-size-selector
+    [product]="product()"
+    (sizeSelected)="onSizeSelect($any($event))"
+  />
+
+  @if (isSizeSelected()) {
+    <div class="stock-info">
+      @if (stock() > 0) {
+        <span class="in-stock">
+          In stock: {{ stock() }}
+        </span>
+      } @else {
+        <span class="out-of-stock">
+          Not available in selected store
+        </span>
+      }
+    </div>
+  }
+
+  <div class="quantity-controls">
+    <button mat-icon-button type="button" (click)="decrementItems()">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <span class="quantity-value">{{ noOfItems() }}</span>
+    <button mat-icon-button type="button" (click)="incrementItems()">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
 
+  <div class="button-wrapper">
+    <button
+      mat-flat-button
+      type="button"
+      (click)="addToCart()"
+      class="button-container"
+      [disabled]="stock() === 0"
+    >
+      Add to cart
+    </button>
+  </div>
 </div>
