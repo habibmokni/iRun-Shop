@@ -1,15 +1,26 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-
+import { map } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CartProduct } from '../shared/models/cart-product.model';
 import { Product } from '../shared/models/product.model';
-import { User } from '../shared/models/user.model';
 import { ProductService } from '../shared/services/product.service';
 import { SnackbarService } from '../shared/services/snackbar.service';
 import { UserService } from '../shared/services/user.service';
+
+interface CartItemStock {
+  readonly physical: number;
+  readonly online: number;
+}
 
 @Component({
   selector: 'app-shopping-cart',
@@ -17,142 +28,109 @@ import { UserService } from '../shared/services/user.service';
   styleUrls: ['./shopping-cart.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule
-]
+  imports: [RouterModule, MatCardModule, MatButtonModule, MatIconModule],
 })
-export class ShoppingCartComponent implements OnInit {
-  private productService = inject(ProductService);
-  private router = inject(Router);
-  private userService = inject(UserService);
-  private snackbarService = inject(SnackbarService);
+export class ShoppingCartComponent {
+  private readonly productService = inject(ProductService);
+  private readonly router = inject(Router);
+  private readonly userService = inject(UserService);
+  private readonly snackbar = inject(SnackbarService);
 
+  private readonly cartProductsSig = signal<CartProduct[]>(
+    this.productService.getLocalCartProducts()
+  );
+  protected readonly cartProducts = this.cartProductsSig.asReadonly();
+  protected readonly hasProducts = computed(() => this.cartProducts().length > 0);
 
-  messageTitle = "No Products Found in Cart";
-  messageDescription = "Please add Products to Cart";
+  protected readonly grandTotal = computed(() =>
+    this.cartProducts().reduce((sum, p) => sum + p.price * p.noOfItems, 0)
+  );
 
-  user!: User;
-  cartProducts: CartProduct[] = [];
-  totalValue= 0;
-  grandtotal = 0;
+  private readonly userSig = toSignal(
+    this.userService.userSub.pipe(map(() => this.userService.user)),
+    { initialValue: this.userService.user ?? null }
+  );
 
-  itemInStock: number[] = [];
-  onlineProducts: Product[] = [];
-  onlineStoreStock: number[] = [];
+  private readonly onlineProducts = toSignal(this.productService.productList, {
+    initialValue: [] as Product[],
+  });
 
+  protected readonly stockInfo = computed<CartItemStock[]>(() => {
+    const cart = this.cartProducts();
+    const user = this.userSig();
+    const storeProducts = user?.storeSelected?.products ?? [];
+    const online = this.onlineProducts();
 
-  constructor()
-    {
-      const userService = this.userService;
+    return cart.map((product) => ({
+      physical: this.findStock(product, storeProducts),
+      online: this.findStock(product, online),
+    }));
+  });
 
-      //check if user already exists
-      if(userService.user){
-        this.user = this.userService.user;
-      }
-      //observes the user changes
-      userService.userSub.subscribe(()=>{
-        this.user = userService.user;
-      });
-      //fetching products and subscribing to realtime changes
-      this.productService.fetchProduct();
-      this.productService.productList.subscribe(products=>{
-        this.onlineProducts = products;
-        this.checkProductsStock();
-      });
-    }
-
-  ngOnInit(): void {
-    this.getCartProduct();
-    for(let product of this.cartProducts){
-      this.grandtotal += (product.price*product.noOfItems);
-    }
+  constructor() {
+    this.productService.fetchProduct();
   }
-  //function to increment noOfitems of a product
-  onAddItem(index: number, product: CartProduct){
-    if(this.cartProducts[index].noOfItems>0){
-      if(this.cartProducts[index].noOfItems<this.itemInStock[index] || this.cartProducts[index].noOfItems<this.onlineStoreStock[index]){
-        this.cartProducts[index].noOfItems++;
-        this.grandtotal=this.grandtotal+(+this.cartProducts[index].price);
-        this.productService.updateNoOfItemsOfProduct(product);
-      }
-    }
-  }
-  //function to decrement noOfItems of a product
-  onRemoveItem(index: number, product: CartProduct){
-    if(this.cartProducts[index].noOfItems===1){     //if noOfItem is equal to 0 product removed from cart
-      this.grandtotal=this.grandtotal-(+this.cartProducts[index].price);
-      this.removeCartProduct(product);
-      if(this.user){
-        this.checkProductsStock();
-      }
-    }else{
-      if(this.cartProducts[index].noOfItems>1){     //if noOfItem is greater than 1 than decremented by 1
-        this.cartProducts[index].noOfItems--;
-        this.grandtotal=this.grandtotal-(+this.cartProducts[index].price);
-        this.productService.updateNoOfItemsOfProduct(product);
-      }
-    }
-  }
-  //function to remove cartProduct
-  removeCartProduct(product: CartProduct) {
-    this.productService.removeLocalCartProduct(product);
 
-    // Recalling
-    this.getCartProduct();
-  }
-  //fetching cart products from product service
-  getCartProduct() {
-    this.cartProducts = this.productService.getLocalCartProducts();
-  }
-  //called when checkout button is pressed
-  onSubmit(){
-    if(this.cartProducts.length>0){
-      this.productService.orderPrice = this.totalValue;
-      this.router.navigate(["/checkout"]);
-    }else {
-      this.snackbarService.info('Please add products to cart!');
-    }
-  }
-  //to check whether product is available in physical and online store
-  checkProductsStock(){
-    //physical store check
-    if(this.user){
-      for(let product of this.cartProducts){
-        for(let storeProduct of this.user.storeSelected.products){
-          if(storeProduct.modelNo === product.modelNo){
-            for(let variant of storeProduct.variants){
-              if(variant.variantId === product.variantId){
-                for(let i=0; i<variant.sizes.length; i++){
-                  if(+variant.sizes[i] === product.size){
-                    this.itemInStock.push(+variant.inStock[i]);
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
 
-    //online store check
-    for(let product of this.cartProducts){
-      for(let onlineProduct of this.onlineProducts){
-        if(onlineProduct.modelNo === product.modelNo){
-          for(let variant of onlineProduct.variants){
-            if(variant.variantId === product.variantId){
-              for(let i=0; i<variant.sizes.length; i++){
-                if(+variant.sizes[i] === +product.size){
-                  this.onlineStoreStock.push(+variant.inStock[i]);
-                }
-              }
-            }
-          }
-        }
-      }
+  protected onAddItem(index: number): void {
+    const product = this.cartProducts()[index];
+    const stock = this.stockInfo()[index];
+
+    if (
+      product.noOfItems > 0 &&
+      (product.noOfItems < stock.physical || product.noOfItems < stock.online)
+    ) {
+      const updated = { ...product, noOfItems: product.noOfItems + 1 };
+      this.productService.updateNoOfItemsOfProduct(updated);
+      this.refreshCart();
     }
   }
 
+  protected onRemoveItem(index: number): void {
+    const product = this.cartProducts()[index];
+
+    if (product.noOfItems <= 1) {
+      this.productService.removeLocalCartProduct(product);
+    } else {
+      const updated = { ...product, noOfItems: product.noOfItems - 1 };
+      this.productService.updateNoOfItemsOfProduct(updated);
+    }
+    this.refreshCart();
+  }
+
+  protected onSubmit(): void {
+    if (this.hasProducts()) {
+      this.productService.orderPrice = this.grandTotal();
+      this.router.navigate(['/checkout']);
+    } else {
+      this.snackbar.info('Please add products to cart!');
+    }
+  }
+
+  protected stockColor(stock: number): string {
+    if (stock > 5) return 'good';
+    if (stock > 0) return 'low';
+    return 'out';
+  }
+
+
+  private refreshCart(): void {
+    this.cartProductsSig.set(this.productService.getLocalCartProducts());
+  }
+
+  private findStock(cartProduct: CartProduct, products: any[]): number {
+    const storeProduct = products.find(
+      (p: any) => p.modelNo === cartProduct.modelNo
+    );
+    if (!storeProduct) return 0;
+
+    const variant = storeProduct.variants?.find(
+      (v: any) => v.variantId === cartProduct.variantId
+    );
+    if (!variant) return 0;
+
+    const idx =
+      variant.sizes?.findIndex((s: any) => +s === +cartProduct.size) ?? -1;
+    return idx === -1 ? 0 : +(variant.inStock[idx] ?? 0);
+  }
 }
