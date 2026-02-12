@@ -1,84 +1,41 @@
+<div class="intro-page">
+  <!-- Logo -->
+  <div class="centered">
+    <img class="logo" src="assets/images/logos/iRunLogoBnW.png" alt="iRun logo">
+  </div>
+  <div class="centered">
+    <img class="arrow arrow-offset" src="assets/images/arrow1.png" alt="">
+  </div>
 
-<div style="text-align: center;">
-  <img style="width: 80px;" src="../../../assets/images/logos/iRunLogoBnW.png" alt="iRunLogoBnW">
-</div>
-<div style="text-align: center;">
-  <img style="width: 120px; margin-right: 70px" src="../../../assets/images/arrow1.png" alt="arrow1">
-</div>
+  @for (step of steps; track step.number; let i = $index, last = $last) {
+    <div class="step-image-container">
+      <h2 class="circle"
+          [class.circle-left]="i % 2 === 0"
+          [class.circle-right]="i % 2 !== 0">
+        {{ step.number }}
+      </h2>
+      <img class="step-image" [src]="step.image" [alt]="step.title">
+    </div>
 
-<!-- Step1  -->
+    <div class="step-description">
+      <h2>{{ step.title }}</h2>
+      <p>{{ step.description }}</p>
+    </div>
 
-<div style="text-align: center; position: relative;">
-  <h2 class="circle" style="position: absolute; top: -15px; left: 22%;">1</h2>
-  <img style="width: 80%;" src="../../../assets/images/intro/1.jpg" alt="example">
-</div>
-<div style="text-align: center; margin-top: 15px;">
-  <h2>Select product</h2>
-  <p>Find the product you want to purchase and add it to your shopping cart <br>
-    Click on the checkout button once the item is in your cart.
-    </p>
-</div>
-<div style="text-align: center;">
-  <img src="../../../assets/images/arrow2.png" alt="arrow2">
-</div>
+    @if (!last) {
+      <div class="centered">
+        <img
+          class="arrow"
+          [class.arrow-offset]="i % 2 !== 0"
+          [src]="i % 2 === 0 ? 'assets/images/arrow2.png' : 'assets/images/arrow1.png'"
+          alt="">
+      </div>
+    }
+  }
 
-<!-- Step 2  -->
-
-<div style="text-align: center; position: relative;">
-  <h2 class="circle" style="position: absolute; right: 33%; top: -15px;">2</h2>
-  <img style="width: 80%;" src="../../../assets/images/intro/2.jpg" alt="example">
-</div>
-<div style="text-align: center; margin-top: 15px;">
-  <h2>Select your store</h2>
-  <p>Whilst in the checkout you can choose the Collect in Store and choose the store you wish to collect your product in</p>
-</div>
-
-<div style="text-align: center;">
-  <img style="width: 120px; margin-right: 70px" src="../../../assets/images/arrow1.png" alt="arrow1">
-</div>
-
-<!-- Step 3 -->
-
-<div style="text-align: center; position: relative;">
-  <h2 class="circle" style="position: absolute; top: -15px; left: 22%;">3</h2>
-  <img style="width: 80%;" src="../../../assets/images/intro/3.jpg" alt="example">
-</div>
-<div style="text-align: center; margin-top: 15px;">
-  <h2>Complete your order</h2>
-  <p>Complete the payment form.You will receive a confirmation email after purchase when the store has processed the order to confirm that your product is ready for collection.
-    </p>
-</div>
-<div style="text-align: center;">
-  <img src="../../../assets/images/arrow2.png" alt="arrow2">
-</div>
-
-<!-- Step 4 -->
-
-<div style="text-align: center; position: relative;">
-  <h2 class="circle" style="position: absolute; right: 33%; top: -15px;">4</h2>
-  <img style="width: 80%;" src="../../../assets/images/intro/4.jpg" alt="example">
-</div>
-<div style="text-align: center; margin-top: 15px;">
-  <h2>Collect Product</h2>
-  <p>Go to your local store and pick up your purchased product.</p>
-</div>
-<div style="text-align: center;">
-  <img style="width: 120px; margin-right: 70px" src="../../../assets/images/arrow1.png" alt="arrow1">
-</div>
-
-<!-- Step 5 -->
-
-<div style="text-align: center; position: relative;">
-  <h2 class="circle" style="position: absolute; top: -15px; left: 85px;">5</h2>
-  <img style="width: 80%;" src="../../../assets/images/intro/5.jpg" alt="example">
-</div>
-<div style="text-align: center; margin-top: 15px;">
-  <h2>Enjoy</h2>
-  <p>Enjoy your product.</p>
-</div>
-<!-- <div style="text-align: center; margin: 30px 0px;">
-  <img style="width: 80%;" src="../../../assets/images/steps.jpg" alt="steps">
-</div> -->
-<div style="text-align: center;">
-  <button mat-flat-button type="button" class="button" (click)="onClick()">Continue</button>
+  <div class="centered">
+    <button mat-flat-button type="button" class="continue-btn" (click)="onContinue()">
+      Continue
+    </button>
+  </div>
 </div>

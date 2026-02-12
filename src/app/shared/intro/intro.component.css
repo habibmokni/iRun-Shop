@@ -1,4 +1,32 @@
-.circle{
+.intro-page {
+  padding: 24px 16px;
+}
+
+.centered {
+  text-align: center;
+}
+
+.logo {
+  width: 80px;
+}
+
+.arrow-offset {
+  width: 120px;
+  margin-right: 70px;
+}
+
+.step-image-container {
+  text-align: center;
+  position: relative;
+}
+
+.step-image {
+  width: 80%;
+}
+
+.circle {
+  position: absolute;
+  top: -15px;
   border-radius: 50%;
   border: 1px solid #8b283d;
   background-color: #8b283d;
@@ -6,17 +34,34 @@
   width: 40px;
   height: 40px;
   line-height: 38px;
-}
-p{
-  margin: 0px 45px;
+  text-align: center;
+  margin: 0;
 }
 
-.button{
+.circle-left {
+  left: 22%;
+}
+
+.circle-right {
+  right: 33%;
+}
+
+.step-description {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.step-description p {
+  margin: 0 45px;
+}
+
+/* Continue button */
+.continue-btn {
   background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
   color: #fff;
   font-weight: bold;
   padding: 0.5rem;
   width: 60%;
-  margin: 2rem 0 2rem 0;
+  margin: 2rem 0;
   border-radius: 20px;
 }
