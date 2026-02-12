@@ -1,101 +1,92 @@
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h5 class="card-title fs-3 fw-bold mt-5 text-center">Become a part of iRun</h5>
-    </div>
-    <div class="col-8 col-md-6 col-lg-4 mx-auto my-3">
-      <div class="card " style="border: none;">
-        <div class="card-body">
-          @if (!isLoading) {
-            <form [formGroup]="registerForm">
-              <div class="mb-3">
-                <label for="firstName" class="form-label">First Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  [class.is-invalid]="registerForm.get('firstName')!.invalid && registerForm.get('firstName')!.touched"
-                  id="firstName"
-                  formControlName="firstName"
-                  >
-              </div>
-              <div class="mb-3">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="lastName"
-                  formControlName="lastName"
-                  [class.is-invalid]="registerForm.get('lastName')!.invalid && registerForm.get('lastName')!.touched"
-                  >
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="email"
-                  formControlName="email"
-                  [class.is-invalid]="registerForm.get('email')!.invalid && registerForm.get('email')!.touched" >
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <div class="input-group">
-                  <input
-                    [type]="hide? 'password' : 'text'"
-                    class="form-control"
-                    id="password"
-                    formControlName="password"
-                    [class.is-invalid]="registerForm.get('password')!.invalid && registerForm.get('password')!.touched"
-                    >
-                  <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <div class="input-group">
-                  <input
-                    [type]="hide? 'password' : 'text'"
-                    class="form-control"
-                    id="confirmPassword"
-                    formControlName="confirmPassword"
-                    [class.is-invalid]="registerForm.get('confirmPassword')!.invalid && registerForm.get('confirmPassword')!.touched"
-                    >
-                  <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="address" class="form-label">Address</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="address"
-                  formControlName="address"
-                  [class.is-invalid]="registerForm.get('address')!.invalid && registerForm.get('address')!.touched"
-                  >
-              </div>
-              <div class="mb-3">
-                <label for="zipCode" class="form-label">Zip Code</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="zipCode"
-                  formControlName="zipCode"
-                  [class.is-invalid]="registerForm.get('zipCode')!.invalid && registerForm.get('zipCode')!.touched"
-                  >
-              </div>
-              <div class="w-100 text-center">
-                <button mat-flat-button class="primary-button" type="button" (click)="onRegister()">Register</button>
-                <button mat-flat-button class="primary-button mx-1" type="button" (click)="onCancel()">Cancel</button>
-              </div>
-            </form>
-          }
-          @if (isLoading) {
-            <div class="pt-3 text-center">
-              <mat-spinner style="margin: auto;" />
-            </div>
-          }
+<div class="register-page">
+  <h2 class="register-title">Become a part of iRun</h2>
+
+  <div class="register-card">
+    @if (!isLoading()) {
+      <form [formGroup]="registerForm" class="register-form">
+
+        <div class="form-field">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            formControlName="firstName"
+            [class.is-invalid]="isFieldInvalid('firstName')">
         </div>
+
+        <div class="form-field">
+          <label for="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            [class.is-invalid]="isFieldInvalid('lastName')">
+        </div>
+
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            [class.is-invalid]="isFieldInvalid('email')">
+        </div>
+
+        <div class="form-field">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input
+              [type]="hidePassword() ? 'password' : 'text'"
+              id="password"
+              formControlName="password"
+              [class.is-invalid]="isFieldInvalid('password')">
+            <button type="button" class="toggle-btn" (click)="togglePasswordVisibility()">
+              <mat-icon>{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-group">
+            <input
+              [type]="hidePassword() ? 'password' : 'text'"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              [class.is-invalid]="isFieldInvalid('confirmPassword')">
+            <button type="button" class="toggle-btn" (click)="togglePasswordVisibility()">
+              <mat-icon>{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="address">Address</label>
+          <input
+            type="text"
+            id="address"
+            formControlName="address"
+            [class.is-invalid]="isFieldInvalid('address')">
+        </div>
+
+        <div class="form-field">
+          <label for="zipCode">Zip Code</label>
+          <input
+            type="text"
+            id="zipCode"
+            formControlName="zipCode"
+            [class.is-invalid]="isFieldInvalid('zipCode')">
+        </div>
+
+        <div class="form-actions">
+          <button mat-flat-button type="button" class="primary-button" (click)="onRegister()">Register</button>
+          <button mat-flat-button type="button" class="secondary-button" (click)="onCancel()">Cancel</button>
+        </div>
+      </form>
+    } @else {
+      <div class="loading-container">
+        <mat-spinner />
       </div>
-    </div>
+    }
   </div>
 </div>

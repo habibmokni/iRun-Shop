@@ -1,12 +1,11 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { SnackbarService } from '../services/snackbar.service';
 
 @Component({
@@ -17,53 +16,53 @@ import { SnackbarService } from '../services/snackbar.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
-    MatProgressSpinnerModule
-]
+    MatProgressSpinnerModule,
+  ],
 })
 export class AddUserComponent {
-  private router = inject(Router);
-  private snackbarService = inject(SnackbarService);
+  private readonly router = inject(Router);
+  private readonly snackbar = inject(SnackbarService);
 
-
-  registerForm: FormGroup = new FormGroup({
-    firstName : new FormControl('', [Validators.required]),
-    lastName : new FormControl('', [Validators.required]),
-    email : new FormControl('', [Validators.required, Validators.email]),
-    password : new FormControl('', [Validators.required]),
-    confirmPassword : new FormControl('', [Validators.required]),
-    address : new FormControl('', [Validators.required]),
-    zipCode : new FormControl('', [Validators.required]),
+  protected readonly registerForm = new FormGroup({
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    zipCode: new FormControl('', [Validators.required]),
   });
 
-  hide = true;
-  isLoading: boolean = false;
+  protected readonly hidePassword = signal(true);
+  protected readonly isLoading = signal(false);
 
-
-  ngOnInit(): void {
-
+  protected togglePasswordVisibility(): void {
+    this.hidePassword.update((h) => !h);
   }
 
-  onRegister(){
-    this.isLoading = true;
-    if(this.registerForm.valid){
+  protected isFieldInvalid(field: keyof typeof this.registerForm.controls): boolean {
+    const control = this.registerForm.controls[field];
+    return control.invalid && control.touched;
+  }
+
+  protected onRegister(): void {
+    this.isLoading.set(true);
+
+    if (this.registerForm.valid) {
       localStorage.setItem('user', JSON.stringify(this.registerForm.value));
-      this.snackbarService.success("User added successfully!");
+      this.snackbar.success('User added successfully!');
       this.registerForm.reset();
-      this.isLoading = false;
-      setTimeout(()=>{
-        this.router.navigate(['home']);
-      },2000)
-    }else{
-      this.isLoading = false;
-      this.snackbarService.error("Opps! Something went wrong");
+      this.isLoading.set(false);
+      setTimeout(() => this.router.navigate(['home']), 2000);
+    } else {
+      this.isLoading.set(false);
+      this.snackbar.error('Oops! Something went wrong');
     }
   }
 
-  onCancel(){
+  protected onCancel(): void {
     this.router.navigate(['home']);
   }
 }
