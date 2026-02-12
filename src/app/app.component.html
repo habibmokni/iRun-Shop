@@ -1,15 +1,11 @@
-@if (showIntro) {
+@if (showIntro()) {
   <app-intro (showIntro)="onShowIntro($event)" />
-}
-@if (!showIntro) {
+} @else {
   <div class="shopping">
     <app-header />
     <mat-divider />
   </div>
-}
-@if (!showIntro) {
-  <div [style.marginTop]="'80px'">
+  <div class="main-content">
     <router-outlet />
   </div>
 }
-
