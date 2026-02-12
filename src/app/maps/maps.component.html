@@ -1,27 +1,39 @@
-<div style="text-align: center;">
-  <google-map #maps
-    [options]="options"
+<div class="map-container">
+  <google-map
+    [options]="mapOptions()"
     [height]="mapHeight()"
-    [width]="mapWidth()"
-    >
-    <map-marker [position]="currentLocation" [icon]="icon" />
-    @for (store of storeList| async; track store; let i = $index) {
-      <map-marker #marker="mapMarker"
-        [position]="storeLocations[i]"
-        (mapClick)="openInfoWindow(marker,store,$event)" />
+    [width]="mapWidth()">
+
+    <map-marker [position]="defaultMarkerPosition" [icon]="markerIcon" />
+
+    @for (entry of mapStores(); track entry.store.id) {
+      <map-marker
+        #marker="mapMarker"
+        [position]="entry.position"
+        (mapClick)="openInfoWindow(marker, entry.store, $event)" />
     }
-    @if (userService.user) {
+
+    <map-marker [position]="currentUserLocation()" />
+
+    @if (hasUser()) {
       <map-info-window>
-        <h2>{{this.currentStore.name}}</h2>
-        <p>{{this.currentStore.address}}</p>
-        <button mat-raised-button color="primary" (click)="onSelectStore(this.currentStore)">Select</button>
-        <button mat-raised-button color="accent" (click)="onGetDirections(this.currentStore.location)" >Directions</button>
+        @if (currentStore(); as store) {
+          <h2>{{ store.name }}</h2>
+          <p>{{ store.address }}</p>
+          <div class="info-actions">
+            <button mat-raised-button color="primary" (click)="onSelectStore(store)">Select</button>
+            <button mat-raised-button color="accent" (click)="onGetDirections(store.location)">Directions</button>
+          </div>
+        }
       </map-info-window>
     }
-    <map-marker [position]="currentUserLocation" />
-    @if ((directionsResults$ | async); as directionsResults) {
-      <map-directions-renderer [directions]="directionsResults" />
+
+    @if (directionsResults(); as directions) {
+      <map-directions-renderer [directions]="directions" />
     }
   </google-map>
-  <button mat-raised-button class="button" (click)="onGetCurrentLocation()">Stores Nearby</button>
+
+  <button mat-raised-button class="nearby-btn" (click)="onGetCurrentLocation()">
+    Stores Nearby
+  </button>
 </div>

@@ -1,4 +1,15 @@
-button{
-  background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);
+.map-container {
+  text-align: center;
+}
+
+.nearby-btn {
+  margin-top: 12px;
+  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
   color: white;
+}
+
+.info-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
 }

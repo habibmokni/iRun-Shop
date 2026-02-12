@@ -1,16 +1,30 @@
-import { Component, OnInit, input, inject, ChangeDetectionStrategy, viewChild } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  computed,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { map } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MapInfoWindow, MapMarker, GoogleMapsModule } from '@angular/google-maps';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { AsyncPipe } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable} from 'rxjs';
+
 import { Store } from '../shared/models/store.model';
+import { Location } from '../shared/models/location.model';
 import { SnackbarService } from '../shared/services/snackbar.service';
 import { StoreService } from '../shared/services/store.service';
 import { UserService } from '../shared/services/user.service';
-import { Location} from './../shared/models/location.model';
 import { MapsService } from '../shared/services/maps.service';
+
+interface MapStore {
+  readonly store: Store;
+  readonly position: google.maps.LatLngLiteral;
+}
 
 @Component({
   selector: 'app-maps',
@@ -18,139 +32,141 @@ import { MapsService } from '../shared/services/maps.service';
   styleUrls: ['./maps.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    GoogleMapsModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatIconModule,
-    AsyncPipe
-]
+  imports: [GoogleMapsModule, MatDialogModule, MatButtonModule, MatIconModule],
 })
-export class MapsComponent implements OnInit {
-  private storeService = inject(StoreService);
-  private mapsService = inject(MapsService);
-  private snackBarService = inject(SnackbarService);
-  private dialog = inject(MatDialog);
-  userService = inject(UserService);
+export class MapsComponent {
+  // Services
+  private readonly storeService = inject(StoreService);
+  private readonly mapsService = inject(MapsService);
+  private readonly snackbar = inject(SnackbarService);
+  private readonly dialog = inject(MatDialog);
+  private readonly userService = inject(UserService);
 
-  readonly infoWindow = viewChild.required(MapInfoWindow);
+  // View children
+  protected readonly infoWindow = viewChild.required(MapInfoWindow);
+
+  // Inputs
   readonly mapHeight = input<number>(450);
   readonly mapWidth = input<number>(screen.width);
-  readonly storesWithProduct = input<google.maps.LatLngLiteral[]>([]);
   readonly ModelNo = input<any>();
   readonly size = input<number>(0);
 
-  stores: Store[] = [];
-
-
-  options: google.maps.MapOptions = {
-    center: {lat: 51.44157584725519, lng: 7.565725496333208},
-    zoom: 8
+  // Constants
+  private static readonly DEFAULT_CENTER: google.maps.LatLngLiteral = {
+    lat: 51.44157584725519,
+    lng: 7.565725496333208,
   };
 
-  currentStore!: Store;
-  //storeLocations: {lat: number, lng: number}[];
-  storeList = new Observable<Store[]>();
+  protected readonly defaultMarkerPosition = MapsComponent.DEFAULT_CENTER;
+  protected readonly markerIcon = {
+    url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+  } as const;
 
-  currentLocation: google.maps.LatLngLiteral = { lat: 51.44157584725519, lng: 7.565725496333208};
-  logo="../../assets/images/logos/location.png";
-  icon = {
-    url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-};
+  private readonly mapOptionsSig = signal<google.maps.MapOptions>({
+    center: MapsComponent.DEFAULT_CENTER,
+    zoom: 8,
+  });
+  private readonly currentStoreSig = signal<Store | null>(null);
+  private readonly currentUserLocationSig = signal<google.maps.LatLngLiteral>(
+    { lat: 31.4914, lng: 74.2385 }
+  );
+  private readonly directionsResultsSig = signal<google.maps.DirectionsResult | null>(null);
 
-  directionsResults$!: Observable<google.maps.DirectionsResult|undefined>;
+  protected readonly mapOptions = this.mapOptionsSig.asReadonly();
+  protected readonly currentStore = this.currentStoreSig.asReadonly();
+  protected readonly currentUserLocation = this.currentUserLocationSig.asReadonly();
+  protected readonly directionsResults = this.directionsResultsSig.asReadonly();
 
-  storeLocations: google.maps.LatLngLiteral[];
+  private readonly allStores = toSignal(this.storeService.store, {
+    initialValue: [] as Store[],
+  });
 
-  constructor(){
-        const userService = this.userService;
+  private readonly userSig = toSignal(
+    this.userService.userSub.pipe(map(() => this.userService.user)),
+    { initialValue: this.userService.user ?? null }
+  );
+  protected readonly hasUser = computed(() => !!this.userSig());
 
-        if(userService.user){
-          this.currentStore = this.userService.user.storeSelected;
-        }
+  protected readonly mapStores = computed<MapStore[]>(() => {
+    const stores = this.allStores();
+    const locations = this.storeService.storeLocations;
+    const modelNo = this.ModelNo();
+    const productSize = this.size();
 
-      this.storeList = this.storeService.store;
-      this.storeLocations = this.storeService.storeLocations;
-      //console.log(this.storeLocations);
+    const paired = stores
+      .map((store, i) => ({ store, position: locations[i] }))
+      .filter(({ position }) => !!position);
 
+    if (!modelNo || !productSize) return paired;
+
+    return paired.filter(({ store }) =>
+      this.hasProductInStock(store, modelNo, productSize)
+    );
+  });
+
+  constructor() {
+    const user = this.userService.user;
+    if (user?.storeSelected) {
+      this.currentStoreSig.set(user.storeSelected);
     }
-  ngOnInit(): void {
-
-    this.storeList.subscribe(stores=>{
-      this.stores = stores;
-      this.checkProductAvailabilty(this.ModelNo(), this.size());
-    })
   }
-  currentUserLocation: google.maps.LatLngLiteral = { lat: 31.4914, lng: 74.2385};
 
-  onGetCurrentLocation(){
-    this.mapsService.getCurrentLocation()
-    setTimeout(()=>{
-      this.options = {
-        center: this.mapsService.currentLocation
-      };
-      this.currentUserLocation = this.mapsService.currentLocation;
-    },500)
 
-  }
-  onGetDirections(location: Location){
-    this.mapsService.getDirections(location);
-    this.directionsResults$ = this.mapsService.storeDirectionsResults$;
-    this.options.zoom=2;
-  }
-  openInfoWindow(marker: MapMarker, store: Store, event: google.maps.MapMouseEvent) {
-    this.currentStore = store;
-    console.log(this.currentStore.name);
+  protected openInfoWindow(
+    marker: MapMarker,
+    store: Store,
+    event: google.maps.MapMouseEvent
+  ): void {
+    this.currentStoreSig.set(store);
     this.infoWindow().open(marker);
     if (event.latLng) {
       this.storeService.currentStoreLocation = event.latLng.toJSON();
-      console.log(this.storeService.currentStoreLocation);
     }
-    this.storeService.currentStore = this.currentStore;
+    this.storeService.currentStore = store;
   }
-  onSelectStore(store: Store){
-    if(!this.userService.user){
-      this.userService.addUserTodb({
-        name: "Anonymous",
-        storeSelected: store
-      });
-    }else{
-      this.userService.updateSelectedStore({
-        name: "Anonymous",
-        storeSelected: store
-      });
+
+  protected onSelectStore(store: Store): void {
+    const userUpdate = { name: 'Anonymous', storeSelected: store };
+    if (!this.userService.user) {
+      this.userService.addUserTodb(userUpdate);
+    } else {
+      this.userService.updateSelectedStore(userUpdate);
     }
-    this.snackBarService.success('Store Selected Successfully');
+    this.snackbar.success('Store Selected Successfully');
     this.infoWindow().close();
     this.dialog.closeAll();
   }
 
-  checkProductAvailabilty(modelNo: string, productSize: number){
-    let i=0;
-    console.log(this.stores)
-    let newLocations = [];
-      for(let store of this.stores){
-        console.log(store);
-          //yahan products ki for loop use karni h
-          for(let product of store.products){
-            if(product.modelNo === modelNo){
-              console.log("model true");
-              for(let variant of product.variants){
-                for(let index=0; index<variant.sizes.length; index++){
-                  console.log(productSize);
-                  if(+variant.sizes[index] === +productSize && +variant.inStock[index]>0){
-                    console.log(variant.sizes[index]);
-                    newLocations.push(this.storeLocations[i]);
-                    console.log(newLocations);
-                 }
-                }
-              }
-            }
+  protected onGetCurrentLocation(): void {
+    this.mapsService.getCurrentLocation();
+    setTimeout(() => {
+      const loc = this.mapsService.currentLocation;
+      this.mapOptionsSig.set({ center: loc, zoom: 12 });
+      this.currentUserLocationSig.set(loc);
+    }, 500);
+  }
 
-          }
-          i++;
-        }
-        this.storeLocations = newLocations;
-    }
+  protected onGetDirections(location: Location): void {
+    this.mapsService.getDirections(location);
+    this.mapsService.storeDirectionsResults$.subscribe((result) => {
+      this.directionsResultsSig.set(result ?? null);
+    });
+    this.mapOptionsSig.update((opts) => ({ ...opts, zoom: 2 }));
+  }
 
+
+  private hasProductInStock(
+    store: Store,
+    modelNo: string,
+    size: number
+  ): boolean {
+    return store.products.some((product) => {
+      if (product.modelNo !== modelNo) return false;
+      return product.variants.some((variant) =>
+        variant.sizes.some(
+          (s, idx) => +s === +size && +variant.inStock[idx] > 0
+        )
+      );
+    });
+  }
 }
