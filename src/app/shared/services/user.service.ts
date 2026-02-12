@@ -1,39 +1,45 @@
-import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
-import { User } from "../models/user.model";
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+
+import { User } from '../models/user.model';
+
+const USER_STORAGE_KEY = 'avct_user';
 
 @Injectable()
-export class UserService{
+export class UserService {
   user!: User;
-  userSub =new Subject<any>();
-  constructor(){
-    this.getUser();
+  readonly userSub = new Subject<User>();
+
+  constructor() {
+    this.loadUser();
   }
 
-  addUserTodb(user: User){
-    const a: User[] = JSON.parse(localStorage.getItem("avct_user")!) || [];
-    a.push(user);
-    setTimeout(() => {
-      localStorage.setItem("avct_user", JSON.stringify(a));
-      this.getUser();
-      this.userSub.next(true);
-    }, 500);
-
+  addUserTodb(user: User): void {
+    const users = this.getStoredUsers();
+    users.push(user);
+    this.saveUsers(users);
+    this.loadUser();
+    this.userSub.next(this.user);
   }
 
-  getUser(){
-    const user: User[] =
-      JSON.parse(window.localStorage.getItem("avct_user")!) || [];
-      console.log("Üser from storage"+ user[0]);
-      this.user = user[0];
-  }
-  updateSelectedStore(user: User){
-    console.log(user.storeSelected);
-    const a: User[]= JSON.parse(window.localStorage.getItem("avct_user")!) || [];
-    a[0] = user;
-    localStorage.setItem("avct_user", JSON.stringify(a));
-    this.user = a[0];
-    this.userSub.next(true);
+  updateSelectedStore(user: User): void {
+    const users = this.getStoredUsers();
+    users[0] = user;
+    this.saveUsers(users);
+    this.user = users[0];
+    this.userSub.next(this.user);
   }
 
+  private loadUser(): void {
+    const users = this.getStoredUsers();
+    this.user = users[0];
+  }
+
+  private getStoredUsers(): User[] {
+    return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) ?? '[]');
+  }
+
+  private saveUsers(users: User[]): void {
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+  }
 }

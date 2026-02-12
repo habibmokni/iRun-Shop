@@ -37,7 +37,6 @@ export class AppComponent {
       this.authService.checkLogIn();
       this.storeService.fetchStore();
       this.storeService.getStoreLocations();
-      this.userService.getUser();
       //sending storeList to cnc package
       this.storeService.store.subscribe(storeList=>{
         this.cncService.setStoreList(storeList);

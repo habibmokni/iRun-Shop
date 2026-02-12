@@ -1,44 +1,41 @@
-import { Injectable, inject } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { Injectable, inject } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+
+type SnackbarLevel = 'success' | 'info' | 'warning' | 'error' | 'wait';
+
 @Injectable()
-export class SnackbarService{
-  private snackBar = inject(MatSnackBar);
+export class SnackbarService {
+  private readonly snackBar = inject(MatSnackBar);
 
+  private readonly baseConfig: MatSnackBarConfig = {
+    duration: 1000,
+    verticalPosition: 'top',
+  };
 
-  //used to send snack messages to the user on different scenerio
-  success(title: any) {
-    this.snackBar.open(title, "", {
-      duration: 1000,
-      panelClass: 'snackbar-success',
-      verticalPosition: 'top'
-    });
+  success(message: string): void {
+    this.show(message, 'success');
   }
-  info(title: any) {
-    this.snackBar.open(title, '', {
-      duration: 1000,
-      panelClass: 'snackbar-info',
-      verticalPosition: 'top'
-    });
+
+  info(message: string): void {
+    this.show(message, 'info');
   }
-  warning(title: any) {
-    this.snackBar.open(title, "Dismiss", {
-      duration: 1000,
-      panelClass: 'snackbar-warning',
-      verticalPosition: 'top'
-    });
+
+  warning(message: string): void {
+    this.show(message, 'warning', 'Dismiss');
   }
-  error(title: any) {
-    this.snackBar.open(title, "Dismiss", {
-      duration: 1000,
-      panelClass: 'snackbar-error',
-      verticalPosition: 'top'
-    });
+
+  error(message: string): void {
+    this.show(message, 'error', 'Dismiss');
   }
-  wait(title: any) {
-    this.snackBar.open(title, "Dismiss", {
-      duration: 1000,
-      panelClass: 'snackbar-wait',
-      verticalPosition: 'top'
+
+  wait(message: string): void {
+    this.show(message, 'wait', 'Dismiss');
+  }
+
+  private show(message: string, level: SnackbarLevel, action = ''): void {
+    this.snackBar.open(message, action, {
+      ...this.baseConfig,
+      panelClass: `snackbar-${level}`,
     });
   }
 }

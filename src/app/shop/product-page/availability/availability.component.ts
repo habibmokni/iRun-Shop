@@ -113,7 +113,7 @@ export class AvailabilityComponent {
     // Geolocation is async; wait for position then recalculate
     setTimeout(() => {
       const loc = this.mapService.currentLocation;
-      this.mapService.find_closest_marker(loc.lat, loc.lng);
+      this.mapService.findClosestMarker(loc.lat, loc.lng);
       this.runAvailabilityCheck();
     }, 1000);
   }
@@ -138,7 +138,7 @@ export class AvailabilityComponent {
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
 
-        this.mapService.find_closest_marker(lat, lng);
+        this.mapService.findClosestMarker(lat, lng);
         this.runAvailabilityCheck();
       });
     });
