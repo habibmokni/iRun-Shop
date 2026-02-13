@@ -8,7 +8,7 @@ export type BillingDetails = Readonly<{
 }>;
 
 export type StoreLocation = Readonly<{
-	id: number;
+	id: string | null;
 	address: string | null;
 }>;
 
@@ -36,3 +36,21 @@ export type StockCheckResult = Readonly<{
 }>;
 
 export type DeliveryType = 'Click & Collect' | 'Home Delivery';
+
+export type BillingFormValue = Readonly<{
+	name: string | null;
+	email: string | null;
+	phoneNo: string | null;
+	address1: string | null;
+}>;
+
+export type ShippingFormValue = Readonly<{
+	type: DeliveryType | null;
+	pickupDate: Date | null;
+	shippingAddress: string | null;
+	selectedTime: string | null;
+}>;
+
+export type PaymentFormValue = Readonly<{
+	paymentOption: string | null;
+}>;

@@ -44,56 +44,50 @@ export class AddToCartComponent {
 
 	public readonly dialog = inject(MatDialog);
 
-	private readonly productSig = signal<Product>(inject(MAT_DIALOG_DATA));
-	public readonly product = this.productSig.asReadonly();
+	protected readonly product: Product = inject<Product>(MAT_DIALOG_DATA);
 
 	public readonly user = this.userService.user;
 
-	private readonly noOfItemsSig = signal(1);
-	private readonly selectedSizeSig = signal<number | null>(null);
-
-	public readonly noOfItems = this.noOfItemsSig.asReadonly();
-	public readonly selectedSize = this.selectedSizeSig.asReadonly();
+	protected readonly noOfItems = signal(1);
+	protected readonly selectedSize = signal<number | null>(null);
 	public readonly isSizeSelected = computed(() => this.selectedSize() !== null);
 
 	public readonly stock = computed(() => {
 		const size = this.selectedSize();
 		const user = this.user();
-		const product = this.product();
 
 		if (!user?.storeSelected || !size) return 0;
 
 		const storeProducts = user.storeSelected.products ?? [];
-		const storeProduct = storeProducts.find((p: any) => p.modelNo === product.modelNo);
-		if (!storeProduct?.variants?.[0]) return 0;
+		const matchedProduct = storeProducts.find(
+			(product) => product.modelNo === this.product.modelNo,
+		);
+		if (!matchedProduct?.variants?.[0]) return 0;
 
-		const sizes = storeProduct.variants[0].sizes ?? [];
-		const inStock = storeProduct.variants[0].inStock ?? [];
+		const sizes = matchedProduct.variants[0].sizes ?? [];
+		const inStock = matchedProduct.variants[0].inStock ?? [];
 
-		const idx = sizes.findIndex((s: any) => s === size);
-		return idx === -1 ? 0 : +(inStock[idx] ?? 0);
+		const sizeIndex = sizes.findIndex((shoeSize) => shoeSize === size);
+		return sizeIndex === -1 ? 0 : +(inStock[sizeIndex] ?? 0);
 	});
 
-	public readonly originalPrice = computed(() => {
-		const price = this.product().price ?? 0;
-		return price + price * 0.2;
-	});
+	public readonly originalPrice = (this.product.price ?? 0) * 1.2;
 
 	// Public methods (pure where possible)
-	public onSizeSelect(size: number): void {
-		this.selectedSizeSig.set(size);
+	public onSizeSelected(event: Event): void {
+		const size = (event as CustomEvent<number>).detail;
+		this.selectedSize.set(size);
 	}
 
 	public incrementItems(): void {
-		this.noOfItemsSig.update((n) => n + 1);
+		this.noOfItems.update((count) => count + 1);
 	}
 
 	public decrementItems(): void {
-		this.noOfItemsSig.update((n) => (n > 1 ? n - 1 : 1));
+		this.noOfItems.update((count) => (count > 1 ? count - 1 : 1));
 	}
 
 	public addToCart(): void {
-		const product = this.product();
 		const size = this.selectedSize();
 		const stockValue = this.stock();
 
@@ -110,14 +104,14 @@ export class AddToCartComponent {
 		}
 
 		const cartProduct: CartProduct = {
-			productImage: product.imageList?.[0] ?? '',
-			modelNo: product.modelNo,
-			variantId: product.variants[0].variantId,
+			productImage: this.product.imageList?.[0] ?? '',
+			modelNo: this.product.modelNo,
+			variantId: this.product.variants[0].variantId,
 			noOfItems: this.noOfItems(),
 			size,
-			vendor: product.companyName!,
-			productName: product.name,
-			price: product.price,
+			vendor: this.product.companyName!,
+			productName: this.product.name,
+			price: this.product.price,
 		};
 
 		this.cartService.addToCart(cartProduct);

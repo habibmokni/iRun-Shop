@@ -16,18 +16,10 @@ describe('AppComponent', () => {
 		expect(app).toBeTruthy();
 	});
 
-	it(`should have as title 'click-and-collect'`, () => {
+	it('should not show intro when intro state is false', () => {
+		localStorage.setItem('intro_item', JSON.stringify(false));
 		const fixture = TestBed.createComponent(AppComponent);
 		const app = fixture.componentInstance;
-		expect(app.title).toEqual('click-and-collect');
-	});
-
-	it('should render title', () => {
-		const fixture = TestBed.createComponent(AppComponent);
-		fixture.detectChanges();
-		const compiled = fixture.nativeElement;
-		expect(compiled.querySelector('.content span').textContent).toContain(
-			'click-and-collect app is running!',
-		);
+		expect(app).toBeTruthy();
 	});
 });

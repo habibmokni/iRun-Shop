@@ -34,20 +34,17 @@ interface MapStore {
 	imports: [GoogleMapsModule, MatDialogModule, MatButtonModule, MatIconModule],
 })
 export class MapsComponent {
-	// Services
 	private readonly storeService = inject(StoreService);
 	private readonly mapsService = inject(MapsService);
 	private readonly snackbar = inject(SnackbarService);
 	private readonly dialog = inject(MatDialog);
 	private readonly userService = inject(UserService);
 
-	// View children
 	protected readonly infoWindow = viewChild.required(MapInfoWindow);
 
-	// Inputs
 	readonly mapHeight = input<number>(450);
 	readonly mapWidth = input<number>(screen.width);
-	readonly ModelNo = input<any>();
+	readonly ModelNo = input<string>();
 	readonly size = input<number>(0);
 
 	// Constants
@@ -61,21 +58,16 @@ export class MapsComponent {
 		url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
 	} as const;
 
-	private readonly mapOptionsSig = signal<google.maps.MapOptions>({
+	protected readonly mapOptions = signal<google.maps.MapOptions>({
 		center: MapsComponent.DEFAULT_CENTER,
 		zoom: 8,
 	});
-	private readonly currentStoreSig = signal<Store | null>(null);
-	private readonly currentUserLocationSig = signal<google.maps.LatLngLiteral>({
+	protected readonly currentStore = signal<Store | null>(null);
+	protected readonly currentUserLocation = signal<google.maps.LatLngLiteral>({
 		lat: 31.4914,
 		lng: 74.2385,
 	});
-	private readonly directionsResultsSig = signal<google.maps.DirectionsResult | null>(null);
-
-	protected readonly mapOptions = this.mapOptionsSig.asReadonly();
-	protected readonly currentStore = this.currentStoreSig.asReadonly();
-	protected readonly currentUserLocation = this.currentUserLocationSig.asReadonly();
-	protected readonly directionsResults = this.directionsResultsSig.asReadonly();
+	protected readonly directionsResults = signal<google.maps.DirectionsResult | null>(null);
 
 	private readonly allStores = toSignal(this.storeService.store, {
 		initialValue: [] as Store[],
@@ -91,7 +83,7 @@ export class MapsComponent {
 		const productSize = this.size();
 
 		const paired = stores
-			.map((store, i) => ({ store, position: locations[i] }))
+			.map((store, storeIndex) => ({ store, position: locations[storeIndex] }))
 			.filter(({ position }) => !!position);
 
 		if (!modelNo || !productSize) return paired;
@@ -102,27 +94,23 @@ export class MapsComponent {
 	constructor() {
 		const user = this.userService.user();
 		if (user?.storeSelected) {
-			this.currentStoreSig.set(user.storeSelected);
+			this.currentStore.set(user.storeSelected);
 		}
 	}
 
 	protected openInfoWindow(
 		marker: MapMarker,
 		store: Store,
-		event: google.maps.MapMouseEvent,
+		_event: google.maps.MapMouseEvent,
 	): void {
-		this.currentStoreSig.set(store);
+		this.currentStore.set(store);
 		this.infoWindow().open(marker);
-		if (event.latLng) {
-			this.storeService.currentStoreLocation = event.latLng.toJSON();
-		}
-		this.storeService.currentStore = store;
 	}
 
 	protected onSelectStore(store: Store): void {
 		const userUpdate = { name: 'Anonymous', storeSelected: store };
 		if (!this.userService.user()) {
-			this.userService.addUserTodb(userUpdate);
+			this.userService.addUser(userUpdate);
 		} else {
 			this.userService.updateSelectedStore(userUpdate);
 		}
@@ -134,26 +122,26 @@ export class MapsComponent {
 	protected onGetCurrentLocation(): void {
 		this.mapsService.getCurrentLocation();
 		setTimeout(() => {
-			const loc = this.mapsService.currentLocation;
-			this.mapOptionsSig.set({ center: loc, zoom: 12 });
-			this.currentUserLocationSig.set(loc);
+			const location = this.mapsService.currentLocation;
+			this.mapOptions.set({ center: location, zoom: 12 });
+			this.currentUserLocation.set(location);
 		}, 500);
 	}
 
 	protected onGetDirections(location: Location): void {
 		this.mapsService.getDirections(location);
 		this.mapsService.storeDirectionsResults$.subscribe((result) => {
-			this.directionsResultsSig.set(result ?? null);
+			this.directionsResults.set(result ?? null);
 		});
-		this.mapOptionsSig.update((opts) => ({ ...opts, zoom: 2 }));
+		this.mapOptions.update((options) => ({ ...options, zoom: 2 }));
 	}
 
 	private hasProductInStock(store: Store, modelNo: string, size: number): boolean {
 		return store.products.some((product) => {
 			if (product.modelNo !== modelNo) return false;
-			return product.variants.some((variant: any) =>
+			return product.variants.some((variant) =>
 				variant.sizes.some(
-					(s: any, idx: number) => +s === +size && +variant.inStock[idx] > 0,
+					(shoeSize, sizeIndex) => +shoeSize === +size && +variant.inStock[sizeIndex] > 0,
 				),
 			);
 		});

@@ -1,12 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { FormGroup } from '@angular/forms';
 
 import { CartProduct } from '../../cart/types/cart.types';
 import { Product } from '../../products/types/product.types';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 import { CartService } from '../../cart/services/cart.service';
-import { Order, StockCheckResult } from '../types/checkout.types';
+import {
+	BillingFormValue,
+	Order,
+	PaymentFormValue,
+	ShippingFormValue,
+	StockCheckResult,
+} from '../types/checkout.types';
 
 @Injectable({ providedIn: 'root' })
 export class CheckoutService {
@@ -19,17 +24,25 @@ export class CheckoutService {
 		onlineProducts: readonly Product[],
 	): StockCheckResult {
 		const onlineStock = cartProducts.map((cartItem) => {
-			const product = onlineProducts.find((p) => p.modelNo === cartItem.modelNo);
-			if (!product) return 0;
+			const matchedProduct = onlineProducts.find(
+				(product) => product.modelNo === cartItem.modelNo,
+			);
+			if (!matchedProduct) return 0;
 
-			const variant = product.variants.find((v) => v.variantId === cartItem.variantId);
-			if (!variant) return 0;
+			const matchedVariant = matchedProduct.variants.find(
+				(variant) => variant.variantId === cartItem.variantId,
+			);
+			if (!matchedVariant) return 0;
 
-			const sizeIdx = variant.sizes.findIndex((s) => +s === cartItem.size);
-			return sizeIdx >= 0 ? +variant.inStock[sizeIdx] : 0;
+			const sizeIndex = matchedVariant.sizes.findIndex(
+				(shoeSize) => +shoeSize === cartItem.size,
+			);
+			return sizeIndex >= 0 ? +matchedVariant.inStock[sizeIndex] : 0;
 		});
 
-		const unavailableItems = cartProducts.filter((_, i) => onlineStock[i] === 0);
+		const unavailableItems = cartProducts.filter(
+			(_item, index) => onlineStock[index] === 0,
+		);
 
 		return {
 			onlineStock,
@@ -43,28 +56,29 @@ export class CheckoutService {
 	}
 
 	public buildOrder(
-		billing: FormGroup,
-		shippingMethod: FormGroup,
-		paymentMethod: FormGroup,
+		billing: BillingFormValue,
+		shipping: ShippingFormValue,
+		payment: PaymentFormValue,
 		orderPrice: number,
+		storeId: string | null,
 	): Order {
 		return {
 			orderId: Math.floor(Math.random() * 100_000_000),
 			billingDetails: {
-				name: billing.value.name ?? null,
-				email: billing.value.email ?? null,
-				phoneNo: billing.value.phoneNo ?? null,
-				address1: billing.value.address1 ?? null,
+				name: billing.name ?? null,
+				email: billing.email ?? null,
+				phoneNo: billing.phoneNo ?? null,
+				address1: billing.address1 ?? null,
 			},
 			productsOrdered: this.cartService.getLocalCartProducts(),
 			storeLocation: {
-				id: 2020,
-				address: shippingMethod.value.shippingAddress ?? null,
+				id: storeId,
+				address: shipping.shippingAddress ?? null,
 			},
-			pickupDate: shippingMethod.value.pickupDate ?? null,
-			pickupType: shippingMethod.value.type ?? null,
-			pickupTime: shippingMethod.value.selectedTime ?? null,
-			paymentOption: paymentMethod.value.paymentOption ?? null,
+			pickupDate: shipping.pickupDate ?? null,
+			pickupType: shipping.type ?? null,
+			pickupTime: shipping.selectedTime ?? null,
+			paymentOption: payment.paymentOption ?? null,
 			orderPrice,
 		};
 	}

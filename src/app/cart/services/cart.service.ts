@@ -1,6 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-
 import { CartProduct } from '../types/cart.types';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 
@@ -10,14 +9,10 @@ const CART_STORAGE_KEY = 'avct_item';
 export class CartService {
 	private readonly snackbar = inject(SnackbarService);
 
-	// --- Cart (signal-based, synced to localStorage) ---
-
 	private readonly cartState = signal<CartProduct[]>(this.readCartFromStorage());
 
-	/** Readonly signal — use `cart()` for current value. */
 	readonly cart = this.cartState.asReadonly();
 
-	/** Observable stream for pipe-based consumers. */
 	readonly cart$ = toObservable(this.cartState);
 
 	addToCart(data: CartProduct): void {
@@ -66,10 +61,8 @@ export class CartService {
 		this.persistCart(cart);
 	}
 
-	// --- Private helpers ---
-
 	private readCartFromStorage(): CartProduct[] {
-		return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) ?? '[]');
+		return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) ?? '[]') as CartProduct[];
 	}
 
 	private persistCart(cart: CartProduct[]): void {

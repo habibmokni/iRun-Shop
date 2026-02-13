@@ -2,12 +2,11 @@ import {
 	Component,
 	ChangeDetectionStrategy,
 	CUSTOM_ELEMENTS_SCHEMA,
-	DestroyRef,
 	inject,
 	signal,
 	computed,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -30,7 +29,13 @@ import { UserService } from '../user/services/user.service';
 import { SnackbarService } from '../shared/services/snackbar.service';
 
 import { CheckoutService } from './services/checkout.service';
-import { DeliveryType, Order } from './types/checkout.types';
+import {
+	BillingFormValue,
+	DeliveryType,
+	Order,
+	PaymentFormValue,
+	ShippingFormValue,
+} from './types/checkout.types';
 import { OrderSuccessComponent } from './components/order-success/order-success.component';
 import { BillingDetailsComponent } from './components/billing-details/billing-details.component';
 import { PaymentMethodsComponent } from './components/payment-methods/payment-methods.component';
@@ -66,8 +71,6 @@ export class CheckoutPageComponent {
 	private readonly checkoutService = inject(CheckoutService);
 	private readonly snackbar = inject(SnackbarService);
 	private readonly dialog = inject(MatDialog);
-	private readonly destroyRef = inject(DestroyRef);
-
 	// --- Signals from services ---
 
 	protected readonly user = this.userService.user;
@@ -81,8 +84,6 @@ export class CheckoutPageComponent {
 		initialValue: [] as Store[],
 	});
 
-	// --- Derived state ---
-
 	protected readonly orderPrice = computed(() =>
 		this.checkoutService.calculateOrderPrice(this.cartProducts()),
 	);
@@ -91,14 +92,10 @@ export class CheckoutPageComponent {
 		this.checkoutService.checkOnlineStoreStock(this.cartProducts(), this.onlineProducts()),
 	);
 
-	// --- Local UI state ---
-
 	protected readonly isClickNCollect = signal(true);
 	protected readonly cncAllItemsAvailable = signal(true);
 	protected readonly step = signal(0);
 	protected readonly order = signal<Order | null>(null);
-
-	// --- Forms ---
 
 	protected readonly shippingMethod = new FormGroup({
 		type: new FormControl<DeliveryType>('Click & Collect'),
@@ -118,16 +115,6 @@ export class CheckoutPageComponent {
 		paymentOption: new FormControl('', [Validators.required]),
 	});
 
-	constructor() {
-		// Sync store address when cnc package emits store selection
-		this.storeService.selectedStore
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((store) => {
-				this.shippingMethod.patchValue({ shippingAddress: store.address });
-			});
-	}
-
-	// --- Delivery ---
 
 	protected selectDelivery(type: DeliveryType, index: number): void {
 		this.shippingMethod.patchValue({ type });
@@ -136,8 +123,6 @@ export class CheckoutPageComponent {
 			pickupDate: index === 1 ? new Date() : null,
 		});
 	}
-
-	// --- CNC package bridge ---
 
 	protected onStoreChange(store: Store): void {
 		this.userService.updateSelectedStore({ name: 'Anonymous', storeSelected: store });
@@ -162,15 +147,11 @@ export class CheckoutPageComponent {
 		this.cncAllItemsAvailable.set(value);
 	}
 
-	// --- Remove unavailable products ---
-
 	protected removeProductsUnavailable(): void {
 		this.onlineStockCheck().unavailableItems.forEach((item) => {
 			this.cartService.removeLocalCartProduct(item);
 		});
 	}
-
-	// --- Billing accordion ---
 
 	protected setStep(index: number): void {
 		this.step.set(index);
@@ -178,17 +159,15 @@ export class CheckoutPageComponent {
 
 	protected nextStep(): void {
 		if (this.billing.valid) {
-			this.step.update((s) => s + 1);
+			this.step.update((current) => current + 1);
 		} else {
 			this.snackbar.info('Please enter billing details to proceed further');
 		}
 	}
 
 	protected prevStep(): void {
-		this.step.update((s) => s - 1);
+		this.step.update((current) => current - 1);
 	}
-
-	// --- Validation hints ---
 
 	protected onCncNext(): void {
 		if (this.shippingMethod.invalid) {
@@ -202,15 +181,14 @@ export class CheckoutPageComponent {
 		}
 	}
 
-	// --- Order ---
-
 	protected onSubmit(): void {
 		this.order.set(
 			this.checkoutService.buildOrder(
-				this.billing,
-				this.shippingMethod,
-				this.paymentMethod,
+				this.billing.value as BillingFormValue,
+				this.shippingMethod.value as ShippingFormValue,
+				this.paymentMethod.value as PaymentFormValue,
 				this.orderPrice(),
+				this.user()?.storeSelected?.id ?? null,
 			),
 		);
 	}

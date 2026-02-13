@@ -26,6 +26,13 @@ import { CartService } from '../../../cart/services/cart.service';
 import { UserService } from '../../../user/services/user.service';
 import { MapsComponent } from '../../../stores/components/maps/maps.component';
 
+export interface AvailabilityDialogData {
+	readonly call: 'product' | 'checkout';
+	readonly size: number | null;
+	readonly modelNo: string;
+	readonly sizes: number[];
+}
+
 export interface NearByStore {
 	readonly store: Store;
 	readonly distance: number;
@@ -60,47 +67,38 @@ export class AvailabilityComponent {
 	private readonly cartService = inject(CartService);
 	private readonly userService = inject(UserService);
 
-	// Dialog data (injected once, immutable)
-	protected readonly data: any = inject(MAT_DIALOG_DATA);
+	protected readonly data = inject<AvailabilityDialogData>(MAT_DIALOG_DATA);
 
-	// Responsive map dimensions
 	protected readonly mapDimensions = computed(() =>
 		window.innerWidth <= 599 ? { height: 350, width: 250 } : { height: 410, width: 700 },
 	);
 
-	// State signals
-	private readonly selectedSizeSig = signal<number | null>(this.data.size ?? null);
-	private readonly nearByStoresSig = signal<NearByStore[]>([]);
+	protected readonly selectedSize = signal<number | null>(this.data.size ?? null);
+	protected readonly nearByStores = signal<NearByStore[]>([]);
 
-	// Template-accessible readonly state
-	protected readonly selectedSize = this.selectedSizeSig.asReadonly();
 	protected readonly isSizeSelected = computed(() => this.selectedSize() !== null);
-	protected readonly nearByStores = this.nearByStoresSig.asReadonly();
 	private readonly stores = toSignal(this.storeService.store, { initialValue: [] as Store[] });
 
 	constructor() {
-		// Set up Google Places Autocomplete after DOM renders
 		afterNextRender(() => {
 			this.initAutocomplete();
 		});
 	}
 
-	// --- Template methods ---
-
 	protected changeSize(size: number): void {
-		this.selectedSizeSig.set(size);
-		this.nearByStoresSig.set([]);
+		this.selectedSize.set(size);
+		this.nearByStores.set([]);
 	}
 
 	protected resetSize(): void {
-		this.selectedSizeSig.set(null);
-		this.nearByStoresSig.set([]);
+		this.selectedSize.set(null);
+		this.nearByStores.set([]);
 	}
 
 	protected onStoreSelect(store: Store): void {
 		const userUpdate = { name: 'Anonymous', storeSelected: store };
 		if (!this.userService.user()) {
-			this.userService.addUserTodb(userUpdate);
+			this.userService.addUser(userUpdate);
 		} else {
 			this.userService.updateSelectedStore(userUpdate);
 		}
@@ -110,15 +108,12 @@ export class AvailabilityComponent {
 
 	protected currentLocation(): void {
 		this.mapService.getCurrentLocation();
-		// Geolocation is async; wait for position then recalculate
 		setTimeout(() => {
 			const loc = this.mapService.currentLocation;
 			this.mapService.findClosestMarker(loc.lat, loc.lng);
 			this.runAvailabilityCheck();
 		}, 1000);
 	}
-
-	// --- Private methods ---
 
 	private initAutocomplete(): void {
 		const input = document.getElementById('search') as HTMLInputElement;
@@ -145,15 +140,15 @@ export class AvailabilityComponent {
 	}
 
 	private runAvailabilityCheck(): void {
-		this.nearByStoresSig.set([]);
+		this.nearByStores.set([]);
 		const size = this.selectedSize();
 
 		if (this.data.call === 'product' && size) {
-			this.nearByStoresSig.set(this.findNearByStoresForProduct(this.data.modelNo, size));
+			this.nearByStores.set(this.findNearByStoresForProduct(this.data.modelNo, size));
 		}
 
 		if (this.data.call === 'checkout') {
-			this.nearByStoresSig.set(
+			this.nearByStores.set(
 				this.findNearByStoresForCart(this.cartService.getLocalCartProducts()),
 			);
 		}
@@ -161,48 +156,57 @@ export class AvailabilityComponent {
 
 	private findNearByStoresForProduct(modelNo: string, size: number): NearByStore[] {
 		return this.stores()
-			.map((store, i) => {
-				const product = store.products.find((p: any) => p.modelNo === modelNo);
-				if (!product?.variants?.[0]) return null;
+			.map((store, storeIndex) => {
+				const matchedProduct = store.products.find(
+					(product) => product.modelNo === modelNo,
+				);
+				if (!matchedProduct?.variants?.[0]) return null;
 
-				const variant = product.variants[0];
-				const idx = variant.sizes.findIndex((s: any) => +s === size);
-				if (idx === -1) return null;
+				const variant = matchedProduct.variants[0];
+				const sizeIndex = variant.sizes.findIndex((shoeSize) => +shoeSize === size);
+				if (sizeIndex === -1) return null;
 
 				return {
 					store,
-					stock: +(variant.inStock[idx] ?? 0),
-					distance: this.mapService.distanceInKm[i] ?? 0,
+					stock: +(variant.inStock[sizeIndex] ?? 0),
+					distance: this.mapService.distanceInKm[storeIndex] ?? 0,
 				};
 			})
-			.filter((r): r is NearByStore => r !== null)
-			.sort((a, b) => a.distance - b.distance);
+			.filter((result): result is NearByStore => result !== null)
+			.sort((storeA, storeB) => storeA.distance - storeB.distance);
 	}
 
 	private findNearByStoresForCart(cartProducts: CartProduct[]): NearByStore[] {
 		return this.stores()
-			.map((store, i) => {
-				let stockLevel = 0;
+			.map((store, storeIndex) => {
+				let allItemsAvailable = true;
 
 				for (const cartProduct of cartProducts) {
-					const storeProduct = store.products.find(
-						(p: any) => p.modelNo === cartProduct.modelNo,
+					const matchedProduct = store.products.find(
+						(product) => product.modelNo === cartProduct.modelNo,
 					);
-					if (!storeProduct?.variants?.[0]) continue;
+					if (!matchedProduct?.variants?.[0]) {
+						allItemsAvailable = false;
+						break;
+					}
 
-					const variant = storeProduct.variants[0];
-					const idx = variant.sizes.findIndex((s: any) => s === cartProduct.size);
-					if (idx === -1) continue;
+					const variant = matchedProduct.variants[0];
+					const sizeIndex = variant.sizes.findIndex(
+						(shoeSize) => shoeSize === cartProduct.size,
+					);
 
-					stockLevel = +variant.inStock[idx] >= cartProduct.noOfItems ? 10 : 0;
+					if (sizeIndex === -1 || +variant.inStock[sizeIndex] < cartProduct.noOfItems) {
+						allItemsAvailable = false;
+						break;
+					}
 				}
 
 				return {
 					store,
-					stock: stockLevel,
-					distance: this.mapService.distanceInKm[i] ?? 0,
+					stock: allItemsAvailable ? 10 : 0,
+					distance: this.mapService.distanceInKm[storeIndex] ?? 0,
 				};
 			})
-			.sort((a, b) => a.distance - b.distance);
+			.sort((storeA, storeB) => storeA.distance - storeB.distance);
 	}
 }

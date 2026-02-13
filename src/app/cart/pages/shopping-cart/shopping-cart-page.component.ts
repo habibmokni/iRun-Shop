@@ -33,14 +33,13 @@ export class ShoppingCartPageComponent {
 	private readonly userService = inject(UserService);
 	private readonly snackbar = inject(SnackbarService);
 
-	private readonly cartProductsSig = signal<CartProduct[]>(
+	protected readonly cartProducts = signal<CartProduct[]>(
 		this.cartService.getLocalCartProducts(),
 	);
-	protected readonly cartProducts = this.cartProductsSig.asReadonly();
 	protected readonly hasProducts = computed(() => this.cartProducts().length > 0);
 
 	protected readonly grandTotal = computed(() =>
-		this.cartProducts().reduce((sum, p) => sum + p.price * p.noOfItems, 0),
+		this.cartProducts().reduce((total, item) => total + item.price * item.noOfItems, 0),
 	);
 
 	private readonly user = this.userService.user;
@@ -102,19 +101,23 @@ export class ShoppingCartPageComponent {
 	}
 
 	private refreshCart(): void {
-		this.cartProductsSig.set(this.cartService.getLocalCartProducts());
+		this.cartProducts.set(this.cartService.getLocalCartProducts());
 	}
 
-	private findStock(cartProduct: CartProduct, products: any[]): number {
-		const storeProduct = products.find((p: any) => p.modelNo === cartProduct.modelNo);
-		if (!storeProduct) return 0;
-
-		const variant = storeProduct.variants?.find(
-			(v: any) => v.variantId === cartProduct.variantId,
+	private findStock(cartProduct: CartProduct, products: Product[]): number {
+		const matchedProduct = products.find(
+			(product) => product.modelNo === cartProduct.modelNo,
 		);
-		if (!variant) return 0;
+		if (!matchedProduct) return 0;
 
-		const idx = variant.sizes?.findIndex((s: any) => +s === +cartProduct.size) ?? -1;
-		return idx === -1 ? 0 : +(variant.inStock[idx] ?? 0);
+		const matchedVariant = matchedProduct.variants.find(
+			(variant) => variant.variantId === cartProduct.variantId,
+		);
+		if (!matchedVariant) return 0;
+
+		const sizeIndex = matchedVariant.sizes.findIndex(
+			(shoeSize) => +shoeSize === +cartProduct.size,
+		);
+		return sizeIndex === -1 ? 0 : +matchedVariant.inStock[sizeIndex];
 	}
 }

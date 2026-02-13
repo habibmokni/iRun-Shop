@@ -19,7 +19,7 @@ import { ImageSliderComponent } from '../shared/components/image-slider/image-sl
 
 interface BrandTab {
 	readonly label: string;
-	readonly filter: (p: Product) => boolean;
+	readonly filter: (product: Product) => boolean;
 }
 
 @Component({
@@ -54,9 +54,9 @@ export class HomePageComponent {
 
 	protected readonly brandTabs: readonly BrandTab[] = [
 		{ label: 'All', filter: () => true },
-		{ label: 'Adidas', filter: (p) => p.companyName === 'ADIDAS' },
-		{ label: 'Nike', filter: (p) => p.companyName === 'NIKE' },
-		{ label: 'New Balance', filter: (p) => p.companyName === 'NEW BALANCE' },
+		{ label: 'Adidas', filter: (product) => product.companyName === 'ADIDAS' },
+		{ label: 'Nike', filter: (product) => product.companyName === 'NIKE' },
+		{ label: 'New Balance', filter: (product) => product.companyName === 'NEW BALANCE' },
 	];
 
 	protected readonly filteredProducts = this.brandTabs.map((tab) =>

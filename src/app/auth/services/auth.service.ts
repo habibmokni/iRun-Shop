@@ -17,7 +17,10 @@ export class AuthService {
 	 * Returns `true` on success, `false` on failure.
 	 */
 	public login(credentials: { email: string; password: string }): boolean {
-		const stored = JSON.parse(localStorage.getItem(USER_KEY) ?? 'null');
+		const stored = JSON.parse(localStorage.getItem(USER_KEY) ?? 'null') as {
+			email?: string;
+			password?: string;
+		} | null;
 
 		if (stored?.email === credentials.email && stored?.password === credentials.password) {
 			localStorage.setItem(LOGIN_KEY, 'true');

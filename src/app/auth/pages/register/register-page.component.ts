@@ -34,7 +34,7 @@ export class RegisterPageComponent {
 	protected readonly isLoading = signal(false);
 
 	protected togglePasswordVisibility(): void {
-		this.hidePassword.update((h) => !h);
+		this.hidePassword.update((hidden) => !hidden);
 	}
 
 	protected isFieldInvalid(field: keyof typeof this.registerForm.controls): boolean {

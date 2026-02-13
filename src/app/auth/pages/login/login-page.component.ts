@@ -44,7 +44,7 @@ export class LoginPageComponent {
 	}
 
 	protected togglePasswordVisibility(): void {
-		this.hidePassword.update((h) => !h);
+		this.hidePassword.update((hidden) => !hidden);
 	}
 
 	protected isFieldInvalid(field: keyof typeof this.loginForm.controls): boolean {

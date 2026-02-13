@@ -47,7 +47,6 @@ export class ProductListComponent implements OnInit {
 	balanceProducts: Product[] = [];
 
 	ngOnInit(): void {
-		this.productService.fetchProduct();
 		this.productList = this.productService.productList;
 		this.productList.subscribe((products) => {
 			this.isLoading = false;

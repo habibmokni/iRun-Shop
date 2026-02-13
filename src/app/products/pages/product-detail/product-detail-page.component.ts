@@ -28,7 +28,10 @@ import { CartService } from '../../../cart/services/cart.service';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { UserService } from '../../../user/services/user.service';
 import { ImageSliderComponent } from '../../../shared/components/image-slider/image-slider.component';
-import { AvailabilityComponent } from '../../components/availability/availability.component';
+import {
+	AvailabilityComponent,
+	AvailabilityDialogData,
+} from '../../components/availability/availability.component';
 
 @Component({
 	selector: 'app-product-detail-page',
@@ -64,8 +67,8 @@ export class ProductDetailPageComponent {
 	private readonly productModelNo$ = new BehaviorSubject<string>('');
 
 	private readonly products$ = this.productModelNo$.pipe(
-		filter((id) => !!id),
-		switchMap((id) => this.productService.getProductById(id)),
+		filter((modelNo) => !!modelNo),
+		switchMap((modelNo) => this.productService.getProductById(modelNo)),
 	);
 
 	protected readonly products = toSignal(this.products$, {
@@ -82,17 +85,13 @@ export class ProductDetailPageComponent {
 		const all = this.allProducts();
 		if (!current?.modelNo || !all.length) return [];
 		const prefix = current.modelNo.split('-')[0];
-		return all.filter((p) => p.modelNo?.split('-')[0] === prefix);
+		return all.filter((product) => product.modelNo?.split('-')[0] === prefix);
 	});
 
 	// Local state signals
-	private readonly selectedSizeSig = signal(0);
-	private readonly isSizeSelectedSig = signal(false);
-	private readonly activeVariantIndexSig = signal(-1);
-
-	protected readonly selectedSize = this.selectedSizeSig.asReadonly();
-	protected readonly isSizeSelected = this.isSizeSelectedSig.asReadonly();
-	protected readonly activeVariantIndex = this.activeVariantIndexSig.asReadonly();
+	protected readonly selectedSize = signal(0);
+	protected readonly isSizeSelected = signal(false);
+	protected readonly activeVariantIndex = signal(-1);
 
 	// User (reactive via BehaviorSubject)
 	private readonly user = this.userService.user;
@@ -105,14 +104,14 @@ export class ProductDetailPageComponent {
 
 		if (!product || !size || !user?.storeSelected) return 0;
 
-		const storeProduct = user.storeSelected.products?.find(
-			(p: any) => p.modelNo === product.modelNo,
+		const matchedProduct = user.storeSelected.products?.find(
+			(storeProduct) => storeProduct.modelNo === product.modelNo,
 		);
-		if (!storeProduct?.variants?.[0]) return 0;
+		if (!matchedProduct?.variants?.[0]) return 0;
 
-		const variant = storeProduct.variants[0];
-		const idx = variant.sizes.findIndex((s: any) => s === size);
-		return idx === -1 ? 0 : +(variant.inStock[idx] ?? 0);
+		const variant = matchedProduct.variants[0];
+		const sizeIndex = variant.sizes.findIndex((shoeSize) => shoeSize === size);
+		return sizeIndex === -1 ? 0 : +(variant.inStock[sizeIndex] ?? 0);
 	});
 
 	// Derived: original price before discount
@@ -128,21 +127,21 @@ export class ProductDetailPageComponent {
 				map((params) => params['id'] as string),
 				takeUntilDestroyed(),
 			)
-			.subscribe((id) => {
-				this.productModelNo$.next(id);
+			.subscribe((modelNo) => {
+				this.productModelNo$.next(modelNo);
 			});
 	}
 
 	// --- Template methods ---
 
 	protected sizeSelected(size: number): void {
-		this.selectedSizeSig.set(size);
-		this.isSizeSelectedSig.set(true);
+		this.selectedSize.set(size);
+		this.isSizeSelected.set(true);
 	}
 
 	protected variantSelect(index: number, modelNo: string): void {
 		this.productModelNo$.next(modelNo);
-		this.activeVariantIndexSig.set(index);
+		this.activeVariantIndex.set(index);
 	}
 
 	protected addToCart(): void {
@@ -182,7 +181,7 @@ export class ProductDetailPageComponent {
 				size: this.selectedSize(),
 				modelNo: product.modelNo,
 				sizes: product.variants?.[0]?.sizes ?? [],
-			},
+			} satisfies AvailabilityDialogData,
 			maxWidth: '100vw',
 			maxHeight: '100vh',
 		});

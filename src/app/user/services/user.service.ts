@@ -7,45 +7,25 @@ const USER_STORAGE_KEY = 'avct_user';
 
 @Injectable()
 export class UserService {
-	private readonly userState = signal<User | null>(this.readFromStorage());
+	readonly user = signal<User | null>(this.loadUser());
 
-	/** Readonly signal — use `user()` in templates, computed, etc. */
-	readonly user = this.userState.asReadonly();
+	readonly user$ = toObservable(this.user);
 
-	/** Observable stream for pipe-based consumers. */
-	readonly user$ = toObservable(this.userState);
-
-	/**
-	 * @deprecated Use `user$` instead.
-	 * Kept for backward compat with unrefactored components.
-	 */
-	readonly userSub = this.user$;
-
-	addUserTodb(userData: User): void {
-		const users = this.readAllUsers();
-		users.push(userData);
-		this.persist(users);
-		this.userState.set(users[0]);
+	public addUser(userData: User): void {
+		this.saveAndEmit(userData);
 	}
 
-	updateSelectedStore(userData: User): void {
-		const users = this.readAllUsers();
-		users[0] = userData;
-		this.persist(users);
-		this.userState.set(users[0]);
+	public updateSelectedStore(userData: User): void {
+		this.saveAndEmit(userData);
 	}
 
-	// --- Private helpers ---
-
-	private readFromStorage(): User | null {
-		return this.readAllUsers()[0] ?? null;
+	private saveAndEmit(userData: User): void {
+		localStorage.setItem(USER_STORAGE_KEY, JSON.stringify([userData]));
+		this.user.set(userData);
 	}
 
-	private readAllUsers(): User[] {
-		return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) ?? '[]');
-	}
-
-	private persist(users: User[]): void {
-		localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+	private loadUser(): User | null {
+		const stored = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) ?? '[]') as User[];
+		return stored[0] ?? null;
 	}
 }

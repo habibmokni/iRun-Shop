@@ -14,6 +14,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ClickNCollectService } from '@habibmokni/cnc';
 import { CartService } from './cart/services/cart.service';
 import { StoreService } from './stores/services/store.service';
+import { Store } from './stores/types/store.types';
 import { UserService } from './user/services/user.service';
 import { User } from './user/types/user.types';
 import { HeaderComponent } from './layout/header/header.component';
@@ -50,7 +51,8 @@ export class AppComponent {
 
 	private loadIntroState(): boolean {
 		const stored = localStorage.getItem(INTRO_STORAGE_KEY);
-		return stored === null || JSON.parse(stored) !== false;
+		if (stored === null) return true;
+		return JSON.parse(stored) as boolean;
 	}
 
 	private initCncBridge(): void {
@@ -76,10 +78,10 @@ export class AppComponent {
 
 		this.cncService.storeSelected
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((store) => {
+			.subscribe((store: unknown) => {
 				this.userService.updateSelectedStore({
 					name: 'Anonymous',
-					storeSelected: store,
+					storeSelected: store as Store,
 				});
 			});
 	}

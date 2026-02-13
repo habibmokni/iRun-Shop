@@ -1,15 +1,17 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
-
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Product } from '../../products/types/product.types';
-import { Store } from '../../stores/types/store.types';
-import { ProductService } from '../../products/services/product.service';
-import { StoreService } from '../../stores/services/store.service';
 
+import { Product } from '../../products/types/product.types';
+import { ProductService } from '../../products/services/product.service';
+
+/**
+ * Admin-only page for manually adding products to the database.
+ * Used during development/seeding — not part of the customer-facing app.
+ */
 @Component({
 	selector: 'app-add-products-page',
 	templateUrl: './add-products-page.component.html',
@@ -24,101 +26,54 @@ import { StoreService } from '../../stores/services/store.service';
 		MatIconModule,
 	],
 })
-export class AddProductsPageComponent implements OnInit {
+export class AddProductsPageComponent {
 	private readonly productService = inject(ProductService);
-	private readonly storeService = inject(StoreService);
 
-	//dummy component to add products to db
-	productList: Product[] = [];
-	adidasProducts: Product[] = [];
-	balanceProducts: Product[] = [];
-	nikeProducts: Product[] = [];
+	protected readonly variants = new FormArray<FormGroup>([]);
 
-	newAdidasProducts: Product[] = [];
-
-	variantIndex = 0;
-	sizes: number[] = [1];
-
-	imageList: string[] = [];
-	variants = new FormArray([]);
-
-	form = new FormGroup({
-		companyName: new FormControl(),
-		modelNo: new FormControl(),
-		name: new FormControl(),
-		category: new FormControl(),
-		subCategory: new FormControl(),
-		price: new FormControl(),
+	protected readonly form = new FormGroup({
+		companyName: new FormControl(''),
+		modelNo: new FormControl(''),
+		name: new FormControl(''),
+		category: new FormControl<string[]>([]),
+		subCategory: new FormControl<string[]>([]),
+		price: new FormControl(0),
 		variants: this.variants,
 	});
 
-	constructor() {
-		const productService = this.productService;
-		productService.fetchProduct();
-	}
-
-	ngOnInit(): void {
-		console.log(this.productService.fetchNewProducts());
-	}
-
-	onAddImages() {
-		const control = new FormControl(null);
-		(this.form.get('imageList') as unknown as FormArray).push(control);
-	}
-	onAddVariants() {
-		const control = new FormGroup({
-			variantId: new FormControl(),
+	protected onAddVariants(): void {
+		const variantGroup = new FormGroup({
+			variantId: new FormControl(''),
 			sizes: new FormArray([new FormControl()]),
 			inStock: new FormArray([new FormControl()]),
 			imageList: new FormArray([new FormControl()]),
 		});
-		(this.variants as unknown as FormArray).push(control);
+		this.variants.push(variantGroup);
 	}
-	onAddSizes(index: number) {
-		this.sizes.push(1);
-		const control = new FormControl();
-		(this.variants.get(`${index}.sizes`) as unknown as FormArray).push(new FormControl());
-		(this.variants.get(`${index}.inStock`) as unknown as FormArray).push(control);
+
+	protected onAddSizes(index: number): void {
+		const variantGroup = this.variants.at(index);
+		const sizesArray = variantGroup.get('sizes') as FormArray;
+		const inStockArray = variantGroup.get('inStock') as FormArray;
+		sizesArray.push(new FormControl());
+		inStockArray.push(new FormControl());
 	}
-	onSubmit() {
+
+	protected onSubmit(): void {
+		const formValue = this.form.getRawValue();
+
 		const product: Product = {
 			id: Math.floor(Math.random() * 100),
-			companyName: this.form.get('companyName')?.value,
-			modelNo: this.form.get('modelNo')?.value,
-			name: this.form.get('name')?.value,
-			category: this.form.get('category')?.value,
-			subCategory: this.form.get('subCategory')?.value,
+			companyName: formValue.companyName ?? '',
+			modelNo: formValue.modelNo ?? '',
+			name: formValue.name ?? '',
+			category: formValue.category ?? [],
+			subCategory: formValue.subCategory ?? [],
 			imageList: [],
-			price: this.form.get('price')?.value,
-			variants: this.form.get('variants')!.value,
+			price: formValue.price ?? 0,
+			variants: formValue.variants as Product['variants'],
 		};
-		console.log(product);
 
-		const products: Product[] = [];
-		this.productService.productList.subscribe((productList) => {
-			for (const product of productList) {
-				products.push(product);
-			}
-		});
-
-		const _store: Store = {
-			address: 'Kettwiger Straße 40 45127 Essen',
-			id: '2020',
-			isDefaultStore: false,
-			location: {
-				lat: 51.45617873095872,
-				lng: 7.013075711675198,
-			},
-			name: 'DEICHMANN',
-			openingTime: {
-				open: '10a.m',
-				close: '10p.m',
-			},
-			products: products,
-		};
-		// TODO: Implement store submission logic
-		setTimeout(() => {
-			/* placeholder */
-		}, 5000);
+		this.productService.addProduct(product);
 	}
 }

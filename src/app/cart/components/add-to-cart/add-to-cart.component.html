@@ -3,12 +3,12 @@
 		<span class="filler"></span>
 
 		<div class="article-price">
-			<h3 class="original-price">{{ originalPrice() | number: '1.2-2' }}€</h3>
-			<h2 class="discounted-price">{{ product().price }}€</h2>
+			<h3 class="original-price">{{ originalPrice | number: '1.2-2' }}€</h3>
+			<h2 class="discounted-price">{{ product.price }}€</h2>
 		</div>
 	</div>
 
-	<cnc-size-selector [product]="product()" (sizeSelected)="onSizeSelect($any($event))" />
+	<cnc-size-selector [product]="product" (sizeSelected)="onSizeSelected($event)" />
 
 	@if (isSizeSelected()) {
 		<div class="stock-info">
