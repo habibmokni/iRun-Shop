@@ -30,11 +30,8 @@ export const routes: Routes = [
 			),
 	},
 	{
-		path: 'addProduct',
-		loadComponent: () =>
-			import('./admin/add-products/add-products-page.component').then(
-				(m) => m.AddProductsPageComponent,
-			),
+		path: 'admin',
+		loadChildren: () => import('./admin/admin.routes').then((m) => m.adminRoutes),
 	},
 	{
 		path: 'storeselector',

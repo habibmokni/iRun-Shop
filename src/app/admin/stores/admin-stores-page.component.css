@@ -1,0 +1,65 @@
+.admin-container {
+	max-width: 1200px;
+	margin: 24px auto;
+	padding: 0 24px;
+}
+
+.admin-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 24px;
+}
+
+.admin-header h1 {
+	margin: 0;
+	font-size: 24px;
+}
+
+.header-actions {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.form-card {
+	margin-bottom: 24px;
+}
+
+.form-row {
+	display: flex;
+	gap: 16px;
+}
+
+.form-row mat-form-field {
+	flex: 1;
+}
+
+.form-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.store-table {
+	width: 100%;
+}
+
+mat-checkbox {
+	display: block;
+	margin: 8px 0;
+}
+
+@media (max-width: 599px) {
+	.form-row {
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.admin-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+}

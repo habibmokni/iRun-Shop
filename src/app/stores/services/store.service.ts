@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
 
 import { Store } from '../types/store.types';
-import { Product } from '../../products/types/product.types';
 
 @Injectable()
 export class StoreService {
@@ -25,13 +24,20 @@ export class StoreService {
 		shareReplay({ bufferSize: 1, refCount: false }),
 	);
 
-	// --- Admin / seeding ---
+	// --- CRUD ---
 
+	/** Adds a new store to Firestore. */
 	public addStore(store: Store): void {
 		this.storeCollection.add(store);
 	}
 
-	public updateStoreProducts(storeId: string, products: Product[]): void {
-		this.storeCollection.doc(storeId).update({ products });
+	/** Updates an existing store by its Firestore document ID. */
+	public updateStore(storeId: string, changes: Partial<Store>): void {
+		this.storeCollection.doc(storeId).update(changes);
+	}
+
+	/** Deletes a store by its Firestore document ID. */
+	public deleteStore(storeId: string): void {
+		this.storeCollection.doc(storeId).delete();
 	}
 }
