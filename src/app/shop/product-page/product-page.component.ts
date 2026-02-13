@@ -62,10 +62,7 @@ export class ProductPageComponent {
 
   private readonly products$ = this.productModelNo$.pipe(
     filter((id) => !!id),
-    switchMap((id) => {
-      this.productService.getProductById(id);
-      return this.productService.product;
-    })
+    switchMap((id) => this.productService.getProductById(id))
   );
 
   protected readonly products = toSignal(this.products$, {
@@ -94,11 +91,14 @@ export class ProductPageComponent {
   protected readonly isSizeSelected = this.isSizeSelectedSig.asReadonly();
   protected readonly activeVariantIndex = this.activeVariantIndexSig.asReadonly();
 
+  // User (reactive via BehaviorSubject)
+  private readonly user = this.userService.user;
+
   // Derived: stock for the selected size at the user's store
   protected readonly stock = computed(() => {
     const product = this.product();
     const size = this.selectedSize();
-    const user = this.userService.user;
+    const user = this.user();
 
     if (!product || !size || !user?.storeSelected) return 0;
 

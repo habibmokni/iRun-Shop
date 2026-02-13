@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 
 import { Store } from '../models/store.model';
 import { Product } from '../models/product.model';
@@ -12,7 +12,7 @@ import { Product } from '../models/product.model';
 @Injectable()
 export class StoreService {
   private readonly db = inject(AngularFirestore);
-  private readonly storeCollection: AngularFirestoreCollection<Store>;
+  private readonly storeCollection = this.db.collection<Store>('storeList');
 
   currentStoreLocation: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   currentStore!: Store;
@@ -20,26 +20,28 @@ export class StoreService {
     address: string;
     location: { lat: number; lng: number };
   }>();
+
+  /** Store locations derived automatically from the store stream. */
   storeLocations: google.maps.LatLngLiteral[] = [];
-  store = new Observable<Store[]>();
 
-  constructor() {
-    this.storeCollection = this.db.collection<Store>('storeList');
-  }
-
-  fetchStore(): void {
-    this.store = this.storeCollection.snapshotChanges().pipe(
+  /** All stores from Firestore (eagerly shared, single connection). */
+  readonly store: Observable<Store[]> = this.storeCollection
+    .snapshotChanges()
+    .pipe(
       map((docArray) =>
         docArray.map((doc) => ({ ...(doc.payload.doc.data() as Store) }))
-      )
+      ),
+      tap((stores) => {
+        this.storeLocations = stores.map((s) => s.location);
+      }),
+      shareReplay({ bufferSize: 1, refCount: false })
     );
-  }
 
-  getStoreLocations(): void {
-    this.store.subscribe((stores) => {
-      this.storeLocations = stores.map((store) => store.location);
-    });
-  }
+  /** @deprecated No longer needed — `store` is eagerly initialized. */
+  fetchStore(): void {}
+
+  /** @deprecated No longer needed — locations are derived via `tap` in the store stream. */
+  getStoreLocations(): void {}
 
   // --- Admin/seed utilities ---
 

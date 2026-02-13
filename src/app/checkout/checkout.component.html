@@ -1,266 +1,211 @@
 <mat-stepper
-  class="stepper col-12 col-sm-8"
+  class="stepper"
   orientation="horizontal"
   labelPosition="bottom"
-  [linear]="true"
-  >
+  [linear]="true">
+
+  <!-- Step 1: Delivery -->
   <mat-step
-    [stepControl]="isClickNCollect ? firstFormGroup : secondFormGroup"
-    label="Delivery"
-    >
-    <!--Toggle button for delivery type-->
-    @if (cartProducts.length>0) {
-      <div class="d-flex flex-row">
-        <a
-          mat-flat-button
-          class="delivery_button"
-          [class.active]="isClickNCollect"
-          (click)="selectDelivery('Click N Collect', 0)"
-          >
-          <mat-icon class="icons" fontSet="material-icons-outlined">shopping_bag</mat-icon>
+    [stepControl]="isClickNCollect() ? shippingMethod : billing"
+    label="Delivery">
+
+    @if (cartProducts().length > 0) {
+      <div class="delivery-toggle">
+        <a mat-flat-button class="delivery-btn" [class.active]="isClickNCollect()"
+           (click)="selectDelivery('Click & Collect', 0)">
+          <mat-icon class="delivery-icon" fontSet="material-icons-outlined">shopping_bag</mat-icon>
           <h4>Click N Collect</h4>
         </a>
-        <a mat-flat-button class="delivery_button" [class.active]="!isClickNCollect" (click)="selectDelivery('Home Delivery', 1)">
-          <mat-icon class="icons" fontSet="material-icons-outlined">home</mat-icon>
+        <a mat-flat-button class="delivery-btn" [class.active]="!isClickNCollect()"
+           (click)="selectDelivery('Home Delivery', 1)">
+          <mat-icon class="delivery-icon" fontSet="material-icons-outlined">home</mat-icon>
           <h4>Home delivery</h4>
         </a>
       </div>
     }
-    <!--Click and collect selector for checkout-->
-    <form [formGroup]="firstFormGroup">
 
-      @if (isClickNCollect) {
-        <cnc-click-n-collect [user]="user"
+    <form [formGroup]="shippingMethod">
+      @if (isClickNCollect()) {
+        <cnc-click-n-collect
+          [user]="user()"
           (storeChanged)="onStoreChange($any($event))"
           (productsToRemove)="onProductsToRemove($any($event))"
-          (dateSelected)="dateSelected($any($event))"
-          (timeSelected)="timeSelected($any($event))"
-          (isAllItemsAvailable)="cncItemsAvailable($event)"
-           />
-      }
-      <!--if home delivery-->
-      @if (!isClickNCollect) {
-        <form [formGroup]="secondFormGroup">
-          @if (onlineAllItemsAvailable) {
-            <app-billing-details [billing]="billing"
-             />
-          }
-          <!--section if not all products available online-->
-          @if (!onlineAllItemsAvailable) {
-            <div class="d-flex flex-column">
-              <div
-                style="padding: 15px;"
-                >
+          (dateSelected)="onDateSelected($any($event))"
+          (timeSelected)="onTimeSelected($any($event))"
+          (isAllItemsAvailable)="onCncItemsAvailable($any($event))" />
+      } @else {
+        <form [formGroup]="billing">
+          @if (onlineStockCheck().allAvailable) {
+            <app-billing-details [billing]="billing" />
+          } @else {
+            <div class="unavailable-section">
+              <div class="unavailable-header">
                 <h2>Not all items available</h2>
                 <h5>All items in cart can not be shipped with this option, please either remove products or change delivery option</h5>
               </div>
-              <div class="cart-items d-flex flex-column">
-                @for (product of cartItemUnavailable; track product; let i = $index) {
-                  <mat-card>
-                    <div class="item-image-container col-4">
-                      <img src="{{product.productImage}}" style="width: 100%;" alt="image">
+              <div class="cart-items">
+                @for (product of onlineStockCheck().unavailableItems; track product.modelNo) {
+                  <mat-card class="unavailable-item">
+                    <div class="unavailable-img">
+                      <img [src]="product.productImage" alt="{{ product.productName }}">
                     </div>
-                    <div class="d-flex flex-column col-6" style="padding-left: 15px;">
-                      <h3>{{product.productName}}</h3>
-                      <mat-card-subtitle>{{'Size : ' + product.size}}
+                    <div class="unavailable-info">
+                      <h3>{{ product.productName }}</h3>
+                      <mat-card-subtitle>
+                        Size: {{ product.size }}
                         <mat-error>out of stock</mat-error>
                       </mat-card-subtitle>
                     </div>
-                    <div class="col-2">
-                      <h2 style="line-height: 22px;">{{product.price}}€</h2>
+                    <div class="unavailable-price">
+                      <h2>{{ product.price }}€</h2>
                     </div>
                   </mat-card>
                 }
-                <div style="text-align: center; margin: 10px;">
-                  <button mat-flat-button color="warn" type="button" class="remove_button" (click)="removeProductsUnavailable()">Remove unavailable items</button>
+                <div class="remove-actions">
+                  <button mat-flat-button class="remove-btn" type="button"
+                          (click)="removeProductsUnavailable()">
+                    Remove unavailable items
+                  </button>
                 </div>
               </div>
             </div>
           }
         </form>
       }
-      <div class="d-flex flex-row justify-content-center">
-        @if (isClickNCollect) {
-          <button
-            class="button-style"
-            mat-flat-button matStepperNext
-            [disabled]="!cncAllItemsAvailable"
-            (click)="onCNCNext()"
-          >Next</button>
-        }
-        @if (!isClickNCollect) {
-          <button
-            class="button-style"
-            mat-flat-button matStepperNext
-            [disabled]="!onlineAllItemsAvailable && billing.invalid"
-            (click)="onDeliveryNext()"
-          >Next</button>
+
+      <div class="step-actions">
+        @if (isClickNCollect()) {
+          <button class="primary-btn" mat-flat-button matStepperNext
+                  [disabled]="!cncAllItemsAvailable()" (click)="onCncNext()">
+            Next
+          </button>
+        } @else {
+          <button class="primary-btn" mat-flat-button matStepperNext
+                  [disabled]="!onlineStockCheck().allAvailable && billing.invalid"
+                  (click)="onDeliveryNext()">
+            Next
+          </button>
         }
       </div>
     </form>
   </mat-step>
-  <!--Billing step-->
-  <mat-step [stepControl]="secondFormGroup" label="Billing" >
-    @if (isClickNCollect) {
-      <form [formGroup]="secondFormGroup">
+
+  <!-- Step 2: Billing -->
+  <mat-step [stepControl]="billing" label="Billing">
+    @if (isClickNCollect()) {
+      <form [formGroup]="billing">
         <mat-accordion>
-          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+          <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
             <mat-expansion-panel-header>
-              <mat-panel-title>
-                Billing details
-              </mat-panel-title>
+              <mat-panel-title>Billing details</mat-panel-title>
             </mat-expansion-panel-header>
-            <app-billing-details [billing]="billing" [type]="'Billing Details'" />
-            <mat-action-row class="justify-content-space-around">
-              <button class="button-style" mat-flat-button matStepperPrevious>Previous</button>
-              <button mat-flat-button class="button-style" (click)="nextStep()">Next</button>
+            <app-billing-details [billing]="billing" type="Billing Details" />
+            <mat-action-row class="step-actions">
+              <button class="primary-btn" mat-flat-button matStepperPrevious>Previous</button>
+              <button class="primary-btn" mat-flat-button (click)="nextStep()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
         </mat-accordion>
       </form>
     }
-    <!--Payment method-->
-    <form [formGroup]="thirdFormGroup">
-      @if (isClickNCollect) {
+
+    <form [formGroup]="paymentMethod">
+      @if (isClickNCollect()) {
         <mat-accordion>
-          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+          <mat-expansion-panel [expanded]="step() === 1" (opened)="setStep(1)">
             <mat-expansion-panel-header>
-              <mat-panel-title>
-                Payment Methods
-              </mat-panel-title>
+              <mat-panel-title>Payment Methods</mat-panel-title>
             </mat-expansion-panel-header>
             <app-payment-methods [paymentMethod]="paymentMethod" />
             <mat-action-row>
-              <button
-                mat-flat-button
-                class="button-style"
-                (click)="prevStep()"
-              >Previous</button>
-              <button
-                class="button-style"
-                mat-flat-button
-                matStepperNext
-                (click)="onSubmit()"
-              >Next</button>
+              <button class="primary-btn" mat-flat-button (click)="prevStep()">Previous</button>
+              <button class="primary-btn" mat-flat-button matStepperNext (click)="onSubmit()">Next</button>
             </mat-action-row>
           </mat-expansion-panel>
         </mat-accordion>
-      }
-      @if (!isClickNCollect) {
+      } @else {
         <app-payment-methods [paymentMethod]="paymentMethod" />
-      }
-      @if (!isClickNCollect) {
-        <div class="d-flex flex-row justify-content-center">
-          <button
-            class="button-style"
-            mat-flat-button
-            matStepperPrevious
-          >Previous</button>
-          <button
-            class="button-style"
-            mat-flat-button
-            matStepperNext
-            (click)="onSubmit()"
-          >Next</button>
+        <div class="step-actions">
+          <button class="primary-btn" mat-flat-button matStepperPrevious>Previous</button>
+          <button class="primary-btn" mat-flat-button matStepperNext (click)="onSubmit()">Next</button>
         </div>
       }
     </form>
   </mat-step>
-  <!--Overview step-->
-  <mat-step class="d-flex flex-column">
-    <ng-template matStepLabel >Overview</ng-template>
-    @if (order) {
+
+  <!-- Step 3: Overview -->
+  <mat-step>
+    <ng-template matStepLabel>Overview</ng-template>
+
+    @if (order(); as currentOrder) {
       <mat-card>
-        <h1 class="title">Your Order Details</h1>
-        <mat-card-content class="d-flex flex-column flex-sm-row">
+        <h1 class="overview-title">Your Order Details</h1>
+        <mat-card-content class="overview-content">
           <h2>Your order</h2>
-          @if (cartProducts.length>0) {
-            <div class="cart-items d-flex flex-row">
-              @for (product of cartProducts; track product; let i = $index) {
-                <div>
-                  <div class="item-image-container col-4">
-                    <img [src]="product?.productImage" style="width: 8rem; margin-right: 2rem" alt="image">
-                    <!-- <span class="details">
-                    <a (click)="openDialog()"> See details</a> </span> -->
-                  </div>
-                  <!--
-                  THIS GOES INSIDE DIALOG
-                  <div fxFlex="50%" fxLayout="row" style="padding-left: 15px;">
-                    <h3>{{product.productName}}</h3>
-                    <mat-card-subtitle>{{'Size : ' + product.size}} </mat-card-subtitle>
-                    <div fxLayout>
-                      <h3>No of items:</h3>
-                      <h3 style="padding: 0 15px;">{{product.noOfItems}}</h3>
-                    </div>
-                  </div>
-                  <div fxflex="20%">
-                    <h2 style="line-height: 22px;">{{product.price}}€</h2>
-                  </div> -->
+          @if (cartProducts().length > 0) {
+            <div class="order-images">
+              @for (product of cartProducts(); track product.modelNo) {
+                <div class="order-image-item">
+                  <img [src]="product.productImage" alt="{{ product.productName }}">
                 </div>
               }
             </div>
           }
+
           <div class="filler"></div>
-          <div gdGridAlign="start stretch" class="order-details d-flex flex-column">
-            <span class="details"><h4>Order ID: </h4><p>{{order.orderId}}</p></span>
+
+          <div class="order-details">
+            <span class="detail-row"><h4>Order ID:</h4><p>{{ currentOrder.orderId }}</p></span>
             <h2>Email Address</h2>
-            <span class="details"><h4>Email: </h4><p>{{order.billingDetails.email}}</p></span>
+            <span class="detail-row"><h4>Email:</h4><p>{{ currentOrder.billingDetails.email }}</p></span>
             <h2>Delivery Address</h2>
-            <span class="details"><h4>Store Address: </h4><p>{{order.storeLocation.address}}</p></span>
-            <span class="details"><h4>Pickup time & date: </h4><p>{{order.pickupDate| date:'mediumDate'}} {{order.pickupTime}}</p></span>
+            <span class="detail-row"><h4>Store Address:</h4><p>{{ currentOrder.storeLocation.address }}</p></span>
+            <span class="detail-row"><h4>Pickup time & date:</h4><p>{{ currentOrder.pickupDate | date:'mediumDate' }} {{ currentOrder.pickupTime }}</p></span>
             <h2>Billing details</h2>
-            <span class="details"><h4>Name: </h4><p>{{order.billingDetails.name}}</p></span>
-            <span class="details"><h4>Address 1: </h4><p>{{order.billingDetails.address1}}</p></span>
-            <span class="details"><h4>Phone No: </h4><p>{{order.billingDetails.phoneNo}}</p></span>
+            <span class="detail-row"><h4>Name:</h4><p>{{ currentOrder.billingDetails.name }}</p></span>
+            <span class="detail-row"><h4>Address 1:</h4><p>{{ currentOrder.billingDetails.address1 }}</p></span>
+            <span class="detail-row"><h4>Phone No:</h4><p>{{ currentOrder.billingDetails.phoneNo }}</p></span>
             <h2>Delivery Method</h2>
-            <span class="details"><h4>{{order.pickupType}}</h4></span>
+            <span class="detail-row"><h4>{{ currentOrder.pickupType }}</h4></span>
             <h2>Payment Method</h2>
-            <span class="details"><h4>{{order.paymentOption}}</h4></span>
-            <p>At the end of the checkout process, you will be redirected to {{order.paymentOption}} to confirm your purchase.</p>
-            <!--
-            <h2>Total amount incl. VAT</h2>
-            <span class="details"><h4>{{orderPrice}} €</h4></span> -->
+            <span class="detail-row"><h4>{{ currentOrder.paymentOption }}</h4></span>
+            <p>At the end of the checkout process, you will be redirected to {{ currentOrder.paymentOption }} to confirm your purchase.</p>
           </div>
+
           <div class="filler"></div>
-          <mat-card style="background-color: #f7f8f8;" class="d-flex flex-column">
-            <div class="d-flex flex-row">
-              <h4>Shipping costs</h4><div class="filler"></div> <p>Free</p>
+
+          <mat-card class="summary-card">
+            <div class="summary-row">
+              <h4>Shipping costs</h4><div class="filler"></div><p>Free</p>
             </div>
-            <div class="d-flex flex-row">
-              <h4>Payment costs</h4><div class="filler"></div> <p>Free</p>
+            <div class="summary-row">
+              <h4>Payment costs</h4><div class="filler"></div><p>Free</p>
             </div>
-            <div class="d-flex flex-row">
-              <h4>Gesamtbetrag inkl. MwSt.</h4><div class="filler"></div> <p>{{orderPrice}} €</p>
+            <div class="summary-row">
+              <h4>Total incl. VAT</h4><div class="filler"></div><p>{{ orderPrice() }} €</p>
             </div>
           </mat-card>
         </mat-card-content>
+
         <mat-card-actions>
-          <button
-            mat-flat-button
-            class="button-style mx-auto"
-            (click)="onOrderConfirmation()"
-          >Confirm</button>
+          <button class="primary-btn confirm-btn" mat-flat-button (click)="onOrderConfirmation()">Confirm</button>
         </mat-card-actions>
       </mat-card>
     }
+
     <div>
-      <button
-        class="button-style"
-        mat-flat-button
-        matStepperPrevious
-      >Back</button>
+      <button class="primary-btn" mat-flat-button matStepperPrevious>Back</button>
     </div>
   </mat-step>
 </mat-stepper>
 
-<div class="cart-items d-flex flex-column d-none d-sm-block col-sm-4">
+<!-- Sidebar: order summary (desktop only) -->
+<div class="sidebar-order">
   <h2>Your Order</h2>
   <mat-divider />
-  @for (product of cartProducts; track product; let i = $index) {
-    <div>
-      <div class="item-image-container">
-        <img src="{{product.productImage}}" style="width: 6rem; margin-right: 1rem" alt="image">
-      </div>
+  @for (product of cartProducts(); track product.modelNo) {
+    <div class="sidebar-item">
+      <img [src]="product.productImage" alt="{{ product.productName }}">
     </div>
   }
 </div>

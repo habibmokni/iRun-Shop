@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,14 +11,12 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./order-success.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatDialogModule, MatButtonModule, MatCardModule, MatIconModule]
+  imports: [RouterModule, MatDialogModule, MatButtonModule, MatCardModule, MatIconModule],
 })
-export class OrderSuccessComponent implements OnInit {
-  private dialog = inject(MatDialog);
+export class OrderSuccessComponent {
+  private readonly dialog = inject(MatDialog);
 
-  ngOnInit(): void {
-  }
-  onClick(){
+  protected onClose(): void {
     this.dialog.closeAll();
   }
 }

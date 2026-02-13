@@ -1,162 +1,90 @@
-@if (!isLoading) {
-  <div class="container">
-    <div class="right-grid col">
-      <div class="image-grid d-none .d-sm-block">
+@if (!isLoading()) {
+  <div class="home-layout">
+    <div class="main-content">
+      <div class="slider-section">
         <app-image-slider />
       </div>
-      <div class="product-list row">
-        <mat-tab-group mat-align-tabs="start" style="overflow: hidden;">
-          <mat-tab label="All">
-            @if (isLoading) {
-              <mat-spinner color="primary" />
-            }
-            @if (!isLoading) {
-              <div class="row w-100 mx-auto overflow-hidden">
-                @for (product of productList|async; track product) {
-                  <div class="d-flex flex-column col-6 col-sm-6 col-md-3" style="padding: 0px 10px;">
+
+      <div class="product-list">
+        <mat-tab-group mat-align-tabs="start">
+          @for (tab of brandTabs; track tab.label; let tabIdx = $index) {
+            <mat-tab [label]="tab.label">
+              <div class="product-grid">
+                @for (product of filteredProducts[tabIdx](); track product.modelNo) {
+                  <div class="product-card">
                     <div class="item-image-container">
-                      <a routerLink="/products/{{product.modelNo}}"><img [src]="product.variants[0].imageList[0]" class="item-image" alt="image" matCardImage></a>
+                      <a [routerLink]="['/products', product.modelNo]">
+                        <img [src]="product.variants[0].imageList[0]" class="item-image" alt="{{ product.name }}">
+                      </a>
                     </div>
-                    <h2>{{product.name}}</h2>
-                    <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
+                    <h2 class="product-name">{{ product.name }}</h2>
+                    <mat-card-subtitle>{{ product.subCategory }}, Power Shoes</mat-card-subtitle>
                     <span class="filler"></span>
-                    <mat-card-actions class="d-flex flex-row" style="margin: 0px;">
-                      <h2>{{product.price}}€</h2>
+                    <div class="product-actions">
+                      <h2 class="product-price">{{ product.price | number:'1.2-2' }}€</h2>
                       <span class="filler"></span>
-                      <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-                    </mat-card-actions>
+                      <button mat-mini-fab class="add-btn" (click)="openDialog(product)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
                   </div>
                 }
               </div>
-            }
-          </mat-tab>
-          <mat-tab label="Adidas">
-            <div class="row row-wrap">
-              @if (isLoading) {
-                <mat-spinner color="primary" />
-              }
-              @for (product of adidasProducts; track product) {
-                <div class="col col-6 col-sm-6 col-md-3" style="padding: 0px 10px;">
-                  <div class="item-image-container">
-                    <a routerLink="/products/{{product.modelNo}}"><img [src]="product.variants[0].imageList[0]" class="item-image" alt="image" matCardImage></a>
-                  </div>
-                  <h2>{{product.name}}</h2>
-                  <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
-                  <span class="filler"></span>
-                  <mat-card-actions class="d-flex flex-row">
-                    <h2>{{product.price}}€</h2>
-                    <span class="filler"></span>
-                    <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-                  </mat-card-actions>
-                </div>
-              }
-            </div>
-          </mat-tab>
-          <mat-tab label="Nike">
-            <div class="row row-wrap">
-              @if (isLoading) {
-                <mat-spinner color="primary" />
-              }
-              @for (product of nikeProducts; track product) {
-                <div class="col col-6 col-sm-6 col-md-3" style="padding: 0px 10px;">
-                  <div class="item-image-container">
-                    <a routerLink="/products/{{product.modelNo}}"><img [src]="product.variants[0].imageList[0]" class="item-image" alt="image" matCardImage></a>
-                  </div>
-                  <h2>{{product.name}}</h2>
-                  <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
-                  <span class="filler"></span>
-                  <mat-card-actions class="row" style="margin: 0px;">
-                    <h2>{{product.price}}€</h2>
-                    <span class="filler"></span>
-                    <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-                  </mat-card-actions>
-                </div>
-              }
-            </div>
-          </mat-tab>
-          <mat-tab label="New Balance">
-            <div class="row row-wrap">
-              @if (isLoading) {
-                <mat-spinner color="primary" />
-              }
-              @for (product of balanceProducts; track product) {
-                <div class="col col-6 col-md-3" style="padding: 0px 10px;">
-                  <div class="item-image-container">
-                    <a routerLink="/products/{{product.modelNo}}"><img [src]="product.variants[0].imageList[0]" class="item-image" alt="image" matCardImage></a>
-                  </div>
-                  <h2>{{product.name}}</h2>
-                  <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
-                  <span class="filler"></span>
-                  <mat-card-actions class="row" style="margin: 0px;">
-                    <h2>{{product.price}}€</h2>
-                    <span class="filler"></span>
-                    <button mat-mini-fab style="background: linear-gradient(180deg, #D53D5E 0%, #8B283D 100%);" (click)="openDialog(product)"><mat-icon>add</mat-icon></button>
-                  </mat-card-actions>
-                </div>
-              }
-            </div>
-          </mat-tab>
+            </mat-tab>
+          }
         </mat-tab-group>
       </div>
     </div>
-    <div class="left-grid col col-5 d-none d-sm-block">
-      <div class="cards">
+
+    <aside class="sidebar">
+      <div class="sidebar-card">
         <mat-card-header>
           <mat-card-title>Product Category</mat-card-title>
         </mat-card-header>
         <hr>
-          <mat-card-content class="col">
-            <h3>Nike</h3>
-            <h3>Adidas</h3>
-            <h3>New Balance</h3>
-            <h3>Others</h3>
-          </mat-card-content>
-        </div>
-        <div class="cards">
-          <mat-card-header>
-            <mat-card-title>Top Rated Products</mat-card-title>
-          </mat-card-header>
-          <hr>
-            @for (product of topRatedProducts; track product; let i = $index) {
-              <mat-card-content class="row">
-                <img [src]="product.variants[0].imageList[0]" alt="img" style="height: 60px;">
-                <div class="col" style="padding: 10px 5px;">
-                  <a [routerLink]="['/products', product.modelNo]" style="color:black;"><h3>{{product.name}}</h3></a>
-                  @if (true) {
-                    <mat-card-subtitle>{{product.price}}€</mat-card-subtitle>
-                  }
-                  @if (false) {
-                    <mat-card-subtitle>Rs. product.productPrice/- <span><del class="discounted">Was Rs. product.productDiscount/-</del></span></mat-card-subtitle>
-                  }
-                </div>
-              </mat-card-content>
-            }
-          </div>
-          <div class="cards">
-            <mat-card-header>
-              <mat-card-title>Product Tags</mat-card-title>
-            </mat-card-header>
-            <hr>
-              <mat-card-content>
-                <mat-chip-set aria-label="Chip selection">
-          <mat-chip style="background: linear-gradient(
-            180deg, #D53D5E 0%, #8B283D 100%);" highlighted>Nike</mat-chip>
-          <mat-chip style="background: linear-gradient(
-            180deg, #D53D5E 0%, #8B283D 100%);" highlighted>Nike Shoes</mat-chip>
-          <mat-chip style="background: linear-gradient(
-            180deg, #D53D5E 0%, #8B283D 100%);" highlighted>Power</mat-chip>
-          <mat-chip style="background: linear-gradient(
-            180deg, #D53D5E 0%, #8B283D 100%);" highlighted>Power Shoes</mat-chip>
-          <mat-chip style="background: linear-gradient(
-            180deg, #D53D5E 0%, #8B283D 100%);" highlighted>Bata Shoes</mat-chip>
-          <mat-chip style="background: linear-gradient(
-            180deg, #D53D5E 0%, #8B283D 100%);" highlighted>Service Shoes</mat-chip>
-                </mat-chip-set>
-              </mat-card-content>
+        <mat-card-content>
+          <h3>Nike</h3>
+          <h3>Adidas</h3>
+          <h3>New Balance</h3>
+          <h3>Others</h3>
+        </mat-card-content>
+      </div>
+
+      <div class="sidebar-card">
+        <mat-card-header>
+          <mat-card-title>Top Rated Products</mat-card-title>
+        </mat-card-header>
+        <hr>
+        @for (product of topRatedProducts(); track product.modelNo) {
+          <mat-card-content class="top-rated-item">
+            <img [src]="product.variants[0].imageList[0]" alt="{{ product.name }}" class="top-rated-img">
+            <div class="top-rated-info">
+              <a [routerLink]="['/products', product.modelNo]">
+                <h3>{{ product.name }}</h3>
+              </a>
+              <mat-card-subtitle>{{ product.price | number:'1.2-2' }}€</mat-card-subtitle>
             </div>
-          </div>
-        </div>
-      }
+          </mat-card-content>
+        }
+      </div>
 
-      <div id="map"></div>
-
+      <div class="sidebar-card">
+        <mat-card-header>
+          <mat-card-title>Product Tags</mat-card-title>
+        </mat-card-header>
+        <hr>
+        <mat-card-content>
+          <mat-chip-set aria-label="Product tags">
+            @for (tag of tags; track tag) {
+              <mat-chip class="tag-chip" highlighted>{{ tag }}</mat-chip>
+            }
+          </mat-chip-set>
+        </mat-card-content>
+      </div>
+    </aside>
+  </div>
+} @else {
+  <div class="loading-container">
+    <mat-spinner />
+  </div>
+}

@@ -1,6 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 import { Product } from '../models/product.model';
 import { CartProduct } from '../models/cart-product.model';
@@ -14,43 +16,60 @@ export class ProductService {
   private readonly snackbar = inject(SnackbarService);
   private readonly db = inject(AngularFirestore);
 
-  private readonly collectionPath = 'onlineStore/MIfAbILeO1O2wcrYubST/productList';
+  private readonly collectionPath =
+    'onlineStore/MIfAbILeO1O2wcrYubST/productList';
 
-  productList = new Observable<Product[]>();
-  product = new Observable<Product[]>();
+  // --- Product list (eagerly shared, single Firestore connection) ---
 
-  selectedModelAndSize: { modelNo: string; size: number } = { modelNo: '', size: 0 };
-  orderPrice = 0;
-  productsInCart = false;
-  allItemsInStock = false;
+  readonly productList: Observable<Product[]> = this.db
+    .collection<Product>(this.collectionPath)
+    .valueChanges()
+    .pipe(shareReplay({ bufferSize: 1, refCount: false }));
 
-  readonly cartProductsChanged = new Subject<CartProduct[]>();
+  /**
+   * @deprecated No longer needed — `productList` is eagerly initialized.
+   * Kept for backward compat.
+   */
+  fetchProduct(): void {}
 
-  // --- Firestore operations ---
+  // --- Single product query ---
 
-  addProductsToDatabase(products: Product[]): void {
-    const collection = this.db.collection<Product>(this.collectionPath);
-    products.forEach((product) => collection.add(product));
-  }
+  /** Set by `getProductById()`. @deprecated Use the return value instead. */
+  product: Observable<Product[]> = new Observable<Product[]>();
 
-  fetchProduct(): void {
-    this.productList = this.db
-      .collection<Product>(this.collectionPath)
-      .valueChanges();
-  }
-
-  getProductById(key: string): void {
+  /**
+   * Fetches products matching the given modelNo.
+   * Returns the Observable directly (preferred).
+   * Also updates `this.product` for backward compat.
+   */
+  getProductById(modelNo: string): Observable<Product[]> {
     this.product = this.db
       .collection<Product>(this.collectionPath, (ref) =>
-        ref.where('modelNo', '==', key)
+        ref.where('modelNo', '==', modelNo)
       )
-      .valueChanges();
+      .valueChanges()
+      .pipe(shareReplay({ bufferSize: 1, refCount: true }));
+    return this.product;
   }
 
-  // --- Cart operations (localStorage) ---
+  // --- Cart (signal-based, synced to localStorage) ---
+
+  private readonly cartState = signal<CartProduct[]>(this.readCartFromStorage());
+
+  /** Readonly signal — use `cart()` for current value. */
+  readonly cart = this.cartState.asReadonly();
+
+  /** Observable stream for pipe-based consumers. */
+  readonly cart$ = toObservable(this.cartState);
+
+  /**
+   * @deprecated Use `cart$` instead.
+   * Kept for backward compat with unrefactored components.
+   */
+  readonly cartProductsChanged = this.cart$;
 
   addToCart(data: CartProduct): void {
-    const cart = this.getLocalCartProducts();
+    const cart = this.readCartFromStorage();
     const existingIndex = cart.findIndex(
       (item) =>
         item.modelNo === data.modelNo &&
@@ -67,35 +86,35 @@ export class ProductService {
       cart.push(data);
     }
 
-    this.updateCart(cart);
+    this.persistCart(cart);
     this.snackbar.info('Adding Product to Cart');
   }
 
   removeLocalCartProduct(product: CartProduct): void {
-    const cart = this.getLocalCartProducts().filter(
+    const cart = this.readCartFromStorage().filter(
       (item) =>
         !(item.modelNo === product.modelNo && item.size === product.size)
     );
-    this.updateCart(cart);
+    this.persistCart(cart);
     this.snackbar.warning('Removing product from cart');
   }
 
   removeAllLocalCartProduct(): void {
     localStorage.removeItem(CART_STORAGE_KEY);
-    this.cartProductsChanged.next([]);
+    this.cartState.set([]);
   }
 
   getLocalCartProducts(): CartProduct[] {
-    return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) ?? '[]');
+    return this.readCartFromStorage();
   }
 
   updateNoOfItemsOfProduct(product: CartProduct): void {
-    const cart = this.getLocalCartProducts().map((item) =>
+    const cart = this.readCartFromStorage().map((item) =>
       item.modelNo === product.modelNo
         ? { ...item, noOfItems: product.noOfItems }
         : item
     );
-    this.updateCart(cart);
+    this.persistCart(cart);
   }
 
   // --- New products (admin/seed utility) ---
@@ -114,8 +133,12 @@ export class ProductService {
 
   // --- Private helpers ---
 
-  private updateCart(cart: CartProduct[]): void {
-    this.cartProductsChanged.next(cart);
+  private readCartFromStorage(): CartProduct[] {
+    return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) ?? '[]');
+  }
+
+  private persistCart(cart: CartProduct[]): void {
+    this.cartState.set(cart);
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
   }
 }

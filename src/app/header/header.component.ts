@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -6,8 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
-import { AuthService } from '../auth/auth.service';
+
+import { AuthService } from '../auth/services/auth.service';
 import { ProductService } from '../shared/services/product.service';
+import { UserService } from '../shared/services/user.service';
 import { SnackbarService } from '../shared/services/snackbar.service';
 
 @Component({
@@ -22,41 +24,23 @@ import { SnackbarService } from '../shared/services/snackbar.service';
     MatButtonModule,
     MatIconModule,
     MatBadgeModule,
-    MatMenuModule
-]
+    MatMenuModule,
+  ],
 })
-export class HeaderComponent implements OnInit {
-  productService = inject(ProductService);
-  private snackbar = inject(SnackbarService);
-  private authService = inject(AuthService);
-  private router = inject(Router);
+export class HeaderComponent {
+  private readonly authService = inject(AuthService);
+  private readonly productService = inject(ProductService);
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  private readonly snackbar = inject(SnackbarService);
 
+  protected readonly isLoggedIn = this.authService.isLoggedIn;
+  protected readonly user = this.userService.user;
+  protected readonly cartCount = computed(() => this.productService.cart().length);
 
-  isLoggedIn: boolean = false;
-  user: any;
-
-
-  ngOnInit(): void {
-    this.checkUserLogin();
-    this.authService.isLoggedIn.subscribe((data:any)=>{
-      this.checkUserLogin();
-      this.isLoggedIn = data;
-    });
+  protected onLogout(): void {
+    this.authService.logout();
+    this.router.navigate(['/home']);
+    this.snackbar.success('Logout successfully!');
   }
-
-  checkUserLogin(){
-    if(localStorage.getItem("isLoggedIn")){
-      this.isLoggedIn = true;
-      this.user = JSON.parse(localStorage.getItem("user")!);
-      console.log(this.user);
-    }
-  }
-
-  onLogout(){
-    localStorage.removeItem("isLoggedIn");
-    this.authService.checkLogIn();
-    this.router.navigate(['home']);
-    this.snackbar.success("Logout successfully!");
-  }
-
 }

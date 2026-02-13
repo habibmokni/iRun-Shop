@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
+
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,12 +9,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
-import { Observable } from 'rxjs';
-import { CartProduct } from '../shared/models/cart-product.model';
+import { DecimalPipe } from '@angular/common';
+
 import { Product } from '../shared/models/product.model';
 import { ProductService } from '../shared/services/product.service';
 import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
 import { ImageSliderComponent } from './image-slider/image-slider.component';
+
+interface BrandTab {
+  readonly label: string;
+  readonly filter: (p: Product) => boolean;
+}
 
 @Component({
   selector: 'app-home',
@@ -32,77 +37,44 @@ import { ImageSliderComponent } from './image-slider/image-slider.component';
     MatProgressSpinnerModule,
     MatChipsModule,
     ImageSliderComponent,
-    AsyncPipe
-]
+    DecimalPipe,
+  ],
 })
-export class HomeComponent implements OnInit {
-  private productService = inject(ProductService);
-  private dialog = inject(MatDialog);
-  private http = inject(HttpClient);
+export class HomeComponent {
+  private readonly productService = inject(ProductService);
+  private readonly dialog = inject(MatDialog);
 
+  private readonly products = toSignal(this.productService.productList, {
+    initialValue: [] as Product[],
+  });
 
-  //stores products fetched
-  productList = new Observable<Product[]>();
-  isLoading = true;
-  //stores filtered products
-  adidasProducts: Product[] = [];
-  nikeProducts: Product[] = [];
-  balanceProducts: Product[] = [];
-  topRatedProducts: Product[] = [];
+  protected readonly isLoading = computed(() => this.products().length === 0);
 
+  protected readonly brandTabs: readonly BrandTab[] = [
+    { label: 'All', filter: () => true },
+    { label: 'Adidas', filter: (p) => p.companyName === 'ADIDAS' },
+    { label: 'Nike', filter: (p) => p.companyName === 'NIKE' },
+    { label: 'New Balance', filter: (p) => p.companyName === 'NEW BALANCE' },
+  ];
 
+  protected readonly filteredProducts = this.brandTabs.map((tab) =>
+    computed(() => this.products().filter(tab.filter))
+  );
 
-  ngOnInit(): void {
-    //fetching products from db
-    this.productService.fetchProduct();
-    this.productList= this.productService.productList;
-    //filtering brands
-    this.productList.subscribe(products=>{
-      for(let product of products){
-        if(product.companyName === 'ADIDAS'){
-          this.adidasProducts.push(product);
-        }
-        if(product.companyName === 'NIKE'){
-          this.nikeProducts.push(product);
-        }
-        if(product.companyName === 'NEW BALANCE'){
-          this.balanceProducts.push(product);
-        }
-      }
-      for(let i=0; i<3; i++){
-        this.topRatedProducts.push(products[i]);
-      }
-    })
-    this.isLoading = false;
-    //this.getAllProducts();
-    let placesService = new google.maps.places.PlacesService(document.getElementById('map') as HTMLDivElement); // i.e. <div id="map"></div>
+  protected readonly topRatedProducts = computed(() =>
+    this.products().slice(0, 3)
+  );
 
-    const request = {
-      placeId: 'ChIJX7YUPPrLxUcRV19YH_qKvac',
-      fields: ['place_id']
-    };
+  protected readonly tags = [
+    'Nike', 'Nike Shoes', 'Power', 'Power Shoes', 'Bata Shoes', 'Service Shoes',
+  ] as const;
 
-    placesService.getDetails(request, (data: any)=>{
-      console.log(data);
-    });
-    //this.http.get('https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJhzd9NKqxxUcRRcSQDWGjils&key=AIzaSyAUtWscrUnwXe5o3S008Gd0Je05C6FxgEA')
-    //.subscribe((data: any)=>{
-    //  console.log(data);
-    //})
-  }
-  //add product to cart
-  addToCart(product: CartProduct) {
-    product.noOfItems =1;
-    this.productService.addToCart(product);
-  }
-
-  //opens dialog when (+)button is clickec
-  openDialog(product: Product){
+  protected openDialog(product: Product): void {
     this.dialog.open(AddToCartComponent, {
       data: product,
       maxWidth: '100vw',
       maxHeight: '100vh',
-      width: '280px'
+      width: '280px',
     });
   }
 }

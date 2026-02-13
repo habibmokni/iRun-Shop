@@ -1,5 +1,4 @@
-import { Component, OnInit, input, ChangeDetectionStrategy } from '@angular/core';
-
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,14 +9,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrls: ['./billing-details.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule]
+  imports: [ReactiveFormsModule, MatInputModule, MatFormFieldModule],
 })
-export class BillingDetailsComponent implements OnInit {
+export class BillingDetailsComponent {
   readonly billing = input.required<FormGroup>();
-  readonly type = input("Delivery Details");
-  constructor() { }
+  readonly type = input('Delivery Details');
 
-  ngOnInit(): void {
+  protected isFieldInvalid(field: string): boolean {
+    const control = this.billing().get(field);
+    return !!control && control.invalid && control.touched;
   }
-
 }

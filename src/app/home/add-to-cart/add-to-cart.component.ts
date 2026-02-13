@@ -1,13 +1,18 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, inject, ChangeDetectionStrategy, viewChild } from '@angular/core';
-
+import {
+  Component,
+  ChangeDetectionStrategy,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+  signal,
+  computed,
+} from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
+
 import { CartProduct } from 'src/app/shared/models/cart-product.model';
 import { Product } from 'src/app/shared/models/product.model';
-import { User } from 'src/app/shared/models/user.model';
 import { ProductService } from 'src/app/shared/services/product.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -18,109 +23,64 @@ import { UserService } from 'src/app/shared/services/user.service';
   styleUrls: ['./add-to-cart.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatDialogModule,
-    MatExpansionModule,
-    MatButtonModule,
-    MatIconModule,
-    MatRadioModule
-],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [MatDialogModule, MatButtonModule, MatIconModule, DecimalPipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AddToCartComponent implements OnInit {
-  data = inject<Product>(MAT_DIALOG_DATA);
-  private productService = inject(ProductService);
-  private snackbarService = inject(SnackbarService);
-  dialog = inject(MatDialog);
-  private userService = inject(UserService);
+export class AddToCartComponent {
+  protected readonly product = inject<Product>(MAT_DIALOG_DATA);
+  private readonly productService = inject(ProductService);
+  private readonly snackbar = inject(SnackbarService);
+  private readonly dialog = inject(MatDialog);
+  private readonly userService = inject(UserService);
 
-  readonly expansionPanel = viewChild.required(MatExpansionPanel);
-  noOfItems=1;
-  size = 0;
-  stock = 0;
-  isSizeSelected=false;
-  product: Product;
-  user!: User;
-  isLoaded =  false;
+  protected readonly user = this.userService.user;
+  private readonly selectedSize = signal(0);
+  protected readonly isSizeSelected = signal(false);
 
+  protected readonly originalPrice = computed(
+    () => +(this.product.price + this.product.price * 0.2).toFixed(2)
+  );
 
-  constructor() {
-      const data = this.data;
-      const userService = this.userService;
+  protected readonly stock = computed(() => {
+    const size = this.selectedSize();
+    const products = this.user()?.storeSelected?.products ?? [];
+    const match = products.find((p: any) => p.modelNo === this.product.modelNo);
+    if (!match) return 0;
 
-      this.product = data;
-      if(userService.user){
-        this.user = this.userService.user;
-      }
-        userService.userSub.subscribe(()=>{
-          this.user = userService.user;
-          console.log(this.user.storeSelected);
-          this.checkProductInStore();
-        });
-   }
-  ngOnInit(): void {
+    const sizeIdx = match.variants[0].sizes.findIndex((s: number) => s === size);
+    return sizeIdx >= 0 ? +match.variants[0].inStock[sizeIdx] : 0;
+  });
 
-    setTimeout(()=>{
-      this.isLoaded = true;
-    },10)
+  protected onSizeSelect(size: any): void {
+    this.selectedSize.set(+size);
+    this.isSizeSelected.set(true);
   }
-  //triggers when size is selected
-  onSizeSelect(size: number){
-    this.size = size;
-    this.isSizeSelected = true;
-    if(this.user){
-      this.checkProductInStore();
+
+  protected addToCart(): void {
+    if (!this.isSizeSelected()) {
+      this.snackbar.info('Please select size of product');
+      return;
     }
-  }
 
-addToCart(product: Product){
-  if(this.user){
-    if(this.isSizeSelected && this.stock>0){
-      this.onAddToCart(product);
-    }else{
-        //warning message if store does not have product
-        if(this.stock === 0){
-          this.snackbarService.info('Please change store as product is not available in selected store and online store');
-        }else{
-          this.snackbarService.info('Please select size of product');
-        }
-      }
-  }else{
-    if(this.isSizeSelected){
-      this.onAddToCart(product);
+    if (this.user() && this.stock() === 0) {
+      this.snackbar.info(
+        'Please change store as product is not available in selected store and online store'
+      );
+      return;
     }
-  }
 
-}
-//triggers when size is selected and checks if store has it or not
-checkProductInStore(){
-  setTimeout(()=>{
-    for(let products of this.user.storeSelected.products){
-      if(products.modelNo === this.product.modelNo){
-        for(let i=0; i<products.variants[0].sizes.length; i++){
-          if(products.variants[0].sizes[i] === this.size){
-            this.stock = +products.variants[0].inStock[i];
-            }
-          }
-        }
-      }
-    },1000)
-
-  }
-
-  onAddToCart(product: Product){
     const cartProduct: CartProduct = {
-      productImage: product.variants[0].imageList[0],
-      modelNo : product.modelNo,
-      variantId: product.variants[0].variantId,
-      noOfItems : 1,
-      size : +this.size,
-      vendor: product.companyName!,
-      productName: product.name,
-      price: product.price
-    }
+      productImage: this.product.variants[0].imageList[0],
+      modelNo: this.product.modelNo,
+      variantId: this.product.variants[0].variantId,
+      noOfItems: 1,
+      size: this.selectedSize(),
+      vendor: this.product.companyName ?? '',
+      productName: this.product.name,
+      price: this.product.price,
+    };
+
     this.productService.addToCart(cartProduct);
+    this.dialog.closeAll();
   }
-
-
 }

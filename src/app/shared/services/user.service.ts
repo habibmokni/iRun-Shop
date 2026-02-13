@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 import { User } from '../models/user.model';
 
@@ -7,39 +7,45 @@ const USER_STORAGE_KEY = 'avct_user';
 
 @Injectable()
 export class UserService {
-  user!: User;
-  readonly userSub = new Subject<User>();
+  private readonly userState = signal<User | null>(this.readFromStorage());
 
-  constructor() {
-    this.loadUser();
+  /** Readonly signal — use `user()` in templates, computed, etc. */
+  readonly user = this.userState.asReadonly();
+
+  /** Observable stream for pipe-based consumers. */
+  readonly user$ = toObservable(this.userState);
+
+  /**
+   * @deprecated Use `user$` instead.
+   * Kept for backward compat with unrefactored components.
+   */
+  readonly userSub = this.user$;
+
+  addUserTodb(userData: User): void {
+    const users = this.readAllUsers();
+    users.push(userData);
+    this.persist(users);
+    this.userState.set(users[0]);
   }
 
-  addUserTodb(user: User): void {
-    const users = this.getStoredUsers();
-    users.push(user);
-    this.saveUsers(users);
-    this.loadUser();
-    this.userSub.next(this.user);
+  updateSelectedStore(userData: User): void {
+    const users = this.readAllUsers();
+    users[0] = userData;
+    this.persist(users);
+    this.userState.set(users[0]);
   }
 
-  updateSelectedStore(user: User): void {
-    const users = this.getStoredUsers();
-    users[0] = user;
-    this.saveUsers(users);
-    this.user = users[0];
-    this.userSub.next(this.user);
+  // --- Private helpers ---
+
+  private readFromStorage(): User | null {
+    return this.readAllUsers()[0] ?? null;
   }
 
-  private loadUser(): void {
-    const users = this.getStoredUsers();
-    this.user = users[0];
-  }
-
-  private getStoredUsers(): User[] {
+  private readAllUsers(): User[] {
     return JSON.parse(localStorage.getItem(USER_STORAGE_KEY) ?? '[]');
   }
 
-  private saveUsers(users: User[]): void {
+  private persist(users: User[]): void {
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
   }
 }

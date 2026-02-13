@@ -1,14 +1,12 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,45 +16,53 @@ import { AuthService } from '../auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
-    MatProgressSpinnerModule
-]
+    MatProgressSpinnerModule,
+  ],
 })
 export class LoginComponent {
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private snackbarService = inject(SnackbarService);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly snackbar = inject(SnackbarService);
 
-
-  loginForm: FormGroup = new FormGroup({
-    email : new FormControl('', [Validators.required]),
-    password : new FormControl('', [Validators.required])
+  protected readonly loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
   });
 
-  hide = true;
-  isLoading: boolean = false;
+  protected readonly hidePassword = signal(true);
+  protected readonly isLoading = signal(false);
 
-
-  ngOnInit(): void {
-    if(localStorage.getItem("isLoggedIn")){
+  constructor() {
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/home']);
-      this.snackbarService.success('User already logged in');
+      this.snackbar.success('User already logged in');
     }
-    this.authService.user.subscribe((data: any)=>{
+  }
+
+  protected togglePasswordVisibility(): void {
+    this.hidePassword.update((h) => !h);
+  }
+
+  protected isFieldInvalid(field: keyof typeof this.loginForm.controls): boolean {
+    const control = this.loginForm.controls[field];
+    return control.invalid && control.touched;
+  }
+
+  protected onLogin(): void {
+    this.isLoading.set(true);
+
+    const success = this.authService.login(
+      this.loginForm.value as { email: string; password: string }
+    );
+
+    if (success) {
       this.router.navigate(['/home']);
-      this.snackbarService.success('Login Successfull');
-    },(error: any)=>{
-      this.isLoading = false;
-      this.snackbarService.error('Wrong credentials! Please try again')
-    });
+      this.snackbar.success('Login Successful');
+    } else {
+      this.isLoading.set(false);
+      this.snackbar.error('Wrong credentials! Please try again');
+    }
   }
-
-  login(){
-    this.isLoading = true;
-    this.authService.login(this.loginForm.value);
-  }
-
 }

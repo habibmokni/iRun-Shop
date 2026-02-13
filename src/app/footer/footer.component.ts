@@ -1,7 +1,5 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ProductService } from '../shared/services/product.service';
 
 @Component({
   selector: 'app-footer',
@@ -9,14 +7,6 @@ import { ProductService } from '../shared/services/product.service';
   styleUrls: ['./footer.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterModule, MatToolbarModule]
+  imports: [MatToolbarModule],
 })
-export class FooterComponent implements OnInit {
-  productService = inject(ProductService);
-
-
-
-  ngOnInit(): void {
-  }
-
-}
+export class FooterComponent {}

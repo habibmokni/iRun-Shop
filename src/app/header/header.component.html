@@ -1,107 +1,75 @@
-<mat-toolbar-row class="row" style="height: 22px; z-index: 100; background-color: white;">
-  <div style="margin: auto;" class="text-center">
-    <span class="filler"></span>
-    <a style="color: black; font-size: 12px; font-family: Nunito;" routerLink="/intro">Click And Collect</a>
+<mat-toolbar-row class="top-bar">
+  <div class="top-bar-content">
+    <a routerLink="/intro">Click And Collect</a>
     <span>|</span>
-    <a style="font-size: 12px; font-family: Nunito; color: black;" routerLink="/info">FAQ</a>
-    <span class="filler"></span>
+    <a routerLink="/info">FAQ</a>
   </div>
-
 </mat-toolbar-row>
-<mat-toolbar class="header d-none d-sm-flex flex-row" style="padding: 0px 25px;">
-  <span><a mat-button style="text-decoration: none; color: white;" routerLink="/"><img style="width: 50px;" src="../../assets/images/logos/iShoes-logo.png" alt="iShoes"></a></span>
+
+<!-- Desktop header -->
+<mat-toolbar class="header desktop-header">
+  <a mat-button class="logo-link" routerLink="/">
+    <img src="assets/images/logos/iShoes-logo.png" alt="iShoes" class="logo">
+  </a>
   <span class="filler"></span>
-  <div class="navigation navbar d-none d-sm-block">
-    <a mat-button routerLink="/home">
-      Home
-    </a>
-    <a mat-button routerLink="/">
-      Products
-    </a>
-    <a mat-button>
-      Offers
-    </a>
-    <a mat-button>
-      Services
-    </a>
-  </div>
-  <div class="cart">
-    <a routerLink="shoppingcart" mat-icon-button><mat-icon matBadge="{{this.productService.getLocalCartProducts().length}}" matBadgeColor="warn">shopping_cart</mat-icon></a>
-  </div>
+  <nav class="nav-links">
+    <a mat-button routerLink="/home">Home</a>
+    <a mat-button routerLink="/">Products</a>
+    <a mat-button>Offers</a>
+    <a mat-button>Services</a>
+  </nav>
+  <a routerLink="/shoppingcart" mat-icon-button>
+    <mat-icon [matBadge]="cartCount()" matBadgeColor="warn">shopping_cart</mat-icon>
+  </a>
 </mat-toolbar>
 
-<mat-toolbar class="mobile-header d-xs-block d-sm-none navbar-nav">
-  <span>
-    <a
-      mat-button
-      style="text-decoration: none; color: white;"
-      routerLink="/">
-      <img
-        style="width: 3rem; padding: .2rem;"
-        src="../../assets/images/logos/iRun-pink-logo.png"
-        alt="iShoes">
-    </a>
-    <!-- <span style="font-family: Nunito; font-weight: 700; font-size: 1.6rem;" >iRun</span> -->
-  </span>
+<!-- Mobile header -->
+<mat-toolbar class="header mobile-header">
+  <a mat-button class="logo-link" routerLink="/">
+    <img src="assets/images/logos/iRun-pink-logo.png" alt="iRun" class="mobile-logo">
+  </a>
   <span class="filler"></span>
-  <button mat-icon-button type="button" routerLink="/storeselector"><mat-icon fontSet="material-icons-outlined">where_to_vote</mat-icon></button>
-  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+
+  <button mat-icon-button type="button" routerLink="/storeselector">
+    <mat-icon fontSet="material-icons-outlined">where_to_vote</mat-icon>
+  </button>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="User menu">
     <mat-icon>person_outline</mat-icon>
   </button>
+
   <mat-menu #menu="matMenu">
-    @if (isLoggedIn) {
-      <div routerLink="user-profile" class="text-center" mat-menu-item>
-        <img src="../../assets/images/profile-logo.jpg" alt="" width="40" height="40" class="rounded-circle">
-        <div class="ml-2">
-          <h4 class="mb-0">{{user.firstName}}</h4>
-          <h5 class="mb-0">{{user.email}}</h5>
+    @if (isLoggedIn()) {
+      <div routerLink="user-profile" class="user-profile-menu" mat-menu-item>
+        <img src="assets/images/profile-logo.jpg" alt="" width="40" height="40" class="profile-img">
+        <div class="user-info">
+          <h4>{{ user()?.firstName }}</h4>
+          <h5>{{ user()?.email }}</h5>
         </div>
       </div>
-    }
-    @if (!isLoggedIn) {
+      <a mat-menu-item (click)="onLogout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </a>
+    } @else {
       <a mat-menu-item routerLink="/login">
         <mat-icon>login</mat-icon>
         Login
       </a>
-    }
-    @if (!isLoggedIn) {
       <a mat-menu-item routerLink="/add-user">
         <mat-icon>how_to_reg</mat-icon>
         Register
       </a>
     }
-    @if (isLoggedIn) {
-      <a mat-menu-item (click)="onLogout()">
-        <mat-icon>logout</mat-icon>
-        Logout
-      </a>
-    }
   </mat-menu>
-  <button mat-icon-button
-    type="button">
+
+  <button mat-icon-button type="button">
     <mat-icon>favorite_border</mat-icon>
   </button>
-  <button
-    mat-icon-button
-    type="button"
-    routerLink="/shoppingcart">
-    <mat-icon
-      matBadge="{{this.productService.getLocalCartProducts().length}}" matBadgeColor="warn"
-      fontSet="material-icons-outlined">
+
+  <button mat-icon-button type="button" routerLink="/shoppingcart">
+    <mat-icon [matBadge]="cartCount()" matBadgeColor="warn" fontSet="material-icons-outlined">
       shopping_bag
     </mat-icon>
   </button>
-
 </mat-toolbar>
-
-<!-- <mat-toolbar fxHide.gt-xs>
-<button mat-icon-button type="button">
-  <mat-icon>menu</mat-icon>
-</button>
-<span class="minifiller"></span>
-<mat-form-field class="example-full-width" style="min-width: 18rem;">
-  <input type="text" matInput>
-  <mat-placeholder>Find favourite shoes</mat-placeholder>
-  <mat-icon matSuffix style="font-size: 1.2em">search</mat-icon>
-</mat-form-field>
-</mat-toolbar> -->

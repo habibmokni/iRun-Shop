@@ -1,16 +1,20 @@
-@if (isLoaded) {
-  <div class="container">
-    <div class="article-quantity row m-auto">
-      <span class="filler"></span>
-      <div class="article-price row">
-        <h3 style="text-decoration: line-through; padding: 5px; color: rgba(0,0,0,.54);">{{+product.price+(+product.price*0.2)}}€</h3>
-        <h2 style="margin-left: 5px; font-size: 28px;">{{product.price}}€</h2>
-      </div>
-    </div>
-    <!-- Commented out size selector in (+)button of home page -->
-    <cnc-size-selector [product]="product" (sizeSelected)="onSizeSelect($any($event))" />
-    <div style="width: 100%; text-align: center;">
-      <button mat-flat-button class="cart-button" type="button" (click)="addToCart(product)">Add to cart</button>
-    </div>
+<div class="add-to-cart-container">
+  <div class="price-section">
+    <span class="original-price">{{ originalPrice() | number:'1.2-2' }}€</span>
+    <span class="current-price">{{ product.price | number:'1.2-2' }}€</span>
   </div>
-}
+
+  <cnc-size-selector [product]="product" (sizeSelected)="onSizeSelect($any($event))" />
+
+  @if (isSizeSelected() && user()) {
+    <div class="stock-info" [class.in-stock]="stock() > 0" [class.out-of-stock]="stock() === 0">
+      {{ stock() > 0 ? 'In stock: ' + stock() : 'Not available in your store' }}
+    </div>
+  }
+
+  <div class="button-container">
+    <button mat-flat-button class="cart-button" type="button" (click)="addToCart()">
+      Add to cart
+    </button>
+  </div>
+</div>

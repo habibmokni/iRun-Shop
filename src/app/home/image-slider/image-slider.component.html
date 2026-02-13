@@ -1,19 +1,15 @@
-
-
-@if (productImages()) {
+@if (productImages().length) {
   <section class="branding">
-    <!-- Carousel -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-touch="true">
       <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        @for (image of productImages(); track $index; let i = $index) {
+          <li data-target="#carouselExampleIndicators" [attr.data-slide-to]="i" [class.active]="i === 0"></li>
+        }
       </ol>
       <div class="carousel-inner" role="listbox">
-        <!-- Slide One - Set the background image for this slide in the line below -->
-        @for (image of productImages(); track image; let i = $index) {
-          <div class="carousel-item" [class.active]="i ===0">
-            <img class="d-block w-60" style="margin: auto; height: 100%;" [src]="productImages()[i]" alt="image">
+        @for (image of productImages(); track $index; let i = $index) {
+          <div class="carousel-item" [class.active]="i === 0">
+            <img class="carousel-image" [src]="image" alt="Slide {{ i + 1 }}">
           </div>
         }
       </div>
@@ -26,7 +22,5 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
-    <!--/.Carousel Wrapper-->
-    <br />
   </section>
 }

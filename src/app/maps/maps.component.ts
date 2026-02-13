@@ -7,7 +7,6 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MapInfoWindow, MapMarker, GoogleMapsModule } from '@angular/google-maps';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -81,11 +80,8 @@ export class MapsComponent {
     initialValue: [] as Store[],
   });
 
-  private readonly userSig = toSignal(
-    this.userService.userSub.pipe(map(() => this.userService.user)),
-    { initialValue: this.userService.user ?? null }
-  );
-  protected readonly hasUser = computed(() => !!this.userSig());
+  private readonly user = this.userService.user;
+  protected readonly hasUser = computed(() => !!this.user());
 
   protected readonly mapStores = computed<MapStore[]>(() => {
     const stores = this.allStores();
@@ -105,7 +101,7 @@ export class MapsComponent {
   });
 
   constructor() {
-    const user = this.userService.user;
+    const user = this.userService.user();
     if (user?.storeSelected) {
       this.currentStoreSig.set(user.storeSelected);
     }
@@ -127,7 +123,7 @@ export class MapsComponent {
 
   protected onSelectStore(store: Store): void {
     const userUpdate = { name: 'Anonymous', storeSelected: store };
-    if (!this.userService.user) {
+    if (!this.userService.user()) {
       this.userService.addUserTodb(userUpdate);
     } else {
       this.userService.updateSelectedStore(userUpdate);

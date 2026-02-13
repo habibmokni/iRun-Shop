@@ -99,7 +99,7 @@ export class AvailabilityComponent {
 
   protected onStoreSelect(store: Store): void {
     const userUpdate = { name: 'Anonymous', storeSelected: store };
-    if (!this.userService.user) {
+    if (!this.userService.user()) {
       this.userService.addUserTodb(userUpdate);
     } else {
       this.userService.updateSelectedStore(userUpdate);

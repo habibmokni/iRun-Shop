@@ -6,7 +6,6 @@ import {
   signal,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -46,10 +45,7 @@ export class ShoppingCartComponent {
     this.cartProducts().reduce((sum, p) => sum + p.price * p.noOfItems, 0)
   );
 
-  private readonly userSig = toSignal(
-    this.userService.userSub.pipe(map(() => this.userService.user)),
-    { initialValue: this.userService.user ?? null }
-  );
+  private readonly user = this.userService.user;
 
   private readonly onlineProducts = toSignal(this.productService.productList, {
     initialValue: [] as Product[],
@@ -57,7 +53,7 @@ export class ShoppingCartComponent {
 
   protected readonly stockInfo = computed<CartItemStock[]>(() => {
     const cart = this.cartProducts();
-    const user = this.userSig();
+    const user = this.user();
     const storeProducts = user?.storeSelected?.products ?? [];
     const online = this.onlineProducts();
 
@@ -68,7 +64,7 @@ export class ShoppingCartComponent {
   });
 
   constructor() {
-    this.productService.fetchProduct();
+    // productList is lazy-initialized — no need to call fetchProduct()
   }
 
 
@@ -100,7 +96,6 @@ export class ShoppingCartComponent {
 
   protected onSubmit(): void {
     if (this.hasProducts()) {
-      this.productService.orderPrice = this.grandTotal();
       this.router.navigate(['/checkout']);
     } else {
       this.snackbar.info('Please add products to cart!');

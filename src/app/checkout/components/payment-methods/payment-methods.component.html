@@ -1,0 +1,19 @@
+<div class="payment-section" [formGroup]="paymentMethod()">
+  <div class="payment-card">
+    <mat-card-title>Secure Payments</mat-card-title>
+    <mat-card-subtitle>Powered by Stripe</mat-card-subtitle>
+    <mat-card-content>
+      <mat-radio-group formControlName="paymentOption" class="payment-options" aria-label="Payment method">
+        @for (partner of paymentPartners; track partner.name) {
+          <mat-radio-button class="payment-option" [value]="partner.name">
+            <img [src]="partner.logo" [alt]="partner.name" class="payment-logo">
+            {{ partner.name }}
+          </mat-radio-button>
+        }
+      </mat-radio-group>
+      @if (isInvalid()) {
+        <span class="field-error">*Please select a payment method</span>
+      }
+    </mat-card-content>
+  </div>
+</div>

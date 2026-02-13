@@ -1,48 +1,46 @@
-<div class="container">
-  <div class="row">
-    <div class="col-8 col-md-6 col-lg-4 mx-auto my-5">
-      <div class="card " style="border: none;">
-        <div class="w-100 text-center">
-          <img src="../../../assets/images/logos/iRun-pink-logo.png" class="card-img-top px-5 py-4" alt="...">
-        </div>
-        <div class="card-body">
-          @if (!isLoading) {
-            <form [formGroup]="loginForm">
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="email"
-                  formControlName="email"
-                  [class.is-invalid]="loginForm.get('email')!.invalid && loginForm.get('email')!.touched"
-                  >
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <div class="input-group">
-                  <input
-                    [type]="hide? 'password' : 'text'"
-                    class="form-control"
-                    id="password"
-                    formControlName="password"
-                    [class.is-invalid]="loginForm.get('password')!.invalid && loginForm.get('password')!.touched"
-                    >
-                  <span class="input-group-text" (click)="hide =!hide"><mat-icon>visibility</mat-icon></span>
-                </div>
-              </div>
-              <div class="w-100 text-center">
-                <button mat-flat-button class="primary-button" type="button" [disabled]="loginForm.invalid" (click)="login()">Login</button>
-              </div>
-            </form>
-          }
-          @if (isLoading) {
-            <div class="pt-3 text-center">
-              <mat-spinner style="margin: auto;" />
-            </div>
-          }
-        </div>
-      </div>
+<div class="login-page">
+  <div class="login-card">
+    <div class="logo-container">
+      <img src="assets/images/logos/iRun-pink-logo.png" alt="iRun logo">
     </div>
+
+    @if (!isLoading()) {
+      <form [formGroup]="loginForm" class="login-form">
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            id="email"
+            formControlName="email"
+            [class.is-invalid]="isFieldInvalid('email')">
+        </div>
+
+        <div class="form-field">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input
+              [type]="hidePassword() ? 'password' : 'text'"
+              id="password"
+              formControlName="password"
+              [class.is-invalid]="isFieldInvalid('password')">
+            <button type="button" class="toggle-btn" (click)="togglePasswordVisibility()">
+              <mat-icon>{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button mat-flat-button type="button" class="login-btn"
+                  [disabled]="loginForm.invalid"
+                  (click)="onLogin()">
+            Login
+          </button>
+        </div>
+      </form>
+    } @else {
+      <div class="loading-container">
+        <mat-spinner />
+      </div>
+    }
   </div>
 </div>

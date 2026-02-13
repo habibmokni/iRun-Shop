@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -8,28 +9,12 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./user-profile.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: []
+  imports: [],
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent {
+  private readonly userService = inject(UserService);
+  protected readonly authService = inject(AuthService);
 
-  isLoggedIn: boolean = false;
-  user: any;
-  constructor(){}
-
-  ngOnInit(){
-    if(localStorage.getItem("isLoggedIn")){
-      this.user=JSON.parse(localStorage.getItem("user")!);
-    }
-    // this.authService.checkLogIn();
-    // this.authService.isLoggedIn.subscribe((data: boolean)=>{
-    //   this.isLoggedIn = data;
-    //   if(this.isLoggedIn){
-    //     this.user = JSON.parse(localStorage.getItem("user")!);
-    //     console.log(this.user.firstName);
-    //   }else{
-    //     this.user = null
-    //   }
-    // });
-  }
-
+  protected readonly isLoggedIn = this.authService.isLoggedIn;
+  protected readonly user = this.userService.user;
 }

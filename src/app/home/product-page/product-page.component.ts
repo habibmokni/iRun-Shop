@@ -61,7 +61,7 @@ export class ProductPageComponent implements OnInit {
   sub: any;
   product = new Observable<Product[]>();
   size: number = 0;
-  user!: User;
+  user: User | null = null;
   stock: number = 0;
   onlineStock: number = 0;
   selectedProduct!: Product;
@@ -79,11 +79,11 @@ export class ProductPageComponent implements OnInit {
   constructor(){
       const userService = this.userService;
 
-      if(userService.user){
-        this.user = this.userService.user;
+      if(userService.user()){
+        this.user = this.userService.user();
       }
       userService.userSub.subscribe(()=>{
-        this.user = userService.user;
+        this.user = userService.user();
         this.checkProductInStore();
       });
 
@@ -189,7 +189,7 @@ export class ProductPageComponent implements OnInit {
   //tiggers when size is selected and checks if it is available in selected store or not
   checkProductInStore(){
     setTimeout(()=>{
-      for(let products of this.user.storeSelected.products){
+      for(let products of this.user?.storeSelected?.products ?? []){
         if(products.modelNo === this.selectedProduct.modelNo){
           for(let variant of products.variants){
             if(variant.variantId === this.variant.variantId){
