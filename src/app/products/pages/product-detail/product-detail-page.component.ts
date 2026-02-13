@@ -7,7 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { BehaviorSubject, filter, map, switchMap } from 'rxjs';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -46,6 +46,7 @@ import { AvailabilityComponent } from '../../components/availability/availabilit
     MatListModule,
     MatChipsModule,
     MatExpansionModule,
+    NgOptimizedImage,
     ImageSliderComponent,
     DecimalPipe,
   ],

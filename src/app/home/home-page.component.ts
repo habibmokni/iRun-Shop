@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 
@@ -28,6 +29,7 @@ interface BrandTab {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    NgOptimizedImage,
     RouterModule,
     MatDialogModule,
     MatButtonModule,

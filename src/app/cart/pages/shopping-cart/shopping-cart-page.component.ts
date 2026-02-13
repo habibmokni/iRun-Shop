@@ -5,6 +5,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
@@ -29,7 +30,7 @@ interface CartItemStock {
   styleUrls: ['./shopping-cart-page.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterModule, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [NgOptimizedImage, RouterModule, MatCardModule, MatButtonModule, MatIconModule],
 })
 export class ShoppingCartPageComponent {
   private readonly cartService = inject(CartService);

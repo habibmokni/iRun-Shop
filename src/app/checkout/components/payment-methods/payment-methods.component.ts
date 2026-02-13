@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
@@ -11,7 +12,7 @@ import { PAYMENT_PARTNERS } from '../../constants/payment-partners';
   styleUrls: ['./payment-methods.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, MatRadioModule, MatCardModule],
+  imports: [NgOptimizedImage, ReactiveFormsModule, MatRadioModule, MatCardModule],
 })
 export class PaymentMethodsComponent {
   readonly paymentMethod = input.required<FormGroup>();

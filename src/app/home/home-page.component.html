@@ -14,7 +14,7 @@
                   <div class="product-card">
                     <div class="item-image-container">
                       <a [routerLink]="['/products', product.modelNo]">
-                        <img [src]="product.variants[0].imageList[0]" class="item-image" alt="{{ product.name }}">
+                        <img [ngSrc]="product.variants[0].imageList[0]" class="item-image" alt="{{ product.name }}" width="300" height="300">
                       </a>
                     </div>
                     <h2 class="product-name">{{ product.name }}</h2>
@@ -57,7 +57,7 @@
         <hr>
         @for (product of topRatedProducts(); track product.modelNo) {
           <mat-card-content class="top-rated-item">
-            <img [src]="product.variants[0].imageList[0]" alt="{{ product.name }}" class="top-rated-img">
+            <img [ngSrc]="product.variants[0].imageList[0]" alt="{{ product.name }}" class="top-rated-img" width="80" height="80">
             <div class="top-rated-info">
               <a [routerLink]="['/products', product.modelNo]">
                 <h3>{{ product.name }}</h3>

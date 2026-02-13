@@ -6,7 +6,7 @@
       <mat-radio-group formControlName="paymentOption" class="payment-options" aria-label="Payment method">
         @for (partner of paymentPartners; track partner.name) {
           <mat-radio-button class="payment-option" [value]="partner.name">
-            <img [src]="partner.logo" [alt]="partner.name" class="payment-logo">
+            <img [ngSrc]="partner.logo" [alt]="partner.name" class="payment-logo" width="40" height="25">
             {{ partner.name }}
           </mat-radio-button>
         }

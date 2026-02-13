@@ -1,10 +1,10 @@
 <div class="intro-page">
   <!-- Logo -->
   <div class="centered">
-    <img class="logo" src="assets/images/logos/iRunLogoBnW.png" alt="iRun logo">
+    <img class="logo" ngSrc="assets/images/logos/iRunLogoBnW.png" alt="iRun logo" width="200" height="100" priority>
   </div>
   <div class="centered">
-    <img class="arrow arrow-offset" src="assets/images/arrow1.png" alt="">
+    <img class="arrow arrow-offset" ngSrc="assets/images/arrow1.png" alt="" width="50" height="50">
   </div>
 
   @for (step of steps; track step.number; let i = $index, last = $last) {
@@ -14,7 +14,7 @@
           [class.circle-right]="i % 2 !== 0">
         {{ step.number }}
       </h2>
-      <img class="step-image" [src]="step.image" [alt]="step.title">
+      <img class="step-image" [ngSrc]="step.image" [alt]="step.title" width="400" height="300">
     </div>
 
     <div class="step-description">
@@ -27,8 +27,10 @@
         <img
           class="arrow"
           [class.arrow-offset]="i % 2 !== 0"
-          [src]="i % 2 === 0 ? 'assets/images/arrow2.png' : 'assets/images/arrow1.png'"
-          alt="">
+          [ngSrc]="i % 2 === 0 ? 'assets/images/arrow2.png' : 'assets/images/arrow1.png'"
+          alt=""
+          width="50"
+          height="50">
       </div>
     }
   }

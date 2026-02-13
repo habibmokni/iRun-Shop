@@ -7,7 +7,7 @@
       @for (product of productList|async; track product) {
         <div fxFlex="50%" fxLayout="column" style="padding: 0px 10px;">
           <div class="item-image-container">
-            <a routerLink="/products/{{product.modelNo}}"><img [src]="product.imageList?.[0]" class="item-image" alt="image" matCardImage></a>
+            <a routerLink="/products/{{product.modelNo}}"><img [ngSrc]="product.imageList?.[0] ?? ''" class="item-image" alt="image" matCardImage width="300" height="300"></a>
           </div>
           <h2>{{product.name}}</h2>
           <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
@@ -30,7 +30,7 @@
       @for (product of adidasProducts; track product) {
         <mat-card fxFlex="50%" fxLayout="column">
           <div class="item-image-container">
-            <a routerLink="/products/{{product.modelNo}}"><img [src]="product.imageList?.[0]" class="item-image" alt="image" matCardImage></a>
+            <a routerLink="/products/{{product.modelNo}}"><img [ngSrc]="product.imageList?.[0] ?? ''" class="item-image" alt="image" matCardImage width="300" height="300"></a>
           </div>
           <h2>{{product.name}}</h2>
           <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
@@ -54,7 +54,7 @@
       @for (product of nikeProducts; track product) {
         <mat-card fxFlex="50%" fxLayout="column">
           <div class="item-image-container">
-            <a routerLink="/products/{{product.modelNo}}"><img [src]="product.imageList?.[0]" class="item-image" alt="image" matCardImage></a>
+            <a routerLink="/products/{{product.modelNo}}"><img [ngSrc]="product.imageList?.[0] ?? ''" class="item-image" alt="image" matCardImage width="300" height="300"></a>
           </div>
           <h2>{{product.name}}</h2>
           <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>
@@ -78,7 +78,7 @@
       @for (product of balanceProducts; track product) {
         <mat-card fxFlex="50%" fxLayout="column">
           <div class="item-image-container">
-            <a routerLink="/products/{{product.modelNo}}"><img [src]="product.imageList?.[0]" class="item-image" alt="image" matCardImage></a>
+            <a routerLink="/products/{{product.modelNo}}"><img [ngSrc]="product.imageList?.[0] ?? ''" class="item-image" alt="image" matCardImage width="300" height="300"></a>
           </div>
           <h2>{{product.name}}</h2>
           <mat-card-subtitle>{{product.subCategory}}, Power Shoes</mat-card-subtitle>

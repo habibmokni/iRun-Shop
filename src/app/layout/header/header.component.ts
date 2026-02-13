@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,6 +20,7 @@ import { SnackbarService } from '../../shared/services/snackbar.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    NgOptimizedImage,
     RouterModule,
     MatToolbarModule,
     MatButtonModule,

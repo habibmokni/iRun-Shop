@@ -9,7 +9,7 @@
 <!-- Desktop header -->
 <mat-toolbar class="header desktop-header">
   <a mat-button class="logo-link" routerLink="/">
-    <img src="assets/images/logos/iShoes-logo.png" alt="iShoes" class="logo">
+    <img ngSrc="assets/images/logos/iShoes-logo.png" alt="iShoes" class="logo" width="120" height="40" priority>
   </a>
   <span class="filler"></span>
   <nav class="nav-links">
@@ -26,7 +26,7 @@
 <!-- Mobile header -->
 <mat-toolbar class="header mobile-header">
   <a mat-button class="logo-link" routerLink="/">
-    <img src="assets/images/logos/iRun-pink-logo.png" alt="iRun" class="mobile-logo">
+    <img ngSrc="assets/images/logos/iRun-pink-logo.png" alt="iRun" class="mobile-logo" width="80" height="40" priority>
   </a>
   <span class="filler"></span>
 
@@ -41,7 +41,7 @@
   <mat-menu #menu="matMenu">
     @if (isLoggedIn()) {
       <div routerLink="user-profile" class="user-profile-menu" mat-menu-item>
-        <img src="assets/images/profile-logo.jpg" alt="" width="40" height="40" class="profile-img">
+        <img ngSrc="assets/images/profile-logo.jpg" alt="" width="40" height="40" class="profile-img">
         <div class="user-info">
           <h4>{{ user()?.firstName }}</h4>
           <h5>{{ user()?.email }}</h5>

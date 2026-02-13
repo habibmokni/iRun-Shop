@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, output } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -15,7 +16,7 @@ interface IntroStep {
   styleUrls: ['./intro-page.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButtonModule],
+  imports: [NgOptimizedImage, MatButtonModule],
 })
 export class IntroPageComponent {
   private readonly router = inject(Router);

@@ -24,7 +24,7 @@
             <a class="variant-image"
                [class.active]="activeVariantIndex() === i"
                (click)="variantSelect(i, variant.modelNo!)">
-              <img [src]="variant.imageList?.[0]" [alt]="variant.name">
+              <img [ngSrc]="variant.imageList?.[0] ?? ''" [alt]="variant.name" width="60" height="60">
             </a>
           }
         </div>

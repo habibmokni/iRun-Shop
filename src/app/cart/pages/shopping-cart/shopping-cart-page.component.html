@@ -6,8 +6,10 @@
         <div class="cart-item">
           <div class="item-image">
             <img [routerLink]="'/products/' + product.modelNo"
-                 [src]="product.productImage"
-                 alt="Product image">
+                 [ngSrc]="product.productImage"
+                 alt="Product image"
+                 width="120"
+                 height="120">
           </div>
 
           <div class="item-details">

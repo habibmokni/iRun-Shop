@@ -8,7 +8,7 @@ import {
   computed,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { MatStepperModule } from '@angular/material/stepper';
@@ -51,6 +51,7 @@ import { PaymentMethodsComponent } from './components/payment-methods/payment-me
     MatExpansionModule,
     MatCardModule,
     MatDividerModule,
+    NgOptimizedImage,
     BillingDetailsComponent,
     PaymentMethodsComponent,
     DatePipe,
