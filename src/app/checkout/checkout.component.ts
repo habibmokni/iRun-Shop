@@ -20,12 +20,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 
-import { CartProduct } from '../shared/models/cart-product.model';
-import { Store } from '../shared/models/store.model';
-import { Product } from '../shared/models/product.model';
-import { ProductService } from '../shared/services/product.service';
-import { StoreService } from '../shared/services/store.service';
-import { UserService } from '../shared/services/user.service';
+import { CartProduct } from '../cart/types/cart.types';
+import { Store } from '../stores/types/store.types';
+import { Product } from '../products/types/product.types';
+import { CartService } from '../cart/services/cart.service';
+import { ProductService } from '../products/services/product.service';
+import { StoreService } from '../stores/services/store.service';
+import { UserService } from '../user/services/user.service';
 import { SnackbarService } from '../shared/services/snackbar.service';
 
 import { CheckoutService } from './services/checkout.service';
@@ -57,6 +58,7 @@ import { PaymentMethodsComponent } from './components/payment-methods/payment-me
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CheckoutComponent {
+  private readonly cartService = inject(CartService);
   private readonly productService = inject(ProductService);
   private readonly storeService = inject(StoreService);
   private readonly userService = inject(UserService);
@@ -68,7 +70,7 @@ export class CheckoutComponent {
   // --- Signals from services ---
 
   protected readonly user = this.userService.user;
-  protected readonly cartProducts = this.productService.cart;
+  protected readonly cartProducts = this.cartService.cart;
 
   private readonly onlineProducts = toSignal(this.productService.productList, {
     initialValue: [] as Product[],
@@ -150,7 +152,7 @@ export class CheckoutComponent {
   }
 
   protected onProductsToRemove(cartItems: CartProduct[]): void {
-    cartItems.forEach((item) => this.productService.removeLocalCartProduct(item));
+    cartItems.forEach((item) => this.cartService.removeLocalCartProduct(item));
   }
 
   protected onCncItemsAvailable(value: boolean): void {
@@ -161,7 +163,7 @@ export class CheckoutComponent {
 
   protected removeProductsUnavailable(): void {
     this.onlineStockCheck().unavailableItems.forEach((item) =>
-      this.productService.removeLocalCartProduct(item)
+      this.cartService.removeLocalCartProduct(item)
     );
   }
 

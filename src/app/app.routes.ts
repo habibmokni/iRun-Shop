@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
-import { AddProductsComponent } from './add-products/add-products.component';
+import { AddProductsComponent } from './admin/add-products/add-products.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { InformationComponent } from './information/information.component';
-import { ProductPageComponent } from './home/product-page/product-page.component';
+import { ProductDetailComponent } from './products/pages/product-detail/product-detail.component';
 import { HomeComponent } from './home/home.component';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-import { StoreSelectedComponent } from './store-selection/store-selection.component';
-import { IntroComponent } from './shared/intro/intro.component';
-import { LoginComponent } from './auth/login/login.component';
-import { AddUserComponent } from './shared/add-user/add-user.component';
-import { UserProfileComponent } from './shared/user-profile/user-profile.component';
+import { ShoppingCartComponent } from './cart/pages/shopping-cart/shopping-cart.component';
+import { StoreSelectedComponent } from './stores/pages/store-selection/store-selection.component';
+import { IntroComponent } from './layout/intro/intro.component';
+import { LoginComponent } from './auth/pages/login/login.component';
+import { RegisterComponent } from './auth/pages/register/register.component';
+import { ProfileComponent } from './user/pages/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -25,7 +25,7 @@ export const routes: Routes = [
     path: 'home', component: HomeComponent
   },
   {
-    path: 'products/:id', component: ProductPageComponent
+    path: 'products/:id', component: ProductDetailComponent
   },
   {
     path: 'addProduct', component: AddProductsComponent
@@ -40,10 +40,10 @@ export const routes: Routes = [
     path: 'intro', component: IntroComponent
   },
   {
-    path: 'add-user', component: AddUserComponent
+    path: 'add-user', component: RegisterComponent
   },
   {
-    path: 'user-profile', component: UserProfileComponent
+    path: 'user-profile', component: ProfileComponent
   },
   {
     path: '**', redirectTo: '/home', pathMatch: 'full'

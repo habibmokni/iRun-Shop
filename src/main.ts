@@ -11,10 +11,11 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { ClickNCollectModule } from '@habibmokni/cnc';
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
-import { StoreService } from './app/shared/services/store.service';
-import { ProductService } from './app/shared/services/product.service';
+import { StoreService } from './app/stores/services/store.service';
+import { ProductService } from './app/products/services/product.service';
+import { CartService } from './app/cart/services/cart.service';
 import { SnackbarService } from './app/shared/services/snackbar.service';
-import { UserService } from './app/shared/services/user.service';
+import { UserService } from './app/user/services/user.service';
 import { routes } from './app/app.routes';
 
 if (environment.production) {
@@ -35,6 +36,7 @@ bootstrapApplication(AppComponent, {
     ),
     StoreService,
     ProductService,
+    CartService,
     SnackbarService,
     UserService
   ]

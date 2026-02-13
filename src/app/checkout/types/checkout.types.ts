@@ -1,4 +1,4 @@
-import { CartProduct } from '../../shared/models/cart-product.model';
+import { CartProduct } from '../../cart/types/cart.types';
 
 export type BillingDetails = Readonly<{
   name: string | null;

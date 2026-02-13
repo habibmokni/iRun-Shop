@@ -11,10 +11,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { DecimalPipe } from '@angular/common';
 
-import { Product } from '../shared/models/product.model';
-import { ProductService } from '../shared/services/product.service';
-import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
-import { ImageSliderComponent } from './image-slider/image-slider.component';
+import { Product } from '../products/types/product.types';
+import { ProductService } from '../products/services/product.service';
+import { AddToCartComponent } from '../cart/components/add-to-cart/add-to-cart.component';
+import { ImageSliderComponent } from '../shared/components/image-slider/image-slider.component';
 
 interface BrandTab {
   readonly label: string;

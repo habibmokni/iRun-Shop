@@ -2,17 +2,17 @@ import { Injectable, inject } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormGroup } from '@angular/forms';
 
-import { CartProduct } from '../../shared/models/cart-product.model';
-import { Product } from '../../shared/models/product.model';
+import { CartProduct } from '../../cart/types/cart.types';
+import { Product } from '../../products/types/product.types';
 import { SnackbarService } from '../../shared/services/snackbar.service';
-import { ProductService } from '../../shared/services/product.service';
+import { CartService } from '../../cart/services/cart.service';
 import { Order, StockCheckResult } from '../types/checkout.types';
 
 @Injectable({ providedIn: 'root' })
 export class CheckoutService {
   private readonly db = inject(AngularFirestore);
   private readonly snackbar = inject(SnackbarService);
-  private readonly productService = inject(ProductService);
+  private readonly cartService = inject(CartService);
 
   public checkOnlineStoreStock(
     cartProducts: readonly CartProduct[],
@@ -56,7 +56,7 @@ export class CheckoutService {
         phoneNo: billing.value.phoneNo ?? null,
         address1: billing.value.address1 ?? null,
       },
-      productsOrdered: this.productService.getLocalCartProducts(),
+      productsOrdered: this.cartService.getLocalCartProducts(),
       storeLocation: {
         id: 2020,
         address: shippingMethod.value.shippingAddress ?? null,
@@ -71,7 +71,7 @@ export class CheckoutService {
 
   public submitOrder(order: Order): void {
     this.db.collection<Order>('orderList').add({ ...order });
-    this.productService.removeAllLocalCartProduct();
+    this.cartService.removeAllLocalCartProduct();
     this.snackbar.success('Order placed successfully');
   }
 }
