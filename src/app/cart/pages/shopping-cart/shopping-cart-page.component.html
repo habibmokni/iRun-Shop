@@ -1,86 +1,108 @@
 @if (hasProducts()) {
-  <div class="cart-layout">
-    <!-- Cart items -->
-    <div class="cart-items">
-      @for (product of cartProducts(); track product.modelNo + '-' + product.size; let i = $index) {
-        <div class="cart-item">
-          <div class="item-image">
-            <img [routerLink]="'/products/' + product.modelNo"
-                 [ngSrc]="product.productImage"
-                 alt="Product image"
-                 width="120"
-                 height="120">
-          </div>
+	<div class="cart-layout">
+		<!-- Cart items -->
+		<div class="cart-items">
+			@for (
+				product of cartProducts();
+				track product.modelNo + '-' + product.size;
+				let i = $index
+			) {
+				<div class="cart-item">
+					<div class="item-image">
+						<img
+							[routerLink]="'/products/' + product.modelNo"
+							[ngSrc]="product.productImage"
+							alt="Product image"
+							width="120"
+							height="120"
+						/>
+					</div>
 
-          <div class="item-details">
-            <h3>{{ product.productName }}</h3>
-            <mat-card-subtitle>
-              Size: {{ product.size }}
-              <mat-icon [class]="'stock-icon ' + stockColor(stockInfo()[i]?.physical ?? 0)"
-                        fontSet="material-icons-outlined">shopping_bag</mat-icon>
-              <mat-icon [class]="'stock-icon ' + stockColor(stockInfo()[i]?.online ?? 0)"
-                        fontSet="material-icons-outlined">home</mat-icon>
-            </mat-card-subtitle>
-            <mat-card-subtitle>Model: {{ product.modelNo }}</mat-card-subtitle>
+					<div class="item-details">
+						<h3>{{ product.productName }}</h3>
+						<mat-card-subtitle>
+							Size: {{ product.size }}
+							<mat-icon
+								[class]="'stock-icon ' + stockColor(stockInfo()[i]?.physical ?? 0)"
+								fontSet="material-icons-outlined"
+								>shopping_bag</mat-icon
+							>
+							<mat-icon
+								[class]="'stock-icon ' + stockColor(stockInfo()[i]?.online ?? 0)"
+								fontSet="material-icons-outlined"
+								>home</mat-icon
+							>
+						</mat-card-subtitle>
+						<mat-card-subtitle>Model: {{ product.modelNo }}</mat-card-subtitle>
 
-            <div class="quantity-controls">
-              <button mat-icon-button type="button" class="qty-btn" (click)="onRemoveItem(i)">
-                <mat-icon>remove</mat-icon>
-              </button>
-              <span class="qty-value">{{ product.noOfItems }}</span>
-              <button mat-icon-button type="button" class="qty-btn" (click)="onAddItem(i)">
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
-          </div>
+						<div class="quantity-controls">
+							<button
+								mat-icon-button
+								type="button"
+								class="qty-btn"
+								(click)="onRemoveItem(i)"
+							>
+								<mat-icon>remove</mat-icon>
+							</button>
+							<span class="qty-value">{{ product.noOfItems }}</span>
+							<button
+								mat-icon-button
+								type="button"
+								class="qty-btn"
+								(click)="onAddItem(i)"
+							>
+								<mat-icon>add</mat-icon>
+							</button>
+						</div>
+					</div>
 
-          <div class="item-price">
-            <h2>{{ product.price }}€</h2>
-          </div>
-        </div>
-      }
-    </div>
+					<div class="item-price">
+						<h2>{{ product.price }}€</h2>
+					</div>
+				</div>
+			}
+		</div>
 
-    <!-- Mobile checkout bar (visible < 600px) -->
-    <div class="mobile-checkout">
-      <button class="mobile-checkout-btn" (click)="onSubmit()">
-        <span>Proceed to checkout</span>
-        <span class="filler"></span>
-        <span>{{ grandTotal() }}€</span>
-      </button>
-    </div>
+		<!-- Mobile checkout bar (visible < 600px) -->
+		<div class="mobile-checkout">
+			<button class="mobile-checkout-btn" (click)="onSubmit()">
+				<span>Proceed to checkout</span>
+				<span class="filler"></span>
+				<span>{{ grandTotal() }}€</span>
+			</button>
+		</div>
 
-    <!-- Desktop summary card (visible >= 600px) -->
-    <mat-card class="summary-card">
-      <mat-card-content>
-        <div class="summary-row">
-          <h2>Total:</h2>
-          <span class="filler"></span>
-          <h2>{{ grandTotal() }}€</h2>
-        </div>
-        <div class="summary-row">
-          <h2>Fee:</h2>
-          <span class="filler"></span>
-          <h2>€0.00</h2>
-        </div>
-        <hr>
-        <div class="summary-row grand-total">
-          <h2>Grand Total:</h2>
-          <span class="filler"></span>
-          <h2>{{ grandTotal() }}€</h2>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button class="checkout-action-btn" (click)="onSubmit()">
-          Proceed to Checkout
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+		<!-- Desktop summary card (visible >= 600px) -->
+		<mat-card class="summary-card">
+			<mat-card-content>
+				<div class="summary-row">
+					<h2>Total:</h2>
+					<span class="filler"></span>
+					<h2>{{ grandTotal() }}€</h2>
+				</div>
+				<div class="summary-row">
+					<h2>Fee:</h2>
+					<span class="filler"></span>
+					<h2>€0.00</h2>
+				</div>
+				<hr />
+				<div class="summary-row grand-total">
+					<h2>Grand Total:</h2>
+					<span class="filler"></span>
+					<h2>{{ grandTotal() }}€</h2>
+				</div>
+			</mat-card-content>
+			<mat-card-actions>
+				<button mat-raised-button class="checkout-action-btn" (click)="onSubmit()">
+					Proceed to Checkout
+				</button>
+			</mat-card-actions>
+		</mat-card>
+	</div>
 } @else {
-  <div class="empty-cart">
-    <h2>Cart is empty!</h2>
-    <mat-card-subtitle>Please add products to cart</mat-card-subtitle>
-    <button mat-flat-button class="shop-btn" routerLink="/home">Go to shop</button>
-  </div>
+	<div class="empty-cart">
+		<h2>Cart is empty!</h2>
+		<mat-card-subtitle>Please add products to cart</mat-card-subtitle>
+		<button mat-flat-button class="shop-btn" routerLink="/home">Go to shop</button>
+	</div>
 }

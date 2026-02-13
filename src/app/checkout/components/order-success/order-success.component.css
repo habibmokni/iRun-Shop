@@ -1,22 +1,22 @@
 .success-icon {
-  color: rgb(14, 194, 14);
-  font-size: 40px;
+	color: rgb(14, 194, 14);
+	font-size: 40px;
 }
 
 .success-title {
-  padding: 16px 16px 0;
+	padding: 16px 16px 0;
 }
 
 .success-subtitle {
-  padding: 16px 16px 0;
+	padding: 16px 16px 0;
 }
 
 .success-actions {
-  text-align: center;
+	text-align: center;
 }
 
 .back-btn {
-  color: white;
-  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
-  margin: 15px;
+	color: white;
+	background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
+	margin: 15px;
 }

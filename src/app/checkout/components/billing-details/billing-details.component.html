@@ -1,36 +1,36 @@
 <div class="billing-section">
-  <h2>{{ type() }}</h2>
-  <div [formGroup]="billing()" class="billing-form">
-    <mat-form-field appearance="outline">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" type="text" placeholder="Name">
-    </mat-form-field>
-    @if (isFieldInvalid('name')) {
-      <span class="field-error">*Please enter name</span>
-    }
+	<h2>{{ type() }}</h2>
+	<div [formGroup]="billing()" class="billing-form">
+		<mat-form-field appearance="outline">
+			<mat-label>Name</mat-label>
+			<input matInput formControlName="name" type="text" placeholder="Name" />
+		</mat-form-field>
+		@if (isFieldInvalid('name')) {
+			<span class="field-error">*Please enter name</span>
+		}
 
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" type="text" placeholder="Email">
-    </mat-form-field>
-    @if (isFieldInvalid('email')) {
-      <span class="field-error">*Please enter email address</span>
-    }
+		<mat-form-field appearance="outline">
+			<mat-label>Email</mat-label>
+			<input matInput formControlName="email" type="text" placeholder="Email" />
+		</mat-form-field>
+		@if (isFieldInvalid('email')) {
+			<span class="field-error">*Please enter email address</span>
+		}
 
-    <mat-form-field appearance="outline">
-      <mat-label>Phone no</mat-label>
-      <input matInput formControlName="phoneNo" type="text" placeholder="Phone no">
-    </mat-form-field>
-    @if (isFieldInvalid('phoneNo')) {
-      <span class="field-error">*Please enter phone number</span>
-    }
+		<mat-form-field appearance="outline">
+			<mat-label>Phone no</mat-label>
+			<input matInput formControlName="phoneNo" type="text" placeholder="Phone no" />
+		</mat-form-field>
+		@if (isFieldInvalid('phoneNo')) {
+			<span class="field-error">*Please enter phone number</span>
+		}
 
-    <mat-form-field appearance="outline">
-      <mat-label>Address 1</mat-label>
-      <input matInput formControlName="address1" type="text" placeholder="Address 1">
-    </mat-form-field>
-    @if (isFieldInvalid('address1')) {
-      <span class="field-error">*Please enter address</span>
-    }
-  </div>
+		<mat-form-field appearance="outline">
+			<mat-label>Address 1</mat-label>
+			<input matInput formControlName="address1" type="text" placeholder="Address 1" />
+		</mat-form-field>
+		@if (isFieldInvalid('address1')) {
+			<span class="field-error">*Please enter address</span>
+		}
+	</div>
 </div>

@@ -1,84 +1,91 @@
 <!-- Size selector -->
 @if (!isSizeSelected()) {
-  <div class="size-selector">
-    <mat-card-title>Select Size</mat-card-title>
-    @if (selectedSize()) {
-      <mat-card-subtitle>Current: {{ selectedSize() }}</mat-card-subtitle>
-    }
-    @for (size of data.sizes; track size) {
-      <div class="size-option">
-        <mat-divider />
-        <button mat-flat-button (click)="changeSize(size)" class="size-btn">
-          {{ size }}
-        </button>
-        <mat-divider />
-      </div>
-    }
-  </div>
+	<div class="size-selector">
+		<mat-card-title>Select Size</mat-card-title>
+		@if (selectedSize()) {
+			<mat-card-subtitle>Current: {{ selectedSize() }}</mat-card-subtitle>
+		}
+		@for (size of data.sizes; track size) {
+			<div class="size-option">
+				<mat-divider />
+				<button mat-flat-button (click)="changeSize(size)" class="size-btn">
+					{{ size }}
+				</button>
+				<mat-divider />
+			</div>
+		}
+	</div>
 }
 
 <!-- Main content (hidden, not removed, so autocomplete stays in DOM) -->
 <div class="content" [class.hidden]="!isSizeSelected()">
-  <mat-card-title>Check Availability</mat-card-title>
-  <mat-card-subtitle>Enter location or zip code to check nearest stores</mat-card-subtitle>
+	<mat-card-title>Check Availability</mat-card-title>
+	<mat-card-subtitle>Enter location or zip code to check nearest stores</mat-card-subtitle>
 
-  <button mat-flat-button class="size-back-btn" (click)="resetSize()">
-    Size: {{ selectedSize() }}
-  </button>
+	<button mat-flat-button class="size-back-btn" (click)="resetSize()">
+		Size: {{ selectedSize() }}
+	</button>
 
-  <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="Address">
-      <div class="search-row">
-        <mat-form-field class="search-field">
-          <input id="search" matInput placeholder="Enter zip code or address">
-        </mat-form-field>
-        <button mat-icon-button (click)="currentLocation()">
-          <mat-icon>room</mat-icon>
-        </button>
-      </div>
+	<mat-tab-group mat-align-tabs="start">
+		<mat-tab label="Address">
+			<div class="search-row">
+				<mat-form-field class="search-field">
+					<input id="search" matInput placeholder="Enter zip code or address" />
+				</mat-form-field>
+				<button mat-icon-button (click)="currentLocation()">
+					<mat-icon>room</mat-icon>
+				</button>
+			</div>
 
-      @if (nearByStores().length > 0) {
-        <div class="stores-list">
-          @for (entry of nearByStores(); track entry.store.id) {
-            <mat-card class="store-card">
-              <mat-card-content>
-                <div class="store-header">
-                  <h2>{{ entry.store.name }}</h2>
-                  <div class="distance">
-                    <mat-icon>room</mat-icon>
-                    <span>{{ entry.distance.toFixed(2) }}km</span>
-                  </div>
-                </div>
-                <p>Address: {{ entry.store.address }}</p>
-                <div class="stock-status"
-                     [class.good]="entry.stock > 5"
-                     [class.low]="entry.stock > 0 && entry.stock <= 5"
-                     [class.out]="entry.stock === 0">
-                  Size {{ selectedSize() }}:
-                  @if (entry.stock > 5) { In good stock }
-                  @else if (entry.stock > 0) { Almost sold out }
-                  @else { Out of stock }
-                </div>
-              </mat-card-content>
-              <mat-card-actions>
-                <button mat-raised-button (click)="onStoreSelect(entry.store)">
-                  Select Store
-                </button>
-              </mat-card-actions>
-            </mat-card>
-          }
-        </div>
-      }
-    </mat-tab>
+			@if (nearByStores().length > 0) {
+				<div class="stores-list">
+					@for (entry of nearByStores(); track entry.store.id) {
+						<mat-card class="store-card">
+							<mat-card-content>
+								<div class="store-header">
+									<h2>{{ entry.store.name }}</h2>
+									<div class="distance">
+										<mat-icon>room</mat-icon>
+										<span>{{ entry.distance.toFixed(2) }}km</span>
+									</div>
+								</div>
+								<p>Address: {{ entry.store.address }}</p>
+								<div
+									class="stock-status"
+									[class.good]="entry.stock > 5"
+									[class.low]="entry.stock > 0 && entry.stock <= 5"
+									[class.out]="entry.stock === 0"
+								>
+									Size {{ selectedSize() }}:
+									@if (entry.stock > 5) {
+										In good stock
+									} @else if (entry.stock > 0) {
+										Almost sold out
+									} @else {
+										Out of stock
+									}
+								</div>
+							</mat-card-content>
+							<mat-card-actions>
+								<button mat-raised-button (click)="onStoreSelect(entry.store)">
+									Select Store
+								</button>
+							</mat-card-actions>
+						</mat-card>
+					}
+				</div>
+			}
+		</mat-tab>
 
-    <mat-tab label="Map">
-      @if (isSizeSelected()) {
-        <app-maps
-          [mapHeight]="mapDimensions().height"
-          [mapWidth]="mapDimensions().width"
-          [ModelNo]="data.modelNo"
-          [size]="selectedSize()!" />
-      }
-    </mat-tab>
-  </mat-tab-group>
+		<mat-tab label="Map">
+			@if (isSizeSelected()) {
+				<app-maps
+					[mapHeight]="mapDimensions().height"
+					[mapWidth]="mapDimensions().width"
+					[ModelNo]="data.modelNo"
+					[size]="selectedSize()!"
+				/>
+			}
+		</mat-tab>
+	</mat-tab-group>
 </div>

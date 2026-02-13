@@ -1,46 +1,64 @@
 <div class="login-page">
-  <div class="login-card">
-    <div class="logo-container">
-      <img ngSrc="assets/images/logos/iRun-pink-logo.png" alt="iRun logo" width="150" height="75" priority>
-    </div>
+	<div class="login-card">
+		<div class="logo-container">
+			<img
+				ngSrc="assets/images/logos/iRun-pink-logo.png"
+				alt="iRun logo"
+				width="150"
+				height="75"
+				priority
+			/>
+		</div>
 
-    @if (!isLoading()) {
-      <form [formGroup]="loginForm" class="login-form">
-        <div class="form-field">
-          <label for="email">Email</label>
-          <input
-            type="text"
-            id="email"
-            formControlName="email"
-            [class.is-invalid]="isFieldInvalid('email')">
-        </div>
+		@if (!isLoading()) {
+			<form [formGroup]="loginForm" class="login-form">
+				<div class="form-field">
+					<label for="email">Email</label>
+					<input
+						type="text"
+						id="email"
+						formControlName="email"
+						[class.is-invalid]="isFieldInvalid('email')"
+					/>
+				</div>
 
-        <div class="form-field">
-          <label for="password">Password</label>
-          <div class="input-group">
-            <input
-              [type]="hidePassword() ? 'password' : 'text'"
-              id="password"
-              formControlName="password"
-              [class.is-invalid]="isFieldInvalid('password')">
-            <button type="button" class="toggle-btn" (click)="togglePasswordVisibility()">
-              <mat-icon>{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
-            </button>
-          </div>
-        </div>
+				<div class="form-field">
+					<label for="password">Password</label>
+					<div class="input-group">
+						<input
+							[type]="hidePassword() ? 'password' : 'text'"
+							id="password"
+							formControlName="password"
+							[class.is-invalid]="isFieldInvalid('password')"
+						/>
+						<button
+							type="button"
+							class="toggle-btn"
+							(click)="togglePasswordVisibility()"
+						>
+							<mat-icon>{{
+								hidePassword() ? 'visibility' : 'visibility_off'
+							}}</mat-icon>
+						</button>
+					</div>
+				</div>
 
-        <div class="form-actions">
-          <button mat-flat-button type="button" class="login-btn"
-                  [disabled]="loginForm.invalid"
-                  (click)="onLogin()">
-            Login
-          </button>
-        </div>
-      </form>
-    } @else {
-      <div class="loading-container">
-        <mat-spinner />
-      </div>
-    }
-  </div>
+				<div class="form-actions">
+					<button
+						mat-flat-button
+						type="button"
+						class="login-btn"
+						[disabled]="loginForm.invalid"
+						(click)="onLogin()"
+					>
+						Login
+					</button>
+				</div>
+			</form>
+		} @else {
+			<div class="loading-container">
+				<mat-spinner />
+			</div>
+		}
+	</div>
 </div>

@@ -1,38 +1,53 @@
 @if (hasImages()) {
-  <section class="branding">
-    <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
-      <div class="carousel-indicators">
-        @for (image of productImages(); track $index; let i = $index) {
-          <button
-            type="button"
-            [attr.data-bs-target]="'#carouselExampleIndicators'"
-            [attr.data-bs-slide-to]="i"
-            [class.active]="i === 0"
-            [aria-label]="'Slide ' + (i + 1)">
-          </button>
-        }
-      </div>
+	<section class="branding">
+		<div
+			id="carouselExampleIndicators"
+			class="carousel slide carousel-fade"
+			data-bs-ride="carousel"
+		>
+			<div class="carousel-indicators">
+				@for (image of productImages(); track $index; let i = $index) {
+					<button
+						type="button"
+						[attr.data-bs-target]="'#carouselExampleIndicators'"
+						[attr.data-bs-slide-to]="i"
+						[class.active]="i === 0"
+						[aria-label]="'Slide ' + (i + 1)"
+					></button>
+				}
+			</div>
 
-      <div class="carousel-inner">
-        @for (image of productImages(); track image; let i = $index) {
-          <div class="carousel-item" [class.active]="i === 0">
-            <img
-              class="carousel-image"
-              [src]="image"
-              [alt]="'Product image ' + (i + 1)"
-              loading="lazy">
-          </div>
-        }
-      </div>
+			<div class="carousel-inner">
+				@for (image of productImages(); track image; let i = $index) {
+					<div class="carousel-item" [class.active]="i === 0">
+						<img
+							class="carousel-image"
+							[src]="image"
+							[alt]="'Product image ' + (i + 1)"
+							loading="lazy"
+						/>
+					</div>
+				}
+			</div>
 
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </section>
+			<button
+				class="carousel-control-prev"
+				type="button"
+				data-bs-target="#carouselExampleIndicators"
+				data-bs-slide="prev"
+			>
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button
+				class="carousel-control-next"
+				type="button"
+				data-bs-target="#carouselExampleIndicators"
+				data-bs-slide="next"
+			>
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	</section>
 }

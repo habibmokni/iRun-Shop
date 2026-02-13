@@ -1,39 +1,44 @@
 <div class="map-container">
-  <google-map
-    [options]="mapOptions()"
-    [height]="mapHeight()"
-    [width]="mapWidth()">
+	<google-map [options]="mapOptions()" [height]="mapHeight()" [width]="mapWidth()">
+		<map-marker [position]="defaultMarkerPosition" [icon]="markerIcon" />
 
-    <map-marker [position]="defaultMarkerPosition" [icon]="markerIcon" />
+		@for (entry of mapStores(); track entry.store.id) {
+			<map-marker
+				#marker="mapMarker"
+				[position]="entry.position"
+				(mapClick)="openInfoWindow(marker, entry.store, $event)"
+			/>
+		}
 
-    @for (entry of mapStores(); track entry.store.id) {
-      <map-marker
-        #marker="mapMarker"
-        [position]="entry.position"
-        (mapClick)="openInfoWindow(marker, entry.store, $event)" />
-    }
+		<map-marker [position]="currentUserLocation()" />
 
-    <map-marker [position]="currentUserLocation()" />
+		@if (hasUser()) {
+			<map-info-window>
+				@if (currentStore(); as store) {
+					<h2>{{ store.name }}</h2>
+					<p>{{ store.address }}</p>
+					<div class="info-actions">
+						<button mat-raised-button color="primary" (click)="onSelectStore(store)">
+							Select
+						</button>
+						<button
+							mat-raised-button
+							color="accent"
+							(click)="onGetDirections(store.location)"
+						>
+							Directions
+						</button>
+					</div>
+				}
+			</map-info-window>
+		}
 
-    @if (hasUser()) {
-      <map-info-window>
-        @if (currentStore(); as store) {
-          <h2>{{ store.name }}</h2>
-          <p>{{ store.address }}</p>
-          <div class="info-actions">
-            <button mat-raised-button color="primary" (click)="onSelectStore(store)">Select</button>
-            <button mat-raised-button color="accent" (click)="onGetDirections(store.location)">Directions</button>
-          </div>
-        }
-      </map-info-window>
-    }
+		@if (directionsResults(); as directions) {
+			<map-directions-renderer [directions]="directions" />
+		}
+	</google-map>
 
-    @if (directionsResults(); as directions) {
-      <map-directions-renderer [directions]="directions" />
-    }
-  </google-map>
-
-  <button mat-raised-button class="nearby-btn" (click)="onGetCurrentLocation()">
-    Stores Nearby
-  </button>
+	<button mat-raised-button class="nearby-btn" (click)="onGetCurrentLocation()">
+		Stores Nearby
+	</button>
 </div>

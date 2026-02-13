@@ -1,166 +1,166 @@
 /* Layout */
 .product-layout {
-  display: flex;
-  gap: 20px;
+	display: flex;
+	gap: 20px;
 }
 
 .product-images {
-  flex: 0 0 70%;
+	flex: 0 0 70%;
 }
 
 .product-details {
-  flex: 1;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+	flex: 1;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
 }
 
 /* Header */
 .article-header {
-  text-align: center;
+	text-align: center;
 }
 
 /* Price */
 .article-price {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .original-price {
-  text-decoration: line-through;
-  padding: 5px;
-  color: rgba(0, 0, 0, 0.54);
+	text-decoration: line-through;
+	padding: 5px;
+	color: rgba(0, 0, 0, 0.54);
 }
 
 .current-price {
-  margin-left: 5px;
-  font-size: 28px;
+	margin-left: 5px;
+	font-size: 28px;
 }
 
 /* Variant thumbnails */
 .variant-selection {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 12px 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 12px 0;
 }
 
 .variant-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  text-decoration: none;
-  border: 0.125rem solid #c8d3d6;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	text-decoration: none;
+	border: 0.125rem solid #c8d3d6;
+	border-radius: 50%;
+	overflow: hidden;
+	cursor: pointer;
 }
 
 .variant-image.active {
-  border-color: #00aa7a;
+	border-color: #00aa7a;
 }
 
 .variant-image img {
-  width: auto;
-  height: 44px;
+	width: auto;
+	height: 44px;
 }
 
 /* Buttons */
 .button-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin: 16px 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin: 16px 0;
 }
 
 .add-to-cart-btn {
-  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
-  color: #fff;
-  font-weight: bold;
-  padding: 0.5rem;
-  width: 90%;
+	background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
+	color: #fff;
+	font-weight: bold;
+	padding: 0.5rem;
+	width: 90%;
 }
 
 .favorite-btn {
-  background-color: #fff;
-  color: #d53d5e;
-  margin-left: 10px;
+	background-color: #fff;
+	color: #d53d5e;
+	margin-left: 10px;
 }
 
 /* Shipping list */
 mat-list-item {
-  text-decoration: none;
-  font-weight: bold;
-  font-family: 'Nunito', sans-serif;
+	text-decoration: none;
+	font-weight: bold;
+	font-family: 'Nunito', sans-serif;
 }
 
 .done-icon {
-  color: #d53d5e;
+	color: #d53d5e;
 }
 
 /* Availability card */
 .availability-card {
-  background-color: #f7f8f8;
-  text-align: center;
-  margin-bottom: 2rem;
+	background-color: #f7f8f8;
+	text-align: center;
+	margin-bottom: 2rem;
 }
 
 .availability-btn {
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 1rem 0;
-  width: 100%;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+	padding: 1rem 0;
+	width: 100%;
 }
 
 .availability-icon {
-  color: #d53d5e;
-  font-size: 25px;
+	color: #d53d5e;
+	font-size: 25px;
 }
 
 .availability-label {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 /* Chips */
 .chip {
-  background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
-  color: #fff;
+	background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
+	color: #fff;
 }
 
 /* Accordion */
 mat-accordion {
-  width: 100%;
-  margin-bottom: 5rem;
+	width: 100%;
+	margin-bottom: 5rem;
 }
 
 mat-accordion,
 mat-card,
 mat-list,
 mat-chip-set {
-  margin-bottom: 2rem;
+	margin-bottom: 2rem;
 }
 
 .star-icon {
-  color: #8b283d;
+	color: #8b283d;
 }
 
 /* Responsive */
 @media (max-width: 599px) {
-  .product-layout {
-    flex-direction: column;
-  }
+	.product-layout {
+		flex-direction: column;
+	}
 
-  .product-images {
-    flex: none;
-    width: 100%;
-  }
+	.product-images {
+		flex: none;
+		width: 100%;
+	}
 
-  .product-details {
-    padding: 12px;
-  }
+	.product-details {
+		padding: 12px;
+	}
 }

@@ -1,11 +1,11 @@
 @if (showIntro()) {
-  <app-intro-page (showIntro)="onShowIntro($event)" />
+	<app-intro-page (showIntro)="onShowIntro($event)" />
 } @else {
-  <div class="shopping">
-    <app-header />
-    <mat-divider />
-  </div>
-  <div class="main-content">
-    <router-outlet />
-  </div>
+	<div class="shopping">
+		<app-header />
+		<mat-divider />
+	</div>
+	<div class="main-content">
+		<router-outlet />
+	</div>
 }

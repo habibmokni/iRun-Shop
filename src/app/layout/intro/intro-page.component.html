@@ -1,43 +1,61 @@
 <div class="intro-page">
-  <!-- Logo -->
-  <div class="centered">
-    <img class="logo" ngSrc="assets/images/logos/iRunLogoBnW.png" alt="iRun logo" width="200" height="100" priority>
-  </div>
-  <div class="centered">
-    <img class="arrow arrow-offset" ngSrc="assets/images/arrow1.png" alt="" width="50" height="50">
-  </div>
+	<!-- Logo -->
+	<div class="centered">
+		<img
+			class="logo"
+			ngSrc="assets/images/logos/iRunLogoBnW.png"
+			alt="iRun logo"
+			width="200"
+			height="100"
+			priority
+		/>
+	</div>
+	<div class="centered">
+		<img
+			class="arrow arrow-offset"
+			ngSrc="assets/images/arrow1.png"
+			alt=""
+			width="50"
+			height="50"
+		/>
+	</div>
 
-  @for (step of steps; track step.number; let i = $index, last = $last) {
-    <div class="step-image-container">
-      <h2 class="circle"
-          [class.circle-left]="i % 2 === 0"
-          [class.circle-right]="i % 2 !== 0">
-        {{ step.number }}
-      </h2>
-      <img class="step-image" [ngSrc]="step.image" [alt]="step.title" width="400" height="300">
-    </div>
+	@for (step of steps; track step.number; let i = $index, last = $last) {
+		<div class="step-image-container">
+			<h2 class="circle" [class.circle-left]="i % 2 === 0" [class.circle-right]="i % 2 !== 0">
+				{{ step.number }}
+			</h2>
+			<img
+				class="step-image"
+				[ngSrc]="step.image"
+				[alt]="step.title"
+				width="400"
+				height="300"
+			/>
+		</div>
 
-    <div class="step-description">
-      <h2>{{ step.title }}</h2>
-      <p>{{ step.description }}</p>
-    </div>
+		<div class="step-description">
+			<h2>{{ step.title }}</h2>
+			<p>{{ step.description }}</p>
+		</div>
 
-    @if (!last) {
-      <div class="centered">
-        <img
-          class="arrow"
-          [class.arrow-offset]="i % 2 !== 0"
-          [ngSrc]="i % 2 === 0 ? 'assets/images/arrow2.png' : 'assets/images/arrow1.png'"
-          alt=""
-          width="50"
-          height="50">
-      </div>
-    }
-  }
+		@if (!last) {
+			<div class="centered">
+				<img
+					class="arrow"
+					[class.arrow-offset]="i % 2 !== 0"
+					[ngSrc]="i % 2 === 0 ? 'assets/images/arrow2.png' : 'assets/images/arrow1.png'"
+					alt=""
+					width="50"
+					height="50"
+				/>
+			</div>
+		}
+	}
 
-  <div class="centered">
-    <button mat-flat-button type="button" class="continue-btn" (click)="onContinue()">
-      Continue
-    </button>
-  </div>
+	<div class="centered">
+		<button mat-flat-button type="button" class="continue-btn" (click)="onContinue()">
+			Continue
+		</button>
+	</div>
 </div>

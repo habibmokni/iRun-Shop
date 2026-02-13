@@ -1,37 +1,37 @@
 .branding {
-  height: 280px;
+	height: 280px;
 }
 
 .carousel-item {
-  height: 280px;
-  min-height: 260px;
+	height: 280px;
+	min-height: 260px;
 }
 
 .carousel-image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 @media (max-width: 899px) {
-  .carousel-item {
-    min-height: 300px;
-    height: 300px;
-  }
+	.carousel-item {
+		min-height: 300px;
+		height: 300px;
+	}
 
-  .branding {
-    height: 300px;
-  }
+	.branding {
+		height: 300px;
+	}
 }
 
 @media (max-width: 599px) {
-  .carousel-item {
-    min-height: 200px;
-    height: 200px;
-  }
+	.carousel-item {
+		min-height: 200px;
+		height: 200px;
+	}
 
-  .branding {
-    height: 200px;
-  }
+	.branding {
+		height: 200px;
+	}
 }

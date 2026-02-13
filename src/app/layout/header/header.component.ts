@@ -14,35 +14,35 @@ import { UserService } from '../../user/services/user.service';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgOptimizedImage,
-    RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatBadgeModule,
-    MatMenuModule,
-  ],
+	selector: 'app-header',
+	templateUrl: './header.component.html',
+	styleUrls: ['./header.component.css'],
+	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [
+		NgOptimizedImage,
+		RouterModule,
+		MatToolbarModule,
+		MatButtonModule,
+		MatIconModule,
+		MatBadgeModule,
+		MatMenuModule,
+	],
 })
 export class HeaderComponent {
-  private readonly authService = inject(AuthService);
-  private readonly cartService = inject(CartService);
-  private readonly userService = inject(UserService);
-  private readonly router = inject(Router);
-  private readonly snackbar = inject(SnackbarService);
+	private readonly authService = inject(AuthService);
+	private readonly cartService = inject(CartService);
+	private readonly userService = inject(UserService);
+	private readonly router = inject(Router);
+	private readonly snackbar = inject(SnackbarService);
 
-  protected readonly isLoggedIn = this.authService.isLoggedIn;
-  protected readonly user = this.userService.user;
-  protected readonly cartCount = computed(() => this.cartService.cart().length);
+	protected readonly isLoggedIn = this.authService.isLoggedIn;
+	protected readonly user = this.userService.user;
+	protected readonly cartCount = computed(() => this.cartService.cart().length);
 
-  protected onLogout(): void {
-    this.authService.logout();
-    this.router.navigate(['/home']);
-    this.snackbar.success('Logout successfully!');
-  }
+	protected onLogout(): void {
+		this.authService.logout();
+		this.router.navigate(['/home']);
+		this.snackbar.success('Logout successfully!');
+	}
 }

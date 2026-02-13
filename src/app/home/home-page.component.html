@@ -1,90 +1,116 @@
 @if (!isLoading()) {
-  <div class="home-layout">
-    <div class="main-content">
-      <div class="slider-section">
-        <app-image-slider />
-      </div>
+	<div class="home-layout">
+		<div class="main-content">
+			<div class="slider-section">
+				<app-image-slider />
+			</div>
 
-      <div class="product-list">
-        <mat-tab-group mat-align-tabs="start">
-          @for (tab of brandTabs; track tab.label; let tabIdx = $index) {
-            <mat-tab [label]="tab.label">
-              <div class="product-grid">
-                @for (product of filteredProducts[tabIdx](); track product.modelNo) {
-                  <div class="product-card">
-                    <div class="item-image-container">
-                      <a [routerLink]="['/products', product.modelNo]">
-                        <img [ngSrc]="product.variants[0].imageList[0]" class="item-image" alt="{{ product.name }}" width="300" height="300">
-                      </a>
-                    </div>
-                    <h2 class="product-name">{{ product.name }}</h2>
-                    <mat-card-subtitle>{{ product.subCategory }}, Power Shoes</mat-card-subtitle>
-                    <span class="filler"></span>
-                    <div class="product-actions">
-                      <h2 class="product-price">{{ product.price | number:'1.2-2' }}€</h2>
-                      <span class="filler"></span>
-                      <button mat-mini-fab class="add-btn" (click)="openDialog(product)">
-                        <mat-icon>add</mat-icon>
-                      </button>
-                    </div>
-                  </div>
-                }
-              </div>
-            </mat-tab>
-          }
-        </mat-tab-group>
-      </div>
-    </div>
+			<div class="product-list">
+				<mat-tab-group mat-align-tabs="start">
+					@for (tab of brandTabs; track tab.label; let tabIdx = $index) {
+						<mat-tab [label]="tab.label">
+							<div class="product-grid">
+								@for (
+									product of filteredProducts[tabIdx]();
+									track product.modelNo
+								) {
+									<div class="product-card">
+										<div class="item-image-container">
+											<a [routerLink]="['/products', product.modelNo]">
+												<img
+													[ngSrc]="product.variants[0].imageList[0]"
+													class="item-image"
+													alt="{{ product.name }}"
+													width="300"
+													height="300"
+												/>
+											</a>
+										</div>
+										<h2 class="product-name">{{ product.name }}</h2>
+										<mat-card-subtitle
+											>{{ product.subCategory }}, Power
+											Shoes</mat-card-subtitle
+										>
+										<span class="filler"></span>
+										<div class="product-actions">
+											<h2 class="product-price">
+												{{ product.price | number: '1.2-2' }}€
+											</h2>
+											<span class="filler"></span>
+											<button
+												mat-mini-fab
+												class="add-btn"
+												(click)="openDialog(product)"
+											>
+												<mat-icon>add</mat-icon>
+											</button>
+										</div>
+									</div>
+								}
+							</div>
+						</mat-tab>
+					}
+				</mat-tab-group>
+			</div>
+		</div>
 
-    <aside class="sidebar">
-      <div class="sidebar-card">
-        <mat-card-header>
-          <mat-card-title>Product Category</mat-card-title>
-        </mat-card-header>
-        <hr>
-        <mat-card-content>
-          <h3>Nike</h3>
-          <h3>Adidas</h3>
-          <h3>New Balance</h3>
-          <h3>Others</h3>
-        </mat-card-content>
-      </div>
+		<aside class="sidebar">
+			<div class="sidebar-card">
+				<mat-card-header>
+					<mat-card-title>Product Category</mat-card-title>
+				</mat-card-header>
+				<hr />
+				<mat-card-content>
+					<h3>Nike</h3>
+					<h3>Adidas</h3>
+					<h3>New Balance</h3>
+					<h3>Others</h3>
+				</mat-card-content>
+			</div>
 
-      <div class="sidebar-card">
-        <mat-card-header>
-          <mat-card-title>Top Rated Products</mat-card-title>
-        </mat-card-header>
-        <hr>
-        @for (product of topRatedProducts(); track product.modelNo) {
-          <mat-card-content class="top-rated-item">
-            <img [ngSrc]="product.variants[0].imageList[0]" alt="{{ product.name }}" class="top-rated-img" width="80" height="80">
-            <div class="top-rated-info">
-              <a [routerLink]="['/products', product.modelNo]">
-                <h3>{{ product.name }}</h3>
-              </a>
-              <mat-card-subtitle>{{ product.price | number:'1.2-2' }}€</mat-card-subtitle>
-            </div>
-          </mat-card-content>
-        }
-      </div>
+			<div class="sidebar-card">
+				<mat-card-header>
+					<mat-card-title>Top Rated Products</mat-card-title>
+				</mat-card-header>
+				<hr />
+				@for (product of topRatedProducts(); track product.modelNo) {
+					<mat-card-content class="top-rated-item">
+						<img
+							[ngSrc]="product.variants[0].imageList[0]"
+							alt="{{ product.name }}"
+							class="top-rated-img"
+							width="80"
+							height="80"
+						/>
+						<div class="top-rated-info">
+							<a [routerLink]="['/products', product.modelNo]">
+								<h3>{{ product.name }}</h3>
+							</a>
+							<mat-card-subtitle
+								>{{ product.price | number: '1.2-2' }}€</mat-card-subtitle
+							>
+						</div>
+					</mat-card-content>
+				}
+			</div>
 
-      <div class="sidebar-card">
-        <mat-card-header>
-          <mat-card-title>Product Tags</mat-card-title>
-        </mat-card-header>
-        <hr>
-        <mat-card-content>
-          <mat-chip-set aria-label="Product tags">
-            @for (tag of tags; track tag) {
-              <mat-chip class="tag-chip" highlighted>{{ tag }}</mat-chip>
-            }
-          </mat-chip-set>
-        </mat-card-content>
-      </div>
-    </aside>
-  </div>
+			<div class="sidebar-card">
+				<mat-card-header>
+					<mat-card-title>Product Tags</mat-card-title>
+				</mat-card-header>
+				<hr />
+				<mat-card-content>
+					<mat-chip-set aria-label="Product tags">
+						@for (tag of tags; track tag) {
+							<mat-chip class="tag-chip" highlighted>{{ tag }}</mat-chip>
+						}
+					</mat-chip-set>
+				</mat-card-content>
+			</div>
+		</aside>
+	</div>
 } @else {
-  <div class="loading-container">
-    <mat-spinner />
-  </div>
+	<div class="loading-container">
+		<mat-spinner />
+	</div>
 }

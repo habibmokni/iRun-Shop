@@ -1,10 +1,10 @@
 import {
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  ChangeDetectionStrategy,
-  DestroyRef,
-  inject,
-  signal,
+	Component,
+	CUSTOM_ELEMENTS_SCHEMA,
+	ChangeDetectionStrategy,
+	DestroyRef,
+	inject,
+	signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
@@ -22,65 +22,65 @@ import { IntroPageComponent } from './layout/intro/intro-page.component';
 const INTRO_STORAGE_KEY = 'intro_item';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, HeaderComponent, IntroPageComponent, MatDividerModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss'],
+	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [RouterOutlet, HeaderComponent, IntroPageComponent, MatDividerModule],
+	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {
-  private readonly storeService = inject(StoreService);
-  private readonly userService = inject(UserService);
-  private readonly cncService = inject(ClickNCollectService);
-  private readonly cartService = inject(CartService);
-  private readonly destroyRef = inject(DestroyRef);
+	private readonly storeService = inject(StoreService);
+	private readonly userService = inject(UserService);
+	private readonly cncService = inject(ClickNCollectService);
+	private readonly cartService = inject(CartService);
+	private readonly destroyRef = inject(DestroyRef);
 
-  protected readonly showIntro = signal(this.loadIntroState());
+	protected readonly showIntro = signal(this.loadIntroState());
 
-  constructor() {
-    this.initCncBridge();
-  }
+	constructor() {
+		this.initCncBridge();
+	}
 
-  protected onShowIntro(value: boolean): void {
-    this.showIntro.set(value);
-    localStorage.setItem(INTRO_STORAGE_KEY, JSON.stringify(value));
-  }
+	protected onShowIntro(value: boolean): void {
+		this.showIntro.set(value);
+		localStorage.setItem(INTRO_STORAGE_KEY, JSON.stringify(value));
+	}
 
-  private loadIntroState(): boolean {
-    const stored = localStorage.getItem(INTRO_STORAGE_KEY);
-    return stored === null || JSON.parse(stored) !== false;
-  }
+	private loadIntroState(): boolean {
+		const stored = localStorage.getItem(INTRO_STORAGE_KEY);
+		return stored === null || JSON.parse(stored) !== false;
+	}
 
-  private initCncBridge(): void {
-    this.storeService.store
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((storeList) => {
-        this.cncService.setStoreList(storeList);
-        this.cncService.setStoreLocations(this.storeService.storeLocations);
-      });
+	private initCncBridge(): void {
+		this.storeService.store.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((storeList) => {
+			this.cncService.setStoreList(storeList);
+			this.cncService.setStoreLocations(this.storeService.storeLocations);
+		});
 
-    this.userService.user$
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((user): user is User => !!user)
-      )
-      .subscribe((user) => this.cncService.setUser(user));
+		this.userService.user$
+			.pipe(
+				takeUntilDestroyed(this.destroyRef),
+				filter((user): user is User => !!user),
+			)
+			.subscribe((user) => {
+				this.cncService.setUser(user);
+			});
 
-    this.cartService.cart$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((cartProducts) =>
-        this.cncService.setCartProducts(cartProducts)
-      );
+		this.cartService.cart$
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe((cartProducts) => {
+				this.cncService.setCartProducts(cartProducts);
+			});
 
-    this.cncService.storeSelected
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((store) => {
-        this.userService.updateSelectedStore({
-          name: 'Anonymous',
-          storeSelected: store,
-        });
-      });
-  }
+		this.cncService.storeSelected
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe((store) => {
+				this.userService.updateSelectedStore({
+					name: 'Anonymous',
+					storeSelected: store,
+				});
+			});
+	}
 }

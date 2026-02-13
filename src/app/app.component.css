@@ -1,11 +1,10 @@
-.shopping{
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 50;
-  width: 100%;
+.shopping {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 50;
+	width: 100%;
 }
-.main{
-  margin: 110px 30px;
+.main {
+	margin: 110px 30px;
 }
-

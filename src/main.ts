@@ -19,25 +19,27 @@ import { UserService } from './app/user/services/user.service';
 import { routes } from './app/app.routes';
 
 if (environment.production) {
-  enableProdMode();
+	enableProdMode();
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withEnabledBlockingInitialNavigation()),
-    provideAnimationsAsync(),
-    provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
-    importProvidersFrom(
-      AngularFireModule.initializeApp(environment.firebase),
-      AngularFirestoreModule,
-      GoogleMapsModule,
-      ClickNCollectModule
-    ),
-    StoreService,
-    ProductService,
-    CartService,
-    SnackbarService,
-    UserService
-  ]
-}).catch(err => console.error(err));
+	providers: [
+		provideZoneChangeDetection({ eventCoalescing: true }),
+		provideRouter(routes, withEnabledBlockingInitialNavigation()),
+		provideAnimationsAsync(),
+		provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
+		importProvidersFrom(
+			AngularFireModule.initializeApp(environment.firebase),
+			AngularFirestoreModule,
+			GoogleMapsModule,
+			ClickNCollectModule,
+		),
+		StoreService,
+		ProductService,
+		CartService,
+		SnackbarService,
+		UserService,
+	],
+}).catch((err: unknown) => {
+	console.error(err);
+});
