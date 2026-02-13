@@ -1,51 +1,64 @@
 import { Routes } from '@angular/router';
-import { AddProductsComponent } from './admin/add-products/add-products.component';
-import { CheckoutComponent } from './checkout/checkout.component';
-import { InformationComponent } from './information/information.component';
-import { ProductDetailComponent } from './products/pages/product-detail/product-detail.component';
-import { HomeComponent } from './home/home.component';
-import { ShoppingCartComponent } from './cart/pages/shopping-cart/shopping-cart.component';
-import { StoreSelectedComponent } from './stores/pages/store-selection/store-selection.component';
-import { IntroComponent } from './layout/intro/intro.component';
-import { LoginComponent } from './auth/pages/login/login.component';
-import { RegisterComponent } from './auth/pages/register/register.component';
-import { ProfileComponent } from './user/pages/profile/profile.component';
 
 export const routes: Routes = [
   {
-    path: 'login', component: LoginComponent
+    path: 'login',
+    loadComponent: () =>
+      import('./auth/pages/login/login-page.component').then((m) => m.LoginPageComponent),
   },
   {
-    path: 'shoppingcart', component: ShoppingCartComponent
+    path: 'shoppingcart',
+    loadComponent: () =>
+      import('./cart/pages/shopping-cart/shopping-cart-page.component').then((m) => m.ShoppingCartPageComponent),
   },
   {
-    path: 'checkout', component: CheckoutComponent
+    path: 'checkout',
+    loadComponent: () =>
+      import('./checkout/checkout-page.component').then((m) => m.CheckoutPageComponent),
   },
   {
-    path: 'home', component: HomeComponent
+    path: 'home',
+    loadComponent: () =>
+      import('./home/home-page.component').then((m) => m.HomePageComponent),
   },
   {
-    path: 'products/:id', component: ProductDetailComponent
+    path: 'products/:id',
+    loadComponent: () =>
+      import('./products/pages/product-detail/product-detail-page.component').then((m) => m.ProductDetailPageComponent),
   },
   {
-    path: 'addProduct', component: AddProductsComponent
+    path: 'addProduct',
+    loadComponent: () =>
+      import('./admin/add-products/add-products-page.component').then((m) => m.AddProductsPageComponent),
   },
   {
-    path: 'storeselector', component: StoreSelectedComponent
+    path: 'storeselector',
+    loadComponent: () =>
+      import('./stores/pages/store-selection/store-selection-page.component').then((m) => m.StoreSelectionPageComponent),
   },
   {
-    path: 'info', component: InformationComponent
+    path: 'info',
+    loadComponent: () =>
+      import('./information/information-page.component').then((m) => m.InformationPageComponent),
   },
   {
-    path: 'intro', component: IntroComponent
+    path: 'intro',
+    loadComponent: () =>
+      import('./layout/intro/intro-page.component').then((m) => m.IntroPageComponent),
   },
   {
-    path: 'add-user', component: RegisterComponent
+    path: 'add-user',
+    loadComponent: () =>
+      import('./auth/pages/register/register-page.component').then((m) => m.RegisterPageComponent),
   },
   {
-    path: 'user-profile', component: ProfileComponent
+    path: 'user-profile',
+    loadComponent: () =>
+      import('./user/pages/profile/profile-page.component').then((m) => m.ProfilePageComponent),
   },
   {
-    path: '**', redirectTo: '/home', pathMatch: 'full'
-  }
+    path: '**',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
 ];

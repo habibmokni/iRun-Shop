@@ -9,9 +9,9 @@ import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -21,7 +21,7 @@ import { AuthService } from '../../services/auth.service';
     MatProgressSpinnerModule,
   ],
 })
-export class LoginComponent {
+export class LoginPageComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly snackbar = inject(SnackbarService);

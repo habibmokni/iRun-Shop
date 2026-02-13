@@ -11,9 +11,9 @@ import { ProductService } from '../../products/services/product.service';
 import { StoreService } from '../../stores/services/store.service';
 
 @Component({
-  selector: 'app-add-products',
-  templateUrl: './add-products.component.html',
-  styleUrls: ['./add-products.component.css'],
+  selector: 'app-add-products-page',
+  templateUrl: './add-products-page.component.html',
+  styleUrls: ['./add-products-page.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -24,7 +24,7 @@ import { StoreService } from '../../stores/services/store.service';
     MatIconModule
   ]
 })
-export class AddProductsComponent implements OnInit {
+export class AddProductsPageComponent implements OnInit {
   private productService = inject(ProductService);
   private storeService = inject(StoreService);
 

@@ -9,9 +9,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  selector: 'app-register-page',
+  templateUrl: './register-page.component.html',
+  styleUrls: ['./register-page.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -21,7 +21,7 @@ import { SnackbarService } from '../../../shared/services/snackbar.service';
     MatProgressSpinnerModule,
   ],
 })
-export class RegisterComponent {
+export class RegisterPageComponent {
   private readonly router = inject(Router);
   private readonly snackbar = inject(SnackbarService);
 

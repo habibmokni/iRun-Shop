@@ -17,7 +17,7 @@ import { StoreService } from './stores/services/store.service';
 import { UserService } from './user/services/user.service';
 import { User } from './user/types/user.types';
 import { HeaderComponent } from './layout/header/header.component';
-import { IntroComponent } from './layout/intro/intro.component';
+import { IntroPageComponent } from './layout/intro/intro-page.component';
 
 const INTRO_STORAGE_KEY = 'intro_item';
 
@@ -27,7 +27,7 @@ const INTRO_STORAGE_KEY = 'intro_item';
   styleUrls: ['./app.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, HeaderComponent, IntroComponent, MatDividerModule],
+  imports: [RouterOutlet, HeaderComponent, IntroPageComponent, MatDividerModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {

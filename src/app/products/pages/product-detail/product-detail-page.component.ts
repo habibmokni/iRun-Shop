@@ -31,12 +31,12 @@ import { ImageSliderComponent } from '../../../shared/components/image-slider/im
 import { AvailabilityComponent } from '../../components/availability/availability.component';
 
 @Component({
-  selector: 'app-product-detail',
+  selector: 'app-product-detail-page',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.css'],
+  templateUrl: './product-detail-page.component.html',
+  styleUrls: ['./product-detail-page.component.css'],
   imports: [
     RouterModule,
     MatDialogModule,
@@ -50,7 +50,7 @@ import { AvailabilityComponent } from '../../components/availability/availabilit
     DecimalPipe,
   ],
 })
-export class ProductDetailComponent {
+export class ProductDetailPageComponent {
   // Services
   private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);

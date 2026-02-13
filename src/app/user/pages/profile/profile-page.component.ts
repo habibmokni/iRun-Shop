@@ -5,14 +5,14 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  selector: 'app-profile-page',
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterModule],
 })
-export class ProfileComponent {
+export class ProfilePageComponent {
   private readonly userService = inject(UserService);
   protected readonly authService = inject(AuthService);
 

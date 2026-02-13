@@ -24,14 +24,14 @@ interface CartItemStock {
 }
 
 @Component({
-  selector: 'app-shopping-cart',
-  templateUrl: './shopping-cart.component.html',
-  styleUrls: ['./shopping-cart.component.css'],
+  selector: 'app-shopping-cart-page',
+  templateUrl: './shopping-cart-page.component.html',
+  styleUrls: ['./shopping-cart-page.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterModule, MatCardModule, MatButtonModule, MatIconModule],
 })
-export class ShoppingCartComponent {
+export class ShoppingCartPageComponent {
   private readonly cartService = inject(CartService);
   private readonly productService = inject(ProductService);
   private readonly router = inject(Router);

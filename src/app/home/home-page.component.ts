@@ -22,9 +22,9 @@ interface BrandTab {
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: 'app-home-page',
+  templateUrl: './home-page.component.html',
+  styleUrls: ['./home-page.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -40,7 +40,7 @@ interface BrandTab {
     DecimalPipe,
   ],
 })
-export class HomeComponent {
+export class HomePageComponent {
   private readonly productService = inject(ProductService);
   private readonly dialog = inject(MatDialog);
 

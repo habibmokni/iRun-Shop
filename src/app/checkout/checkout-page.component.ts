@@ -36,9 +36,9 @@ import { BillingDetailsComponent } from './components/billing-details/billing-de
 import { PaymentMethodsComponent } from './components/payment-methods/payment-methods.component';
 
 @Component({
-  selector: 'app-checkout',
-  templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.css'],
+  selector: 'app-checkout-page',
+  templateUrl: './checkout-page.component.html',
+  styleUrls: ['./checkout-page.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -57,7 +57,7 @@ import { PaymentMethodsComponent } from './components/payment-methods/payment-me
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CheckoutComponent {
+export class CheckoutPageComponent {
   private readonly cartService = inject(CartService);
   private readonly productService = inject(ProductService);
   private readonly storeService = inject(StoreService);

@@ -10,14 +10,14 @@ interface IntroStep {
 }
 
 @Component({
-  selector: 'app-intro',
-  templateUrl: './intro.component.html',
-  styleUrls: ['./intro.component.css'],
+  selector: 'app-intro-page',
+  templateUrl: './intro-page.component.html',
+  styleUrls: ['./intro-page.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatButtonModule],
 })
-export class IntroComponent {
+export class IntroPageComponent {
   private readonly router = inject(Router);
 
   readonly showIntro = output<boolean>();
