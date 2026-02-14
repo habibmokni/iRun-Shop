@@ -28,37 +28,51 @@
 									<span class="item-meta">Size: {{ product.size }}</span>
 								</div>
 								<div class="item-prices">
-								<span class="item-price">{{ product.price * product.noOfItems | number: '1.2-2' }}€</span>
-								<span class="item-price-original">{{ (product.price + product.price * 0.2) * product.noOfItems | number: '1.2-2' }}€</span>
-								@if (product.noOfItems > 1) {
-									<span class="unit-price">{{ product.price | number: '1.2-2' }}€ each</span>
-								}
-							</div>
+									<span class="item-price"
+										>{{
+											product.price * product.noOfItems | number: '1.2-2'
+										}}€</span
+									>
+									<span class="item-price-original"
+										>{{
+											(product.price + product.price * 0.2) *
+												product.noOfItems | number: '1.2-2'
+										}}€</span
+									>
+									@if (product.noOfItems > 1) {
+										<span class="unit-price"
+											>{{ product.price | number: '1.2-2' }}€ each</span
+										>
+									}
+								</div>
 							</div>
 
 							<div class="item-bottom">
 								<div class="qty-stepper">
-									<button
-										type="button"
-										class="qty-btn"
-										(click)="onRemoveItem(i)"
-									>
-										<mat-icon>{{ product.noOfItems <= 1 ? 'delete_outline' : 'remove' }}</mat-icon>
+									<button type="button" class="qty-btn" (click)="onRemoveItem(i)">
+										<mat-icon>{{
+											product.noOfItems <= 1 ? 'delete_outline' : 'remove'
+										}}</mat-icon>
 									</button>
 									<span class="qty-value">{{ product.noOfItems }}</span>
-									<button
-										type="button"
-										class="qty-btn"
-										(click)="onAddItem(i)"
-									>
+									<button type="button" class="qty-btn" (click)="onAddItem(i)">
 										<mat-icon>add</mat-icon>
 									</button>
 								</div>
 								<div class="stock-pills">
-									<span [class]="'stock-pill ' + stockColor(stockInfo()[i]?.physical ?? 0)">
+									<span
+										[class]="
+											'stock-pill ' +
+											stockColor(stockInfo()[i]?.physical ?? 0)
+										"
+									>
 										<span class="dot"></span> Store
 									</span>
-									<span [class]="'stock-pill ' + stockColor(stockInfo()[i]?.online ?? 0)">
+									<span
+										[class]="
+											'stock-pill ' + stockColor(stockInfo()[i]?.online ?? 0)
+										"
+									>
 										<span class="dot"></span> Online
 									</span>
 								</div>
@@ -88,11 +102,7 @@
 					<span>Total</span>
 					<span>{{ grandTotal() | number: '1.2-2' }}€</span>
 				</div>
-		<button
-			matButton="filled"
-			class="summary-btn"
-			(click)="onSubmit()"
-		>
+				<button matButton="filled" class="summary-btn" (click)="onSubmit()">
 					Proceed to Checkout
 				</button>
 				<a class="continue-link" routerLink="/products">
@@ -104,10 +114,6 @@
 
 		<!-- Mobile checkout bar -->
 		<div class="mobile-bar">
-			<div class="mobile-bar-info">
-				<span class="mobile-bar-label">Total <span class="mobile-savings">(-{{ savings() | number: '1.2-2' }}€)</span></span>
-				<span class="mobile-bar-price">{{ grandTotal() | number: '1.2-2' }}€</span>
-			</div>
 			<button matButton="filled" class="mobile-bar-btn" (click)="onSubmit()">
 				Checkout
 			</button>
@@ -118,8 +124,6 @@
 		<mat-icon class="empty-icon">shopping_cart</mat-icon>
 		<h2>Your cart is empty</h2>
 		<p>Looks like you haven't added anything yet.</p>
-		<a matButton="filled" routerLink="/products">
-			Browse Products
-		</a>
+		<a matButton="filled" routerLink="/products"> Browse Products </a>
 	</div>
 }
