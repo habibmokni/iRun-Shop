@@ -34,6 +34,10 @@
 }
 
 @media (max-width: 599px) {
+	.footer {
+		padding-bottom: 75px;
+	}
+
 	.footer-inner {
 		flex-direction: column;
 		gap: 12px;
