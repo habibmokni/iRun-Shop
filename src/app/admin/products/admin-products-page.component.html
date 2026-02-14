@@ -2,11 +2,20 @@
 	<div class="admin-header">
 		<h1>Products</h1>
 		<div class="header-actions">
+			<button
+				mat-flat-button
+				class="secondary-button"
+				[disabled]="isSeeding()"
+				(click)="onSeedDatabase()"
+			>
+				<mat-icon>cloud_upload</mat-icon>
+				{{ isSeeding() ? 'Seeding...' : 'Seed Database' }}
+			</button>
 			<a mat-button routerLink="/admin/stores">Manage Stores</a>
-		<button mat-flat-button class="primary-button" (click)="onAdd()">
-			<mat-icon>add</mat-icon>
-			Add Product
-		</button>
+			<button mat-flat-button class="primary-button" (click)="onAdd()">
+				<mat-icon>add</mat-icon>
+				Add Product
+			</button>
 		</div>
 	</div>
 
@@ -117,6 +126,7 @@
 		</mat-card>
 	}
 
+	<div class="table-wrapper">
 	<table mat-table [dataSource]="products()" class="product-table">
 		<ng-container matColumnDef="modelNo">
 			<th mat-header-cell *matHeaderCellDef>Model No</th>
@@ -158,4 +168,5 @@
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 	</table>
+	</div>
 </div>

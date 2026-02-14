@@ -3,6 +3,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { PAYMENT_PARTNERS } from '../../constants/payment-partners';
 
 @Component({
@@ -11,7 +12,7 @@ import { PAYMENT_PARTNERS } from '../../constants/payment-partners';
 	styleUrls: ['./payment-methods.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [NgOptimizedImage, ReactiveFormsModule, MatRadioModule, MatCardModule],
+	imports: [NgOptimizedImage, ReactiveFormsModule, MatRadioModule, MatCardModule, MatIconModule],
 })
 export class PaymentMethodsComponent {
 	readonly paymentMethod = input.required<FormGroup>();

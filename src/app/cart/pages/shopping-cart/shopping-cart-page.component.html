@@ -1,108 +1,118 @@
 @if (hasProducts()) {
-	<div class="cart-layout">
-		<!-- Cart items -->
-		<div class="cart-items">
-			@for (
-				product of cartProducts();
-				track product.modelNo + '-' + product.size;
-				let i = $index
-			) {
-				<div class="cart-item">
-					<div class="item-image">
-						<img
-							[routerLink]="'/products/' + product.modelNo"
-							[ngSrc]="product.productImage"
-							alt="Product image"
-							width="120"
-							height="120"
-						/>
-					</div>
+	<div class="cart-page container">
+		<h1 class="cart-title">Your Cart ({{ cartProducts().length }})</h1>
 
-					<div class="item-details">
-						<h3>{{ product.productName }}</h3>
-						<mat-card-subtitle>
-							Size: {{ product.size }}
-							<mat-icon
-								[class]="'stock-icon ' + stockColor(stockInfo()[i]?.physical ?? 0)"
-								fontSet="material-icons-outlined"
-								>shopping_bag</mat-icon
-							>
-							<mat-icon
-								[class]="'stock-icon ' + stockColor(stockInfo()[i]?.online ?? 0)"
-								fontSet="material-icons-outlined"
-								>home</mat-icon
-							>
-						</mat-card-subtitle>
-						<mat-card-subtitle>Model: {{ product.modelNo }}</mat-card-subtitle>
+		<div class="cart-layout">
+			<!-- Cart items -->
+			<div class="cart-items">
+				@for (
+					product of cartProducts();
+					track product.modelNo + '-' + product.size;
+					let i = $index
+				) {
+					<div class="cart-item">
+						<a class="item-image" [routerLink]="'/products/' + product.modelNo">
+							<img
+								[ngSrc]="product.productImage"
+								alt="{{ product.productName }}"
+								width="100"
+								height="100"
+							/>
+						</a>
 
-						<div class="quantity-controls">
-							<button
-								mat-icon-button
-								type="button"
-								class="qty-btn"
-								(click)="onRemoveItem(i)"
-							>
-								<mat-icon>remove</mat-icon>
-							</button>
-							<span class="qty-value">{{ product.noOfItems }}</span>
-							<button
-								mat-icon-button
-								type="button"
-								class="qty-btn"
-								(click)="onAddItem(i)"
-							>
-								<mat-icon>add</mat-icon>
-							</button>
+						<div class="item-body">
+							<div class="item-top">
+								<div class="item-info">
+									<span class="item-brand">{{ product.vendor }}</span>
+									<h3 class="item-name">{{ product.productName }}</h3>
+									<span class="item-meta">Size: {{ product.size }}</span>
+								</div>
+								<span class="item-price">{{ product.price * product.noOfItems | number: '1.2-2' }}€</span>
+							</div>
+
+							<div class="item-bottom">
+								<div class="qty-stepper">
+									<button
+										type="button"
+										class="qty-btn"
+										(click)="onRemoveItem(i)"
+									>
+										<mat-icon>{{ product.noOfItems <= 1 ? 'delete_outline' : 'remove' }}</mat-icon>
+									</button>
+									<span class="qty-value">{{ product.noOfItems }}</span>
+									<button
+										type="button"
+										class="qty-btn"
+										(click)="onAddItem(i)"
+									>
+										<mat-icon>add</mat-icon>
+									</button>
+								</div>
+								<div class="stock-pills">
+									<span [class]="'stock-pill ' + stockColor(stockInfo()[i]?.physical ?? 0)">
+										<span class="dot"></span> Store
+									</span>
+									<span [class]="'stock-pill ' + stockColor(stockInfo()[i]?.online ?? 0)">
+										<span class="dot"></span> Online
+									</span>
+								</div>
+								@if (product.noOfItems > 1) {
+									<span class="unit-price">{{ product.price | number: '1.2-2' }}€ each</span>
+								}
+							</div>
 						</div>
 					</div>
+				}
+			</div>
 
-					<div class="item-price">
-						<h2>{{ product.price }}€</h2>
-					</div>
+			<!-- Desktop summary -->
+			<aside class="summary">
+				<h2 class="summary-title">Order Summary</h2>
+				<div class="summary-line">
+					<span>Subtotal</span>
+					<span>{{ grandTotal() | number: '1.2-2' }}€</span>
 				</div>
-			}
+				<div class="summary-line">
+					<span>Shipping</span>
+					<span class="free-tag">Free</span>
+				</div>
+				<div class="summary-divider"></div>
+				<div class="summary-line total-line">
+					<span>Total</span>
+					<span>{{ grandTotal() | number: '1.2-2' }}€</span>
+				</div>
+				<button
+					mat-flat-button
+					class="primary-button summary-btn"
+					(click)="onSubmit()"
+				>
+					Proceed to Checkout
+				</button>
+				<a class="continue-link" routerLink="/products">
+					<mat-icon class="continue-icon">arrow_back</mat-icon>
+					Continue Shopping
+				</a>
+			</aside>
 		</div>
 
-		<!-- Mobile checkout bar (visible < 600px) -->
-		<div class="mobile-checkout">
-			<button class="mobile-checkout-btn" (click)="onSubmit()">
-				<span>Proceed to checkout</span>
-				<span class="filler"></span>
-				<span>{{ grandTotal() }}€</span>
+		<!-- Mobile checkout bar -->
+		<div class="mobile-bar">
+			<div class="mobile-bar-info">
+				<span class="mobile-bar-label">Total</span>
+				<span class="mobile-bar-price">{{ grandTotal() | number: '1.2-2' }}€</span>
+			</div>
+			<button mat-flat-button class="primary-button mobile-bar-btn" (click)="onSubmit()">
+				Checkout
 			</button>
 		</div>
-
-		<!-- Desktop summary card (visible >= 600px) -->
-		<mat-card class="summary-card">
-			<mat-card-content>
-				<div class="summary-row">
-					<h2>Total:</h2>
-					<span class="filler"></span>
-					<h2>{{ grandTotal() }}€</h2>
-				</div>
-				<div class="summary-row">
-					<h2>Fee:</h2>
-					<span class="filler"></span>
-					<h2>€0.00</h2>
-				</div>
-				<hr />
-				<div class="summary-row grand-total">
-					<h2>Grand Total:</h2>
-					<span class="filler"></span>
-					<h2>{{ grandTotal() }}€</h2>
-				</div>
-			</mat-card-content>
-			<mat-card-actions>
-			<button mat-flat-button class="primary-button checkout-action-btn" (click)="onSubmit()">
-				Proceed to Checkout
-			</button>
-			</mat-card-actions>
-		</mat-card>
 	</div>
 } @else {
-	<div class="empty-cart">
-		<h2>Cart is empty!</h2>
-		<mat-card-subtitle>Please add products to cart</mat-card-subtitle>
-		<button mat-flat-button class="primary-button" routerLink="/home">Go to shop</button>
+	<div class="empty-cart container">
+		<mat-icon class="empty-icon">shopping_cart</mat-icon>
+		<h2>Your cart is empty</h2>
+		<p>Looks like you haven't added anything yet.</p>
+		<a mat-flat-button class="primary-button" routerLink="/products">
+			Browse Products
+		</a>
 	</div>
 }

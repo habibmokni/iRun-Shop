@@ -1,0 +1,92 @@
+@if (!isLoading()) {
+	<!-- Brand filter chips -->
+	<section class="filter-section">
+		<div class="filter-inner container">
+		<mat-chip-set aria-label="Brand filter">
+			<mat-chip
+				[highlighted]="activeTabIndex() === 0"
+				(click)="onTabChange(0)"
+			>
+				All
+			</mat-chip>
+			@for (brand of brands(); track brand; let i = $index) {
+				<mat-chip
+					[highlighted]="activeTabIndex() === i + 1"
+					(click)="onTabChange(i + 1)"
+				>
+					{{ brand }}
+				</mat-chip>
+			}
+		</mat-chip-set>
+		</div>
+	</section>
+
+	<!-- Product grid -->
+	<section class="products-section container">
+		<div class="product-grid">
+			@for (product of displayedProducts(); track product.modelNo) {
+				<a class="product-card" [routerLink]="['/products', product.modelNo]">
+					<div class="card-image">
+						<img
+							[ngSrc]="product.variants[0].imageList[0]"
+							alt="{{ product.name }}"
+							width="300"
+							height="300"
+						/>
+					</div>
+					<div class="card-body">
+						<span class="card-brand">{{ product.companyName }}</span>
+						<h3 class="card-name">{{ product.name }}</h3>
+						<span class="card-category">{{
+							product.subCategory?.[0] ?? product.category[0]
+						}}</span>
+					<div class="card-footer">
+						<div class="card-prices">
+							<span class="card-price">{{ product.price | number: '1.2-2' }}€</span>
+							@if (product.discount) {
+								<span class="card-price-original">{{ product.price + product.price * 0.2 | number: '1.2-2' }}€</span>
+								<span class="card-discount">-{{ product.discount }}%</span>
+							}
+						</div>
+							<button
+								mat-mini-fab
+								class="primary-button card-add-btn"
+								(click)="openDialog(product); $event.preventDefault(); $event.stopPropagation()"
+							>
+								<mat-icon>add</mat-icon>
+							</button>
+						</div>
+					</div>
+				</a>
+			}
+		</div>
+	</section>
+} @else {
+	<!-- Skeleton filter chips -->
+	<section class="filter-section">
+		<div class="filter-inner container">
+			<div class="skeleton-chips">
+				@for (i of [1, 2, 3, 4]; track i) {
+					<div class="skeleton skeleton-chip"></div>
+				}
+			</div>
+		</div>
+	</section>
+
+	<!-- Skeleton product grid -->
+	<section class="products-section container">
+		<div class="product-grid">
+			@for (i of [1, 2, 3, 4, 5, 6]; track i) {
+				<div class="product-card skeleton-card">
+					<div class="card-image skeleton skeleton-image"></div>
+					<div class="card-body">
+						<div class="skeleton skeleton-text skeleton-brand"></div>
+						<div class="skeleton skeleton-text skeleton-name"></div>
+						<div class="skeleton skeleton-text skeleton-category"></div>
+						<div class="skeleton skeleton-text skeleton-price"></div>
+					</div>
+				</div>
+			}
+		</div>
+	</section>
+}

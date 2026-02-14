@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 
 import { User } from '../types/user.types';
+import { Store } from '../../stores/types/store.types';
 
 const USER_STORAGE_KEY = 'user';
 
@@ -15,8 +16,13 @@ export class UserService {
 		this.saveAndEmit(userData);
 	}
 
-	public updateSelectedStore(userData: User): void {
-		this.saveAndEmit(userData);
+	/** Merges the selected store into the existing user without losing profile data. */
+	public updateSelectedStore(store: Store): void {
+		const current = this.loadUser();
+		const updated: User = current
+			? { ...current, storeSelected: store }
+			: { name: 'Anonymous', storeSelected: store };
+		this.saveAndEmit(updated);
 	}
 
 	/** Re-reads the user from localStorage into the signal. */

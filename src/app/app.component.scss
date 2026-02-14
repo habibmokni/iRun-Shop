@@ -1,6 +1,5 @@
 :host {
 	display: block;
-	min-height: 100vh;
 }
 
 .app-layout {
@@ -12,6 +11,7 @@
 .shopping {
 	position: fixed;
 	top: 0;
+	left: 0;
 	right: 0;
 	z-index: 50;
 	width: 100%;
@@ -20,4 +20,5 @@
 .main-content {
 	margin-top: 80px;
 	flex: 1;
+	overflow: visible;
 }

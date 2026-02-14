@@ -1,15 +1,21 @@
 <div class="payment-section" [formGroup]="paymentMethod()">
 	<div class="payment-card">
-		<mat-card-title>Secure Payments</mat-card-title>
-		<mat-card-subtitle>Powered by Stripe</mat-card-subtitle>
-		<mat-card-content>
-			<mat-radio-group
-				formControlName="paymentOption"
-				class="payment-options"
-				aria-label="Payment method"
-			>
-				@for (partner of paymentPartners; track partner.name) {
-					<mat-radio-button class="payment-option" [value]="partner.name">
+		<div class="payment-header">
+			<mat-icon class="lock-icon">lock</mat-icon>
+			<div>
+				<h3 class="payment-title">Secure Payment</h3>
+				<span class="payment-subtitle">Powered by Stripe</span>
+			</div>
+		</div>
+
+		<mat-radio-group
+			formControlName="paymentOption"
+			class="payment-options"
+			aria-label="Payment method"
+		>
+			@for (partner of paymentPartners; track partner.name) {
+				<mat-radio-button class="payment-option" [value]="partner.name">
+					<div class="payment-option-inner">
 						<img
 							[ngSrc]="partner.logo"
 							[alt]="partner.name"
@@ -17,13 +23,14 @@
 							width="40"
 							height="25"
 						/>
-						{{ partner.name }}
-					</mat-radio-button>
-				}
-			</mat-radio-group>
-			@if (isInvalid()) {
-				<span class="field-error">*Please select a payment method</span>
+						<span>{{ partner.name }}</span>
+					</div>
+				</mat-radio-button>
 			}
-		</mat-card-content>
+		</mat-radio-group>
+
+		@if (isInvalid()) {
+			<span class="field-error">Please select a payment method</span>
+		}
 	</div>
 </div>

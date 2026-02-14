@@ -4,10 +4,12 @@
 html,
 body {
 	height: auto;
+	overflow-x: hidden;
 }
 body {
 	margin: 0;
 	font-family: Nunito, 'Helvetica Neue', sans-serif;
+	-webkit-overflow-scrolling: touch;
 }
 
 span.mat-button-toggle-label-content {

@@ -96,12 +96,7 @@ export class AvailabilityComponent {
 	}
 
 	protected onStoreSelect(store: Store): void {
-		const userUpdate = { name: 'Anonymous', storeSelected: store };
-		if (!this.userService.user()) {
-			this.userService.addUser(userUpdate);
-		} else {
-			this.userService.updateSelectedStore(userUpdate);
-		}
+		this.userService.updateSelectedStore(store);
 		this.snackbarService.success('Store selected as preferred');
 		this.dialog.closeAll();
 	}

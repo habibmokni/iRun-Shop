@@ -1,33 +1,72 @@
+.payment-section {
+	padding: 8px 0;
+}
+
 .payment-card {
-	width: 50%;
-	padding: 25px;
-	margin: auto;
+	max-width: 480px;
+}
+
+.payment-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 20px;
+}
+
+.lock-icon {
+	color: #8b283d;
+	font-size: 24px;
+}
+
+.payment-title {
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0;
+}
+
+.payment-subtitle {
+	font-size: 12px;
+	color: rgba(0, 0, 0, 0.45);
 }
 
 .payment-options {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
-	margin: 0.5rem 0;
+	gap: 8px;
 }
 
 .payment-option {
-	flex-flow: row-reverse;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 4px 12px;
+	transition: border-color 0.15s;
+}
+
+.payment-option:hover {
+	border-color: #c0c0c0;
+}
+
+::ng-deep .payment-option.mat-mdc-radio-checked {
+	border-color: #8b283d;
+	background: #fdf2f4;
+}
+
+.payment-option-inner {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 14px;
+	font-weight: 500;
 }
 
 .payment-logo {
 	width: 40px;
-	margin-right: 0.5rem;
+	object-fit: contain;
 }
 
 .field-error {
 	display: block;
 	color: #d53d5e;
-	font-size: 0.8rem;
-}
-
-@media (max-width: 599px) {
-	.payment-card {
-		width: 100%;
-	}
+	font-size: 12px;
+	margin-top: 8px;
 }

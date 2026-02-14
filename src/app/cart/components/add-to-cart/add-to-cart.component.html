@@ -1,44 +1,58 @@
-<div class="add-to-cart-container">
-	<div class="article-quantity">
-		<span class="filler"></span>
-
-		<div class="article-price">
-			<h3 class="original-price">{{ originalPrice | number: '1.2-2' }}€</h3>
-			<h2 class="discounted-price">{{ product.price }}€</h2>
+<div class="dialog-container">
+	<!-- Header: product name + price -->
+	<div class="dialog-header">
+		<div>
+			<span class="product-brand">{{ product.companyName }}</span>
+			<h2 class="product-name">{{ product.name }}</h2>
+		</div>
+		<div class="price-group">
+			<span class="price-current">{{ product.price }}€</span>
+			<span class="price-original">{{ originalPrice | number: '1.2-2' }}€</span>
 		</div>
 	</div>
 
-	<cnc-size-selector [product]="product" (sizeSelected)="onSizeSelected($event)" />
+	<!-- Size selector -->
+	<div class="dialog-section">
+		<span class="section-label">Select Size</span>
+		<app-size-selector [product]="product" (sizeSelected)="onSizeSelected($event)" />
+	</div>
 
+	<!-- Stock info -->
 	@if (isSizeSelected()) {
 		<div class="stock-info">
 			@if (stock() > 0) {
-				<span class="in-stock"> In stock: {{ stock() }} </span>
+				<mat-icon class="stock-icon in-stock-icon">check_circle</mat-icon>
+				<span class="in-stock">In stock ({{ stock() }})</span>
 			} @else {
-				<span class="out-of-stock"> Not available in selected store </span>
+				<mat-icon class="stock-icon out-of-stock-icon">cancel</mat-icon>
+				<span class="out-of-stock">Not available in selected store</span>
 			}
 		</div>
 	}
 
-	<div class="quantity-controls">
-		<button mat-icon-button type="button" (click)="decrementItems()">
-			<mat-icon>remove</mat-icon>
-		</button>
-		<span class="quantity-value">{{ noOfItems() }}</span>
-		<button mat-icon-button type="button" (click)="incrementItems()">
-			<mat-icon>add</mat-icon>
-		</button>
+	<!-- Quantity -->
+	<div class="quantity-row">
+		<span class="section-label">Quantity</span>
+		<div class="quantity-controls">
+			<button type="button" class="qty-btn" (click)="decrementItems()">
+				<mat-icon>remove</mat-icon>
+			</button>
+			<span class="quantity-value">{{ noOfItems() }}</span>
+			<button type="button" class="qty-btn" (click)="incrementItems()">
+				<mat-icon>add</mat-icon>
+			</button>
+		</div>
 	</div>
 
-	<div class="button-wrapper">
-		<button
-			mat-flat-button
-			type="button"
-			(click)="addToCart()"
-			class="primary-button button-container"
-			[disabled]="stock() === 0"
-		>
-			Add to cart
-		</button>
-	</div>
+	<!-- Add to cart button -->
+	<button
+		mat-flat-button
+		type="button"
+		(click)="addToCart()"
+		class="primary-button cart-btn"
+		[disabled]="stock() === 0"
+	>
+		<mat-icon>shopping_bag</mat-icon>
+		Add to cart
+	</button>
 </div>

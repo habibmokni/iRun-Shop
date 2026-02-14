@@ -1,116 +1,141 @@
+<!-- ── Hero Banner ── -->
+<section class="hero">
+	<div class="hero-inner container">
+		<!-- <h1 class="hero-title">Find Your Perfect Run</h1>
+		<p class="hero-subtitle">
+			Premium running shoes from top brands. Click &amp; Collect in-store or get
+			free delivery.
+		</p> -->
+		<a class="hero-cta" routerLink="/products">
+			Shop Now
+		</a>
+	</div>
+</section>
+
 @if (!isLoading()) {
-	<div class="home-layout">
-		<div class="main-content">
-			<div class="slider-section">
-				<app-image-slider />
-			</div>
-
-			<div class="product-list">
-				<mat-tab-group mat-align-tabs="start">
-					@for (tab of brandTabs; track tab.label; let tabIdx = $index) {
-						<mat-tab [label]="tab.label">
-							<div class="product-grid">
-								@for (
-									product of filteredProducts[tabIdx]();
-									track product.modelNo
-								) {
-									<div class="product-card">
-										<div class="item-image-container">
-											<a [routerLink]="['/products', product.modelNo]">
-												<img
-													[ngSrc]="product.variants[0].imageList[0]"
-													class="item-image"
-													alt="{{ product.name }}"
-													width="300"
-													height="300"
-												/>
-											</a>
-										</div>
-										<h2 class="product-name">{{ product.name }}</h2>
-										<mat-card-subtitle
-											>{{ product.subCategory }}, Power
-											Shoes</mat-card-subtitle
-										>
-										<span class="filler"></span>
-										<div class="product-actions">
-											<h2 class="product-price">
-												{{ product.price | number: '1.2-2' }}€
-											</h2>
-											<span class="filler"></span>
-											<button
-												mat-mini-fab
-												class="primary-button"
-												(click)="openDialog(product)"
-											>
-												<mat-icon>add</mat-icon>
-											</button>
-										</div>
-									</div>
-								}
-							</div>
-						</mat-tab>
-					}
-				</mat-tab-group>
-			</div>
+	<!-- ── Top Sellers ── -->
+	<section class="section container">
+		<div class="section-header">
+			<h2 class="section-title">Top Sellers</h2>
+			<a class="section-link" routerLink="/products">
+				View all
+				<mat-icon class="link-icon">arrow_forward</mat-icon>
+			</a>
 		</div>
-
-		<aside class="sidebar">
-			<div class="sidebar-card">
-				<mat-card-header>
-					<mat-card-title>Product Category</mat-card-title>
-				</mat-card-header>
-				<hr />
-				<mat-card-content>
-					<h3>Nike</h3>
-					<h3>Adidas</h3>
-					<h3>New Balance</h3>
-					<h3>Others</h3>
-				</mat-card-content>
-			</div>
-
-			<div class="sidebar-card">
-				<mat-card-header>
-					<mat-card-title>Top Rated Products</mat-card-title>
-				</mat-card-header>
-				<hr />
-				@for (product of topRatedProducts(); track product.modelNo) {
-					<mat-card-content class="top-rated-item">
+		<div class="product-row">
+			@for (product of topSellers(); track product.modelNo) {
+				<a class="product-card" [routerLink]="['/products', product.modelNo]">
+					<div class="card-image">
 						<img
 							[ngSrc]="product.variants[0].imageList[0]"
 							alt="{{ product.name }}"
-							class="top-rated-img"
-							width="80"
-							height="80"
+							width="300"
+							height="300"
 						/>
-						<div class="top-rated-info">
-							<a [routerLink]="['/products', product.modelNo]">
-								<h3>{{ product.name }}</h3>
-							</a>
-							<mat-card-subtitle
-								>{{ product.price | number: '1.2-2' }}€</mat-card-subtitle
-							>
+					</div>
+					<div class="card-body">
+						<span class="card-brand">{{ product.companyName }}</span>
+						<h3 class="card-name">{{ product.name }}</h3>
+					<div class="card-footer">
+						<div class="card-prices">
+							<span class="card-price">{{ product.price | number: '1.2-2' }}€</span>
+							@if (product.discount) {
+								<span class="card-price-original">{{ product.price + product.price * 0.2 | number: '1.2-2' }}€</span>
+								<span class="card-discount">-{{ product.discount }}%</span>
+							}
 						</div>
-					</mat-card-content>
-				}
-			</div>
+							<button
+								mat-mini-fab
+								class="primary-button card-add-btn"
+								(click)="openDialog(product); $event.preventDefault(); $event.stopPropagation()"
+							>
+								<mat-icon>add</mat-icon>
+							</button>
+						</div>
+					</div>
+				</a>
+			}
+		</div>
+	</section>
 
-			<div class="sidebar-card">
-				<mat-card-header>
-					<mat-card-title>Product Tags</mat-card-title>
-				</mat-card-header>
-				<hr />
-				<mat-card-content>
-					<mat-chip-set aria-label="Product tags">
-						@for (tag of tags; track tag) {
-							<mat-chip class="tag-chip" highlighted>{{ tag }}</mat-chip>
-						}
-					</mat-chip-set>
-				</mat-card-content>
+	<!-- ── Our Brands ── -->
+	<section class="brandbar">
+		<div class="brandbar-slider">
+			@for (brand of brands(); track brand.name) {
+				<a class="brandbar-item" routerLink="/products">
+					@if (brand.logo) {
+						<img [src]="brand.logo" [alt]="brand.name" class="brandbar-img" />
+					} @else {
+						<span class="brandbar-label">{{ brand.name }}</span>
+					}
+				</a>
+			}
+		</div>
+	</section>
+
+	<!-- ── Value Props ── -->
+	<section class="section container">
+		<div class="value-props">
+			<div class="prop">
+				<mat-icon class="prop-icon">local_shipping</mat-icon>
+				<h3>Free Delivery</h3>
+				<p>On orders over 80€</p>
 			</div>
-		</aside>
-	</div>
+			<div class="prop">
+				<mat-icon class="prop-icon">store</mat-icon>
+				<h3>Click &amp; Collect</h3>
+				<p>Ready in 2 hours</p>
+			</div>
+			<div class="prop">
+				<mat-icon class="prop-icon">replay</mat-icon>
+				<h3>Free Returns</h3>
+				<p>30-day return policy</p>
+			</div>
+			<div class="prop">
+				<mat-icon class="prop-icon">verified</mat-icon>
+				<h3>100% Authentic</h3>
+				<p>Only original products</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- ── Newsletter ── -->
+	<section class="newsletter-section">
+		<div class="container newsletter-inner">
+			<mat-icon class="newsletter-icon">mail_outline</mat-icon>
+			<h2 class="newsletter-title">Stay in the Loop</h2>
+			<p class="newsletter-subtitle">
+				Get notified about new arrivals, exclusive deals, and running tips.
+			</p>
+			<div class="newsletter-form">
+				<input
+					type="email"
+					class="newsletter-input"
+					placeholder="Your email address"
+				/>
+				<button mat-flat-button class="primary-button newsletter-btn">
+					Subscribe
+				</button>
+			</div>
+		</div>
+	</section>
 } @else {
-	<div class="loading-container">
-		<mat-spinner />
-	</div>
+	<!-- Skeleton: Top Sellers -->
+	<section class="section container">
+		<div class="section-header">
+			<div class="skeleton skeleton-title"></div>
+		</div>
+		<div class="product-row">
+			@for (i of [1, 2, 3, 4]; track i) {
+				<div class="product-card skeleton-card">
+					<div class="card-image skeleton skeleton-image"></div>
+					<div class="card-body">
+						<div class="skeleton skeleton-text skeleton-brand"></div>
+						<div class="skeleton skeleton-text skeleton-name"></div>
+						<div class="skeleton skeleton-text skeleton-price"></div>
+					</div>
+				</div>
+			}
+		</div>
+	</section>
 }

@@ -1,0 +1,130 @@
+<div class="cnc-section">
+	<!-- Step 1: Select Store -->
+	<div class="cnc-step">
+		<div class="step-header">
+			<span class="step-number">1</span>
+			<h3 class="step-title">Select a Store</h3>
+		</div>
+
+		<div class="store-list">
+			@for (store of stores(); track store.id) {
+				<button
+					type="button"
+					class="store-card"
+					[class.selected]="selectedStore()?.id === store.id"
+					(click)="onSelectStore(store)"
+				>
+					<div class="store-card-top">
+						<mat-icon class="store-icon">store</mat-icon>
+						<div class="store-info">
+							<span class="store-name">{{ store.name }}</span>
+							<span class="store-address">{{ store.address }}</span>
+						</div>
+					</div>
+					<div class="store-hours">
+						<mat-icon class="hours-icon">schedule</mat-icon>
+						<span
+						>{{ store.openingTime.open }} –
+						{{ store.openingTime.close }}</span
+						>
+					</div>
+				</button>
+			} @empty {
+				<p class="empty-msg">No stores available.</p>
+			}
+		</div>
+	</div>
+
+	<!-- Unavailable items warning -->
+	@if (selectedStore() && !allAvailable()) {
+		<div class="unavailable-banner">
+			<mat-icon class="warning-icon">warning</mat-icon>
+			<div class="unavailable-text">
+				<strong
+					>{{ unavailableProducts().length }} item(s) not available at this
+					store</strong
+				>
+				<span
+					>Remove them from your cart or select a different store to
+					continue.</span
+				>
+			</div>
+			<button
+				mat-flat-button
+				class="primary-button"
+				type="button"
+				(click)="removeUnavailable()"
+			>
+				Remove Items
+			</button>
+		</div>
+	}
+
+	<!-- Step 2: Pick a Date -->
+	@if (selectedStore() && allAvailable()) {
+		<div class="cnc-step">
+			<div class="step-header">
+				<span class="step-number">2</span>
+				<h3 class="step-title">Pick a Date</h3>
+			</div>
+
+			<mat-form-field appearance="outline" class="date-field">
+				<mat-label>Pickup date</mat-label>
+				<input
+					matInput
+					[matDatepicker]="picker"
+					[min]="minDate"
+					[max]="maxDate"
+					(dateChange)="onDateChange($event.value)"
+					readonly
+				/>
+				<mat-datepicker-toggle matIconSuffix [for]="picker" />
+				<mat-datepicker #picker />
+			</mat-form-field>
+
+			@if (selectedDate()) {
+				<span class="date-preview">
+					<mat-icon class="preview-icon">event</mat-icon>
+					{{ selectedDate() | date: 'fullDate' }}
+				</span>
+			}
+		</div>
+	}
+
+	<!-- Step 3: Pick a Time -->
+	@if (selectedDate() && allAvailable()) {
+		<div class="cnc-step">
+			<div class="step-header">
+				<span class="step-number">3</span>
+				<h3 class="step-title">Choose a Time Slot</h3>
+			</div>
+
+			<div class="time-grid">
+				@for (time of timeSlots(); track time) {
+					<button
+						type="button"
+						class="time-chip"
+						[class.selected]="selectedTime() === time"
+						(click)="onTimeSelect(time)"
+					>
+						{{ time }}
+					</button>
+				}
+			</div>
+		</div>
+	}
+
+	<!-- Summary -->
+	@if (isComplete()) {
+		<div class="cnc-summary">
+			<mat-icon class="check-icon">check_circle</mat-icon>
+			<div class="summary-text">
+				<strong>{{ selectedStore()?.name }}</strong>
+				<span
+					>{{ selectedDate() | date: 'mediumDate' }} at
+					{{ selectedTime() }}</span
+				>
+			</div>
+		</div>
+	}
+</div>

@@ -8,6 +8,8 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	flex-wrap: wrap;
+	gap: 12px;
 	margin-bottom: 24px;
 }
 
@@ -20,6 +22,7 @@
 	display: flex;
 	gap: 8px;
 	align-items: center;
+	flex-wrap: wrap;
 }
 
 .form-card {
@@ -33,6 +36,7 @@
 
 .form-row mat-form-field {
 	flex: 1;
+	min-width: 0;
 }
 
 .full-width {
@@ -80,11 +84,18 @@
 	margin-top: 16px;
 }
 
-.product-table {
-	width: 100%;
+/* Table: scrollable on small screens */
+.table-wrapper {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
-@media (max-width: 599px) {
+.product-table {
+	width: 100%;
+	min-width: 600px;
+}
+
+@media (max-width: 768px) {
 	.form-row {
 		flex-direction: column;
 		gap: 0;
@@ -93,6 +104,10 @@
 	.admin-header {
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 12px;
+	}
+
+	.header-actions {
+		width: 100%;
+		justify-content: flex-start;
 	}
 }

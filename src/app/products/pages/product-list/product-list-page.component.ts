@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@angular/core';
 import { NgOptimizedImage, DecimalPipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
@@ -6,16 +6,16 @@ import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 
-
-import { Product } from '../products/types/product.types';
-import { ProductService } from '../products/services/product.service';
-import { AddToCartComponent } from '../cart/components/add-to-cart/add-to-cart.component';
+import { Product } from '../../types/product.types';
+import { ProductService } from '../../services/product.service';
+import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
 
 @Component({
-	selector: 'app-home-page',
-	templateUrl: './home-page.component.html',
-	styleUrls: ['./home-page.component.css'],
+	selector: 'app-product-list-page',
+	templateUrl: './product-list-page.component.html',
+	styleUrls: ['./product-list-page.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
@@ -24,10 +24,11 @@ import { AddToCartComponent } from '../cart/components/add-to-cart/add-to-cart.c
 		MatDialogModule,
 		MatButtonModule,
 		MatIconModule,
+		MatChipsModule,
 		DecimalPipe,
 	],
 })
-export class HomePageComponent {
+export class ProductListPageComponent {
 	private readonly productService = inject(ProductService);
 	private readonly dialog = inject(MatDialog);
 
@@ -37,26 +38,26 @@ export class HomePageComponent {
 
 	protected readonly isLoading = computed(() => this.products().length === 0);
 
-	/** First 4 products as "top sellers". */
-	protected readonly topSellers = computed(() => this.products().slice(0, 4));
-
-	/** Map of brand name → logo image path. */
-	private readonly brandLogoMap: Record<string, string> = {
-		ADIDAS: 'assets/images/logos/brands/Adidas_logo.png',
-		NIKE: 'assets/images/logos/brands/nike_logo.png',
-		'NEW BALANCE': 'assets/images/logos/brands/nb_logo.png',
-	};
-
-	/** Unique brand names derived from product data, with optional logo. */
 	protected readonly brands = computed(() => {
 		const names = this.products()
 			.map((product) => product.companyName ?? '')
 			.filter((name) => name.length > 0);
-		return [...new Set(names)].sort().map((name) => ({
-			name,
-			logo: this.brandLogoMap[name.toUpperCase()] ?? null,
-		}));
+		return [...new Set(names)].sort();
 	});
+
+	protected readonly activeTabIndex = signal(0);
+
+	protected readonly displayedProducts = computed(() => {
+		const index = this.activeTabIndex();
+		const allProducts = this.products();
+		if (index === 0) return allProducts;
+		const brand = this.brands()[index - 1];
+		return allProducts.filter((product) => product.companyName === brand);
+	});
+
+	protected onTabChange(index: number): void {
+		this.activeTabIndex.set(index);
+	}
 
 	protected openDialog(product: Product): void {
 		this.dialog.open(AddToCartComponent, {

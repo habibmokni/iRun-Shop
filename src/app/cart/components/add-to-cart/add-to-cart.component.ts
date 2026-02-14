@@ -1,11 +1,4 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	CUSTOM_ELEMENTS_SCHEMA,
-	inject,
-	signal,
-	computed,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, computed } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -19,6 +12,7 @@ import { Product } from '../../../products/types/product.types';
 import { CartService } from '../../services/cart.service';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { UserService } from '../../../user/services/user.service';
+import { SizeSelectorComponent } from '../../../shared/components/size-selector/size-selector.component';
 
 @Component({
 	selector: 'app-add-to-cart',
@@ -26,7 +20,6 @@ import { UserService } from '../../../user/services/user.service';
 	styleUrls: ['./add-to-cart.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 	imports: [
 		MatBottomSheetModule,
 		MatDialogModule,
@@ -35,6 +28,7 @@ import { UserService } from '../../../user/services/user.service';
 		MatIconModule,
 		MatRadioModule,
 		DecimalPipe,
+		SizeSelectorComponent,
 	],
 })
 export class AddToCartComponent {
@@ -74,8 +68,7 @@ export class AddToCartComponent {
 	public readonly originalPrice = (this.product.price ?? 0) * 1.2;
 
 	// Public methods (pure where possible)
-	public onSizeSelected(event: Event): void {
-		const size = (event as CustomEvent<number>).detail;
+	public onSizeSelected(size: number): void {
 		this.selectedSize.set(size);
 	}
 

@@ -1,23 +1,19 @@
 import {
 	Component,
 	ChangeDetectionStrategy,
-	CUSTOM_ELEMENTS_SCHEMA,
 	inject,
 	signal,
 	computed,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DatePipe, NgOptimizedImage } from '@angular/common';
+import { DatePipe, DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
 
 import { CartProduct } from '../cart/types/cart.types';
 import { Store } from '../stores/types/store.types';
@@ -39,6 +35,7 @@ import {
 import { OrderSuccessComponent } from './components/order-success/order-success.component';
 import { BillingDetailsComponent } from './components/billing-details/billing-details.component';
 import { PaymentMethodsComponent } from './components/payment-methods/payment-methods.component';
+import { ClickCollectComponent } from './components/click-collect/click-collect.component';
 
 @Component({
 	selector: 'app-checkout-page',
@@ -48,20 +45,18 @@ import { PaymentMethodsComponent } from './components/payment-methods/payment-me
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
 		ReactiveFormsModule,
-		MatStepperModule,
 		MatButtonModule,
-		MatRadioModule,
 		MatIconModule,
 		MatDialogModule,
 		MatExpansionModule,
 		MatCardModule,
-		MatDividerModule,
 		NgOptimizedImage,
 		BillingDetailsComponent,
 		PaymentMethodsComponent,
+		ClickCollectComponent,
 		DatePipe,
+		DecimalPipe,
 	],
-	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CheckoutPageComponent {
 	private readonly cartService = inject(CartService);
@@ -71,6 +66,7 @@ export class CheckoutPageComponent {
 	private readonly checkoutService = inject(CheckoutService);
 	private readonly snackbar = inject(SnackbarService);
 	private readonly dialog = inject(MatDialog);
+
 	// --- Signals from services ---
 
 	protected readonly user = this.userService.user;
@@ -92,10 +88,20 @@ export class CheckoutPageComponent {
 		this.checkoutService.checkOnlineStoreStock(this.cartProducts(), this.onlineProducts()),
 	);
 
+	// --- Step navigation ---
+
+	/** Which top-level step is active: 0 = Delivery, 1 = Billing & Payment, 2 = Overview */
+	protected readonly activeStep = signal(0);
+
 	protected readonly isClickNCollect = signal(true);
 	protected readonly cncAllItemsAvailable = signal(true);
+
+	/** Sub-step within the billing/payment step (for accordions). */
 	protected readonly step = signal(0);
+
 	protected readonly order = signal<Order | null>(null);
+
+	// --- Forms ---
 
 	protected readonly shippingMethod = new FormGroup({
 		type: new FormControl<DeliveryType>('Click & Collect'),
@@ -115,6 +121,44 @@ export class CheckoutPageComponent {
 		paymentOption: new FormControl('', [Validators.required]),
 	});
 
+	// --- Step navigation methods ---
+
+	protected goToStep(index: number): void {
+		if (index <= this.activeStep()) {
+			this.activeStep.set(index);
+		}
+	}
+
+	protected onCncContinue(): void {
+		if (this.shippingMethod.invalid) {
+			this.snackbar.info('Please select a store, date, and time to proceed');
+			return;
+		}
+		this.activeStep.set(1);
+	}
+
+	protected onDeliveryContinue(): void {
+		if (this.billing.invalid) {
+			this.snackbar.info('Please enter all delivery fields');
+			return;
+		}
+		this.activeStep.set(1);
+	}
+
+	protected onBillingContinue(): void {
+		if (this.billing.invalid && this.isClickNCollect()) {
+			this.snackbar.info('Please enter billing details');
+			return;
+		}
+		if (this.paymentMethod.invalid) {
+			this.snackbar.info('Please select a payment method');
+			return;
+		}
+		this.onSubmit();
+		this.activeStep.set(2);
+	}
+
+	// --- Delivery handlers ---
 
 	protected selectDelivery(type: DeliveryType, index: number): void {
 		this.shippingMethod.patchValue({ type });
@@ -125,7 +169,7 @@ export class CheckoutPageComponent {
 	}
 
 	protected onStoreChange(store: Store): void {
-		this.userService.updateSelectedStore({ name: 'Anonymous', storeSelected: store });
+		this.userService.updateSelectedStore(store);
 		this.shippingMethod.patchValue({ shippingAddress: store.address });
 	}
 
@@ -153,6 +197,8 @@ export class CheckoutPageComponent {
 		});
 	}
 
+	// --- Billing sub-step ---
+
 	protected setStep(index: number): void {
 		this.step.set(index);
 	}
@@ -169,19 +215,9 @@ export class CheckoutPageComponent {
 		this.step.update((current) => current - 1);
 	}
 
-	protected onCncNext(): void {
-		if (this.shippingMethod.invalid) {
-			this.snackbar.info('Please select date to proceed');
-		}
-	}
+	// --- Submit ---
 
-	protected onDeliveryNext(): void {
-		if (this.billing.invalid) {
-			this.snackbar.info('Please enter all the fields of delivery');
-		}
-	}
-
-	protected onSubmit(): void {
+	private onSubmit(): void {
 		this.order.set(
 			this.checkoutService.buildOrder(
 				this.billing.value as BillingFormValue,

@@ -80,10 +80,7 @@ export class AppComponent {
 		this.cncService.storeSelected
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe((store: unknown) => {
-				this.userService.updateSelectedStore({
-					name: 'Anonymous',
-					storeSelected: store as Store,
-				});
+			this.userService.updateSelectedStore(store as Store);
 			});
 	}
 }

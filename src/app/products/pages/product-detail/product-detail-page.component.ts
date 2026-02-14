@@ -1,12 +1,5 @@
-import {
-	Component,
-	ChangeDetectionStrategy,
-	CUSTOM_ELEMENTS_SCHEMA,
-	computed,
-	inject,
-	signal,
-} from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { BehaviorSubject, filter, map, switchMap } from 'rxjs';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -15,9 +8,6 @@ import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 // App
@@ -27,31 +17,26 @@ import { ProductService } from '../../services/product.service';
 import { CartService } from '../../../cart/services/cart.service';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { UserService } from '../../../user/services/user.service';
-import { ImageSliderComponent } from '../../../shared/components/image-slider/image-slider.component';
 import {
 	AvailabilityComponent,
 	AvailabilityDialogData,
 } from '../../components/availability/availability.component';
+import { SizeSelectorComponent } from '../../../shared/components/size-selector/size-selector.component';
 
 @Component({
 	selector: 'app-product-detail-page',
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 	templateUrl: './product-detail-page.component.html',
 	styleUrls: ['./product-detail-page.component.css'],
 	imports: [
-		RouterModule,
 		MatDialogModule,
 		MatButtonModule,
 		MatIconModule,
-		MatCardModule,
-		MatListModule,
-		MatChipsModule,
 		MatExpansionModule,
 		NgOptimizedImage,
-		ImageSliderComponent,
 		DecimalPipe,
+		SizeSelectorComponent,
 	],
 })
 export class ProductDetailPageComponent {
@@ -92,6 +77,7 @@ export class ProductDetailPageComponent {
 	protected readonly selectedSize = signal(0);
 	protected readonly isSizeSelected = signal(false);
 	protected readonly activeVariantIndex = signal(-1);
+	protected readonly selectedImageIndex = signal(0);
 
 	// User (reactive via BehaviorSubject)
 	private readonly user = this.userService.user;
@@ -134,6 +120,10 @@ export class ProductDetailPageComponent {
 
 	// --- Template methods ---
 
+	protected selectImage(index: number): void {
+		this.selectedImageIndex.set(index);
+	}
+
 	protected sizeSelected(size: number): void {
 		this.selectedSize.set(size);
 		this.isSizeSelected.set(true);
@@ -142,6 +132,7 @@ export class ProductDetailPageComponent {
 	protected variantSelect(index: number, modelNo: string): void {
 		this.productModelNo$.next(modelNo);
 		this.activeVariantIndex.set(index);
+		this.selectedImageIndex.set(0);
 	}
 
 	protected addToCart(): void {

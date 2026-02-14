@@ -76,6 +76,7 @@
 		</mat-card>
 	}
 
+	<div class="table-wrapper">
 	<table mat-table [dataSource]="stores()" class="store-table">
 		<ng-container matColumnDef="name">
 			<th mat-header-cell *matHeaderCellDef>Name</th>
@@ -127,4 +128,5 @@
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 	</table>
+	</div>
 </div>

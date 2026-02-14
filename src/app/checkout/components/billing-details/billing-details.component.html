@@ -1,36 +1,48 @@
 <div class="billing-section">
-	<h2>{{ type() }}</h2>
+	@if (type(); as label) {
+		<h3 class="billing-title">{{ label }}</h3>
+	}
 	<div [formGroup]="billing()" class="billing-form">
 		<mat-form-field appearance="outline">
-			<mat-label>Name</mat-label>
-			<input matInput formControlName="name" type="text" placeholder="Name" />
+			<mat-label>Full name</mat-label>
+			<input matInput formControlName="name" type="text" placeholder="John Doe" />
 		</mat-form-field>
 		@if (isFieldInvalid('name')) {
-			<span class="field-error">*Please enter name</span>
+			<span class="field-error">Please enter your name</span>
 		}
 
 		<mat-form-field appearance="outline">
-			<mat-label>Email</mat-label>
-			<input matInput formControlName="email" type="text" placeholder="Email" />
+			<mat-label>Email address</mat-label>
+			<input
+				matInput
+				formControlName="email"
+				type="email"
+				placeholder="john@example.com"
+			/>
 		</mat-form-field>
 		@if (isFieldInvalid('email')) {
-			<span class="field-error">*Please enter email address</span>
+			<span class="field-error">Please enter a valid email</span>
 		}
 
 		<mat-form-field appearance="outline">
-			<mat-label>Phone no</mat-label>
-			<input matInput formControlName="phoneNo" type="text" placeholder="Phone no" />
+			<mat-label>Phone number</mat-label>
+			<input matInput formControlName="phoneNo" type="tel" placeholder="+49 123 456 789" />
 		</mat-form-field>
 		@if (isFieldInvalid('phoneNo')) {
-			<span class="field-error">*Please enter phone number</span>
+			<span class="field-error">Please enter your phone number</span>
 		}
 
 		<mat-form-field appearance="outline">
-			<mat-label>Address 1</mat-label>
-			<input matInput formControlName="address1" type="text" placeholder="Address 1" />
+			<mat-label>Address</mat-label>
+			<input
+				matInput
+				formControlName="address1"
+				type="text"
+				placeholder="Street, City, ZIP"
+			/>
 		</mat-form-field>
 		@if (isFieldInvalid('address1')) {
-			<span class="field-error">*Please enter address</span>
+			<span class="field-error">Please enter your address</span>
 		}
 	</div>
 </div>

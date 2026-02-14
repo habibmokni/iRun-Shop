@@ -108,12 +108,7 @@ export class MapsComponent {
 	}
 
 	protected onSelectStore(store: Store): void {
-		const userUpdate = { name: 'Anonymous', storeSelected: store };
-		if (!this.userService.user()) {
-			this.userService.addUser(userUpdate);
-		} else {
-			this.userService.updateSelectedStore(userUpdate);
-		}
+		this.userService.updateSelectedStore(store);
 		this.snackbar.success('Store Selected Successfully');
 		this.infoWindow().close();
 		this.dialog.closeAll();

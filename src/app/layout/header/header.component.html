@@ -2,7 +2,7 @@
 	<div class="header-inner container">
 		<a class="logo-link" routerLink="/">
 			<img
-				ngSrc="assets/images/logos/iRun-pink-logo.png"
+				ngSrc="assets/images/logos/iRun/iRun-pink-logo.png"
 				alt="iRun"
 				class="logo"
 				width="80"
@@ -10,6 +10,9 @@
 				priority
 			/>
 		</a>
+
+		<!-- Nav links -->
+		<a class="nav-link" routerLink="/products" routerLinkActive="active-link">Collection</a>
 
 		<span class="filler"></span>
 
@@ -30,13 +33,13 @@
 
 		<mat-menu #userMenu="matMenu">
 			@if (isLoggedIn()) {
-			<div routerLink="user-profile" class="user-profile-menu" mat-menu-item>
-				<mat-icon class="profile-icon">account_circle</mat-icon>
-				<div class="user-info">
-					<h4>{{ user()?.firstName ?? 'Profile' }}</h4>
-					<h5>{{ user()?.email ?? '' }}</h5>
+				<div routerLink="user-profile" class="user-profile-menu" mat-menu-item>
+					<mat-icon class="profile-icon">account_circle</mat-icon>
+					<div class="user-info">
+						<h4>{{ user()?.firstName ?? 'Profile' }}</h4>
+						<h5>{{ user()?.email ?? '' }}</h5>
+					</div>
 				</div>
-			</div>
 				<a mat-menu-item (click)="onLogout()">
 					<mat-icon>logout</mat-icon>
 					Logout

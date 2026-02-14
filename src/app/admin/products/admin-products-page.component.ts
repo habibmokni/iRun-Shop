@@ -19,6 +19,7 @@ import { RouterLink } from '@angular/router';
 import { Product } from '../../products/types/product.types';
 import { ProductService } from '../../products/services/product.service';
 import { SnackbarService } from '../../shared/services/snackbar.service';
+import { SeedService } from '../services/seed.service';
 
 @Component({
 	selector: 'app-admin-products-page',
@@ -41,6 +42,9 @@ import { SnackbarService } from '../../shared/services/snackbar.service';
 export class AdminProductsPageComponent {
 	private readonly productService = inject(ProductService);
 	private readonly snackbar = inject(SnackbarService);
+	private readonly seedService = inject(SeedService);
+
+	protected readonly isSeeding = signal(false);
 
 	protected readonly products = toSignal(this.productService.productList, {
 		initialValue: [] as Product[],
@@ -168,6 +172,25 @@ export class AdminProductsPageComponent {
 
 		this.productService.deleteProduct(product.docId);
 		this.snackbar.success('Product deleted');
+	}
+
+	protected async onSeedDatabase(): Promise<void> {
+		if (!confirm('This will DELETE all existing products and stores, then create sample data. Continue?')) {
+			return;
+		}
+
+		this.isSeeding.set(true);
+		try {
+			const result = await this.seedService.seedDatabase();
+			this.snackbar.success(
+				`Database seeded: ${result.products} products, ${result.stores} stores`,
+			);
+		} catch (error: unknown) {
+			console.error('Seed failed:', error);
+			this.snackbar.error('Failed to seed database. Check console for details.');
+		} finally {
+			this.isSeeding.set(false);
+		}
 	}
 
 	private parseNumberList(value: string): number[] {
