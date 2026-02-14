@@ -27,6 +27,14 @@
 			@for (product of displayedProducts(); track product.modelNo) {
 				<a class="product-card" [routerLink]="['/products', product.modelNo]">
 					<div class="card-image">
+						<button
+							mat-mini-fab
+							class="card-fav-btn"
+							[class.wishlisted]="isWishlisted(product.modelNo!)"
+							(click)="toggleWishlist(product.modelNo!); $event.preventDefault(); $event.stopPropagation()"
+						>
+							<mat-icon>{{ isWishlisted(product.modelNo!) ? 'favorite' : 'favorite_border' }}</mat-icon>
+						</button>
 						<img
 							[ngSrc]="product.variants[0].imageList[0]"
 							alt="{{ product.name }}"
@@ -48,24 +56,14 @@
 									<span class="card-discount">-{{ product.discount }}%</span>
 								}
 							</div>
-							<div class="card-actions">
-								<button
-									mat-icon-button
-									class="card-fav-btn"
-									[class.wishlisted]="isWishlisted(product.modelNo!)"
-									(click)="toggleWishlist(product.modelNo!); $event.preventDefault(); $event.stopPropagation()"
-								>
-									<mat-icon>{{ isWishlisted(product.modelNo!) ? 'favorite' : 'favorite_border' }}</mat-icon>
-								</button>
-								<button
-									mat-mini-fab
-									color="primary"
-									class="card-add-btn"
-									(click)="openDialog(product); $event.preventDefault(); $event.stopPropagation()"
-								>
-									<mat-icon>add</mat-icon>
-								</button>
-							</div>
+							<button
+								mat-mini-fab
+								color="primary"
+								class="card-add-btn"
+								(click)="openDialog(product); $event.preventDefault(); $event.stopPropagation()"
+							>
+								<mat-icon>add</mat-icon>
+							</button>
 						</div>
 					</div>
 				</a>
