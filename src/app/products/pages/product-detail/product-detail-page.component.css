@@ -47,7 +47,7 @@
 	width: 64px;
 	height: 64px;
 	border-radius: 8px;
-	border: 2px solid #e0e0e0;
+	border: 2px solid var(--mat-sys-outline-variant);
 	background: #f8f8f8;
 	padding: 4px;
 	cursor: pointer;
@@ -60,7 +60,7 @@
 }
 
 .thumbnail.active {
-	border-color: #8b283d;
+	border-color: var(--mat-sys-primary);
 }
 
 .thumbnail img {
@@ -80,7 +80,7 @@
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 	margin-bottom: 4px;
 }
 
@@ -119,8 +119,8 @@
 .price-discount {
 	font-size: 13px;
 	font-weight: 600;
-	color: #fff;
-	background: #d53d5e;
+	color: var(--mat-sys-on-primary);
+	background: var(--mat-sys-primary);
 	border-radius: 4px;
 	padding: 2px 8px;
 }
@@ -151,7 +151,7 @@
 	width: 56px;
 	height: 56px;
 	border-radius: 8px;
-	border: 2px solid #e0e0e0;
+	border: 2px solid var(--mat-sys-outline-variant);
 	background: #f8f8f8;
 	padding: 4px;
 	cursor: pointer;
@@ -163,7 +163,7 @@
 }
 
 .variant-thumb.active {
-	border-color: #8b283d;
+	border-color: var(--mat-sys-primary);
 }
 
 .variant-thumb img {
@@ -191,8 +191,8 @@
 }
 
 .fav-btn {
-	color: #d53d5e;
-	border: 1px solid #e0e0e0;
+	color: var(--mat-sys-primary);
+	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 8px;
 	width: 48px;
 	height: 48px;
@@ -204,9 +204,9 @@
 }
 
 .fav-btn.wishlisted {
-	color: #fff;
-	background: #d53d5e;
-	border-color: #d53d5e;
+	color: var(--mat-sys-on-primary);
+	background: var(--mat-sys-primary);
+	border-color: var(--mat-sys-primary);
 }
 
 /* ── Perks ── */
@@ -232,7 +232,7 @@
 	font-size: 20px;
 	width: 20px;
 	height: 20px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 /* ── Availability link ── */
@@ -254,11 +254,11 @@
 }
 
 .availability-link:hover {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .availability-icon {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 	font-size: 20px;
 	width: 20px;
 	height: 20px;
@@ -280,7 +280,7 @@ mat-accordion {
 mat-accordion mat-expansion-panel {
 	border-radius: 8px !important;
 	box-shadow: none !important;
-	border: 1px solid #e8e8e8;
+	border: 1px solid var(--mat-sys-outline-variant);
 }
 
 mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body {
@@ -465,8 +465,8 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 	}
 
 	.mobile-cta-fav {
-		color: #d53d5e;
-		border: 1px solid #e0e0e0;
+		color: var(--mat-sys-primary);
+		border: 1px solid var(--mat-sys-outline-variant);
 		border-radius: 8px;
 		width: 44px;
 		height: 44px;
@@ -478,8 +478,8 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 	}
 
 	.mobile-cta-fav.wishlisted {
-		color: #fff;
-		background: #d53d5e;
-		border-color: #d53d5e;
+		color: var(--mat-sys-on-primary);
+		background: var(--mat-sys-primary);
+		border-color: var(--mat-sys-primary);
 	}
 }

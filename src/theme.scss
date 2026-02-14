@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+$theme: mat.define-theme(
+    (
+        color: (
+            primary: mat.$rose-palette,
+            theme-type: light,
+        ),
+        typography: (
+            brand-family: (
+                Roboto,
+                sans-serif,
+            ),
+            plain-family: (
+                Roboto,
+                sans-serif,
+            ),
+        ),
+        density: (
+            scale: 0,
+        ),
+    )
+);
+
+html {
+    @include mat.all-component-themes($theme);
+    @include mat.typography-hierarchy($theme);
+}

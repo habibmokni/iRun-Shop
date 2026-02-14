@@ -3,8 +3,8 @@
    ══════════════════════════════════════ */
 .hero {
 	background: url('/assets/images/iRun-banner.png') center center / 100% auto no-repeat;
-	background-color: #d94b6a;
-	color: #fff;
+	background-color: var(--mat-sys-primary);
+	color: var(--mat-sys-on-primary);
 	height: 550px;
 	padding: 0;
 	position: relative;
@@ -43,7 +43,7 @@
 	font-weight: 500;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	color: #fff;
+	color: var(--mat-sys-on-primary);
 	text-decoration: none;
 	border: 1px solid rgba(255, 255, 255, 0.7);
 	padding: 10px 24px;
@@ -86,7 +86,7 @@
 	gap: 4px;
 	font-size: 14px;
 	font-weight: 600;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 	text-decoration: none;
 }
 
@@ -120,7 +120,7 @@
 	transition:
 		box-shadow 0.2s ease,
 		transform 0.2s ease;
-	border: 1px solid #f0f0f0;
+	border: 1px solid var(--mat-sys-outline-variant);
 }
 
 .product-card:hover {
@@ -129,7 +129,7 @@
 }
 
 .card-image {
-	background: #fafafa;
+	background: var(--mat-sys-surface-container-low);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -156,7 +156,7 @@
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .card-name {
@@ -195,8 +195,8 @@
 .card-discount {
 	font-size: 11px;
 	font-weight: 600;
-	color: #fff;
-	background: #d53d5e;
+	color: var(--mat-sys-on-primary);
+	background: var(--mat-sys-primary);
 	border-radius: 3px;
 	padding: 1px 5px;
 }
@@ -229,11 +229,11 @@
 }
 
 .card-fav-btn:hover {
-	color: #d53d5e;
+	color: var(--mat-sys-primary);
 }
 
 .card-fav-btn.wishlisted {
-	color: #d53d5e;
+	color: var(--mat-sys-primary);
 }
 
 .card-add-btn {
@@ -246,8 +246,8 @@
    ══════════════════════════════════════ */
 .brandbar {
 	background: #fff;
-	border-top: 1px solid #f0f0f0;
-	border-bottom: 1px solid #f0f0f0;
+	border-top: 1px solid var(--mat-sys-outline-variant);
+	border-bottom: 1px solid var(--mat-sys-outline-variant);
 	padding: 48px 0;
 }
 
@@ -316,7 +316,7 @@
 	font-size: 32px;
 	width: 32px;
 	height: 32px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .prop h3 {
@@ -335,8 +335,8 @@
    Newsletter
    ══════════════════════════════════════ */
 .newsletter-section {
-	background: linear-gradient(135deg, #d53d5e 0%, #8b283d 100%);
-	color: #fff;
+	background: var(--mat-sys-primary);
+	color: var(--mat-sys-on-primary);
 	padding: 64px 0;
 }
 
@@ -408,7 +408,7 @@
 }
 
 .skeleton {
-	background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+	background: linear-gradient(90deg, var(--mat-sys-surface-container-low) 25%, var(--mat-sys-outline-variant) 50%, var(--mat-sys-surface-container-low) 75%);
 	background-size: 800px 100%;
 	animation: shimmer 1.5s infinite;
 	border-radius: 6px;

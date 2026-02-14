@@ -50,7 +50,7 @@
 	width: 64px;
 	height: 64px;
 	border-radius: 50%;
-	background: linear-gradient(135deg, #d53d5e, #8b283d);
+	background: var(--mat-sys-primary);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -58,7 +58,7 @@
 }
 
 .avatar-icon {
-	color: #fff;
+	color: var(--mat-sys-on-primary);
 	font-size: 32px;
 	width: 32px;
 	height: 32px;
@@ -130,13 +130,13 @@
 }
 
 .tab.active {
-	color: #8b283d;
-	border-bottom-color: #8b283d;
+	color: var(--mat-sys-primary);
+	border-bottom-color: var(--mat-sys-primary);
 }
 
 .tab-badge {
-	background: #d53d5e;
-	color: #fff;
+	background: var(--mat-sys-primary);
+	color: var(--mat-sys-on-primary);
 	font-size: 11px;
 	font-weight: 700;
 	border-radius: 10px;
@@ -189,16 +189,16 @@
 	align-items: center;
 	gap: 14px;
 	padding: 16px;
-	border: 1px solid #e8e8e8;
+	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 10px;
-	background: #fafafa;
+	background: var(--mat-sys-surface-container-low);
 }
 
 .store-icon {
 	font-size: 28px;
 	width: 28px;
 	height: 28px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .store-details {
@@ -230,7 +230,7 @@
 	align-items: center;
 	gap: 14px;
 	padding: 12px;
-	border: 1px solid #e8e8e8;
+	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 10px;
 	text-decoration: none;
 	color: inherit;
@@ -272,7 +272,7 @@
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.3px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .wishlist-name {
@@ -295,7 +295,7 @@
 }
 
 .wishlist-remove:hover {
-	color: #d53d5e;
+	color: var(--mat-sys-primary);
 }
 
 /* ══════════════════════════════════════
@@ -308,7 +308,7 @@
 }
 
 .order-card {
-	border: 1px solid #e8e8e8;
+	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 10px;
 	overflow: hidden;
 }
@@ -318,7 +318,7 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 14px 16px;
-	background: #fafafa;
+	background: var(--mat-sys-surface-container-low);
 	border-bottom: 1px solid #f0f0f0;
 }
 
@@ -334,7 +334,7 @@
 	font-size: 18px;
 	width: 18px;
 	height: 18px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .order-total {
@@ -376,7 +376,7 @@
 }
 
 .order-item + .order-item {
-	border-top: 1px solid #f5f5f5;
+	border-top: 1px solid var(--mat-sys-outline-variant);
 }
 
 .order-item-img {

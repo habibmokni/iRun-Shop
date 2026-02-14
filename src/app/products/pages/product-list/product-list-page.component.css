@@ -52,7 +52,7 @@
 }
 
 .card-image {
-	background: #fafafa;
+	background: var(--mat-sys-surface-container-low);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -94,11 +94,11 @@
 }
 
 .card-fav-btn:hover {
-	color: #d53d5e;
+	color: var(--mat-sys-primary);
 }
 
 .card-fav-btn.wishlisted {
-	color: #d53d5e;
+	color: var(--mat-sys-primary);
 }
 
 .card-body {
@@ -114,7 +114,7 @@
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .card-name {
@@ -158,8 +158,8 @@
 .card-discount {
 	font-size: 11px;
 	font-weight: 600;
-	color: #fff;
-	background: #d53d5e;
+	color: var(--mat-sys-on-primary);
+	background: var(--mat-sys-primary);
 	border-radius: 3px;
 	padding: 1px 5px;
 }
@@ -180,7 +180,7 @@
 }
 
 .skeleton {
-	background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+	background: linear-gradient(90deg, var(--mat-sys-surface-container-low) 25%, var(--mat-sys-outline-variant) 50%, var(--mat-sys-surface-container-low) 75%);
 	background-size: 800px 100%;
 	animation: shimmer 1.5s infinite;
 	border-radius: 6px;

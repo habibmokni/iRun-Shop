@@ -19,7 +19,7 @@
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .product-name {
@@ -102,7 +102,7 @@
 .quantity-controls {
 	display: flex;
 	align-items: center;
-	border: 1px solid #e0e0e0;
+	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 8px;
 }
 
@@ -120,7 +120,7 @@
 }
 
 .qty-btn:hover {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .qty-btn mat-icon {

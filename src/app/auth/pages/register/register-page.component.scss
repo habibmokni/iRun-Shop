@@ -45,7 +45,7 @@
 		transition: border-color 0.2s;
 
 		&:focus {
-			border-color: #d53d5e;
+			border-color: var(--mat-sys-primary);
 		}
 
 		&.is-invalid {

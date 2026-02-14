@@ -41,7 +41,7 @@ import { Product } from '../../../products/types/product.types';
 			align-items: center;
 			justify-content: center;
 			padding: 10px 4px;
-			border: 1.5px solid #e0e0e0;
+			border: 1.5px solid var(--mat-sys-outline-variant);
 			border-radius: 8px;
 			background: #fff;
 			cursor: pointer;
@@ -54,14 +54,14 @@ import { Product } from '../../../products/types/product.types';
 		}
 
 		.size-btn.selected {
-			border-color: #8b283d;
-			background: #fdf2f4;
+			border-color: var(--mat-sys-primary);
+			background: var(--mat-sys-primary-container);
 		}
 
 		.size-btn.out-of-stock {
 			opacity: 0.45;
 			cursor: not-allowed;
-			background: #f5f5f5;
+			background: var(--mat-sys-surface-container-low);
 		}
 
 		.size-value {

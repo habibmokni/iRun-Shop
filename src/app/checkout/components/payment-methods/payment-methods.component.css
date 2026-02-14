@@ -14,7 +14,7 @@
 }
 
 .lock-icon {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 	font-size: 24px;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .payment-option {
-	border: 1px solid #e0e0e0;
+	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 8px;
 	padding: 4px 12px;
 	transition: border-color 0.15s;
@@ -47,8 +47,8 @@
 }
 
 ::ng-deep .payment-option.mat-mdc-radio-checked {
-	border-color: #8b283d;
-	background: #fdf2f4;
+	border-color: var(--mat-sys-primary);
+	background: var(--mat-sys-primary-container);
 }
 
 .payment-option-inner {
@@ -66,7 +66,7 @@
 
 .field-error {
 	display: block;
-	color: #d53d5e;
+	color: var(--mat-sys-primary);
 	font-size: 12px;
 	margin-top: 8px;
 }

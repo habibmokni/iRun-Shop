@@ -43,7 +43,7 @@
 }
 
 .form-field input.is-invalid {
-	border-color: #d53d5e;
+	border-color: var(--mat-sys-primary);
 }
 
 .input-group {

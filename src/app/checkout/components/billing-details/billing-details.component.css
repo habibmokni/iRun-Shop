@@ -20,7 +20,7 @@
 
 .field-error {
 	display: block;
-	color: #d53d5e;
+	color: var(--mat-sys-primary);
 	font-size: 12px;
 	margin-top: -12px;
 	margin-bottom: 8px;

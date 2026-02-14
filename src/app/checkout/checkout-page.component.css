@@ -46,7 +46,7 @@
 	width: 32px;
 	height: 32px;
 	border-radius: 50%;
-	background: #e0e0e0;
+	background: var(--mat-sys-outline-variant);
 	color: rgba(0, 0, 0, 0.4);
 	font-size: 13px;
 	font-weight: 700;
@@ -57,8 +57,8 @@
 }
 
 .step-indicator.active .step-dot {
-	background: #8b283d;
-	color: #fff;
+	background: var(--mat-sys-primary);
+	color: var(--mat-sys-on-primary);
 }
 
 .step-indicator.done .step-dot {
@@ -80,7 +80,7 @@
 }
 
 .step-indicator.active .step-label {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .step-indicator.done .step-label {
@@ -90,7 +90,7 @@
 .step-line {
 	flex: 0 0 48px;
 	height: 2px;
-	background: #e0e0e0;
+	background: var(--mat-sys-outline-variant);
 	transition: background 0.2s;
 	margin-bottom: 20px;
 }
@@ -105,7 +105,7 @@
 ::ng-deep .checkout-page mat-expansion-panel {
 	border-radius: 10px !important;
 	box-shadow: none !important;
-	border: 1px solid #e8e8e8;
+	border: 1px solid var(--mat-sys-outline-variant);
 	margin-bottom: 12px;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .panel-header-icon {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 	font-size: 22px;
 	height: 22px;
 	width: 22px;
@@ -147,7 +147,7 @@
 	gap: 4px;
 	padding: 20px 12px;
 	background: #fff;
-	border: 2px solid #e0e0e0;
+	border: 2px solid var(--mat-sys-outline-variant);
 	border-radius: 12px;
 	cursor: pointer;
 	transition: border-color 0.15s, background 0.15s, color 0.15s;
@@ -159,9 +159,9 @@
 }
 
 .delivery-option.active {
-	border-color: #8b283d;
-	color: #8b283d;
-	background: #fdf2f4;
+	border-color: var(--mat-sys-primary);
+	color: var(--mat-sys-primary);
+	background: var(--mat-sys-primary-container);
 }
 
 .delivery-option-icon {
@@ -263,7 +263,7 @@
 /* Section cards */
 .overview-section {
 	background: #fff;
-	border: 1px solid #f0f0f0;
+	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 12px;
 	padding: 20px 24px;
 	margin-bottom: 16px;
@@ -280,7 +280,7 @@
 }
 
 .section-icon {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 	font-size: 20px;
 	height: 20px;
 	width: 20px;
@@ -377,8 +377,8 @@
 
 /* Totals */
 .overview-totals {
-	background: #fafafa;
-	border: 1px solid #f0f0f0;
+	background: var(--mat-sys-surface-container-low);
+	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 12px;
 	padding: 20px 24px;
 	margin-bottom: 16px;
@@ -399,7 +399,7 @@
 
 .totals-divider {
 	height: 1px;
-	background: #e0e0e0;
+	background: var(--mat-sys-outline-variant);
 	margin: 8px 0;
 }
 
@@ -459,7 +459,7 @@
 .sidebar {
 	position: sticky;
 	top: 96px;
-	background: #fafafa;
+	background: var(--mat-sys-surface-container-low);
 	border-radius: 12px;
 	padding: 24px;
 	display: flex;
@@ -529,7 +529,7 @@
 
 .sidebar-divider {
 	height: 1px;
-	background: #e0e0e0;
+	background: var(--mat-sys-outline-variant);
 	margin: 16px 0;
 }
 
@@ -602,7 +602,7 @@
 		right: 0;
 		z-index: 40;
 		background: #fff;
-		border-top: 1px solid #f0f0f0;
+		border-top: 1px solid var(--mat-sys-outline-variant);
 		padding: 10px 16px;
 		align-items: center;
 		justify-content: space-between;

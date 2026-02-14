@@ -82,7 +82,7 @@
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .item-name {
@@ -132,7 +132,7 @@
 .qty-stepper {
 	display: flex;
 	align-items: center;
-	border: 1px solid #e0e0e0;
+	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 8px;
 }
 
@@ -150,7 +150,7 @@
 }
 
 .qty-btn:hover {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .qty-btn mat-icon {
@@ -209,7 +209,7 @@
 .summary {
 	position: sticky;
 	top: 96px;
-	background: #fafafa;
+	background: var(--mat-sys-surface-container-low);
 	border-radius: 12px;
 	padding: 24px;
 	display: flex;
@@ -257,7 +257,7 @@
 
 .summary-divider {
 	height: 1px;
-	background: #e0e0e0;
+	background: var(--mat-sys-outline-variant);
 	margin: 12px 0;
 }
 
@@ -284,7 +284,7 @@
 	margin-top: 14px;
 	font-size: 13px;
 	font-weight: 600;
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 	text-decoration: none;
 }
 
@@ -367,7 +367,7 @@
 		left: 0;
 		right: 0;
 		background: #fff;
-		border-top: 1px solid #e0e0e0;
+		border-top: 1px solid var(--mat-sys-outline-variant);
 		padding: 12px 16px;
 		z-index: 100;
 		align-items: center;

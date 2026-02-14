@@ -28,9 +28,9 @@
 	position: absolute;
 	top: -15px;
 	border-radius: 50%;
-	border: 1px solid #8b283d;
-	background-color: #8b283d;
-	color: white;
+	border: 1px solid var(--mat-sys-primary);
+	background-color: var(--mat-sys-primary);
+	color: var(--mat-sys-on-primary);
 	width: 40px;
 	height: 40px;
 	line-height: 38px;

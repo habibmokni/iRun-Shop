@@ -1,6 +1,6 @@
 .footer {
-	background-color: #f7f8f8;
-	border-top: 1px solid #e0e0e0;
+	background-color: var(--mat-sys-surface-container-low);
+	border-top: 1px solid var(--mat-sys-outline-variant);
 	padding: 24px 0;
 	margin-top: auto;
 }
@@ -17,14 +17,14 @@
 }
 
 .footer-links a {
-	color: rgba(0, 0, 0, 0.65);
+	color: var(--mat-sys-on-surface-variant);
 	text-decoration: none;
 	font-size: 14px;
-	font-family: Nunito, sans-serif;
+	font-family: inherit;
 }
 
 .footer-links a:hover {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 }
 
 .copyright {

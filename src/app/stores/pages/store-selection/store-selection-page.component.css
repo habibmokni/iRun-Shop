@@ -51,8 +51,8 @@
 }
 
 .view-tab.active {
-	color: #8b283d;
-	border-bottom-color: #8b283d;
+	color: var(--mat-sys-primary);
+	border-bottom-color: var(--mat-sys-primary);
 }
 
 /* ── Map container ── */
@@ -97,7 +97,7 @@
 	align-items: center;
 	gap: 10px;
 	padding: 12px 16px;
-	border: 1.5px solid #e0e0e0;
+	border: 1.5px solid var(--mat-sys-outline-variant);
 	border-radius: 10px;
 	background: #fff;
 	margin-bottom: 24px;
@@ -105,7 +105,7 @@
 }
 
 .search-bar:focus-within {
-	border-color: #8b283d;
+	border-color: var(--mat-sys-primary);
 }
 
 .search-icon {
@@ -157,7 +157,7 @@
 
 /* ── Store card ── */
 .store-card {
-	border: 1.5px solid #e8e8e8;
+	border: 1.5px solid var(--mat-sys-outline-variant);
 	border-radius: 12px;
 	padding: 20px;
 	cursor: pointer;
@@ -173,8 +173,8 @@
 }
 
 .store-card.selected {
-	border-color: #8b283d;
-	box-shadow: 0 0 0 1px #8b283d;
+	border-color: var(--mat-sys-primary);
+	box-shadow: 0 0 0 1px var(--mat-sys-primary);
 }
 
 .store-card-header {
@@ -187,7 +187,7 @@
 	width: 44px;
 	height: 44px;
 	border-radius: 10px;
-	background: linear-gradient(135deg, #d53d5e, #8b283d);
+	background: var(--mat-sys-primary);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -195,7 +195,7 @@
 }
 
 .store-icon {
-	color: #fff;
+	color: var(--mat-sys-on-primary);
 	font-size: 22px;
 	width: 22px;
 	height: 22px;
@@ -221,7 +221,7 @@
 }
 
 .check-icon {
-	color: #8b283d;
+	color: var(--mat-sys-primary);
 	font-size: 24px;
 	width: 24px;
 	height: 24px;
@@ -274,8 +274,8 @@
 }
 
 .selected-btn {
-	background: #f0f0f0 !important;
-	color: #8b283d !important;
+	background: var(--mat-sys-primary-container) !important;
+	color: var(--mat-sys-on-primary-container) !important;
 }
 
 /* ── Empty state ── */
