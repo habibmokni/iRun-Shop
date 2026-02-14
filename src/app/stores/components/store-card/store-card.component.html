@@ -17,7 +17,7 @@
 	</div>
 
 	<div class="store-details">
-		@if (distance() !== null) {
+		@if (distance() != null) {
 			<div class="store-detail">
 				<mat-icon class="detail-icon">room</mat-icon>
 				<span>{{ distance()!.toFixed(1) }} km away</span>
@@ -41,7 +41,7 @@
 				<span>{{ store().reviews }}</span>
 			</div>
 		}
-		@if (stock() !== null) {
+		@if (stock() != null) {
 			<div class="store-detail">
 				<mat-icon
 					class="detail-icon stock-icon"

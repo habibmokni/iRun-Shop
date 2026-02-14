@@ -71,7 +71,7 @@ export class MapsService {
 		}
 	}
 
-	private calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
+	calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
 		const R = 6371; // Earth's radius in km
 		const dLat = this.toRadians(lat2 - lat1);
 		const dLng = this.toRadians(lng2 - lng1);
@@ -85,6 +85,27 @@ export class MapsService {
 
 		const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		return Math.round(R * c * 100) / 100;
+	}
+
+	/** Requests the user's geolocation and returns a Promise with the coordinates. */
+	requestGeolocation(): Promise<google.maps.LatLngLiteral | null> {
+		return new Promise((resolve) => {
+			if (!navigator.geolocation) {
+				resolve(null);
+				return;
+			}
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					const coords = {
+						lat: position.coords.latitude,
+						lng: position.coords.longitude,
+					};
+					this.currentLocation = coords;
+					resolve(coords);
+				},
+				() => resolve(null),
+			);
+		});
 	}
 
 	private toRadians(degrees: number): number {

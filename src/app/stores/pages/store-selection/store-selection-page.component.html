@@ -67,6 +67,7 @@
 					<app-store-card
 						[store]="store"
 						[selected]="selectedStoreId() === store.id"
+						[distance]="distanceMap()[store.id]"
 						(storeSelect)="selectStore($event)"
 					/>
 				}

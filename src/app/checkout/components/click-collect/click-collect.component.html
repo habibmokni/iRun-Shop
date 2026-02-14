@@ -8,27 +8,13 @@
 
 		<div class="store-list">
 			@for (store of stores(); track store.id) {
-				<button
-					type="button"
-					class="store-card"
-					[class.selected]="selectedStore()?.id === store.id"
-					(click)="onSelectStore(store)"
-				>
-					<div class="store-card-top">
-						<mat-icon class="store-icon">store</mat-icon>
-						<div class="store-info">
-							<span class="store-name">{{ store.name }}</span>
-							<span class="store-address">{{ store.address }}</span>
-						</div>
-					</div>
-					<div class="store-hours">
-						<mat-icon class="hours-icon">schedule</mat-icon>
-						<span
-						>{{ store.openingTime.open }} –
-						{{ store.openingTime.close }}</span
-						>
-					</div>
-				</button>
+				<app-store-card
+					[store]="store"
+					[selected]="selectedStore()?.id === store.id"
+					[distance]="distanceMap()[store.id]"
+					[stock]="stockMap()[store.id]"
+					(storeSelect)="onSelectStore($event)"
+				/>
 			} @empty {
 				<p class="empty-msg">No stores available.</p>
 			}

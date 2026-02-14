@@ -7,6 +7,7 @@ import {
 	signal,
 	computed,
 	OnInit,
+	afterNextRender,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
@@ -19,7 +20,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { Store } from '../../../stores/types/store.types';
+import { StoreCardComponent } from '../../../stores/components/store-card/store-card.component';
 import { StoreService } from '../../../stores/services/store.service';
+import { MapsService } from '../../../stores/services/maps.service';
 import { CartProduct } from '../../../cart/types/cart.types';
 import { CartService } from '../../../cart/services/cart.service';
 import { User } from '../../../user/types/user.types';
@@ -37,12 +40,14 @@ import { User } from '../../../user/types/user.types';
 		MatInputModule,
 		MatNativeDateModule,
 		MatChipsModule,
+		StoreCardComponent,
 	],
 	templateUrl: './click-collect.component.html',
 	styleUrl: './click-collect.component.css',
 })
 export class ClickCollectComponent implements OnInit {
 	private readonly storeService = inject(StoreService);
+	private readonly mapsService = inject(MapsService);
 	private readonly cartService = inject(CartService);
 
 	/** The current user (with optional preselected store). */
@@ -70,6 +75,58 @@ export class ClickCollectComponent implements OnInit {
 
 	/** Cart products. */
 	protected readonly cartProducts = this.cartService.cart;
+
+	/** User's current coordinates (null until geolocation resolves). */
+	private readonly userLocation = signal<google.maps.LatLngLiteral | null>(null);
+
+	/** Distance in km from the user to each store, keyed by store id. */
+	protected readonly distanceMap = computed<Record<string, number>>(() => {
+		const loc = this.userLocation();
+		const allStores = this.stores();
+		if (!loc || !allStores.length) return {};
+
+		const map: Record<string, number> = {};
+		for (const store of allStores) {
+			if (store.location) {
+				map[store.id] = this.mapsService.calculateDistance(
+					loc.lat, loc.lng, store.location.lat, store.location.lng,
+				);
+			}
+		}
+		return map;
+	});
+
+	/** Stock status per store: number of available cart items out of total. Uses 10 for "all available", 0 for "none". */
+	protected readonly stockMap = computed<Record<string, number>>(() => {
+		const allStores = this.stores();
+		const cartItems = this.cartProducts();
+		if (!allStores.length || !cartItems.length) return {};
+
+		const map: Record<string, number> = {};
+		for (const store of allStores) {
+			let allAvailable = true;
+			for (const cartItem of cartItems) {
+				const storeProduct = store.products?.find(
+					(p) => p.modelNo === cartItem.modelNo,
+				);
+				if (!storeProduct?.variants?.[0]) {
+					allAvailable = false;
+					break;
+				}
+				const variant = storeProduct.variants.find(
+					(v) => v.variantId === cartItem.variantId,
+				) ?? storeProduct.variants[0];
+				const sizeIndex = variant.sizes?.indexOf(cartItem.size) ?? -1;
+				const stock = sizeIndex >= 0 ? +(variant.inStock?.[sizeIndex] ?? 0) : 0;
+				if (stock < cartItem.noOfItems) {
+					allAvailable = false;
+					break;
+				}
+			}
+			map[store.id] = allAvailable ? 10 : 0;
+		}
+		return map;
+	});
 
 	/** Currently selected store. */
 	protected readonly selectedStore = signal<Store | null>(null);
@@ -149,6 +206,14 @@ export class ClickCollectComponent implements OnInit {
 			this.selectedTime() !== null &&
 			this.allAvailable(),
 	);
+
+	constructor() {
+		afterNextRender(() => {
+			this.mapsService.requestGeolocation().then((coords) => {
+				if (coords) this.userLocation.set(coords);
+			});
+		});
+	}
 
 	ngOnInit(): void {
 		// Pre-select the user's preferred store if available.
