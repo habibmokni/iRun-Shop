@@ -31,27 +31,24 @@
 			<mat-icon>person_outline</mat-icon>
 		</button>
 
-		<mat-menu #userMenu="matMenu">
+		<mat-menu #userMenu="matMenu" class="user-menu-panel">
 			@if (isLoggedIn()) {
-				<div routerLink="user-profile" class="user-profile-menu" mat-menu-item>
-					<mat-icon class="profile-icon">account_circle</mat-icon>
-					<div class="user-info">
-						<h4>{{ user()?.firstName ?? 'Profile' }}</h4>
-						<h5>{{ user()?.email ?? '' }}</h5>
-					</div>
-				</div>
-				<a mat-menu-item (click)="onLogout()">
-					<mat-icon>logout</mat-icon>
-					Logout
+				<a mat-menu-item routerLink="user-profile">
+					<mat-icon fontSet="material-icons-outlined">person</mat-icon>
+					<span>Profile</span>
+				</a>
+				<a mat-menu-item (click)="onLogout()" class="logout-item">
+					<mat-icon fontSet="material-icons-outlined">logout</mat-icon>
+					<span>Log out</span>
 				</a>
 			} @else {
 				<a mat-menu-item routerLink="/login">
-					<mat-icon>login</mat-icon>
-					Login
+					<mat-icon fontSet="material-icons-outlined">login</mat-icon>
+					<span>Log in</span>
 				</a>
 				<a mat-menu-item routerLink="/register">
-					<mat-icon>how_to_reg</mat-icon>
-					Register
+					<mat-icon fontSet="material-icons-outlined">person_add</mat-icon>
+					<span>Create account</span>
 				</a>
 			}
 		</mat-menu>

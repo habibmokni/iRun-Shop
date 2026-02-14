@@ -122,3 +122,35 @@ router-outlet + * {
 .store-availability-dialog .mat-mdc-dialog-container {
 	padding: 0;
 }
+
+/* ── User menu panel ── */
+.user-menu-panel.mat-mdc-menu-panel {
+	min-width: 220px;
+	border-radius: 12px !important;
+	font-family: 'Roboto', sans-serif;
+}
+
+.user-menu-panel .mat-mdc-menu-content {
+	padding: 4px 0;
+}
+
+.user-menu-panel .mat-mdc-menu-item {
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	letter-spacing: 0.01em;
+	color: var(--mat-sys-on-surface);
+	border-radius: 0;
+}
+
+.user-menu-panel .mat-mdc-menu-item .mat-icon {
+	color: var(--mat-sys-on-surface-variant);
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	margin-right: 12px;
+}
+
+.user-menu-panel .mat-divider {
+	margin: 4px 0;
+}

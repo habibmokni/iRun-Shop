@@ -37,7 +37,6 @@ export class HeaderComponent {
 	private readonly snackbar = inject(SnackbarService);
 
 	protected readonly isLoggedIn = this.authService.isLoggedIn;
-	protected readonly user = this.userService.user;
 	protected readonly cartCount = this.cartService.count;
 	protected readonly wishlistCount = computed(() => this.userService.wishlist().size);
 
