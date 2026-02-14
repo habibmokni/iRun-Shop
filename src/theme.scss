@@ -79,3 +79,10 @@ html {
 		color: rgba(0, 0, 0, 0.35);
 	}
 }
+
+/* Store availability bottom sheet */
+.store-availability-sheet {
+	border-radius: 16px 16px 0 0;
+	background: #fff;
+	max-height: 85vh;
+}

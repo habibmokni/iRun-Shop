@@ -1,39 +1,55 @@
-<!-- Size selector -->
+<!-- Drag handle -->
+<div class="drag-handle"></div>
+
+<!-- Header -->
+<div class="sheet-header">
+	<div class="sheet-title">
+		<h2>Check Store Availability</h2>
+		<p class="sheet-subtitle">Find this product near you</p>
+	</div>
+	<button mat-icon-button class="close-btn" (click)="close()">
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+
+<!-- Size selector (if no size chosen yet) -->
 @if (!isSizeSelected()) {
-	<div class="size-selector">
-		<mat-card-title>Select Size</mat-card-title>
-		@if (selectedSize()) {
-			<mat-card-subtitle>Current: {{ selectedSize() }}</mat-card-subtitle>
-		}
-		@for (size of data.sizes; track size) {
-			<div class="size-option">
-				<mat-divider />
-				<button matButton="outlined" (click)="changeSize(size)" class="size-btn">
+	<div class="sheet-section">
+		<span class="section-label">Select a size first</span>
+		<div class="size-chips">
+			@for (size of data.sizes; track size) {
+				<button
+					matButton="outlined"
+					class="size-chip"
+					(click)="changeSize(size)"
+				>
 					{{ size }}
 				</button>
-				<mat-divider />
-			</div>
-		}
+			}
+		</div>
+	</div>
+} @else {
+	<!-- Selected size pill -->
+	<div class="sheet-section">
+		<button matButton="outlined" class="selected-size-pill" (click)="resetSize()">
+			<mat-icon>straighten</mat-icon>
+			Size {{ selectedSize() }}
+			<mat-icon class="change-icon">edit</mat-icon>
+		</button>
 	</div>
 }
 
 <!-- Main content (hidden, not removed, so autocomplete stays in DOM) -->
-<div class="content" [class.hidden]="!isSizeSelected()">
-	<mat-card-title>Check Availability</mat-card-title>
-	<mat-card-subtitle>Enter location or zip code to check nearest stores</mat-card-subtitle>
-
-	<button matButton="outlined" class="size-back-btn" (click)="resetSize()">
-		Size: {{ selectedSize() }}
-	</button>
-
+<div class="sheet-body" [class.hidden]="!isSizeSelected()">
 	<mat-tab-group mat-align-tabs="start">
 		<mat-tab label="Address">
 			<div class="search-row">
-				<mat-form-field class="search-field">
+				<mat-form-field appearance="outline" class="search-field">
+					<mat-icon matPrefix>search</mat-icon>
 					<input id="search" matInput placeholder="Enter zip code or address" />
 				</mat-form-field>
-				<button mat-icon-button (click)="currentLocation()">
-					<mat-icon>room</mat-icon>
+				<button mat-icon-button class="location-btn" (click)="currentLocation()">
+					<mat-icon>my_location</mat-icon>
 				</button>
 			</div>
 
@@ -44,27 +60,26 @@
 							<mat-card-content>
 								<div class="store-header">
 									<h3 class="store-name">{{ entry.store.name }}</h3>
-									<div class="distance">
+									<span class="distance">
 										<mat-icon>room</mat-icon>
-										<span>{{ entry.distance.toFixed(2) }}km</span>
-									</div>
+										{{ entry.distance.toFixed(1) }}km
+									</span>
 								</div>
 								<p class="store-address">{{ entry.store.address }}</p>
-								<div
-									class="stock-status"
+								<span
+									class="stock-badge"
 									[class.good]="entry.stock > 5"
 									[class.low]="entry.stock > 0 && entry.stock <= 5"
 									[class.out]="entry.stock === 0"
 								>
-									Size {{ selectedSize() }}:
 									@if (entry.stock > 5) {
-										In good stock
+										In stock
 									} @else if (entry.stock > 0) {
-										Almost sold out
+										Low stock
 									} @else {
 										Out of stock
 									}
-								</div>
+								</span>
 							</mat-card-content>
 							<mat-card-actions>
 								<button matButton="filled" (click)="onStoreSelect(entry.store)">
@@ -74,17 +89,24 @@
 						</mat-card>
 					}
 				</div>
+			} @else {
+				<div class="empty-state">
+					<mat-icon class="empty-icon">store</mat-icon>
+					<p>Search an address or use your location to find nearby stores</p>
+				</div>
 			}
 		</mat-tab>
 
 		<mat-tab label="Map">
 			@if (isSizeSelected()) {
-				<app-maps
-					[mapHeight]="mapDimensions().height"
-					[mapWidth]="mapDimensions().width"
-					[ModelNo]="data.modelNo"
-					[size]="selectedSize()!"
-				/>
+				<div class="map-container">
+					<app-maps
+						[mapHeight]="mapDimensions().height"
+						[mapWidth]="mapDimensions().width"
+						[ModelNo]="data.modelNo"
+						[size]="selectedSize()!"
+					/>
+				</div>
 			}
 		</mat-tab>
 	</mat-tab-group>

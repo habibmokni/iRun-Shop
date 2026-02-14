@@ -1,42 +1,108 @@
-/* ── Dialog content ── */
-.content {
-	padding: 24px;
-	max-width: 600px;
+/* ── Host ── */
+:host {
+	display: flex;
+	flex-direction: column;
+	max-height: 85vh;
+	overflow: hidden;
+	padding: 0 24px 24px;
 }
 
-.content.hidden {
-	display: none;
+/* ── Drag handle ── */
+.drag-handle {
+	width: 36px;
+	height: 4px;
+	border-radius: 2px;
+	background: rgba(0, 0, 0, 0.15);
+	margin: 12px auto 8px;
 }
 
-/* ── Size selector ── */
-.size-selector {
-	width: 300px;
-	padding: 24px;
-}
-
-.size-option {
-	margin: 8px 0;
-}
-
-.size-btn {
-	width: 100%;
-	height: 46px;
-	font-size: 15px;
-	text-align: center;
-}
-
-.size-back-btn {
-	width: 100%;
-	justify-content: flex-start !important;
+/* ── Header ── */
+.sheet-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
 	margin-bottom: 16px;
-	text-transform: none;
+}
+
+.sheet-title h2 {
+	font-size: 20px;
+	font-weight: 700;
+	margin: 0;
+	line-height: 1.3;
+}
+
+.sheet-subtitle {
+	font-size: 13px;
+	color: var(--mat-sys-on-surface-variant);
+	margin: 2px 0 0;
+}
+
+.close-btn {
+	color: var(--mat-sys-on-surface-variant);
+	flex-shrink: 0;
+}
+
+/* ── Sections ── */
+.sheet-section {
+	margin-bottom: 16px;
+}
+
+.section-label {
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--mat-sys-on-surface-variant);
+	margin-bottom: 10px;
+}
+
+/* ── Size chips ── */
+.size-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.size-chip {
+	min-width: 56px;
+	height: 40px;
+	font-size: 14px;
+	border-radius: 20px;
+}
+
+/* ── Selected size pill ── */
+.selected-size-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 14px;
+	border-radius: 20px;
+	height: 36px;
+}
+
+.change-icon {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	color: var(--mat-sys-on-surface-variant);
+}
+
+/* ── Sheet body (scrollable) ── */
+.sheet-body {
+	flex: 1;
+	overflow-y: auto;
+	min-height: 0;
+}
+
+/* ── Hidden state ── */
+.hidden {
+	display: none;
 }
 
 /* ── Search ── */
 .search-row {
 	display: flex;
 	align-items: center;
-	gap: 12px;
+	gap: 8px;
 	margin: 16px 0;
 }
 
@@ -44,9 +110,12 @@
 	flex: 1;
 }
 
+.location-btn {
+	color: var(--mat-sys-primary);
+}
+
 .pac-container {
 	z-index: 10000 !important;
-	top: 250px !important;
 }
 
 /* ── Store list ── */
@@ -54,9 +123,6 @@
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
-	margin-top: 16px;
-	max-height: 400px;
-	overflow-y: auto;
 }
 
 .store-card {
@@ -67,11 +133,11 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 4px;
+	margin-bottom: 2px;
 }
 
 .store-name {
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 600;
 	margin: 0;
 }
@@ -83,60 +149,88 @@
 }
 
 .distance {
-	display: flex;
+	display: inline-flex;
 	align-items: center;
-	gap: 4px;
-	font-size: 13px;
+	gap: 2px;
+	font-size: 12px;
 	color: var(--mat-sys-on-surface-variant);
 }
 
 .distance mat-icon {
-	font-size: 16px;
-	width: 16px;
-	height: 16px;
+	font-size: 14px;
+	width: 14px;
+	height: 14px;
 }
 
-/* ── Stock status badges ── */
-.stock-status {
+/* ── Stock badge ── */
+.stock-badge {
 	display: inline-block;
-	padding: 4px 12px;
-	border-radius: 20px;
-	font-weight: 500;
-	font-size: 13px;
+	padding: 3px 10px;
+	border-radius: 16px;
+	font-size: 12px;
+	font-weight: 600;
 }
 
-.stock-status.good {
+.stock-badge.good {
 	background: #d4edda;
 	color: #155724;
 }
 
-.stock-status.low {
+.stock-badge.low {
 	background: #fff3cd;
 	color: #856404;
 }
 
-.stock-status.out {
+.stock-badge.out {
 	background: #f8d7da;
 	color: #721c24;
 }
 
+/* ── Empty state ── */
+.empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 32px 16px;
+	color: var(--mat-sys-on-surface-variant);
+}
+
+.empty-icon {
+	font-size: 40px;
+	width: 40px;
+	height: 40px;
+	margin-bottom: 12px;
+	opacity: 0.4;
+}
+
+.empty-state p {
+	font-size: 14px;
+	margin: 0;
+	max-width: 240px;
+	line-height: 1.5;
+}
+
+/* ── Map container ── */
+.map-container {
+	margin-top: 16px;
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+.map-container google-map,
+.map-container app-maps {
+	display: block;
+	width: 100%;
+}
+
 /* ── Responsive ── */
 @media (max-width: 599px) {
-	.content {
-		padding: 16px;
+	:host {
+		padding: 0 16px 16px;
 	}
 
-	.size-selector {
-		width: 100%;
-		padding: 16px;
-	}
-
-	.search-row {
-		flex-direction: column;
-		align-items: stretch;
-	}
-
-	.stores-list {
-		max-height: 300px;
+	.sheet-title h2 {
+		font-size: 18px;
 	}
 }

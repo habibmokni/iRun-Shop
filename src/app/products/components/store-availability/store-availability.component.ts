@@ -7,7 +7,7 @@ import {
 	ChangeDetectionStrategy,
 	afterNextRender,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -46,7 +46,7 @@ export interface NearByStore {
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
-		MatDialogModule,
+		MatBottomSheetModule,
 		MatButtonModule,
 		MatIconModule,
 		MatCardModule,
@@ -63,15 +63,16 @@ export class StoreAvailabilityComponent {
 	private readonly mapService = inject(MapsService);
 	private readonly storeService = inject(StoreService);
 	private readonly snackbarService = inject(SnackbarService);
-	private readonly dialog = inject(MatDialog);
+	private readonly bottomSheetRef = inject(MatBottomSheetRef);
 	private readonly cartService = inject(CartService);
 	private readonly userService = inject(UserService);
 
-	protected readonly data = inject<StoreAvailabilityDialogData>(MAT_DIALOG_DATA);
+	protected readonly data = inject<StoreAvailabilityDialogData>(MAT_BOTTOM_SHEET_DATA);
 
-	protected readonly mapDimensions = computed(() =>
-		window.innerWidth <= 599 ? { height: 350, width: 250 } : { height: 410, width: 700 },
-	);
+	protected readonly mapDimensions = computed(() => {
+		const width = Math.min(window.innerWidth - 48, 700);
+		return { height: 400, width };
+	});
 
 	protected readonly selectedSize = signal<number | null>(this.data.size ?? null);
 	protected readonly nearByStores = signal<NearByStore[]>([]);
@@ -83,6 +84,10 @@ export class StoreAvailabilityComponent {
 		afterNextRender(() => {
 			this.initAutocomplete();
 		});
+	}
+
+	protected close(): void {
+		this.bottomSheetRef.dismiss();
 	}
 
 	protected changeSize(size: number): void {
@@ -99,7 +104,7 @@ export class StoreAvailabilityComponent {
 		this.userService.updateSelectedStore(store);
 		this.userService.setFavoriteStore(store);
 		this.snackbarService.success('Store selected as preferred');
-		this.dialog.closeAll();
+		this.bottomSheetRef.dismiss();
 	}
 
 	protected currentLocation(): void {
