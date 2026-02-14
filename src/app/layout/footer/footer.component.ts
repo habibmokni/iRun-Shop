@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterLink } from '@angular/router';
 
 @Component({
 	selector: 'app-footer',
@@ -7,6 +7,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 	styleUrls: ['./footer.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [MatToolbarModule],
+	imports: [RouterLink],
 })
-export class FooterComponent {}
+export class FooterComponent {
+	protected readonly currentYear = new Date().getFullYear();
+}

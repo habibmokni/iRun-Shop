@@ -1,84 +1,67 @@
-.top-bar {
-	height: 22px;
-	z-index: 100;
-	background-color: white;
-}
-
-.top-bar-content {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5rem;
-	margin: auto;
-}
-
-.top-bar-content a {
-	color: black;
-	font-size: 12px;
-	font-family: Nunito, sans-serif;
-	text-decoration: none;
-}
-
 .header {
 	background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
 	color: white;
 	padding: 0.25rem 0;
 }
 
+.header-inner {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
 .filler {
 	flex: 1 1 auto;
 }
 
-a,
 .logo-link {
+	display: flex;
+	align-items: center;
 	text-decoration: none;
-	color: white;
 }
 
 .logo {
-	width: 50px;
-}
-
-.mobile-logo {
 	width: 3rem;
-	padding: 0.2rem;
+	height: auto;
 }
 
-.nav-links a {
-	padding: 0.25rem;
+.header-inner a,
+.header-inner button {
+	color: white;
 }
 
-/* Desktop: visible on sm+ */
-.desktop-header {
-	display: none;
-	padding: 0 25px;
-}
-
-/* Mobile: visible on xs only */
-.mobile-header {
-	display: flex;
-	padding-bottom: 10px;
-}
-
-.user-profile-menu {
-	text-align: center;
-}
-
-.profile-img {
-	border-radius: 50%;
-}
-
+/* Menu dropdown uses default dark text */
+.user-profile-menu,
 .user-info h4,
 .user-info h5 {
-	margin: 0;
+	color: rgba(0, 0, 0, 0.87);
 }
 
-@media (min-width: 576px) {
-	.desktop-header {
-		display: flex;
-	}
+/* User menu */
+.user-profile-menu {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
 
-	.mobile-header {
-		display: none;
+.profile-icon {
+	color: #8b283d;
+}
+
+.user-info h4 {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.user-info h5 {
+	margin: 0;
+	font-size: 12px;
+	color: rgba(0, 0, 0, 0.55);
+}
+
+@media (min-width: 768px) {
+	.logo {
+		width: 4rem;
 	}
 }

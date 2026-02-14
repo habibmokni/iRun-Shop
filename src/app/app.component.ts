@@ -18,6 +18,7 @@ import { Store } from './stores/types/store.types';
 import { UserService } from './user/services/user.service';
 import { User } from './user/types/user.types';
 import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
 import { IntroPageComponent } from './layout/intro/intro-page.component';
 
 const INTRO_STORAGE_KEY = 'intro_item';
@@ -28,7 +29,7 @@ const INTRO_STORAGE_KEY = 'intro_item';
 	styleUrls: ['./app.component.scss'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterOutlet, HeaderComponent, IntroPageComponent, MatDividerModule],
+	imports: [RouterOutlet, HeaderComponent, FooterComponent, IntroPageComponent, MatDividerModule],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {

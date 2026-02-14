@@ -2,13 +2,15 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 24px 16px;
+	padding: {
+		right: 16px;
+		left: 16px;
+	}
 }
 
 .register-title {
 	font-size: 1.75rem;
 	font-weight: 700;
-	margin-top: 24px;
 	text-align: center;
 }
 
@@ -88,15 +90,6 @@
 	margin-top: 8px;
 }
 
-.primary-button {
-	background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
-	color: white;
-}
-
-.secondary-button {
-	background: #e0e0e0;
-	color: #333;
-}
 
 .loading-container {
 	display: flex;

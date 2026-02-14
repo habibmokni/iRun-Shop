@@ -53,7 +53,7 @@ export const routes: Routes = [
 			import('./layout/intro/intro-page.component').then((m) => m.IntroPageComponent),
 	},
 	{
-		path: 'add-user',
+		path: 'register',
 		loadComponent: () =>
 			import('./auth/pages/register/register-page.component').then(
 				(m) => m.RegisterPageComponent,

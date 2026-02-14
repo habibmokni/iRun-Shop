@@ -93,9 +93,9 @@
 				</div>
 			</mat-card-content>
 			<mat-card-actions>
-				<button mat-raised-button class="checkout-action-btn" (click)="onSubmit()">
-					Proceed to Checkout
-				</button>
+			<button mat-flat-button class="primary-button checkout-action-btn" (click)="onSubmit()">
+				Proceed to Checkout
+			</button>
 			</mat-card-actions>
 		</mat-card>
 	</div>
@@ -103,6 +103,6 @@
 	<div class="empty-cart">
 		<h2>Cart is empty!</h2>
 		<mat-card-subtitle>Please add products to cart</mat-card-subtitle>
-		<button mat-flat-button class="shop-btn" routerLink="/home">Go to shop</button>
+		<button mat-flat-button class="primary-button" routerLink="/home">Go to shop</button>
 	</div>
 }

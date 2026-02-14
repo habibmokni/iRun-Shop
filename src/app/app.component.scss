@@ -1,3 +1,14 @@
+:host {
+	display: block;
+	min-height: 100vh;
+}
+
+.app-layout {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
 .shopping {
 	position: fixed;
 	top: 0;
@@ -8,4 +19,5 @@
 
 .main-content {
 	margin-top: 80px;
+	flex: 1;
 }

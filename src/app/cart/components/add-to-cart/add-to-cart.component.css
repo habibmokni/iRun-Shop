@@ -87,10 +87,7 @@
 
 .button-container {
 	width: 90%;
-	padding: 10px;
 	margin-bottom: 50px;
-	background: linear-gradient(180deg, #d53d5e 0%, #8b283d 100%);
-	color: white;
 }
 
 .stock-info {

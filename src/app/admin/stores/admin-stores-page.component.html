@@ -3,7 +3,7 @@
 		<h1>Stores</h1>
 		<div class="header-actions">
 			<a mat-button routerLink="/admin/products">Manage Products</a>
-			<button mat-flat-button (click)="onAdd()">
+			<button mat-flat-button class="primary-button" (click)="onAdd()">
 				<mat-icon>add</mat-icon>
 				Add Store
 			</button>
@@ -66,10 +66,10 @@
 					<mat-checkbox formControlName="isDefaultStore">Default Store</mat-checkbox>
 
 					<div class="form-actions">
-						<button mat-button type="button" (click)="onCancel()">Cancel</button>
-						<button mat-flat-button type="submit" [disabled]="form.invalid">
-							{{ editing() ? 'Update' : 'Add' }}
-						</button>
+					<button mat-flat-button class="secondary-button" type="button" (click)="onCancel()">Cancel</button>
+					<button mat-flat-button class="primary-button" type="submit" [disabled]="form.invalid">
+						{{ editing() ? 'Update' : 'Add' }}
+					</button>
 					</div>
 				</form>
 			</mat-card-content>

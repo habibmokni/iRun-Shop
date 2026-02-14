@@ -8,5 +8,5 @@ export interface User {
 	readonly password?: string;
 	readonly address?: string;
 	readonly zipCode?: string;
-	storeSelected: Store;
+	storeSelected?: Store;
 }

@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { SnackbarService } from '../../../shared/services/snackbar.service';
+import { UserService } from '../../../user/services/user.service';
+import { User } from '../../../user/types/user.types';
 
 @Component({
 	selector: 'app-register-page',
@@ -19,6 +21,7 @@ import { SnackbarService } from '../../../shared/services/snackbar.service';
 export class RegisterPageComponent {
 	private readonly router = inject(Router);
 	private readonly snackbar = inject(SnackbarService);
+	private readonly userService = inject(UserService);
 
 	protected readonly registerForm = new FormGroup({
 		firstName: new FormControl('', [Validators.required]),
@@ -46,11 +49,21 @@ export class RegisterPageComponent {
 		this.isLoading.set(true);
 
 		if (this.registerForm.valid) {
-			localStorage.setItem('user', JSON.stringify(this.registerForm.value));
+			const formValues = this.registerForm.getRawValue();
+			const userData: User = {
+				firstName: formValues.firstName ?? '',
+				lastName: formValues.lastName ?? '',
+				email: formValues.email ?? '',
+				password: formValues.password ?? '',
+				address: formValues.address ?? '',
+				zipCode: formValues.zipCode ?? '',
+			};
+
+			this.userService.addUser(userData);
 			this.snackbar.success('User added successfully!');
 			this.registerForm.reset();
 			this.isLoading.set(false);
-			setTimeout(() => this.router.navigate(['home']), 2000);
+			setTimeout(() => this.router.navigate(['/login']), 2000);
 		} else {
 			this.isLoading.set(false);
 			this.snackbar.error('Oops! Something went wrong');

@@ -8,7 +8,8 @@
 }
 
 .billing-form mat-form-field {
-	width: 300px;
+	width: 100%;
+	max-width: 480px;
 }
 
 .field-error {
