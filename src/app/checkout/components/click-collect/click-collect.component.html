@@ -38,16 +38,27 @@
 	<!-- Unavailable items warning -->
 	@if (selectedStore() && !allAvailable()) {
 		<div class="unavailable-banner">
-			<mat-icon class="warning-icon">warning</mat-icon>
-			<div class="unavailable-text">
-				<strong
-					>{{ unavailableProducts().length }} item(s) not available at this
-					store</strong
-				>
-				<span
-					>Remove them from your cart or select a different store to
-					continue.</span
-				>
+			<div class="unavailable-header-row">
+				<mat-icon class="warning-icon">warning</mat-icon>
+				<div class="unavailable-text">
+					<strong>{{ unavailableProducts().length }} item(s) not available at this store</strong>
+					<span>Remove them or select a different store to continue.</span>
+				</div>
+			</div>
+			<div class="unavailable-items-list">
+				@for (product of unavailableProducts(); track product.modelNo) {
+					<div class="unavailable-item-row">
+						<img
+							[src]="product.productImage"
+							[alt]="product.productName"
+							class="unavailable-item-img"
+						/>
+						<div class="unavailable-item-info">
+							<span class="unavailable-item-name">{{ product.productName }}</span>
+							<span class="unavailable-item-meta">Size {{ product.size }}</span>
+						</div>
+					</div>
+				}
 			</div>
 			<button
 				mat-flat-button

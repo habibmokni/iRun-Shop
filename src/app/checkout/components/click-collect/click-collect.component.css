@@ -120,13 +120,18 @@
 /* ── Unavailable banner ── */
 .unavailable-banner {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 	gap: 12px;
 	background: #fff3e0;
 	border: 1px solid #ffe0b2;
 	border-radius: 10px;
-	padding: 14px 16px;
-	flex-wrap: wrap;
+	padding: 16px;
+}
+
+.unavailable-header-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
 .warning-icon {
@@ -143,7 +148,50 @@
 	gap: 2px;
 	font-size: 13px;
 	flex: 1;
-	min-width: 180px;
+}
+
+.unavailable-items-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 8px 0 4px;
+}
+
+.unavailable-item-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 8px;
+	background: rgba(255, 255, 255, 0.6);
+	border-radius: 8px;
+}
+
+.unavailable-item-img {
+	width: 40px;
+	height: 40px;
+	border-radius: 6px;
+	object-fit: contain;
+	background: #fff;
+	flex-shrink: 0;
+}
+
+.unavailable-item-info {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.unavailable-item-name {
+	font-size: 13px;
+	font-weight: 600;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.unavailable-item-meta {
+	font-size: 11px;
+	color: rgba(0, 0, 0, 0.5);
 }
 
 .unavailable-text strong {

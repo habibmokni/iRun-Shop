@@ -141,8 +141,15 @@ p {
 	padding: 0 24px;
 }
 
+.container-narrow {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: 0 24px;
+}
+
 @media (max-width: 599px) {
-	.container {
+	.container,
+	.container-narrow {
 		padding: 0 16px;
 	}
 }

@@ -39,7 +39,12 @@ export class CartService {
 
 	removeLocalCartProduct(product: CartProduct): void {
 		const cart = this.readCartFromStorage().filter(
-			(item) => !(item.modelNo === product.modelNo && item.size === product.size),
+			(item) =>
+				!(
+					item.modelNo === product.modelNo &&
+					item.variantId === product.variantId &&
+					item.size === product.size
+				),
 		);
 		this.persistCart(cart);
 		this.snackbar.warning('Removing product from cart');
@@ -56,7 +61,11 @@ export class CartService {
 
 	updateNoOfItemsOfProduct(product: CartProduct): void {
 		const cart = this.readCartFromStorage().map((item) =>
-			item.modelNo === product.modelNo ? { ...item, noOfItems: product.noOfItems } : item,
+			item.modelNo === product.modelNo &&
+			item.variantId === product.variantId &&
+			item.size === product.size
+				? { ...item, noOfItems: product.noOfItems }
+				: item,
 		);
 		this.persistCart(cart);
 	}

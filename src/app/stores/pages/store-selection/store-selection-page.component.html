@@ -1,1 +1,142 @@
-<cnc-store-selector />
+<div class="store-selector-page container-narrow">
+	<h1 class="page-title">Find a Store</h1>
+	<p class="page-subtitle">
+		Select your preferred store for Click & Collect and stock availability.
+	</p>
+
+	<!-- Tab navigation -->
+	<nav class="view-tabs">
+		<button
+			class="view-tab"
+			[class.active]="activeView() === 'list'"
+			(click)="activeView.set('list')"
+		>
+			<mat-icon>list</mat-icon>
+			List View
+		</button>
+		<button
+			class="view-tab"
+			[class.active]="activeView() === 'map'"
+			(click)="activeView.set('map')"
+		>
+			<mat-icon>map</mat-icon>
+			Map View
+		</button>
+	</nav>
+
+	<!-- ── Map View (cnc-store-selector) ── -->
+	@if (activeView() === 'map') {
+		@if (mapsAvailable()) {
+			<div class="map-container">
+				<cnc-store-selector />
+			</div>
+		} @else {
+			<div class="maps-unavailable">
+				<mat-icon class="unavailable-icon">map</mat-icon>
+				<h3>Maps is not available right now</h3>
+				<p>Google Maps could not be loaded. Please try again later or use the List View.</p>
+				<button mat-flat-button class="primary-button" (click)="activeView.set('list')">
+					Switch to List View
+				</button>
+			</div>
+		}
+	}
+
+	<!-- ── List View ── -->
+	@if (activeView() === 'list') {
+		<!-- Search -->
+		<div class="search-bar">
+			<mat-icon class="search-icon">search</mat-icon>
+			<input
+				type="text"
+				class="search-input"
+				placeholder="Search by name or address..."
+				[value]="searchQuery()"
+				(input)="onSearch($event)"
+			/>
+			@if (searchQuery()) {
+				<button class="search-clear" (click)="searchQuery.set('')">
+					<mat-icon>close</mat-icon>
+				</button>
+			}
+		</div>
+
+		@if (filteredStores().length) {
+			<div class="store-grid">
+				@for (store of filteredStores(); track store.id) {
+					<div
+						class="store-card"
+						[class.selected]="selectedStoreId() === store.id"
+						(click)="selectStore(store)"
+					>
+						<div class="store-card-header">
+							<div class="store-icon-wrapper">
+								<mat-icon class="store-icon">store</mat-icon>
+							</div>
+							<div class="store-header-info">
+								<h3 class="store-name">{{ store.name }}</h3>
+								<span class="store-address">{{ store.address }}</span>
+							</div>
+							@if (selectedStoreId() === store.id) {
+								<mat-icon class="check-icon">check_circle</mat-icon>
+							}
+						</div>
+
+						<div class="store-details">
+							<div class="store-detail">
+								<mat-icon class="detail-icon">schedule</mat-icon>
+								<span
+									>{{ store.openingTime.open }} –
+									{{ store.openingTime.close }}</span
+								>
+							</div>
+							@if (store.description) {
+								<div class="store-detail">
+									<mat-icon class="detail-icon">info_outline</mat-icon>
+									<span>{{ store.description }}</span>
+								</div>
+							}
+							@if (store.reviews) {
+								<div class="store-detail">
+									<mat-icon class="detail-icon">star_outline</mat-icon>
+									<span>{{ store.reviews }}</span>
+								</div>
+							}
+						</div>
+
+						<div class="store-actions">
+							@if (selectedStoreId() === store.id) {
+								<button
+									mat-flat-button
+									class="primary-button select-btn selected-btn"
+									(click)="selectStore(store); $event.stopPropagation()"
+								>
+									<mat-icon>check</mat-icon>
+									Selected
+								</button>
+							} @else {
+								<button
+									mat-flat-button
+									class="primary-button select-btn"
+									(click)="selectStore(store); $event.stopPropagation()"
+								>
+									Select Store
+								</button>
+							}
+						</div>
+					</div>
+				}
+			</div>
+		} @else if (stores().length) {
+			<div class="empty-state">
+				<mat-icon class="empty-icon">search_off</mat-icon>
+				<p>No stores match "{{ searchQuery() }}"</p>
+			</div>
+		} @else {
+			<div class="empty-state">
+				<mat-icon class="empty-icon">store</mat-icon>
+				<p>No stores available</p>
+			</div>
+		}
+	}
+</div>

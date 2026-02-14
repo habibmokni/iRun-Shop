@@ -1,5 +1,5 @@
 @if (hasProducts()) {
-	<div class="cart-page container">
+	<div class="cart-page">
 		<h1 class="cart-title">Your Cart ({{ cartProducts().length }})</h1>
 
 		<div class="cart-layout">
@@ -27,7 +27,10 @@
 									<h3 class="item-name">{{ product.productName }}</h3>
 									<span class="item-meta">Size: {{ product.size }}</span>
 								</div>
+								<div class="item-prices">
 								<span class="item-price">{{ product.price * product.noOfItems | number: '1.2-2' }}€</span>
+								<span class="item-price-original">{{ (product.price + product.price * 0.2) * product.noOfItems | number: '1.2-2' }}€</span>
+							</div>
 							</div>
 
 							<div class="item-bottom">
@@ -56,10 +59,10 @@
 										<span class="dot"></span> Online
 									</span>
 								</div>
-								@if (product.noOfItems > 1) {
-									<span class="unit-price">{{ product.price | number: '1.2-2' }}€ each</span>
-								}
 							</div>
+							@if (product.noOfItems > 1) {
+								<span class="unit-price">{{ product.price | number: '1.2-2' }}€ each</span>
+							}
 						</div>
 					</div>
 				}
@@ -69,8 +72,12 @@
 			<aside class="summary">
 				<h2 class="summary-title">Order Summary</h2>
 				<div class="summary-line">
-					<span>Subtotal</span>
-					<span>{{ grandTotal() | number: '1.2-2' }}€</span>
+					<span>Original price</span>
+					<span class="original-total">{{ originalTotal() | number: '1.2-2' }}€</span>
+				</div>
+				<div class="summary-line savings-line">
+					<span>You save</span>
+					<span class="savings-value">-{{ savings() | number: '1.2-2' }}€</span>
 				</div>
 				<div class="summary-line">
 					<span>Shipping</span>
@@ -98,7 +105,7 @@
 		<!-- Mobile checkout bar -->
 		<div class="mobile-bar">
 			<div class="mobile-bar-info">
-				<span class="mobile-bar-label">Total</span>
+				<span class="mobile-bar-label">Total <span class="mobile-savings">(-{{ savings() | number: '1.2-2' }}€)</span></span>
 				<span class="mobile-bar-price">{{ grandTotal() | number: '1.2-2' }}€</span>
 			</div>
 			<button mat-flat-button class="primary-button mobile-bar-btn" (click)="onSubmit()">
@@ -107,7 +114,7 @@
 		</div>
 	</div>
 } @else {
-	<div class="empty-cart container">
+	<div class="empty-cart">
 		<mat-icon class="empty-icon">shopping_cart</mat-icon>
 		<h2>Your cart is empty</h2>
 		<p>Looks like you haven't added anything yet.</p>

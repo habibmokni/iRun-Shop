@@ -42,6 +42,15 @@ export class ShoppingCartPageComponent {
 		this.cartProducts().reduce((total, item) => total + item.price * item.noOfItems, 0),
 	);
 
+	protected readonly originalTotal = computed(() =>
+		this.cartProducts().reduce(
+			(total, item) => total + (item.price + item.price * 0.2) * item.noOfItems,
+			0,
+		),
+	);
+
+	protected readonly savings = computed(() => this.originalTotal() - this.grandTotal());
+
 	private readonly user = this.userService.user;
 
 	private readonly onlineProducts = toSignal(this.productService.productList, {

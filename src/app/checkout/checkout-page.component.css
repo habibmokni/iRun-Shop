@@ -1,7 +1,8 @@
 /* ── Page layout ── */
 .checkout-page {
-	padding-top: 1.5rem;
-	padding-bottom: 3rem;
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 1.5rem 24px 3rem;
 }
 
 .checkout-layout {
@@ -551,7 +552,7 @@
    ══════════════════════════════════════ */
 @media (max-width: 768px) {
 	.checkout-page {
-		padding-bottom: 90px;
+		padding: 1rem 16px 90px;
 	}
 
 	.checkout-layout {
