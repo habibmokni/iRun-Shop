@@ -8,8 +8,8 @@ export interface User {
 	readonly email?: string;
 	readonly address?: string;
 	readonly zipCode?: string;
-	storeSelected?: Store;
-	favoriteStore?: Store;
-	wishlist?: string[];
-	orders?: Order[];
+	readonly storeSelected?: Store;
+	readonly favoriteStore?: Store;
+	readonly wishlist?: string[];
+	readonly orders?: Order[];
 }

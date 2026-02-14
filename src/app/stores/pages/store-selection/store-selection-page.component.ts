@@ -97,10 +97,10 @@ export class StoreSelectionPageComponent {
 		this.searchQuery.set(value);
 	}
 
-	protected selectStore(store: Store): void {
-		this.userService.updateSelectedStore(store);
-		this.userService.setFavoriteStore(store);
-		this.snackbar.success(`Store updated`);
+	protected async selectStore(store: Store): Promise<void> {
+		await this.userService.updateSelectedStore(store);
+		await this.userService.setFavoriteStore(store);
+		this.snackbar.success('Store updated');
 	}
 
 }

@@ -68,7 +68,7 @@ export class RegisterPageComponent {
 			return;
 		}
 
-		// 2. Save profile data locally
+		// 2. Save profile data to Firestore
 		const userData: User = {
 			firstName: formValues.firstName ?? '',
 			lastName: formValues.lastName ?? '',
@@ -76,15 +76,12 @@ export class RegisterPageComponent {
 			address: formValues.address ?? '',
 			zipCode: formValues.zipCode ?? '',
 		};
-		this.userService.addUser(userData);
+		await this.userService.addUser(userData);
 
-		// 3. Sign out so the user can log in explicitly
-		await this.authService.logout();
-
-		this.snackbar.success('Account created');
-		this.registerForm.reset();
+		// Firebase already signs in the user after registration — go straight to home.
 		this.isLoading.set(false);
-		this.router.navigate(['/login']);
+		this.snackbar.success('Account created');
+		this.router.navigate(['/home']);
 	}
 
 	protected onCancel(): void {

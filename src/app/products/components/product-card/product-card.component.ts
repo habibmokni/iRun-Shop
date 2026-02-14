@@ -40,12 +40,12 @@ export class ProductCardComponent {
 		return this.userService.isInWishlist(modelNo);
 	}
 
-	protected toggleWishlist(modelNo: string): void {
+	protected async toggleWishlist(modelNo: string): Promise<void> {
 		if (!this.userService.user()) {
 			this.snackbar.info('Log in to use wishlist');
 			return;
 		}
-		const added = this.userService.toggleWishlist(modelNo);
+		const added = await this.userService.toggleWishlist(modelNo);
 		this.snackbar.success(added ? 'Added to wishlist' : 'Removed from wishlist');
 	}
 

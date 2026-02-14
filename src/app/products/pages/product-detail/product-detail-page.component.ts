@@ -169,7 +169,7 @@ export class ProductDetailPageComponent {
 		this.cartService.addToCart(cartProduct);
 	}
 
-	protected toggleWishlist(): void {
+	protected async toggleWishlist(): Promise<void> {
 		const modelNo = this.product()?.modelNo;
 		if (!modelNo) return;
 
@@ -178,7 +178,7 @@ export class ProductDetailPageComponent {
 			return;
 		}
 
-		const added = this.userService.toggleWishlist(modelNo);
+		const added = await this.userService.toggleWishlist(modelNo);
 		this.snackbar.success(added ? 'Added to wishlist' : 'Removed from wishlist');
 	}
 

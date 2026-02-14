@@ -31,6 +31,7 @@ export class ProfilePageComponent {
 	private readonly router = inject(Router);
 	private readonly route = inject(ActivatedRoute);
 
+	protected readonly isLoggedIn = this.authService.isLoggedIn;
 	protected readonly user = this.userService.user;
 	protected readonly orders = this.userService.orders;
 	protected readonly favoriteStore = this.userService.favoriteStore;
@@ -62,12 +63,12 @@ export class ProfilePageComponent {
 		return products.filter((product) => product.modelNo && wishlist.has(product.modelNo));
 	});
 
-	protected removeFromWishlist(modelNo: string): void {
-		this.userService.toggleWishlist(modelNo);
+	protected async removeFromWishlist(modelNo: string): Promise<void> {
+		await this.userService.toggleWishlist(modelNo);
 	}
 
-	protected logout(): void {
-		this.authService.logout();
+	protected async logout(): Promise<void> {
+		await this.authService.logout();
 		this.router.navigate(['/home']);
 	}
 }

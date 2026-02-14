@@ -1,16 +1,30 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { switchMap, of } from 'rxjs';
 
 import { User } from '../types/user.types';
 import { Store } from '../../stores/types/store.types';
 import { Order } from '../../checkout/types/checkout.types';
 
-const USER_STORAGE_KEY = 'user';
-
+/**
+ * User profile service backed by Firestore.
+ * Listens to Firebase Auth state and automatically syncs the
+ * user document at `users/{uid}` into a reactive signal.
+ */
 @Injectable()
 export class UserService {
-	readonly user = signal<User | null>(this.loadUser());
+	private readonly afAuth = inject(AngularFireAuth);
+	private readonly firestore = inject(AngularFirestore);
 
+	/** Current authenticated user's uid. */
+	private uid: string | null = null;
+
+	/** Reactive user profile signal — null when logged out. */
+	readonly user = signal<User | null>(null);
+
+	/** Observable mirror of the user signal (used by CNC bridge). */
 	readonly user$ = toObservable(this.user);
 
 	/** Current wishlist as a computed set of model numbers. */
@@ -22,84 +36,110 @@ export class UserService {
 	/** Current favorite store. */
 	readonly favoriteStore = computed(() => this.user()?.favoriteStore ?? null);
 
-	public addUser(userData: User): void {
-		this.saveAndEmit(userData);
+	constructor() {
+		// When auth state changes, subscribe to the matching Firestore doc.
+		this.afAuth.authState
+			.pipe(
+				switchMap((firebaseUser) => {
+					if (firebaseUser) {
+						this.uid = firebaseUser.uid;
+						return this.firestore
+							.doc<User>(`users/${firebaseUser.uid}`)
+							.valueChanges();
+					}
+					this.uid = null;
+					return of(null);
+				}),
+				takeUntilDestroyed(),
+			)
+			.subscribe((userData) => {
+				this.user.set(userData ?? null);
+			});
 	}
 
-	/** Merges the selected store into the existing user without losing profile data. */
-	public updateSelectedStore(store: Store): void {
-		const current = this.loadUser();
+	// ── Profile ──
+
+	/** Creates or overwrites the user profile document. */
+	async addUser(userData: User): Promise<void> {
+		// After register(), the authState subscription may not have fired yet.
+		// Fall back to reading the current user directly from Firebase Auth.
+		const uid = this.uid ?? (await this.afAuth.currentUser)?.uid;
+		if (!uid) return;
+		await this.firestore.doc<User>(`users/${uid}`).set(this.sanitize(userData));
+	}
+
+	// ── Store selection ──
+
+	/** Merges the selected store into the profile (strips products to save space). */
+	async updateSelectedStore(store: Store): Promise<void> {
+		if (!this.uid) return;
+		const current = this.user();
 		const updated: User = current
-			? { ...current, storeSelected: store }
-			: { name: 'Anonymous', storeSelected: store };
-		this.saveAndEmit(updated);
+			? { ...current, storeSelected: this.stripProducts(store) }
+			: { name: 'Anonymous', storeSelected: this.stripProducts(store) };
+		await this.userDoc().set(this.sanitize(updated));
 	}
 
 	// ── Wishlist ──
 
 	/** Toggles a product in the wishlist. Returns true if added, false if removed. */
-	public toggleWishlist(modelNo: string): boolean {
+	async toggleWishlist(modelNo: string): Promise<boolean> {
 		const current = this.user();
-		if (!current) return false;
+		if (!current || !this.uid) return false;
 
 		const list = current.wishlist ?? [];
 		const exists = list.includes(modelNo);
 		const updated = exists ? list.filter((id) => id !== modelNo) : [...list, modelNo];
-		this.saveAndEmit({ ...current, wishlist: updated });
+		await this.userDoc().update({ wishlist: updated });
 		return !exists;
 	}
 
 	/** Checks if a product model number is in the wishlist. */
-	public isInWishlist(modelNo: string): boolean {
+	isInWishlist(modelNo: string): boolean {
 		return this.wishlist().has(modelNo);
 	}
 
 	// ── Orders ──
 
 	/** Saves a completed order to the user's order history. */
-	public addOrder(order: Order): void {
+	async addOrder(order: Order): Promise<void> {
 		const current = this.user();
-		if (!current) return;
+		if (!current || !this.uid) return;
 
-		const orders = [...(current.orders ?? []), order];
-		this.saveAndEmit({ ...current, orders });
+		const orders = [...(current.orders ?? []), this.sanitize(order)];
+		await this.userDoc().update({ orders });
 	}
 
 	// ── Favorite Store ──
 
-	/** Saves a store as the user's favorite. */
-	public setFavoriteStore(store: Store): void {
+	/** Saves a store as the user's favorite (strips products). */
+	async setFavoriteStore(store: Store): Promise<void> {
 		const current = this.user();
-		if (!current) return;
+		if (!current || !this.uid) return;
 
-		this.saveAndEmit({ ...current, favoriteStore: store });
+		await this.userDoc().update({
+			favoriteStore: this.sanitize(this.stripProducts(store)),
+		});
 	}
 
-	/** Re-reads the user from localStorage into the signal. */
-	public reloadUser(): void {
-		this.user.set(this.loadUser());
+	// ── Private helpers ──
+
+	/** Reference to the current user's Firestore document. */
+	private userDoc() {
+		return this.firestore.doc<User>(`users/${this.uid}`);
 	}
 
-	/** Clears user data from both localStorage and the signal. */
-	public clearUser(): void {
-		localStorage.removeItem(USER_STORAGE_KEY);
-		this.user.set(null);
+	/** Strips the heavy `products` array from a Store before writing. */
+	private stripProducts(store: Store): Store {
+		const { products, ...rest } = store;
+		return { ...rest, products: [] };
 	}
 
-	private saveAndEmit(userData: User): void {
-		localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
-		this.user.set(userData);
-	}
-
-	private loadUser(): User | null {
-		const raw = localStorage.getItem(USER_STORAGE_KEY);
-		if (!raw) return null;
-
-		const parsed: unknown = JSON.parse(raw);
-
-		// Handle legacy format where user was wrapped in an array
-		if (Array.isArray(parsed)) return (parsed[0] as User) ?? null;
-
-		return parsed as User;
+	/**
+	 * Removes `undefined` values — Firestore rejects them.
+	 * Also converts Date objects to ISO strings for safe storage.
+	 */
+	private sanitize<T>(obj: T): T {
+		return JSON.parse(JSON.stringify(obj)) as T;
 	}
 }

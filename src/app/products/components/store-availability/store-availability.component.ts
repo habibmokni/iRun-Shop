@@ -113,12 +113,12 @@ export class StoreAvailabilityComponent {
 		this.pendingStore.set(store);
 	}
 
-	protected confirmStoreSelection(): void {
+	protected async confirmStoreSelection(): Promise<void> {
 		const store = this.pendingStore();
 		if (!store) return;
 
-		this.userService.updateSelectedStore(store);
-		this.userService.setFavoriteStore(store);
+		await this.userService.updateSelectedStore(store);
+		await this.userService.setFavoriteStore(store);
 		this.snackbarService.success('Store updated');
 		this.dialogRef.close();
 	}

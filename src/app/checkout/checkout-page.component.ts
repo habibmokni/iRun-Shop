@@ -168,8 +168,8 @@ export class CheckoutPageComponent {
 		});
 	}
 
-	protected onStoreChange(store: Store): void {
-		this.userService.updateSelectedStore(store);
+	protected async onStoreChange(store: Store): Promise<void> {
+		await this.userService.updateSelectedStore(store);
 		this.shippingMethod.patchValue({ shippingAddress: store.address });
 	}
 
@@ -229,12 +229,12 @@ export class CheckoutPageComponent {
 		);
 	}
 
-	protected onOrderConfirmation(): void {
+	protected async onOrderConfirmation(): Promise<void> {
 		const currentOrder = this.order();
 		if (!currentOrder) return;
 
 		this.checkoutService.submitOrder(currentOrder);
-		this.userService.addOrder(currentOrder);
+		await this.userService.addOrder(currentOrder);
 		this.dialog.open(OrderSuccessComponent);
 	}
 }
