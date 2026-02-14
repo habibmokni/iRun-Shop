@@ -1,0 +1,182 @@
+/* ── Product Card ── */
+:host {
+	display: flex;
+	width: 100%;
+}
+
+.card-link {
+	display: flex;
+	width: 100%;
+	text-decoration: none;
+	color: inherit;
+}
+
+.product-card {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	width: 100%;
+	transition:
+		box-shadow 0.2s ease,
+		transform 0.2s ease;
+}
+
+.product-card:hover {
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+	transform: translateY(-2px);
+}
+
+.card-image {
+	position: relative;
+	background: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px 16px;
+	aspect-ratio: 1;
+}
+
+.card-image img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+.card-body {
+	display: flex;
+	flex-direction: column;
+	padding: 16px;
+	gap: 4px;
+	flex: 1;
+	background: var(--mat-sys-surface-container-low);
+}
+
+.card-brand {
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	color: var(--mat-sys-on-surface-variant);
+}
+
+.card-name {
+	font-size: 15px;
+	font-weight: 600;
+	margin: 0;
+	line-height: 1.3;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.card-category {
+	font-size: 12px;
+	color: var(--mat-sys-on-surface-variant);
+}
+
+.card-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: auto;
+	padding-top: 14px;
+}
+
+.card-prices {
+	display: flex;
+	align-items: baseline;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.card-price {
+	font-size: 20px;
+	font-weight: 800;
+}
+
+.card-price.on-sale {
+	color: var(--mat-sys-primary);
+}
+
+.card-price-original {
+	font-size: 14px;
+	color: rgba(0, 0, 0, 0.4);
+	text-decoration: line-through;
+}
+
+/* Discount badge – top-left overlay on the image */
+.card-discount {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 2;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--mat-sys-on-primary);
+	background: var(--mat-sys-primary);
+	border-radius: 20px;
+	padding: 4px 14px;
+	line-height: 1.4;
+	letter-spacing: 0.3px;
+}
+
+/* Wishlist button – top-right overlay on the image */
+.card-fav-btn {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 2;
+	width: 36px !important;
+	height: 36px !important;
+	background: #fff !important;
+	color: rgba(0, 0, 0, 0.3);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-fav-btn:hover,
+.card-fav-btn.wishlisted {
+	color: var(--mat-sys-primary);
+}
+
+.card-add-btn {
+	width: 36px !important;
+	height: 36px !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 599px) {
+	.card-image {
+		padding: 8px;
+		aspect-ratio: 5 / 3;
+	}
+
+	.card-body {
+		padding: 10px 12px;
+	}
+
+	.card-name {
+		font-size: 13px;
+	}
+
+	.card-price {
+		font-size: 16px;
+	}
+
+	.card-price-original {
+		font-size: 12px;
+	}
+
+	.card-discount {
+		font-size: 12px;
+		padding: 3px 10px;
+	}
+
+	.card-category {
+		display: none;
+	}
+
+	.card-footer {
+		padding-top: 8px;
+	}
+}

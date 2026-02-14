@@ -2,45 +2,47 @@
 
 /* Raw config – passed to mat.theme() which expects top-level color/typography/density keys */
 $config: (
-    color: (
-        primary: mat.$rose-palette,
-        theme-type: light,
-    ),
-    typography: (
-        brand-family: (
-            Roboto,
-            sans-serif,
-        ),
-        plain-family: (
-            Roboto,
-            sans-serif,
-        ),
-    ),
-    density: (
-        scale: 0,
-    ),
+	color: (
+		primary: mat.$rose-palette,
+		theme-type: light,
+	),
+	typography: (
+		brand-family: (
+			Roboto,
+			sans-serif,
+		),
+		plain-family: (
+			Roboto,
+			sans-serif,
+		),
+	),
+	density: (
+		scale: 0,
+	),
 );
 
 /* Wrapped theme object – passed to component-level mixins */
 $theme: mat.define-theme($config);
 
 html {
-    /* System-level tokens (--mat-sys-primary, --mat-sys-surface, etc.) */
-    @include mat.theme($config);
+	/* System-level tokens (--mat-sys-primary, --mat-sys-surface, etc.) */
+	@include mat.theme($config);
 
-    /* Component-level tokens + typography classes */
-    @include mat.all-component-themes($theme);
-    @include mat.typography-hierarchy($theme);
+	/* Component-level tokens + typography classes */
+	@include mat.all-component-themes($theme);
+	@include mat.typography-hierarchy($theme);
 
-    /* Override M3 tinted surfaces with clean white/neutral values */
-    @include mat.theme-overrides((
-        surface: #ffffff,
-        surface-dim: #f0f0f0,
-        surface-bright: #ffffff,
-        surface-container-lowest: #ffffff,
-        surface-container-low: #f7f7f7,
-        surface-container: #f2f2f2,
-        surface-container-high: #ececec,
-        surface-container-highest: #e6e6e6,
-    ));
+	/* Override M3 tinted surfaces with clean white/neutral values */
+	@include mat.theme-overrides(
+		(
+			surface: #ffffff,
+			surface-dim: #f0f0f0,
+			surface-bright: #ffffff,
+			surface-container-lowest: #ffffff,
+			surface-container-low: #f7f7f7,
+			surface-container: #f2f2f2,
+			surface-container-high: #ececec,
+			surface-container-highest: #e6e6e6,
+		)
+	);
 }

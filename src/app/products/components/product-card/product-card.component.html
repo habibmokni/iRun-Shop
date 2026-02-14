@@ -1,0 +1,60 @@
+<a [routerLink]="['/products', product().modelNo]" class="card-link">
+	<mat-card appearance="outlined" class="product-card">
+		<div class="card-image">
+			@if (product().discount) {
+				<span class="card-discount">-{{ product().discount }}%</span>
+			}
+			<button
+				mat-mini-fab
+				class="card-fav-btn"
+				[class.wishlisted]="isWishlisted(product().modelNo!)"
+				(click)="
+					toggleWishlist(product().modelNo!);
+					$event.preventDefault();
+					$event.stopPropagation()
+				"
+			>
+				<mat-icon>{{
+					isWishlisted(product().modelNo!) ? 'favorite' : 'favorite_border'
+				}}</mat-icon>
+			</button>
+			<img
+				[ngSrc]="product().variants[0].imageList[0]"
+				[alt]="product().name"
+				width="300"
+				height="300"
+			/>
+		</div>
+		<mat-card-content class="card-body">
+			<span class="card-brand">{{ product().companyName }}</span>
+			<h3 class="card-name">{{ product().name }}</h3>
+			@if (showCategory()) {
+				<span class="card-category">{{
+					product().subCategory?.[0] ?? product().category[0]
+				}}</span>
+			}
+			<div class="card-footer">
+				<div class="card-prices">
+					<span class="card-price" [class.on-sale]="product().discount">{{ product().price | number: '1.2-2' }}€</span>
+					@if (product().discount) {
+						<span class="card-price-original">{{
+							product().price + product().price * 0.2 | number: '1.2-2'
+						}}€</span>
+					}
+				</div>
+				<button
+					mat-mini-fab
+					color="primary"
+					class="card-add-btn"
+					(click)="
+						openDialog(product());
+						$event.preventDefault();
+						$event.stopPropagation()
+					"
+				>
+					<mat-icon>add</mat-icon>
+				</button>
+			</div>
+		</mat-card-content>
+	</mat-card>
+</a>

@@ -1,16 +1,24 @@
 /* ── Global reset & base ── */
-html,
-body {
+html {
 	height: auto;
 	overflow-x: hidden;
+	overflow-y: scroll; /* always show scrollbar – prevents layout shift on desktop */
 }
 
 body {
+	height: auto;
 	margin: 0;
 	font-family: Roboto, 'Helvetica Neue', sans-serif;
 	-webkit-overflow-scrolling: touch;
 	color: var(--mat-sys-on-surface);
 	background: var(--mat-sys-surface);
+}
+
+/* Routed page components are custom elements that default to display:inline.
+   Force them to block so they fill the full width immediately. */
+router-outlet + * {
+	display: block;
+	width: 100%;
 }
 
 /* ── Snackbar variants ── */

@@ -1,18 +1,11 @@
 import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@angular/core';
-import { NgOptimizedImage, DecimalPipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { RouterModule } from '@angular/router';
 
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { Product } from '../../types/product.types';
 import { ProductService } from '../../services/product.service';
-import { UserService } from '../../../user/services/user.service';
-import { SnackbarService } from '../../../shared/services/snackbar.service';
-import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-cart.component';
+import { ProductCardComponent } from '../../components/product-card/product-card.component';
 
 @Component({
 	selector: 'app-product-list-page',
@@ -21,20 +14,12 @@ import { AddToCartComponent } from '../../../cart/components/add-to-cart/add-to-
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
-		NgOptimizedImage,
-		RouterModule,
-		MatDialogModule,
-		MatButtonModule,
-		MatIconModule,
 		MatChipsModule,
-		DecimalPipe,
+		ProductCardComponent,
 	],
 })
 export class ProductListPageComponent {
 	private readonly productService = inject(ProductService);
-	private readonly userService = inject(UserService);
-	private readonly snackbar = inject(SnackbarService);
-	private readonly dialog = inject(MatDialog);
 
 	private readonly products = toSignal(this.productService.productList, {
 		initialValue: [] as Product[],
@@ -61,27 +46,5 @@ export class ProductListPageComponent {
 
 	protected onTabChange(index: number): void {
 		this.activeTabIndex.set(index);
-	}
-
-	protected isWishlisted(modelNo: string): boolean {
-		return this.userService.isInWishlist(modelNo);
-	}
-
-	protected toggleWishlist(modelNo: string): void {
-		if (!this.userService.user()) {
-			this.snackbar.info('Please log in to use the wishlist');
-			return;
-		}
-		const added = this.userService.toggleWishlist(modelNo);
-		this.snackbar.success(added ? 'Added to wishlist' : 'Removed from wishlist');
-	}
-
-	protected openDialog(product: Product): void {
-		this.dialog.open(AddToCartComponent, {
-			data: product,
-			maxWidth: '95vw',
-			maxHeight: '90vh',
-			width: '400px',
-		});
 	}
 }
