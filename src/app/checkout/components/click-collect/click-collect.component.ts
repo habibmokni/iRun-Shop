@@ -230,6 +230,10 @@ export class ClickCollectComponent implements OnInit {
 		const userStore = this.user()?.storeSelected;
 		if (userStore) {
 			this.selectedStore.set(userStore);
+
+			// Emit initial availability status for the preselected store.
+			const unavailable = this.unavailableProducts();
+			this.isAllItemsAvailable.emit(unavailable.length === 0);
 		}
 	}
 
