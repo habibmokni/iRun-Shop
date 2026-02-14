@@ -10,10 +10,8 @@ export class CartService {
 
 	private readonly cartState = signal<CartProduct[]>(this.readFromStorage());
 
-	readonly cart = this.cartState.asReadonly();
-
+	readonly cart = computed(() => this.cartState());
 	readonly count = computed(() => this.cartState().reduce((sum, item) => sum + item.noOfItems, 0));
-
 	readonly isEmpty = computed(() => this.cartState().length === 0);
 
 	public addToCart(product: CartProduct): void {
