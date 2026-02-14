@@ -183,7 +183,7 @@ export class CheckoutPageComponent {
 
 	protected onProductsToRemove(cartItems: CartProduct[]): void {
 		cartItems.forEach((item) => {
-			this.cartService.removeLocalCartProduct(item);
+			this.cartService.removeProduct(item);
 		});
 	}
 
@@ -193,7 +193,7 @@ export class CheckoutPageComponent {
 
 	protected removeProductsUnavailable(): void {
 		this.onlineStockCheck().unavailableItems.forEach((item) => {
-			this.cartService.removeLocalCartProduct(item);
+			this.cartService.removeProduct(item);
 		});
 	}
 

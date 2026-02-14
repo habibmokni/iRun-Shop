@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { NgOptimizedImage, DecimalPipe } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -33,9 +33,7 @@ export class ShoppingCartPageComponent {
 	private readonly userService = inject(UserService);
 	private readonly snackbar = inject(SnackbarService);
 
-	protected readonly cartProducts = signal<CartProduct[]>(
-		this.cartService.getLocalCartProducts(),
-	);
+	protected readonly cartProducts = this.cartService.cart;
 	protected readonly hasProducts = computed(() => this.cartProducts().length > 0);
 
 	protected readonly grandTotal = computed(() =>
@@ -77,9 +75,7 @@ export class ShoppingCartPageComponent {
 			product.noOfItems > 0 &&
 			(product.noOfItems < stock.physical || product.noOfItems < stock.online)
 		) {
-			const updated = { ...product, noOfItems: product.noOfItems + 1 };
-			this.cartService.updateNoOfItemsOfProduct(updated);
-			this.refreshCart();
+			this.cartService.updateQuantity(product, product.noOfItems + 1);
 		}
 	}
 
@@ -87,12 +83,10 @@ export class ShoppingCartPageComponent {
 		const product = this.cartProducts()[index];
 
 		if (product.noOfItems <= 1) {
-			this.cartService.removeLocalCartProduct(product);
+			this.cartService.removeProduct(product);
 		} else {
-			const updated = { ...product, noOfItems: product.noOfItems - 1 };
-			this.cartService.updateNoOfItemsOfProduct(updated);
+			this.cartService.updateQuantity(product, product.noOfItems - 1);
 		}
-		this.refreshCart();
 	}
 
 	protected onSubmit(): void {
@@ -107,10 +101,6 @@ export class ShoppingCartPageComponent {
 		if (stock > 5) return 'good';
 		if (stock > 0) return 'low';
 		return 'out';
-	}
-
-	private refreshCart(): void {
-		this.cartProducts.set(this.cartService.getLocalCartProducts());
 	}
 
 	private findStock(cartProduct: CartProduct, products: Product[]): number {

@@ -1,5 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { CartProduct } from '../types/cart.types';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 
@@ -9,72 +8,55 @@ const CART_STORAGE_KEY = 'avct_item';
 export class CartService {
 	private readonly snackbar = inject(SnackbarService);
 
-	private readonly cartState = signal<CartProduct[]>(this.readCartFromStorage());
+	private readonly cartState = signal<CartProduct[]>(this.readFromStorage());
 
 	readonly cart = this.cartState.asReadonly();
 
-	readonly cart$ = toObservable(this.cartState);
+	readonly count = computed(() => this.cartState().length);
 
-	addToCart(data: CartProduct): void {
-		const cart = this.readCartFromStorage();
-		const existingIndex = cart.findIndex(
-			(item) =>
-				item.modelNo === data.modelNo &&
-				item.variantId === data.variantId &&
-				item.size === data.size,
-		);
+	readonly isEmpty = computed(() => this.cartState().length === 0);
 
-		if (existingIndex >= 0) {
-			cart[existingIndex] = {
-				...cart[existingIndex],
-				noOfItems: cart[existingIndex].noOfItems + 1,
-			};
+	public addToCart(product: CartProduct): void {
+		const cart = [...this.cartState()];
+		const index = cart.findIndex((item) => this.isSameItem(item, product));
+
+		if (index >= 0) {
+			cart[index] = { ...cart[index], noOfItems: cart[index].noOfItems + 1 };
 		} else {
-			cart.push(data);
+			cart.push(product);
 		}
 
-		this.persistCart(cart);
+		this.persist(cart);
 		this.snackbar.info('Adding Product to Cart');
 	}
 
-	removeLocalCartProduct(product: CartProduct): void {
-		const cart = this.readCartFromStorage().filter(
-			(item) =>
-				!(
-					item.modelNo === product.modelNo &&
-					item.variantId === product.variantId &&
-					item.size === product.size
-				),
-		);
-		this.persistCart(cart);
+	public removeProduct(product: CartProduct): void {
+		const cart = this.cartState().filter((item) => !this.isSameItem(item, product));
+		this.persist(cart);
 		this.snackbar.warning('Removing product from cart');
 	}
 
-	removeAllLocalCartProduct(): void {
+	public updateQuantity(product: CartProduct, quantity: number): void {
+		const cart = this.cartState().map((item) =>
+			this.isSameItem(item, product) ? { ...item, noOfItems: quantity } : item,
+		);
+		this.persist(cart);
+	}
+
+	public clearCart(): void {
 		localStorage.removeItem(CART_STORAGE_KEY);
 		this.cartState.set([]);
 	}
 
-	getLocalCartProducts(): CartProduct[] {
-		return this.readCartFromStorage();
+	private isSameItem(a: CartProduct, b: CartProduct): boolean {
+		return a.modelNo === b.modelNo && a.variantId === b.variantId && a.size === b.size;
 	}
 
-	updateNoOfItemsOfProduct(product: CartProduct): void {
-		const cart = this.readCartFromStorage().map((item) =>
-			item.modelNo === product.modelNo &&
-			item.variantId === product.variantId &&
-			item.size === product.size
-				? { ...item, noOfItems: product.noOfItems }
-				: item,
-		);
-		this.persistCart(cart);
-	}
-
-	private readCartFromStorage(): CartProduct[] {
+	private readFromStorage(): CartProduct[] {
 		return JSON.parse(localStorage.getItem(CART_STORAGE_KEY) ?? '[]') as CartProduct[];
 	}
 
-	private persistCart(cart: CartProduct[]): void {
+	private persist(cart: CartProduct[]): void {
 		this.cartState.set(cart);
 		localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
 	}

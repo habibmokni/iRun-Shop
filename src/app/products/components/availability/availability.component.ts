@@ -145,7 +145,7 @@ export class AvailabilityComponent {
 
 		if (this.data.call === 'checkout') {
 			this.nearByStores.set(
-				this.findNearByStoresForCart(this.cartService.getLocalCartProducts()),
+				this.findNearByStoresForCart(this.cartService.cart()),
 			);
 		}
 	}

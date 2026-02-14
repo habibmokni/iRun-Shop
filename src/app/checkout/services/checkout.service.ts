@@ -70,7 +70,7 @@ export class CheckoutService {
 				phoneNo: billing.phoneNo ?? null,
 				address1: billing.address1 ?? null,
 			},
-			productsOrdered: this.cartService.getLocalCartProducts(),
+			productsOrdered: this.cartService.cart(),
 			storeLocation: {
 				id: storeId,
 				address: shipping.shippingAddress ?? null,
@@ -85,7 +85,7 @@ export class CheckoutService {
 
 	public submitOrder(order: Order): void {
 		this.db.collection<Order>('orderList').add({ ...order });
-		this.cartService.removeAllLocalCartProduct();
+		this.cartService.clearCart();
 		this.snackbar.success('Order placed successfully');
 	}
 }

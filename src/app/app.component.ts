@@ -3,6 +3,7 @@ import {
 	CUSTOM_ELEMENTS_SCHEMA,
 	ChangeDetectionStrategy,
 	DestroyRef,
+	effect,
 	inject,
 	signal,
 } from '@angular/core';
@@ -71,11 +72,10 @@ export class AppComponent {
 				this.cncService.setUser(user);
 			});
 
-		this.cartService.cart$
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((cartProducts) => {
-				this.cncService.setCartProducts(cartProducts);
-			});
+		/** Sync cart signal → cnc service. */
+		effect(() => {
+			this.cncService.setCartProducts(this.cartService.cart());
+		});
 
 		this.cncService.storeSelected
 			.pipe(takeUntilDestroyed(this.destroyRef))

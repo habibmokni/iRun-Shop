@@ -39,8 +39,11 @@ export class StoreSelectionPageComponent {
 	protected readonly searchQuery = signal('');
 	protected readonly activeView = signal<StoreView>('list');
 
-	/** Check if Google Maps JS API is loaded. */
-	protected readonly mapsAvailable = signal(this.detectMapsAvailable());
+	/**
+	 * Google Maps API key in @habibmokni/cnc is expired.
+	 * Re-enable once a valid key is configured in the cnc package.
+	 */
+	protected readonly mapsAvailable = signal(false);
 
 	protected readonly selectedStoreId = computed(
 		() => this.userService.user()?.storeSelected?.id ?? null,
@@ -68,7 +71,4 @@ export class StoreSelectionPageComponent {
 		this.snackbar.success(`${store.name} selected as your store`);
 	}
 
-	private detectMapsAvailable(): boolean {
-		return typeof google !== 'undefined' && typeof google.maps !== 'undefined';
-	}
 }

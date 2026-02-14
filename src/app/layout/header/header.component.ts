@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
@@ -38,7 +38,7 @@ export class HeaderComponent {
 
 	protected readonly isLoggedIn = this.authService.isLoggedIn;
 	protected readonly user = this.userService.user;
-	protected readonly cartCount = computed(() => this.cartService.cart().length);
+	protected readonly cartCount = this.cartService.count;
 	protected readonly wishlistCount = computed(() => this.userService.wishlist().size);
 
 	protected onLogout(): void {

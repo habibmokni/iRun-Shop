@@ -30,6 +30,9 @@
 								<div class="item-prices">
 								<span class="item-price">{{ product.price * product.noOfItems | number: '1.2-2' }}€</span>
 								<span class="item-price-original">{{ (product.price + product.price * 0.2) * product.noOfItems | number: '1.2-2' }}€</span>
+								@if (product.noOfItems > 1) {
+									<span class="unit-price">{{ product.price | number: '1.2-2' }}€ each</span>
+								}
 							</div>
 							</div>
 
@@ -60,9 +63,6 @@
 									</span>
 								</div>
 							</div>
-							@if (product.noOfItems > 1) {
-								<span class="unit-price">{{ product.price | number: '1.2-2' }}€ each</span>
-							}
 						</div>
 					</div>
 				}
