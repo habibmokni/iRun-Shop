@@ -7,6 +7,22 @@
 			<h3 class="store-name">{{ store().name }}</h3>
 			<span class="store-address">{{ store().address }}</span>
 		</div>
+		@if (stock() != null) {
+			<span
+				class="stock-badge"
+				[class.good]="stock()! > 5"
+				[class.low]="stock()! > 0 && stock()! <= 5"
+				[class.out]="stock() === 0"
+			>
+				@if (stock()! > 5) {
+					In stock
+				} @else if (stock()! > 0) {
+					Low stock
+				} @else {
+					Unavailable
+				}
+			</span>
+		}
 		@if (selected()) {
 			<mat-icon class="check-icon">check_circle</mat-icon>
 		}
@@ -35,36 +51,6 @@
 			<div class="store-detail">
 				<mat-icon class="detail-icon">star_outline</mat-icon>
 				<span>{{ store().reviews }}</span>
-			</div>
-		}
-		@if (stock() != null) {
-			<div class="store-detail">
-				<mat-icon
-					class="detail-icon stock-icon"
-					[class.good]="stock()! > 5"
-					[class.low]="stock()! > 0 && stock()! <= 5"
-					[class.out]="stock() === 0"
-				>
-					@if (stock()! > 0) {
-						check_circle
-					} @else {
-						cancel
-					}
-				</mat-icon>
-				<span
-					class="stock-text"
-					[class.good]="stock()! > 5"
-					[class.low]="stock()! > 0 && stock()! <= 5"
-					[class.out]="stock() === 0"
-				>
-					@if (stock()! > 5) {
-						In stock
-					} @else if (stock()! > 0) {
-						Low stock
-					} @else {
-						Out of stock
-					}
-				</span>
 			</div>
 		}
 	</div>

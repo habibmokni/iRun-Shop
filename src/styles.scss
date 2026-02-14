@@ -110,3 +110,15 @@ router-outlet + * {
 .fullscreen-dialog .mat-mdc-dialog-container {
 	padding: 0;
 }
+
+/* ── Fullscreen dialog (store availability) ── */
+.store-availability-dialog .mat-mdc-dialog-surface {
+	background: var(--mat-sys-surface, #fff);
+	border-radius: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.store-availability-dialog .mat-mdc-dialog-container {
+	padding: 0;
+}

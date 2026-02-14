@@ -6,7 +6,6 @@ import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 // Material
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -45,7 +44,6 @@ export class ProductDetailPageComponent {
 	// Services
 	private readonly route = inject(ActivatedRoute);
 	private readonly dialog = inject(MatDialog);
-	private readonly bottomSheet = inject(MatBottomSheet);
 	private readonly productService = inject(ProductService);
 	private readonly cartService = inject(CartService);
 	private readonly userService = inject(UserService);
@@ -188,14 +186,18 @@ export class ProductDetailPageComponent {
 		const product = this.product();
 		if (!product) return;
 
-		this.bottomSheet.open(StoreAvailabilityComponent, {
+		this.dialog.open(StoreAvailabilityComponent, {
 			data: {
 				call: 'product',
 				size: this.isSizeSelected() ? this.selectedSize() : null,
 				modelNo: product.modelNo,
 				sizes: product.variants?.[0]?.sizes ?? [],
 			} satisfies StoreAvailabilityDialogData,
-			panelClass: 'store-availability-sheet',
+			panelClass: 'store-availability-dialog',
+			maxWidth: '100vw',
+			maxHeight: '100vh',
+			width: '100vw',
+			height: '100vh',
 		});
 	}
 

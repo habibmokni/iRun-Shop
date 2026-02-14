@@ -1,84 +1,127 @@
-<!-- Drag handle -->
-<div class="drag-handle"></div>
-
 <!-- Header -->
-<div class="sheet-header">
-	<button mat-icon-button class="close-btn" (click)="close()">
-		<mat-icon>close</mat-icon>
+<div class="dialog-header">
+	<button mat-icon-button class="back-btn" (click)="close()">
+		<mat-icon>arrow_back</mat-icon>
 	</button>
+	<h2 class="dialog-title">Store Availability</h2>
 </div>
 
-<!-- Size selector (if no size chosen yet) -->
-@if (!isSizeSelected()) {
-	<div class="sheet-section">
-		<span class="section-label">Select a size first</span>
-		<div class="size-chips">
-			@for (size of data.sizes; track size) {
-				<button
-					matButton="outlined"
-					class="size-chip"
-					(click)="changeSize(size)"
-				>
-					{{ size }}
-				</button>
-			}
-		</div>
-	</div>
-} @else {
-	<!-- Selected size pill -->
-	<div class="sheet-section">
-		<button matButton="outlined" class="selected-size-pill" (click)="resetSize()">
-			<mat-icon>straighten</mat-icon>
-			Size {{ selectedSize() }}
-			<mat-icon class="change-icon">edit</mat-icon>
+<!-- Steps -->
+<div class="dialog-body">
+	<mat-accordion class="steps-accordion">
+		<!-- Step 1: Select Size -->
+		<mat-expansion-panel
+			[expanded]="step() === 0"
+			(opened)="step.set(0)"
+			hideToggle
+		>
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					<span class="panel-header-row">
+						<span class="step-dot" [class.done]="isSizeSelected()">
+							@if (isSizeSelected()) { <mat-icon>check</mat-icon> } @else { <mat-icon>straighten</mat-icon> }
+						</span>
+						<span class="panel-title-text">
+							Select Size
+							@if (isSizeSelected() && step() !== 0) {
+								<span class="panel-subtitle">Size {{ selectedSize() }}</span>
+							}
+						</span>
+					</span>
+				</mat-panel-title>
+			</mat-expansion-panel-header>
+
+			<div class="size-chips">
+				@for (size of data.sizes; track size) {
+					<button
+						matButton="outlined"
+						class="size-chip"
+						[class.selected]="selectedSize() === size"
+						(click)="changeSize(size)"
+					>
+						{{ size }}
+					</button>
+				}
+			</div>
+		</mat-expansion-panel>
+
+		<!-- Step 2: Find a Store -->
+		<mat-expansion-panel
+			[expanded]="step() === 1"
+			(opened)="step.set(1)"
+			[disabled]="!isSizeSelected()"
+			hideToggle
+		>
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					<span class="panel-header-row">
+						<span class="step-dot" [class.done]="pendingStore()">
+							@if (pendingStore()) { <mat-icon>check</mat-icon> } @else { <mat-icon>store</mat-icon> }
+						</span>
+						<span class="panel-title-text">
+							Find a Store
+							@if (pendingStore() && step() !== 1) {
+								<span class="panel-subtitle">{{ pendingStore()!.name }}</span>
+							}
+						</span>
+					</span>
+				</mat-panel-title>
+			</mat-expansion-panel-header>
+
+			<mat-tab-group mat-align-tabs="start">
+				<mat-tab label="Address">
+					<div class="search-row">
+						<mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
+							<mat-icon matPrefix>search</mat-icon>
+							<input id="search" matInput placeholder="Enter zip code or address" />
+						</mat-form-field>
+						<button mat-icon-button class="location-btn" (click)="currentLocation()">
+							<mat-icon>my_location</mat-icon>
+						</button>
+					</div>
+
+					@if (nearByStores().length > 0) {
+						<div class="stores-list">
+							@for (entry of nearByStores(); track entry.store.id) {
+								<app-store-card
+									[store]="entry.store"
+									[selected]="pendingStore()?.id === entry.store.id"
+									[distance]="entry.distance"
+									[stock]="entry.stock"
+									(storeSelect)="onStoreTap($event)"
+								/>
+							}
+						</div>
+					} @else {
+						<div class="empty-state">
+							<mat-icon class="empty-icon">store</mat-icon>
+							<p>Search an address or use your location to find nearby stores</p>
+						</div>
+					}
+				</mat-tab>
+
+				<mat-tab label="Map">
+					@if (isSizeSelected()) {
+						<div class="map-container">
+							<app-maps
+								[mapHeight]="mapDimensions().height"
+								[mapWidth]="mapDimensions().width"
+								[ModelNo]="data.modelNo"
+								[size]="selectedSize()!"
+							/>
+						</div>
+					}
+				</mat-tab>
+			</mat-tab-group>
+		</mat-expansion-panel>
+	</mat-accordion>
+</div>
+
+<!-- Confirm bar (fixed at bottom) -->
+@if (pendingStore()) {
+	<div class="confirm-bar">
+		<button matButton="filled" class="confirm-btn" (click)="confirmStoreSelection()">
+			Set as my store
 		</button>
 	</div>
 }
-
-<!-- Main content (hidden, not removed, so autocomplete stays in DOM) -->
-<div class="sheet-body" [class.hidden]="!isSizeSelected()">
-	<mat-tab-group mat-align-tabs="start">
-		<mat-tab label="Address">
-			<div class="search-row">
-				<mat-form-field appearance="outline" class="search-field">
-					<mat-icon matPrefix>search</mat-icon>
-					<input id="search" matInput placeholder="Enter zip code or address" />
-				</mat-form-field>
-				<button mat-icon-button class="location-btn" (click)="currentLocation()">
-					<mat-icon>my_location</mat-icon>
-				</button>
-			</div>
-
-			@if (nearByStores().length > 0) {
-				<div class="stores-list">
-					@for (entry of nearByStores(); track entry.store.id) {
-						<app-store-card
-							[store]="entry.store"
-							[distance]="entry.distance"
-							[stock]="entry.stock"
-							(storeSelect)="onStoreSelect($event)"
-						/>
-					}
-				</div>
-			} @else {
-				<div class="empty-state">
-					<mat-icon class="empty-icon">store</mat-icon>
-					<p>Search an address or use your location to find nearby stores</p>
-				</div>
-			}
-		</mat-tab>
-
-		<mat-tab label="Map">
-			@if (isSizeSelected()) {
-				<div class="map-container">
-					<app-maps
-						[mapHeight]="mapDimensions().height"
-						[mapWidth]="mapDimensions().width"
-						[ModelNo]="data.modelNo"
-						[size]="selectedSize()!"
-					/>
-				</div>
-			}
-		</mat-tab>
-	</mat-tab-group>
-</div>

@@ -7,12 +7,13 @@ import {
 	ChangeDetectionStrategy,
 	afterNextRender,
 } from '@angular/core';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetModule, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -47,12 +48,13 @@ export interface NearByStore {
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
-		MatBottomSheetModule,
+		MatDialogModule,
 		MatButtonModule,
 		MatIconModule,
 		MatCardModule,
 		MatDividerModule,
 		MatTabsModule,
+		MatExpansionModule,
 		MatFormFieldModule,
 		MatInputModule,
 		MapsComponent,
@@ -65,11 +67,11 @@ export class StoreAvailabilityComponent {
 	private readonly mapService = inject(MapsService);
 	private readonly storeService = inject(StoreService);
 	private readonly snackbarService = inject(SnackbarService);
-	private readonly bottomSheetRef = inject(MatBottomSheetRef);
+	private readonly dialogRef = inject(MatDialogRef);
 	private readonly cartService = inject(CartService);
 	private readonly userService = inject(UserService);
 
-	protected readonly data = inject<StoreAvailabilityDialogData>(MAT_BOTTOM_SHEET_DATA);
+	protected readonly data = inject<StoreAvailabilityDialogData>(MAT_DIALOG_DATA);
 
 	protected readonly mapDimensions = computed(() => {
 		const width = Math.min(window.innerWidth - 48, 700);
@@ -78,6 +80,8 @@ export class StoreAvailabilityComponent {
 
 	protected readonly selectedSize = signal<number | null>(this.data.size ?? null);
 	protected readonly nearByStores = signal<NearByStore[]>([]);
+	protected readonly pendingStore = signal<Store | null>(null);
+	protected readonly step = signal(this.data.size != null ? 1 : 0);
 
 	protected readonly isSizeSelected = computed(() => this.selectedSize() !== null);
 	private readonly stores = toSignal(this.storeService.store, { initialValue: [] as Store[] });
@@ -89,24 +93,34 @@ export class StoreAvailabilityComponent {
 	}
 
 	protected close(): void {
-		this.bottomSheetRef.dismiss();
+		this.dialogRef.close();
 	}
 
 	protected changeSize(size: number): void {
 		this.selectedSize.set(size);
 		this.nearByStores.set([]);
+		this.step.set(1);
 	}
 
 	protected resetSize(): void {
 		this.selectedSize.set(null);
 		this.nearByStores.set([]);
+		this.pendingStore.set(null);
+		this.step.set(0);
 	}
 
-	protected onStoreSelect(store: Store): void {
+	protected onStoreTap(store: Store): void {
+		this.pendingStore.set(store);
+	}
+
+	protected confirmStoreSelection(): void {
+		const store = this.pendingStore();
+		if (!store) return;
+
 		this.userService.updateSelectedStore(store);
 		this.userService.setFavoriteStore(store);
-		this.snackbarService.success('Store selected as preferred');
-		this.bottomSheetRef.dismiss();
+		this.snackbarService.success('Store updated');
+		this.dialogRef.close();
 	}
 
 	protected currentLocation(): void {

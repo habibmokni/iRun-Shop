@@ -99,24 +99,29 @@
 	margin-top: 1px;
 }
 
-/* ── Stock status ── */
-.stock-icon.good,
-.stock-text.good {
-	color: #155724;
+/* ── Stock badge (header) ── */
+.stock-badge {
+	font-size: 12px;
+	font-weight: 700;
+	padding: 4px 10px;
+	border-radius: 20px;
+	white-space: nowrap;
+	flex-shrink: 0;
 }
 
-.stock-icon.low,
-.stock-text.low {
-	color: #856404;
+.stock-badge.good {
+	background: #e8f5e9;
+	color: #1b5e20;
 }
 
-.stock-icon.out,
-.stock-text.out {
-	color: #721c24;
+.stock-badge.low {
+	background: #fff8e1;
+	color: #e65100;
 }
 
-.stock-text {
-	font-weight: 600;
+.stock-badge.out {
+	background: #fce4ec;
+	color: #b71c1c;
 }
 
 /* ── Responsive ── */

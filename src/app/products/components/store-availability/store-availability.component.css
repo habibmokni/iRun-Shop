@@ -1,44 +1,98 @@
-/* ── Host ── */
+/* ── Host: full viewport flex column ── */
 :host {
 	display: flex;
 	flex-direction: column;
-	max-height: 85vh;
-	overflow: hidden;
-	padding: 0 24px 24px;
-}
-
-/* ── Drag handle ── */
-.drag-handle {
-	width: 36px;
-	height: 4px;
-	border-radius: 2px;
-	background: rgba(0, 0, 0, 0.15);
-	margin: 12px auto 8px;
+	width: 100%;
+	height: 100%;
+	background: var(--mat-sys-surface, #fff);
 }
 
 /* ── Header ── */
-.sheet-header {
+.dialog-header {
 	display: flex;
-	justify-content: flex-end;
-	margin-bottom: 8px;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 16px;
+	border-bottom: 1px solid var(--mat-sys-outline-variant);
+	flex-shrink: 0;
 }
 
-.close-btn {
+.back-btn {
+	color: var(--mat-sys-on-surface);
+}
+
+.dialog-title {
+	font-size: 18px;
+	font-weight: 600;
+	margin: 0;
+	color: var(--mat-sys-on-surface);
+}
+
+/* ── Dialog body (scrollable) ── */
+.dialog-body {
+	flex: 1;
+	overflow-y: auto;
+	min-height: 0;
+	padding: 16px 24px;
+}
+
+/* ── Accordion steps ── */
+.steps-accordion .mat-expansion-panel {
+	box-shadow: none !important;
+	border: 1px solid var(--mat-sys-outline-variant);
+	border-radius: 12px !important;
+	margin-bottom: 12px;
+}
+
+.steps-accordion .mat-expansion-panel::before {
+	display: none;
+}
+
+/* Panel header row */
+.panel-header-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.step-dot {
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 13px;
+	font-weight: 700;
+	background: var(--mat-sys-surface-container);
 	color: var(--mat-sys-on-surface-variant);
 	flex-shrink: 0;
 }
 
-/* ── Sections ── */
-.sheet-section {
-	margin-bottom: 16px;
+.step-dot.done {
+	background: var(--mat-sys-primary);
+	color: var(--mat-sys-on-primary);
 }
 
-.section-label {
-	display: block;
-	font-size: 13px;
+.step-dot mat-icon {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+}
+
+.panel-title-text {
+	display: flex;
+	flex-direction: column;
+	font-size: 15px;
 	font-weight: 600;
+	color: var(--mat-sys-on-surface);
+}
+
+.panel-subtitle {
+	font-size: 13px;
+	font-weight: 400;
 	color: var(--mat-sys-on-surface-variant);
-	margin-bottom: 10px;
+	margin-top: 2px;
 }
 
 /* ── Size chips ── */
@@ -46,6 +100,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
+	padding: 8px 0;
 }
 
 .size-chip {
@@ -55,33 +110,10 @@
 	border-radius: 20px;
 }
 
-/* ── Selected size pill ── */
-.selected-size-pill {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	font-size: 14px;
-	border-radius: 20px;
-	height: 36px;
-}
-
-.change-icon {
-	font-size: 16px;
-	width: 16px;
-	height: 16px;
-	color: var(--mat-sys-on-surface-variant);
-}
-
-/* ── Sheet body (scrollable) ── */
-.sheet-body {
-	flex: 1;
-	overflow-y: auto;
-	min-height: 0;
-}
-
-/* ── Hidden state ── */
-.hidden {
-	display: none;
+.size-chip.selected {
+	border-color: var(--mat-sys-primary);
+	color: var(--mat-sys-primary);
+	font-weight: 600;
 }
 
 /* ── Search ── */
@@ -109,6 +141,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
+	padding-bottom: 8px;
 }
 
 /* ── Empty state ── */
@@ -117,22 +150,22 @@
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
-	padding: 32px 16px;
+	padding: 48px 16px;
 	color: var(--mat-sys-on-surface-variant);
 }
 
 .empty-icon {
-	font-size: 40px;
-	width: 40px;
-	height: 40px;
-	margin-bottom: 12px;
+	font-size: 48px;
+	width: 48px;
+	height: 48px;
+	margin-bottom: 16px;
 	opacity: 0.4;
 }
 
 .empty-state p {
 	font-size: 14px;
 	margin: 0;
-	max-width: 240px;
+	max-width: 260px;
 	line-height: 1.5;
 }
 
@@ -149,13 +182,29 @@
 	width: 100%;
 }
 
+/* ── Confirm bar (fixed at bottom) ── */
+.confirm-bar {
+	flex-shrink: 0;
+	padding: 12px 24px;
+	border-top: 1px solid var(--mat-sys-outline-variant);
+	background: var(--mat-sys-surface, #fff);
+}
+
+.confirm-btn {
+	width: 100%;
+	height: 48px;
+	border-radius: 24px;
+	font-size: 15px;
+	font-weight: 600;
+}
+
 /* ── Responsive ── */
 @media (max-width: 599px) {
-	:host {
-		padding: 0 16px 16px;
+	.dialog-body {
+		padding: 12px 16px;
 	}
 
-	.sheet-title h2 {
-		font-size: 18px;
+	.confirm-bar {
+		padding: 12px 16px;
 	}
 }
