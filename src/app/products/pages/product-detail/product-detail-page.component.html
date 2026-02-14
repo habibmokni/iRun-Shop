@@ -126,6 +126,20 @@
 					</button>
 				</div>
 
+				<!-- Availability -->
+				<button class="availability-link" (click)="checkAvailability()">
+					<div class="availability-left">
+						<mat-icon class="availability-icon">room</mat-icon>
+						<div class="availability-text">
+							<span class="availability-title">Check availability</span>
+							<span class="availability-hint"
+								>Find this product in a store near you</span
+							>
+						</div>
+					</div>
+					<mat-icon class="chevron-icon">chevron_right</mat-icon>
+				</button>
+
 				<!-- Perks -->
 				<div class="perks">
 					<div class="perk-card">
@@ -141,13 +155,6 @@
 						<span class="perk-text">Free returns</span>
 					</div>
 				</div>
-
-				<!-- Availability -->
-				<button class="availability-link" (click)="checkAvailability()">
-					<mat-icon class="availability-icon">room</mat-icon>
-					<span>Check store availability</span>
-					<mat-icon class="chevron-icon">chevron_right</mat-icon>
-				</button>
 
 				<!-- Description accordion -->
 				<mat-accordion>
