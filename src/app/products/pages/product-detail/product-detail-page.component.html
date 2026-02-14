@@ -46,6 +46,15 @@
 
 			<!-- Right: Details -->
 			<div class="product-info">
+				<button
+					mat-icon-button
+					type="button"
+					class="info-fav"
+					[class.wishlisted]="isWishlisted()"
+					(click)="toggleWishlist()"
+				>
+					<mat-icon>{{ isWishlisted() ? 'favorite' : 'favorite_border' }}</mat-icon>
+				</button>
 				<span class="brand-label">{{ product.companyName }}</span>
 				<h1 class="product-name">{{ product.name }}</h1>
 				<p class="product-subtitle">
@@ -178,19 +187,8 @@
 
 		<!-- Mobile sticky CTA -->
 		<div class="mobile-cta">
-			<span class="mobile-cta-price">{{ product.price }}€</span>
 			<button matButton="filled" type="button" class="mobile-cta-btn" (click)="addToCart()">
-				<mat-icon>shopping_bag</mat-icon>
 				Add to cart
-			</button>
-			<button
-				mat-icon-button
-				type="button"
-				class="mobile-cta-fav"
-				[class.wishlisted]="isWishlisted()"
-				(click)="toggleWishlist()"
-			>
-				<mat-icon>{{ isWishlisted() ? 'favorite' : 'favorite_border' }}</mat-icon>
 			</button>
 		</div>
 	</div>
