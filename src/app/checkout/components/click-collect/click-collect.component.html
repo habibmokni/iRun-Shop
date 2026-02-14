@@ -70,6 +70,7 @@
 					<input
 						matInput
 						[matDatepicker]="picker"
+						[matDatepickerFilter]="weekdayFilter"
 						[min]="minDate"
 						[max]="maxDate"
 						(dateChange)="onDateChange($event.value)"

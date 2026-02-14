@@ -384,50 +384,54 @@
 				<span>Total</span>
 				<span>{{ orderPrice() | number: '1.2-2' }}€</span>
 			</div>
+
+			<!-- Sidebar CTA -->
+			<div class="sidebar-cta">
+				@if (activeStep() === 0) {
+					@if (isClickNCollect()) {
+						<button matButton="filled" class="sidebar-cta-btn" [disabled]="!cncAllItemsAvailable()" (click)="onCncContinue()">Continue</button>
+					} @else {
+						<button matButton="filled" class="sidebar-cta-btn" [disabled]="!onlineStockCheck().allAvailable && billing.invalid" (click)="onDeliveryContinue()">Continue</button>
+					}
+				} @else if (activeStep() === 1) {
+					<button matButton="filled" class="sidebar-cta-btn" (click)="onBillingContinue()">Continue</button>
+				} @else {
+					<button matButton="filled" class="sidebar-cta-btn" (click)="onOrderConfirmation()">Confirm Order</button>
+				}
+				@if (activeStep() > 0) {
+					<button matButton="outlined" class="sidebar-back-btn" (click)="goToStep(activeStep() - 1)">Back</button>
+				}
+			</div>
 		</aside>
 	</div>
 
 	<!-- Mobile sticky CTA -->
 	<div class="mobile-cta">
-		<div class="mobile-cta-info">
-			<span class="mobile-cta-label">Total</span>
-			<span class="mobile-cta-price">{{ orderPrice() | number: '1.2-2' }}€</span>
-		</div>
 		@if (activeStep() === 0) {
 			@if (isClickNCollect()) {
-			<button
-				class="mobile-cta-btn"
-				matButton="filled"
-				[disabled]="!cncAllItemsAvailable()"
-				(click)="onCncContinue()"
-			>
-					Continue
+				<button class="mobile-cta-btn" matButton="filled" [disabled]="!cncAllItemsAvailable()" (click)="onCncContinue()">
+					<span class="mobile-cta-text">Continue</span>
+					<span class="mobile-cta-divider"></span>
+					<span class="mobile-cta-price">{{ orderPrice() | number: '1.2-2' }}€</span>
 				</button>
 			} @else {
-			<button
-				class="mobile-cta-btn"
-				matButton="filled"
-				[disabled]="!onlineStockCheck().allAvailable && billing.invalid"
-				(click)="onDeliveryContinue()"
-			>
-					Continue
+				<button class="mobile-cta-btn" matButton="filled" [disabled]="!onlineStockCheck().allAvailable && billing.invalid" (click)="onDeliveryContinue()">
+					<span class="mobile-cta-text">Continue</span>
+					<span class="mobile-cta-divider"></span>
+					<span class="mobile-cta-price">{{ orderPrice() | number: '1.2-2' }}€</span>
 				</button>
 			}
 		} @else if (activeStep() === 1) {
-		<button
-			class="mobile-cta-btn"
-			matButton="filled"
-			(click)="onBillingContinue()"
-		>
-				Continue
+			<button class="mobile-cta-btn" matButton="filled" (click)="onBillingContinue()">
+				<span class="mobile-cta-text">Continue</span>
+				<span class="mobile-cta-divider"></span>
+				<span class="mobile-cta-price">{{ orderPrice() | number: '1.2-2' }}€</span>
 			</button>
 		} @else {
-		<button
-			class="mobile-cta-btn"
-			matButton="filled"
-			(click)="onOrderConfirmation()"
-		>
-				Confirm Order
+			<button class="mobile-cta-btn" matButton="filled" (click)="onOrderConfirmation()">
+				<span class="mobile-cta-text">Confirm Order</span>
+				<span class="mobile-cta-divider"></span>
+				<span class="mobile-cta-price">{{ orderPrice() | number: '1.2-2' }}€</span>
 			</button>
 		}
 	</div>

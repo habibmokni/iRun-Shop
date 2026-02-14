@@ -145,6 +145,12 @@ export class ClickCollectComponent implements OnInit {
 	/** Maximum date is 14 days out. */
 	protected readonly maxDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
 
+	/** Block weekends (Saturday = 6, Sunday = 0). */
+	protected readonly weekdayFilter = (date: Date | null): boolean => {
+		const day = (date ?? new Date()).getDay();
+		return day !== 0 && day !== 6;
+	};
+
 	/** Minimum time based on selected store's opening hours (fallback: 10:00). */
 	protected readonly minTime = computed<Date>(() => {
 		const store = this.selectedStore();
