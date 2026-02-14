@@ -10,7 +10,7 @@ import { Product } from '../../../products/types/product.types';
 	imports: [MatFormFieldModule, MatSelectModule],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
-		<mat-form-field appearance="outline" class="size-field">
+		<mat-form-field appearance="outline" subscriptSizing="dynamic" class="size-field">
 			<mat-label>Select size</mat-label>
 			<mat-select panelClass="size-select-panel" (selectionChange)="onSelect($event.value)">
 				<mat-select-trigger>
