@@ -91,7 +91,10 @@ export class ClickCollectComponent implements OnInit {
 		for (const store of allStores) {
 			if (store.location) {
 				map[store.id] = this.mapsService.calculateDistance(
-					loc.lat, loc.lng, store.location.lat, store.location.lng,
+					loc.lat,
+					loc.lng,
+					store.location.lat,
+					store.location.lng,
 				);
 			}
 		}
@@ -108,16 +111,14 @@ export class ClickCollectComponent implements OnInit {
 		for (const store of allStores) {
 			let allAvailable = true;
 			for (const cartItem of cartItems) {
-				const storeProduct = store.products?.find(
-					(p) => p.modelNo === cartItem.modelNo,
-				);
+				const storeProduct = store.products?.find((p) => p.modelNo === cartItem.modelNo);
 				if (!storeProduct?.variants?.[0]) {
 					allAvailable = false;
 					break;
 				}
-				const variant = storeProduct.variants.find(
-					(v) => v.variantId === cartItem.variantId,
-				) ?? storeProduct.variants[0];
+				const variant =
+					storeProduct.variants.find((v) => v.variantId === cartItem.variantId) ??
+					storeProduct.variants[0];
 				const sizeIndex = variant.sizes?.indexOf(cartItem.size) ?? -1;
 				const stock = sizeIndex >= 0 ? +(variant.inStock?.[sizeIndex] ?? 0) : 0;
 				if (stock < cartItem.noOfItems) {
@@ -205,9 +206,7 @@ export class ClickCollectComponent implements OnInit {
 	});
 
 	/** Whether all items are available at the selected store. */
-	protected readonly allAvailable = computed(
-		() => this.unavailableProducts().length === 0,
-	);
+	protected readonly allAvailable = computed(() => this.unavailableProducts().length === 0);
 
 	/** Whether the step is fully complete: store + date + time selected. */
 	protected readonly isComplete = computed(
@@ -239,12 +238,8 @@ export class ClickCollectComponent implements OnInit {
 		this.selectedTime.set(null);
 		this.storeChanged.emit(store);
 
-		// Emit availability immediately.
 		const unavailable = this.unavailableProducts();
 		this.isAllItemsAvailable.emit(unavailable.length === 0);
-		if (unavailable.length > 0) {
-			this.productsToRemove.emit(unavailable);
-		}
 	}
 
 	protected onDateChange(date: Date | null): void {
