@@ -56,6 +56,25 @@
 			}
 		</mat-menu>
 
+		<!-- Wishlist -->
+		<a
+			mat-icon-button
+			routerLink="/user-profile"
+			[queryParams]="{ tab: 'wishlist' }"
+			aria-label="Wishlist"
+			class="wishlist-btn"
+		>
+			<mat-icon
+				[matBadge]="wishlistCount()"
+				[matBadgeHidden]="wishlistCount() === 0"
+				matBadgeColor="warn"
+				matBadgeSize="small"
+				fontSet="material-icons-outlined"
+			>
+				favorite_border
+			</mat-icon>
+		</a>
+
 		<!-- Cart -->
 		<a mat-icon-button routerLink="/shoppingcart" aria-label="Shopping cart">
 			<mat-icon

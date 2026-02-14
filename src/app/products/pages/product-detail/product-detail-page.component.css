@@ -196,6 +196,17 @@
 	border-radius: 8px;
 	width: 48px;
 	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	flex-shrink: 0;
+}
+
+.fav-btn.wishlisted {
+	color: #fff;
+	background: #d53d5e;
+	border-color: #d53d5e;
 }
 
 /* ── Perks ── */
@@ -460,5 +471,15 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 		width: 44px;
 		height: 44px;
 		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+	}
+
+	.mobile-cta-fav.wishlisted {
+		color: #fff;
+		background: #d53d5e;
+		border-color: #d53d5e;
 	}
 }

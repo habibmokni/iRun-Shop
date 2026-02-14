@@ -40,21 +40,30 @@
 						<span class="card-category">{{
 							product.subCategory?.[0] ?? product.category[0]
 						}}</span>
-					<div class="card-footer">
-						<div class="card-prices">
-							<span class="card-price">{{ product.price | number: '1.2-2' }}€</span>
-							@if (product.discount) {
-								<span class="card-price-original">{{ product.price + product.price * 0.2 | number: '1.2-2' }}€</span>
-								<span class="card-discount">-{{ product.discount }}%</span>
-							}
-						</div>
-							<button
-								mat-mini-fab
-								class="primary-button card-add-btn"
-								(click)="openDialog(product); $event.preventDefault(); $event.stopPropagation()"
-							>
-								<mat-icon>add</mat-icon>
-							</button>
+						<div class="card-footer">
+							<div class="card-prices">
+								<span class="card-price">{{ product.price | number: '1.2-2' }}€</span>
+								@if (product.discount) {
+									<span class="card-price-original">{{ product.price + product.price * 0.2 | number: '1.2-2' }}€</span>
+									<span class="card-discount">-{{ product.discount }}%</span>
+								}
+							</div>
+							<div class="card-actions">
+								<button
+									class="card-fav-btn"
+									[class.wishlisted]="isWishlisted(product.modelNo!)"
+									(click)="toggleWishlist(product.modelNo!); $event.preventDefault(); $event.stopPropagation()"
+								>
+									<mat-icon>{{ isWishlisted(product.modelNo!) ? 'favorite' : 'favorite_border' }}</mat-icon>
+								</button>
+								<button
+									mat-mini-fab
+									class="primary-button card-add-btn"
+									(click)="openDialog(product); $event.preventDefault(); $event.stopPropagation()"
+								>
+									<mat-icon>add</mat-icon>
+								</button>
+							</div>
 						</div>
 					</div>
 				</a>

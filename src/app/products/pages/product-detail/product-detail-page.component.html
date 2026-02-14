@@ -94,9 +94,15 @@
 						<mat-icon>shopping_bag</mat-icon>
 						Add to cart
 					</button>
-					<button mat-icon-button type="button" class="fav-btn">
-						<mat-icon>favorite_border</mat-icon>
-					</button>
+				<button
+					mat-icon-button
+					type="button"
+					class="fav-btn"
+					[class.wishlisted]="isWishlisted()"
+					(click)="toggleWishlist()"
+				>
+					<mat-icon>{{ isWishlisted() ? 'favorite' : 'favorite_border' }}</mat-icon>
+				</button>
 				</div>
 
 				<!-- Perks -->
@@ -170,8 +176,14 @@
 				<mat-icon>shopping_bag</mat-icon>
 				Add to cart
 			</button>
-			<button mat-icon-button type="button" class="mobile-cta-fav">
-				<mat-icon>favorite_border</mat-icon>
+			<button
+				mat-icon-button
+				type="button"
+				class="mobile-cta-fav"
+				[class.wishlisted]="isWishlisted()"
+				(click)="toggleWishlist()"
+			>
+				<mat-icon>{{ isWishlisted() ? 'favorite' : 'favorite_border' }}</mat-icon>
 			</button>
 		</div>
 	</div>

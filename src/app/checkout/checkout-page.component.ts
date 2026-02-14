@@ -234,6 +234,7 @@ export class CheckoutPageComponent {
 		if (!currentOrder) return;
 
 		this.checkoutService.submitOrder(currentOrder);
+		this.userService.addOrder(currentOrder);
 		this.dialog.open(OrderSuccessComponent);
 	}
 }

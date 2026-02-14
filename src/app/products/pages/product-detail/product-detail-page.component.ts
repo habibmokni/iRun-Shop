@@ -106,6 +106,12 @@ export class ProductDetailPageComponent {
 		return price + price * 0.2;
 	});
 
+	// Wishlist state for current product
+	protected readonly isWishlisted = computed(() => {
+		const modelNo = this.product()?.modelNo;
+		return modelNo ? this.userService.isInWishlist(modelNo) : false;
+	});
+
 	constructor() {
 		// Route params → product model number
 		this.route.params
@@ -160,6 +166,19 @@ export class ProductDetailPageComponent {
 		};
 
 		this.cartService.addToCart(cartProduct);
+	}
+
+	protected toggleWishlist(): void {
+		const modelNo = this.product()?.modelNo;
+		if (!modelNo) return;
+
+		if (!this.userService.user()) {
+			this.snackbar.info('Please log in to use the wishlist');
+			return;
+		}
+
+		const added = this.userService.toggleWishlist(modelNo);
+		this.snackbar.success(added ? 'Added to wishlist' : 'Removed from wishlist');
 	}
 
 	protected checkAvailability(): void {

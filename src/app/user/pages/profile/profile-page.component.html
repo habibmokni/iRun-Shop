@@ -1,53 +1,209 @@
-<div class="container">
-	@if (!user()) {
-		<div class="row">
-			<div class="col-10 mx-auto my-5">
-				<div class="fs-5 fw-bold">Please login to view account details</div>
-				<div class="text-center mt-3">
-					<button mat-button class="primary-button" routerLink="/home" type="button">
-						Back to home
-					</button>
-				</div>
+@if (!user()) {
+	<div class="empty-state container">
+		<mat-icon class="empty-icon">person_outline</mat-icon>
+		<h2>Please log in</h2>
+		<p>Log in to view your account details, wishlist, and orders.</p>
+		<a mat-flat-button class="primary-button" routerLink="/login">Log in</a>
+	</div>
+} @else {
+	<div class="profile-page container">
+		<!-- Profile header -->
+		<div class="profile-header">
+			<div class="avatar">
+				<mat-icon class="avatar-icon">person</mat-icon>
 			</div>
+			<div class="header-info">
+				<h1 class="user-name">
+					{{ user()?.firstName ?? '' }} {{ user()?.lastName ?? '' }}
+				</h1>
+				<span class="user-email">{{ user()?.email }}</span>
+			</div>
+			<button
+				mat-flat-button
+				class="secondary-button logout-btn"
+				(click)="logout()"
+			>
+				<mat-icon>logout</mat-icon>
+				Log out
+			</button>
 		</div>
-	} @else {
-		<div class="row">
-			<div class="col-12 col-sm-4 col-md-4 col-lg-4 text-center d-flex">
-				<div class="card-image"></div>
-				<img
-					ngSrc="assets/images/profile-logo.jpg"
-					alt="profile-image"
-					class="round-circle profile-image"
-					width="150"
-					height="150"
-				/>
-			</div>
-			<div class="col-12 col-sm-8 col-md-8 col-lg-8 px-3 mt-5 account-info">
-				<div class="col-12 d-flex flex-row">
-					<div class="col-4 fw-bold">First Name:</div>
-					<div>{{ user()?.firstName }}</div>
+
+		<!-- Tab navigation -->
+		<nav class="profile-tabs">
+			<button
+				class="tab"
+				[class.active]="activeTab() === 'info'"
+				(click)="activeTab.set('info')"
+			>
+				<mat-icon>person</mat-icon>
+				Info
+			</button>
+			<button
+				class="tab"
+				[class.active]="activeTab() === 'wishlist'"
+				(click)="activeTab.set('wishlist')"
+			>
+				<mat-icon>favorite</mat-icon>
+				Wishlist
+				@if (wishlistProducts().length) {
+					<span class="tab-badge">{{ wishlistProducts().length }}</span>
+				}
+			</button>
+			<button
+				class="tab"
+				[class.active]="activeTab() === 'orders'"
+				(click)="activeTab.set('orders')"
+			>
+				<mat-icon>receipt_long</mat-icon>
+				Orders
+				@if (orders().length) {
+					<span class="tab-badge">{{ orders().length }}</span>
+				}
+			</button>
+		</nav>
+
+		<!-- Tab content -->
+		<div class="tab-content">
+			<!-- ── Info tab ── -->
+			@if (activeTab() === 'info') {
+				<div class="info-section">
+					<h2 class="section-title">Personal Details</h2>
+					<div class="info-grid">
+						<div class="info-item">
+							<span class="info-label">First Name</span>
+							<span class="info-value">{{ user()?.firstName ?? '–' }}</span>
+						</div>
+						<div class="info-item">
+							<span class="info-label">Last Name</span>
+							<span class="info-value">{{ user()?.lastName ?? '–' }}</span>
+						</div>
+						<div class="info-item">
+							<span class="info-label">Email</span>
+							<span class="info-value">{{ user()?.email ?? '–' }}</span>
+						</div>
+						<div class="info-item">
+							<span class="info-label">Address</span>
+							<span class="info-value">{{ user()?.address ?? '–' }}</span>
+						</div>
+						<div class="info-item">
+							<span class="info-label">Zip Code</span>
+							<span class="info-value">{{ user()?.zipCode ?? '–' }}</span>
+						</div>
+					</div>
 				</div>
-				<hr />
-				<div class="col-12 d-flex flex-row">
-					<div class="col-4 fw-bold">Last Name:</div>
-					<div>{{ user()?.lastName }}</div>
-				</div>
-				<hr />
-				<div class="col-12 d-flex flex-row">
-					<div class="col-4 fw-bold">Email:</div>
-					<div>{{ user()?.email }}</div>
-				</div>
-				<hr />
-				<div class="col-12 d-flex flex-row">
-					<div class="col-4 fw-bold">Address:</div>
-					<div>{{ user()?.address }}</div>
-				</div>
-				<hr />
-				<div class="col-12 d-flex flex-row">
-					<div class="col-4 fw-bold">Zip Code:</div>
-					<div>{{ user()?.zipCode }}</div>
-				</div>
-			</div>
+
+				@if (favoriteStore()) {
+					<div class="info-section">
+						<h2 class="section-title">Favorite Store</h2>
+						<div class="store-card">
+							<mat-icon class="store-icon">store</mat-icon>
+							<div class="store-details">
+								<span class="store-name">{{ favoriteStore()?.name }}</span>
+								<span class="store-address">{{ favoriteStore()?.address }}</span>
+							</div>
+						</div>
+					</div>
+				}
+			}
+
+			<!-- ── Wishlist tab ── -->
+			@if (activeTab() === 'wishlist') {
+				@if (wishlistProducts().length) {
+					<div class="wishlist-grid">
+						@for (product of wishlistProducts(); track product.modelNo) {
+							<a class="wishlist-card" [routerLink]="['/products', product.modelNo]">
+								<div class="wishlist-image">
+									<img
+										[ngSrc]="product.variants[0]?.imageList?.[0] ?? ''"
+										[alt]="product.name"
+										width="120"
+										height="120"
+									/>
+								</div>
+								<div class="wishlist-info">
+									<span class="wishlist-brand">{{ product.companyName }}</span>
+									<span class="wishlist-name">{{ product.name }}</span>
+									<span class="wishlist-price">{{ product.price | number: '1.2-2' }}€</span>
+								</div>
+								<button
+									mat-icon-button
+									class="wishlist-remove"
+									(click)="removeFromWishlist(product.modelNo!); $event.preventDefault(); $event.stopPropagation()"
+								>
+									<mat-icon>close</mat-icon>
+								</button>
+							</a>
+						}
+					</div>
+				} @else {
+					<div class="tab-empty">
+						<mat-icon class="tab-empty-icon">favorite_border</mat-icon>
+						<p>Your wishlist is empty</p>
+						<a mat-flat-button class="primary-button" routerLink="/products">Browse products</a>
+					</div>
+				}
+			}
+
+			<!-- ── Orders tab ── -->
+			@if (activeTab() === 'orders') {
+				@if (orders().length) {
+					<div class="orders-list">
+						@for (order of orders(); track order.orderId) {
+							<div class="order-card">
+								<div class="order-header">
+									<div class="order-id">
+										<mat-icon class="order-icon">tag</mat-icon>
+										Order #{{ order.orderId }}
+									</div>
+									<span class="order-total">{{ order.orderPrice | number: '1.2-2' }}€</span>
+								</div>
+								<div class="order-meta">
+									<span class="order-delivery">
+										<mat-icon class="meta-icon">
+											{{ order.pickupType === 'Click & Collect' ? 'store' : 'local_shipping' }}
+										</mat-icon>
+										{{ order.pickupType }}
+									</span>
+									@if (order.paymentOption) {
+										<span class="order-payment">
+											<mat-icon class="meta-icon">credit_card</mat-icon>
+											{{ order.paymentOption }}
+										</span>
+									}
+								</div>
+								<div class="order-items">
+									@for (item of order.productsOrdered; track item.modelNo) {
+										<div class="order-item">
+											<img
+												[ngSrc]="item.productImage"
+												[alt]="item.productName"
+												width="48"
+												height="48"
+												class="order-item-img"
+											/>
+											<div class="order-item-info">
+												<span class="order-item-name">{{ item.productName }}</span>
+												<span class="order-item-meta">
+													Size {{ item.size }} &middot; Qty {{ item.noOfItems }}
+												</span>
+											</div>
+											<span class="order-item-price">
+												{{ item.price * item.noOfItems | number: '1.2-2' }}€
+											</span>
+										</div>
+									}
+								</div>
+							</div>
+						}
+					</div>
+				} @else {
+					<div class="tab-empty">
+						<mat-icon class="tab-empty-icon">receipt_long</mat-icon>
+						<p>No orders yet</p>
+						<a mat-flat-button class="primary-button" routerLink="/products">Start shopping</a>
+					</div>
+				}
+			}
 		</div>
-	}
-</div>
+	</div>
+}

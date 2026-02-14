@@ -97,6 +97,7 @@ export class AvailabilityComponent {
 
 	protected onStoreSelect(store: Store): void {
 		this.userService.updateSelectedStore(store);
+		this.userService.setFavoriteStore(store);
 		this.snackbarService.success('Store selected as preferred');
 		this.dialog.closeAll();
 	}

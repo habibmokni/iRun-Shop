@@ -39,6 +39,7 @@ export class HeaderComponent {
 	protected readonly isLoggedIn = this.authService.isLoggedIn;
 	protected readonly user = this.userService.user;
 	protected readonly cartCount = computed(() => this.cartService.cart().length);
+	protected readonly wishlistCount = computed(() => this.userService.wishlist().size);
 
 	protected onLogout(): void {
 		this.authService.logout();

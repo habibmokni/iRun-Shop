@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { Product } from '../products/types/product.types';
 import { ProductService } from '../products/services/product.service';
+import { UserService } from '../user/services/user.service';
+import { SnackbarService } from '../shared/services/snackbar.service';
 import { AddToCartComponent } from '../cart/components/add-to-cart/add-to-cart.component';
 
 @Component({
@@ -29,6 +31,8 @@ import { AddToCartComponent } from '../cart/components/add-to-cart/add-to-cart.c
 })
 export class HomePageComponent {
 	private readonly productService = inject(ProductService);
+	private readonly userService = inject(UserService);
+	private readonly snackbar = inject(SnackbarService);
 	private readonly dialog = inject(MatDialog);
 
 	private readonly products = toSignal(this.productService.productList, {
@@ -57,6 +61,19 @@ export class HomePageComponent {
 			logo: this.brandLogoMap[name.toUpperCase()] ?? null,
 		}));
 	});
+
+	protected isWishlisted(modelNo: string): boolean {
+		return this.userService.isInWishlist(modelNo);
+	}
+
+	protected toggleWishlist(modelNo: string): void {
+		if (!this.userService.user()) {
+			this.snackbar.info('Please log in to use the wishlist');
+			return;
+		}
+		const added = this.userService.toggleWishlist(modelNo);
+		this.snackbar.success(added ? 'Added to wishlist' : 'Removed from wishlist');
+	}
 
 	protected openDialog(product: Product): void {
 		this.dialog.open(AddToCartComponent, {
