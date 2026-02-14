@@ -46,10 +46,10 @@
 
 	<!-- Add to cart button -->
 	<button
-		mat-flat-button
+		matButton="filled"
 		type="button"
 		(click)="addToCart()"
-		class="primary-button cart-btn"
+		class="cart-btn"
 		[disabled]="stock() === 0"
 	>
 		<mat-icon>shopping_bag</mat-icon>

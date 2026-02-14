@@ -18,12 +18,11 @@
 					<h2>{{ store.name }}</h2>
 					<p>{{ store.address }}</p>
 					<div class="info-actions">
-					<button mat-flat-button class="primary-button" (click)="onSelectStore(store)">
+					<button matButton="filled" (click)="onSelectStore(store)">
 						Select
 					</button>
 					<button
-						mat-flat-button
-						class="secondary-button"
+						matButton="outlined"
 						(click)="onGetDirections(store.location)"
 					>
 						Directions
@@ -38,7 +37,7 @@
 		}
 	</google-map>
 
-	<button mat-flat-button class="primary-button nearby-btn" (click)="onGetCurrentLocation()">
+	<button matButton="filled" class="nearby-btn" (click)="onGetCurrentLocation()">
 		Stores Nearby
 	</button>
 </div>

@@ -191,22 +191,16 @@
 }
 
 .fav-btn {
-	color: var(--mat-sys-primary);
-	border: 1px solid var(--mat-sys-outline-variant);
-	border-radius: 8px;
 	width: 48px;
 	height: 48px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0;
+	border-radius: 8px;
 	flex-shrink: 0;
+	color: var(--mat-sys-primary);
 }
 
 .fav-btn.wishlisted {
 	color: var(--mat-sys-on-primary);
 	background: var(--mat-sys-primary);
-	border-color: var(--mat-sys-primary);
 }
 
 /* ── Perks ── */
@@ -461,25 +455,18 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 		flex: 1;
 		height: 44px;
 		font-size: 14px;
-		border-radius: 8px !important;
 	}
 
 	.mobile-cta-fav {
-		color: var(--mat-sys-primary);
-		border: 1px solid var(--mat-sys-outline-variant);
-		border-radius: 8px;
 		width: 44px;
 		height: 44px;
+		border-radius: 8px;
 		flex-shrink: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0;
+		color: var(--mat-sys-primary);
 	}
 
 	.mobile-cta-fav.wishlisted {
 		color: var(--mat-sys-on-primary);
 		background: var(--mat-sys-primary);
-		border-color: var(--mat-sys-primary);
 	}
 }

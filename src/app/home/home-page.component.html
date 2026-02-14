@@ -6,9 +6,7 @@
 			Premium running shoes from top brands. Click &amp; Collect in-store or get
 			free delivery.
 		</p> -->
-		<a class="hero-cta" routerLink="/products">
-			Shop Now
-		</a>
+		<a class="hero-cta" routerLink="/products"> Shop Now </a>
 	</div>
 </section>
 
@@ -36,96 +34,54 @@
 					<div class="card-body">
 						<span class="card-brand">{{ product.companyName }}</span>
 						<h3 class="card-name">{{ product.name }}</h3>
-					<div class="card-footer">
-						<div class="card-prices">
-							<span class="card-price">{{ product.price | number: '1.2-2' }}€</span>
-							@if (product.discount) {
-								<span class="card-price-original">{{ product.price + product.price * 0.2 | number: '1.2-2' }}€</span>
-								<span class="card-discount">-{{ product.discount }}%</span>
-							}
+						<div class="card-footer">
+							<div class="card-prices">
+								<span class="card-price"
+									>{{ product.price | number: '1.2-2' }}€</span
+								>
+								@if (product.discount) {
+									<span class="card-price-original"
+										>{{
+											product.price + product.price * 0.2 | number: '1.2-2'
+										}}€</span
+									>
+									<span class="card-discount">-{{ product.discount }}%</span>
+								}
+							</div>
+							<div class="card-actions">
+								<button
+									mat-icon-button
+									class="card-fav-btn"
+									[class.wishlisted]="isWishlisted(product.modelNo!)"
+									(click)="
+										toggleWishlist(product.modelNo!);
+										$event.preventDefault();
+										$event.stopPropagation()
+									"
+								>
+									<mat-icon>{{
+										isWishlisted(product.modelNo!)
+											? 'favorite'
+											: 'favorite_border'
+									}}</mat-icon>
+								</button>
+								<button
+									mat-mini-fab
+									color="primary"
+									class="card-add-btn"
+									(click)="
+										openDialog(product);
+										$event.preventDefault();
+										$event.stopPropagation()
+									"
+								>
+									<mat-icon>add</mat-icon>
+								</button>
+							</div>
 						</div>
-						<div class="card-actions">
-							<button
-								class="card-fav-btn"
-								[class.wishlisted]="isWishlisted(product.modelNo!)"
-								(click)="toggleWishlist(product.modelNo!); $event.preventDefault(); $event.stopPropagation()"
-							>
-								<mat-icon>{{ isWishlisted(product.modelNo!) ? 'favorite' : 'favorite_border' }}</mat-icon>
-							</button>
-							<button
-								mat-mini-fab
-								class="primary-button card-add-btn"
-								(click)="openDialog(product); $event.preventDefault(); $event.stopPropagation()"
-							>
-								<mat-icon>add</mat-icon>
-							</button>
-						</div>
-					</div>
 					</div>
 				</a>
 			}
-		</div>
-	</section>
-
-	<!-- ── Our Brands ── -->
-	<section class="brandbar">
-		<div class="brandbar-slider">
-			@for (brand of brands(); track brand.name) {
-				<a class="brandbar-item" routerLink="/products">
-					@if (brand.logo) {
-						<img [src]="brand.logo" [alt]="brand.name" class="brandbar-img" />
-					} @else {
-						<span class="brandbar-label">{{ brand.name }}</span>
-					}
-				</a>
-			}
-		</div>
-	</section>
-
-	<!-- ── Value Props ── -->
-	<section class="section container">
-		<div class="value-props">
-			<div class="prop">
-				<mat-icon class="prop-icon">local_shipping</mat-icon>
-				<h3>Free Delivery</h3>
-				<p>On orders over 80€</p>
-			</div>
-			<div class="prop">
-				<mat-icon class="prop-icon">store</mat-icon>
-				<h3>Click &amp; Collect</h3>
-				<p>Ready in 2 hours</p>
-			</div>
-			<div class="prop">
-				<mat-icon class="prop-icon">replay</mat-icon>
-				<h3>Free Returns</h3>
-				<p>30-day return policy</p>
-			</div>
-			<div class="prop">
-				<mat-icon class="prop-icon">verified</mat-icon>
-				<h3>100% Authentic</h3>
-				<p>Only original products</p>
-			</div>
-		</div>
-	</section>
-
-	<!-- ── Newsletter ── -->
-	<section class="newsletter-section">
-		<div class="container newsletter-inner">
-			<mat-icon class="newsletter-icon">mail_outline</mat-icon>
-			<h2 class="newsletter-title">Stay in the Loop</h2>
-			<p class="newsletter-subtitle">
-				Get notified about new arrivals, exclusive deals, and running tips.
-			</p>
-			<div class="newsletter-form">
-				<input
-					type="email"
-					class="newsletter-input"
-					placeholder="Your email address"
-				/>
-				<button mat-flat-button class="primary-button newsletter-btn">
-					Subscribe
-				</button>
-			</div>
 		</div>
 	</section>
 } @else {
@@ -148,3 +104,43 @@
 		</div>
 	</section>
 }
+<!-- ── Our Brands ── -->
+<section class="brandbar">
+	<div class="brandbar-slider">
+		@for (brand of brands(); track brand.name) {
+			<a class="brandbar-item" routerLink="/products">
+				@if (brand.logo) {
+					<img [src]="brand.logo" [alt]="brand.name" class="brandbar-img" />
+				} @else {
+					<span class="brandbar-label">{{ brand.name }}</span>
+				}
+			</a>
+		}
+	</div>
+</section>
+
+<!-- ── Value Props ── -->
+<section class="section container">
+	<div class="value-props">
+		<div class="prop">
+			<mat-icon class="prop-icon">local_shipping</mat-icon>
+			<h3>Free Delivery</h3>
+			<p>On orders over 80€</p>
+		</div>
+		<div class="prop">
+			<mat-icon class="prop-icon">store</mat-icon>
+			<h3>Click &amp; Collect</h3>
+			<p>Ready in 2 hours</p>
+		</div>
+		<div class="prop">
+			<mat-icon class="prop-icon">replay</mat-icon>
+			<h3>Free Returns</h3>
+			<p>30-day return policy</p>
+		</div>
+		<div class="prop">
+			<mat-icon class="prop-icon">verified</mat-icon>
+			<h3>100% Authentic</h3>
+			<p>Only original products</p>
+		</div>
+	</div>
+</section>

@@ -3,8 +3,7 @@
 		<h1>Products</h1>
 		<div class="header-actions">
 			<button
-				mat-flat-button
-				class="secondary-button"
+				matButton="outlined"
 				[disabled]="isSeeding()"
 				(click)="onSeedDatabase()"
 			>
@@ -12,7 +11,7 @@
 				{{ isSeeding() ? 'Seeding...' : 'Seed Database' }}
 			</button>
 			<a mat-button routerLink="/admin/stores">Manage Stores</a>
-			<button mat-flat-button class="primary-button" (click)="onAdd()">
+			<button matButton="filled" (click)="onAdd()">
 				<mat-icon>add</mat-icon>
 				Add Product
 			</button>
@@ -116,8 +115,8 @@
 					</div>
 
 					<div class="form-actions">
-					<button mat-flat-button class="secondary-button" type="button" (click)="onCancel()">Cancel</button>
-					<button mat-flat-button class="primary-button" type="submit" [disabled]="form.invalid">
+					<button matButton="outlined" type="button" (click)="onCancel()">Cancel</button>
+					<button matButton="filled" type="submit" [disabled]="form.invalid">
 						{{ editing() ? 'Update' : 'Add' }}
 					</button>
 					</div>

@@ -35,7 +35,7 @@
 				<mat-icon class="unavailable-icon">map</mat-icon>
 				<h3>Maps is not available right now</h3>
 				<p>Google Maps could not be loaded. Please try again later or use the List View.</p>
-				<button mat-flat-button class="primary-button" (click)="activeView.set('list')">
+				<button matButton="filled" (click)="activeView.set('list')">
 					Switch to List View
 				</button>
 			</div>
@@ -107,8 +107,8 @@
 						<div class="store-actions">
 							@if (selectedStoreId() === store.id) {
 								<button
-									mat-flat-button
-									class="primary-button select-btn selected-btn"
+									matButton="outlined"
+									class="select-btn selected-btn"
 									(click)="selectStore(store); $event.stopPropagation()"
 								>
 									<mat-icon>check</mat-icon>
@@ -116,8 +116,8 @@
 								</button>
 							} @else {
 								<button
-									mat-flat-button
-									class="primary-button select-btn"
+									matButton="filled"
+									class="select-btn"
 									(click)="selectStore(store); $event.stopPropagation()"
 								>
 									Select Store

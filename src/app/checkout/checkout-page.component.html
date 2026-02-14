@@ -113,12 +113,11 @@
 											</mat-card>
 										}
 										<div class="remove-actions">
-											<button
-												mat-flat-button
-												class="primary-button"
-												type="button"
-												(click)="removeProductsUnavailable()"
-											>
+									<button
+										matButton="filled"
+										type="button"
+										(click)="removeProductsUnavailable()"
+									>
 												Remove unavailable items
 											</button>
 										</div>
@@ -130,21 +129,19 @@
 
 					<div class="step-actions">
 						@if (isClickNCollect()) {
-							<button
-								class="primary-button"
-								mat-flat-button
-								[disabled]="!cncAllItemsAvailable()"
-								(click)="onCncContinue()"
-							>
+					<button
+						matButton="filled"
+						[disabled]="!cncAllItemsAvailable()"
+						(click)="onCncContinue()"
+					>
 								Continue
 							</button>
 						} @else {
-							<button
-								class="primary-button"
-								mat-flat-button
-								[disabled]="!onlineStockCheck().allAvailable && billing.invalid"
-								(click)="onDeliveryContinue()"
-							>
+					<button
+						matButton="filled"
+						[disabled]="!onlineStockCheck().allAvailable && billing.invalid"
+						(click)="onDeliveryContinue()"
+					>
 								Continue
 							</button>
 						}
@@ -171,7 +168,7 @@
 								</mat-expansion-panel-header>
 								<app-billing-details [billing]="billing" type="Billing Details" />
 								<mat-action-row>
-									<button class="primary-button" mat-flat-button (click)="nextStep()">
+									<button matButton="filled" (click)="nextStep()">
 										Continue
 									</button>
 								</mat-action-row>
@@ -198,10 +195,10 @@
 				</mat-accordion>
 
 				<div class="step-actions">
-					<button class="secondary-button" mat-flat-button (click)="goToStep(0)">
+					<button matButton="outlined" (click)="goToStep(0)">
 						Back
 					</button>
-					<button class="primary-button" mat-flat-button (click)="onBillingContinue()">
+					<button matButton="filled" (click)="onBillingContinue()">
 						Continue
 					</button>
 				</div>
@@ -341,14 +338,14 @@
 
 					<!-- Actions -->
 					<div class="overview-actions">
-						<button
-							class="primary-button confirm-btn"
-							mat-flat-button
-							(click)="onOrderConfirmation()"
-						>
+					<button
+						class="confirm-btn"
+						matButton="filled"
+						(click)="onOrderConfirmation()"
+					>
 							Confirm Order
 						</button>
-						<button class="secondary-button back-btn" mat-flat-button (click)="goToStep(1)">
+						<button class="back-btn" matButton="outlined" (click)="goToStep(1)">
 							Back
 						</button>
 					</div>
@@ -398,38 +395,38 @@
 		</div>
 		@if (activeStep() === 0) {
 			@if (isClickNCollect()) {
-				<button
-					class="primary-button mobile-cta-btn"
-					mat-flat-button
-					[disabled]="!cncAllItemsAvailable()"
-					(click)="onCncContinue()"
-				>
+			<button
+				class="mobile-cta-btn"
+				matButton="filled"
+				[disabled]="!cncAllItemsAvailable()"
+				(click)="onCncContinue()"
+			>
 					Continue
 				</button>
 			} @else {
-				<button
-					class="primary-button mobile-cta-btn"
-					mat-flat-button
-					[disabled]="!onlineStockCheck().allAvailable && billing.invalid"
-					(click)="onDeliveryContinue()"
-				>
+			<button
+				class="mobile-cta-btn"
+				matButton="filled"
+				[disabled]="!onlineStockCheck().allAvailable && billing.invalid"
+				(click)="onDeliveryContinue()"
+			>
 					Continue
 				</button>
 			}
 		} @else if (activeStep() === 1) {
-			<button
-				class="primary-button mobile-cta-btn"
-				mat-flat-button
-				(click)="onBillingContinue()"
-			>
+		<button
+			class="mobile-cta-btn"
+			matButton="filled"
+			(click)="onBillingContinue()"
+		>
 				Continue
 			</button>
 		} @else {
-			<button
-				class="primary-button mobile-cta-btn"
-				mat-flat-button
-				(click)="onOrderConfirmation()"
-			>
+		<button
+			class="mobile-cta-btn"
+			matButton="filled"
+			(click)="onOrderConfirmation()"
+		>
 				Confirm Order
 			</button>
 		}

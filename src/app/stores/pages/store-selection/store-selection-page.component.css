@@ -263,7 +263,6 @@
 	width: 100%;
 	height: 40px;
 	font-size: 14px;
-	border-radius: 8px !important;
 }
 
 .select-btn mat-icon {
@@ -274,8 +273,8 @@
 }
 
 .selected-btn {
-	background: var(--mat-sys-primary-container) !important;
-	color: var(--mat-sys-on-primary-container) !important;
+	background: var(--mat-sys-primary-container);
+	color: var(--mat-sys-on-primary-container);
 }
 
 /* ── Empty state ── */

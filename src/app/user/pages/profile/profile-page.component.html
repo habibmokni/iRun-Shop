@@ -3,7 +3,7 @@
 		<mat-icon class="empty-icon">person_outline</mat-icon>
 		<h2>Please log in</h2>
 		<p>Log in to view your account details, wishlist, and orders.</p>
-		<a mat-flat-button class="primary-button" routerLink="/login">Log in</a>
+		<a matButton="filled" routerLink="/login">Log in</a>
 	</div>
 } @else {
 	<div class="profile-page container-narrow">
@@ -18,11 +18,11 @@
 				</h1>
 				<span class="user-email">{{ user()?.email }}</span>
 			</div>
-			<button
-				mat-flat-button
-				class="secondary-button logout-btn"
-				(click)="logout()"
-			>
+		<button
+			matButton="outlined"
+			class="logout-btn"
+			(click)="logout()"
+		>
 				<mat-icon>logout</mat-icon>
 				Log out
 			</button>
@@ -139,7 +139,7 @@
 					<div class="tab-empty">
 						<mat-icon class="tab-empty-icon">favorite_border</mat-icon>
 						<p>Your wishlist is empty</p>
-						<a mat-flat-button class="primary-button" routerLink="/products">Browse products</a>
+						<a matButton="filled" routerLink="/products">Browse products</a>
 					</div>
 				}
 			}
@@ -200,7 +200,7 @@
 					<div class="tab-empty">
 						<mat-icon class="tab-empty-icon">receipt_long</mat-icon>
 						<p>No orders yet</p>
-						<a mat-flat-button class="primary-button" routerLink="/products">Start shopping</a>
+						<a matButton="filled" routerLink="/products">Start shopping</a>
 					</div>
 				}
 			}

@@ -194,7 +194,6 @@
 }
 
 .step-actions button {
-	border-radius: 8px !important;
 	height: 44px;
 	min-width: 120px;
 }
@@ -443,14 +442,12 @@
 	max-width: 360px;
 	height: 48px;
 	font-size: 15px;
-	border-radius: 8px !important;
 }
 
 .back-btn {
 	width: 100%;
 	max-width: 360px;
 	height: 40px;
-	border-radius: 8px !important;
 }
 
 /* ══════════════════════════════════════
@@ -627,7 +624,6 @@
 
 	.mobile-cta-btn {
 		height: 44px;
-		border-radius: 8px !important;
 		padding: 0 24px;
 		white-space: nowrap;
 	}

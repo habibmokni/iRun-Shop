@@ -85,12 +85,12 @@
 
 				<!-- Add to cart -->
 				<div class="action-row">
-					<button
-						mat-flat-button
-						type="button"
-						class="primary-button add-btn"
-						(click)="addToCart()"
-					>
+				<button
+					matButton="filled"
+					type="button"
+					class="add-btn"
+					(click)="addToCart()"
+				>
 						<mat-icon>shopping_bag</mat-icon>
 						Add to cart
 					</button>
@@ -168,9 +168,9 @@
 		<div class="mobile-cta">
 			<span class="mobile-cta-price">{{ product.price }}€</span>
 			<button
-				mat-flat-button
+				matButton="filled"
 				type="button"
-				class="primary-button mobile-cta-btn"
+				class="mobile-cta-btn"
 				(click)="addToCart()"
 			>
 				<mat-icon>shopping_bag</mat-icon>

@@ -50,6 +50,7 @@
 							</div>
 							<div class="card-actions">
 								<button
+									mat-icon-button
 									class="card-fav-btn"
 									[class.wishlisted]="isWishlisted(product.modelNo!)"
 									(click)="toggleWishlist(product.modelNo!); $event.preventDefault(); $event.stopPropagation()"
@@ -58,7 +59,8 @@
 								</button>
 								<button
 									mat-mini-fab
-									class="primary-button card-add-btn"
+									color="primary"
+									class="card-add-btn"
 									(click)="openDialog(product); $event.preventDefault(); $event.stopPropagation()"
 								>
 									<mat-icon>add</mat-icon>

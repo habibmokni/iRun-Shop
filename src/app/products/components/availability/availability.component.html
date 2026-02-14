@@ -8,7 +8,7 @@
 		@for (size of data.sizes; track size) {
 			<div class="size-option">
 				<mat-divider />
-				<button mat-flat-button (click)="changeSize(size)" class="size-btn">
+				<button matButton="outlined" (click)="changeSize(size)" class="size-btn">
 					{{ size }}
 				</button>
 				<mat-divider />
@@ -22,7 +22,7 @@
 	<mat-card-title>Check Availability</mat-card-title>
 	<mat-card-subtitle>Enter location or zip code to check nearest stores</mat-card-subtitle>
 
-	<button mat-flat-button class="size-back-btn" (click)="resetSize()">
+	<button matButton="outlined" class="size-back-btn" (click)="resetSize()">
 		Size: {{ selectedSize() }}
 	</button>
 
@@ -67,7 +67,7 @@
 								</div>
 							</mat-card-content>
 							<mat-card-actions>
-							<button mat-flat-button class="primary-button" (click)="onStoreSelect(entry.store)">
+							<button matButton="filled" (click)="onStoreSelect(entry.store)">
 								Select Store
 							</button>
 							</mat-card-actions>

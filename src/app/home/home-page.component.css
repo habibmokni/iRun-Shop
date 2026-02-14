@@ -47,7 +47,9 @@
 	text-decoration: none;
 	border: 1px solid rgba(255, 255, 255, 0.7);
 	padding: 10px 24px;
-	transition: background 0.2s, border-color 0.2s;
+	transition:
+		background 0.2s,
+		border-color 0.2s;
 }
 
 .hero-cta:hover {
@@ -210,16 +212,7 @@
 .card-fav-btn {
 	width: 32px;
 	height: 32px;
-	border-radius: 50%;
-	border: none;
-	background: none;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0;
 	color: rgba(0, 0, 0, 0.25);
-	transition: color 0.15s;
 }
 
 .card-fav-btn mat-icon {
@@ -228,10 +221,7 @@
 	height: 20px;
 }
 
-.card-fav-btn:hover {
-	color: var(--mat-sys-primary);
-}
-
+.card-fav-btn:hover,
 .card-fav-btn.wishlisted {
 	color: var(--mat-sys-primary);
 }
@@ -332,70 +322,6 @@
 }
 
 /* ══════════════════════════════════════
-   Newsletter
-   ══════════════════════════════════════ */
-.newsletter-section {
-	background: var(--mat-sys-primary);
-	color: var(--mat-sys-on-primary);
-	padding: 64px 0;
-}
-
-.newsletter-inner {
-	text-align: center;
-	max-width: 520px;
-	margin: 0 auto;
-}
-
-.newsletter-icon {
-	font-size: 40px;
-	width: 40px;
-	height: 40px;
-	opacity: 0.85;
-	margin-bottom: 12px;
-}
-
-.newsletter-title {
-	font-size: 28px;
-	font-weight: 700;
-	margin: 0 0 8px;
-}
-
-.newsletter-subtitle {
-	font-size: 15px;
-	opacity: 0.85;
-	margin: 0 0 28px;
-	line-height: 1.5;
-}
-
-.newsletter-form {
-	display: flex;
-	gap: 12px;
-	max-width: 420px;
-	margin: 0 auto;
-}
-
-.newsletter-input {
-	flex: 1;
-	height: 48px;
-	border: none;
-	border-radius: 8px;
-	padding: 0 16px;
-	font-size: 15px;
-	outline: none;
-	color: #333;
-}
-
-.newsletter-input::placeholder {
-	color: #999;
-}
-
-.newsletter-btn {
-	height: 48px;
-	border-radius: 8px !important;
-	white-space: nowrap;
-}
-
-/* ══════════════════════════════════════
    Skeleton Loading
    ══════════════════════════════════════ */
 @keyframes shimmer {
@@ -408,7 +334,12 @@
 }
 
 .skeleton {
-	background: linear-gradient(90deg, var(--mat-sys-surface-container-low) 25%, var(--mat-sys-outline-variant) 50%, var(--mat-sys-surface-container-low) 75%);
+	background: linear-gradient(
+		90deg,
+		var(--mat-sys-surface-container-low) 25%,
+		var(--mat-sys-outline-variant) 50%,
+		var(--mat-sys-surface-container-low) 75%
+	);
 	background-size: 800px 100%;
 	animation: shimmer 1.5s infinite;
 	border-radius: 6px;
@@ -506,14 +437,6 @@
 	.brandbar-img {
 		width: 80px;
 		height: 32px;
-	}
-
-	.newsletter-form {
-		flex-direction: column;
-	}
-
-	.newsletter-title {
-		font-size: 22px;
 	}
 
 	.section-title {

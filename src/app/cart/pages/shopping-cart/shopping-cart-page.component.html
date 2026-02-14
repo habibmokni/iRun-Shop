@@ -88,11 +88,11 @@
 					<span>Total</span>
 					<span>{{ grandTotal() | number: '1.2-2' }}€</span>
 				</div>
-				<button
-					mat-flat-button
-					class="primary-button summary-btn"
-					(click)="onSubmit()"
-				>
+		<button
+			matButton="filled"
+			class="summary-btn"
+			(click)="onSubmit()"
+		>
 					Proceed to Checkout
 				</button>
 				<a class="continue-link" routerLink="/products">
@@ -108,7 +108,7 @@
 				<span class="mobile-bar-label">Total <span class="mobile-savings">(-{{ savings() | number: '1.2-2' }}€)</span></span>
 				<span class="mobile-bar-price">{{ grandTotal() | number: '1.2-2' }}€</span>
 			</div>
-			<button mat-flat-button class="primary-button mobile-bar-btn" (click)="onSubmit()">
+			<button matButton="filled" class="mobile-bar-btn" (click)="onSubmit()">
 				Checkout
 			</button>
 		</div>
@@ -118,7 +118,7 @@
 		<mat-icon class="empty-icon">shopping_cart</mat-icon>
 		<h2>Your cart is empty</h2>
 		<p>Looks like you haven't added anything yet.</p>
-		<a mat-flat-button class="primary-button" routerLink="/products">
+		<a matButton="filled" routerLink="/products">
 			Browse Products
 		</a>
 	</div>
