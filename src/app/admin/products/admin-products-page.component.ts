@@ -182,12 +182,10 @@ export class AdminProductsPageComponent {
 		this.isSeeding.set(true);
 		try {
 			const result = await this.seedService.seedDatabase();
-			this.snackbar.success(
-				`Database seeded: ${result.products} products, ${result.stores} stores`,
-			);
+			this.snackbar.success('Database seeded');
 		} catch (error: unknown) {
 			console.error('Seed failed:', error);
-			this.snackbar.error('Failed to seed database. Check console for details.');
+			this.snackbar.error('Seed failed');
 		} finally {
 			this.isSeeding.set(false);
 		}

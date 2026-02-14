@@ -60,13 +60,13 @@ export class RegisterPageComponent {
 			};
 
 			this.userService.addUser(userData);
-			this.snackbar.success('User added successfully!');
+			this.snackbar.success('Account created');
 			this.registerForm.reset();
 			this.isLoading.set(false);
 			setTimeout(() => this.router.navigate(['/login']), 2000);
 		} else {
 			this.isLoading.set(false);
-			this.snackbar.error('Oops! Something went wrong');
+			this.snackbar.error('Something went wrong');
 		}
 	}
 

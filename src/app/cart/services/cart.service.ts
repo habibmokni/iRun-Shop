@@ -27,13 +27,13 @@ export class CartService {
 		}
 
 		this.persist(cart);
-		this.snackbar.info('Adding Product to Cart');
+		this.snackbar.success('Added to cart');
 	}
 
 	public removeProduct(product: CartProduct): void {
 		const cart = this.cartState().filter((item) => !this.isSameItem(item, product));
 		this.persist(cart);
-		this.snackbar.warning('Removing product from cart');
+		this.snackbar.info('Removed from cart');
 	}
 
 	public updateQuantity(product: CartProduct, quantity: number): void {

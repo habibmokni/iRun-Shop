@@ -8,8 +8,9 @@ export class SnackbarService {
 	private readonly snackBar = inject(MatSnackBar);
 
 	private readonly baseConfig: MatSnackBarConfig = {
-		duration: 1000,
+		duration: 2000,
 		verticalPosition: 'top',
+		horizontalPosition: 'center',
 	};
 
 	success(message: string): void {

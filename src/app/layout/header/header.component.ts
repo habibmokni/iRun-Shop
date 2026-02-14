@@ -44,6 +44,6 @@ export class HeaderComponent {
 	protected onLogout(): void {
 		this.authService.logout();
 		this.router.navigate(['/home']);
-		this.snackbar.success('Logout successfully!');
+		this.snackbar.success('Logged out');
 	}
 }

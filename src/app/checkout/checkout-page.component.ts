@@ -131,7 +131,7 @@ export class CheckoutPageComponent {
 
 	protected onCncContinue(): void {
 		if (this.shippingMethod.invalid) {
-			this.snackbar.info('Please select a store, date, and time to proceed');
+			this.snackbar.info('Select store, date & time');
 			return;
 		}
 		this.activeStep.set(1);
@@ -139,7 +139,7 @@ export class CheckoutPageComponent {
 
 	protected onDeliveryContinue(): void {
 		if (this.billing.invalid) {
-			this.snackbar.info('Please enter all delivery fields');
+			this.snackbar.info('Complete delivery details');
 			return;
 		}
 		this.activeStep.set(1);
@@ -147,11 +147,11 @@ export class CheckoutPageComponent {
 
 	protected onBillingContinue(): void {
 		if (this.billing.invalid && this.isClickNCollect()) {
-			this.snackbar.info('Please enter billing details');
+			this.snackbar.info('Complete billing details');
 			return;
 		}
 		if (this.paymentMethod.invalid) {
-			this.snackbar.info('Please select a payment method');
+			this.snackbar.info('Select a payment method');
 			return;
 		}
 		this.onSubmit();
@@ -207,7 +207,7 @@ export class CheckoutPageComponent {
 		if (this.billing.valid) {
 			this.step.update((current) => current + 1);
 		} else {
-			this.snackbar.info('Please enter billing details to proceed further');
+			this.snackbar.info('Complete billing details');
 		}
 	}
 

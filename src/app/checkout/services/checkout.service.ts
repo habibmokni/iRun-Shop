@@ -86,6 +86,6 @@ export class CheckoutService {
 	public submitOrder(order: Order): void {
 		this.db.collection<Order>('orderList').add({ ...order });
 		this.cartService.clearCart();
-		this.snackbar.success('Order placed successfully');
+		this.snackbar.success('Order placed!');
 	}
 }

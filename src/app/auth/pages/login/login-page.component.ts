@@ -39,7 +39,7 @@ export class LoginPageComponent {
 	constructor() {
 		if (this.authService.isLoggedIn()) {
 			this.router.navigate(['/home']);
-			this.snackbar.success('User already logged in');
+			this.snackbar.success('Already logged in');
 		}
 	}
 
@@ -61,10 +61,10 @@ export class LoginPageComponent {
 
 		if (success) {
 			this.router.navigate(['/home']);
-			this.snackbar.success('Login Successful');
+			this.snackbar.success('Logged in');
 		} else {
 			this.isLoading.set(false);
-			this.snackbar.error('Wrong credentials! Please try again');
+			this.snackbar.error('Wrong credentials');
 		}
 	}
 }

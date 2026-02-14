@@ -42,7 +42,7 @@ export class ProductCardComponent {
 
 	protected toggleWishlist(modelNo: string): void {
 		if (!this.userService.user()) {
-			this.snackbar.info('Please log in to use the wishlist');
+			this.snackbar.info('Log in to use wishlist');
 			return;
 		}
 		const added = this.userService.toggleWishlist(modelNo);

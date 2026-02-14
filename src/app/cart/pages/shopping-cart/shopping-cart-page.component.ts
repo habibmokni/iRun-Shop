@@ -93,7 +93,7 @@ export class ShoppingCartPageComponent {
 		if (this.hasProducts()) {
 			this.router.navigate(['/checkout']);
 		} else {
-			this.snackbar.info('Please add products to cart!');
+			this.snackbar.info('Cart is empty');
 		}
 	}
 

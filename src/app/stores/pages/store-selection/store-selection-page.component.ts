@@ -100,7 +100,7 @@ export class StoreSelectionPageComponent {
 	protected selectStore(store: Store): void {
 		this.userService.updateSelectedStore(store);
 		this.userService.setFavoriteStore(store);
-		this.snackbar.success(`${store.name} selected as your store`);
+		this.snackbar.success(`Store updated`);
 	}
 
 }

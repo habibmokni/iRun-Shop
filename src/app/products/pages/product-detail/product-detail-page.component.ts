@@ -151,8 +151,8 @@ export class ProductDetailPageComponent {
 		if (!this.isSizeSelected()) {
 			this.snackbar.info(
 				this.stock() === 0
-					? 'Please change store as product is not available in selected store'
-					: 'Please select size of product',
+					? 'Not available at this store'
+					: 'Select a size first',
 			);
 			return;
 		}
@@ -176,7 +176,7 @@ export class ProductDetailPageComponent {
 		if (!modelNo) return;
 
 		if (!this.userService.user()) {
-			this.snackbar.info('Please log in to use the wishlist');
+			this.snackbar.info('Log in to use wishlist');
 			return;
 		}
 

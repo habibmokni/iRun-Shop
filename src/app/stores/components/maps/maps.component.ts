@@ -110,7 +110,7 @@ export class MapsComponent {
 	protected onSelectStore(store: Store): void {
 		this.userService.updateSelectedStore(store);
 		this.userService.setFavoriteStore(store);
-		this.snackbar.success('Store Selected Successfully');
+		this.snackbar.success('Store selected');
 		this.infoWindow().close();
 		this.dialog.closeAll();
 	}

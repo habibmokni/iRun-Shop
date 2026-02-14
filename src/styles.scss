@@ -22,39 +22,60 @@ router-outlet + * {
 }
 
 /* ── Snackbar variants ── */
-.snackbar-success {
-	background-color: #00c851 !important;
-	color: white;
-	z-index: 1000;
-}
-
-.snackbar-info {
-	background-color: #33b5e5;
-	color: white;
-	z-index: 1000;
-}
-
-.snackbar-warning {
-	background-color: #fb3;
-	color: white;
-	z-index: 1000;
-}
-
-.snackbar-error {
-	background-color: #ff3547;
-	color: white;
-	z-index: 1000;
-}
-
+.snackbar-success,
+.snackbar-info,
+.snackbar-warning,
+.snackbar-error,
 .snackbar-wait {
-	background-color: #33b5e5;
-	color: white;
-	z-index: 1000;
+	justify-content: center !important;
 }
 
-.snackbar button {
-	color: white;
-	z-index: 1000;
+.snackbar-success .mdc-snackbar__surface,
+.snackbar-info .mdc-snackbar__surface,
+.snackbar-warning .mdc-snackbar__surface,
+.snackbar-error .mdc-snackbar__surface,
+.snackbar-wait .mdc-snackbar__surface {
+	border-radius: 12px !important;
+	min-width: auto !important;
+	max-width: fit-content !important;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+}
+
+.snackbar-success .mdc-snackbar__surface,
+.snackbar-info .mdc-snackbar__surface,
+.snackbar-wait .mdc-snackbar__surface {
+	background-color: var(--mat-sys-surface-container-low) !important;
+}
+
+.snackbar-warning .mdc-snackbar__surface,
+.snackbar-error .mdc-snackbar__surface {
+	background-color: var(--mat-sys-surface-container-low) !important;
+}
+
+.snackbar-success .mdc-snackbar__label,
+.snackbar-info .mdc-snackbar__label,
+.snackbar-wait .mdc-snackbar__label {
+	color: var(--mat-sys-on-surface) !important;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+}
+
+.snackbar-warning .mdc-snackbar__label,
+.snackbar-error .mdc-snackbar__label {
+	color: #c62828 !important;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+}
+
+.snackbar-success .mat-mdc-snack-bar-action,
+.snackbar-info .mat-mdc-snack-bar-action,
+.snackbar-wait .mat-mdc-snack-bar-action {
+	color: var(--mat-sys-on-surface) !important;
+}
+
+.snackbar-warning .mat-mdc-snack-bar-action,
+.snackbar-error .mat-mdc-snack-bar-action {
+	color: #c62828 !important;
 }
 
 
