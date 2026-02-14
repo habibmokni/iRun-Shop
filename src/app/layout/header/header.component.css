@@ -81,6 +81,14 @@
 	color: var(--mat-sys-on-surface-variant);
 }
 
+/* Badge overrides */
+:host .mat-badge-content {
+	color: #fff !important;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: 22px;
+}
+
 @media (max-width: 599px) {
 	.nav-link {
 		display: none;

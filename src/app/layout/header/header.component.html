@@ -64,26 +64,26 @@
 			aria-label="Wishlist"
 			class="wishlist-btn"
 		>
-			<mat-icon
-				[matBadge]="wishlistCount()"
-				[matBadgeHidden]="wishlistCount() === 0"
-				matBadgeColor="warn"
-				matBadgeSize="small"
-				fontSet="material-icons-outlined"
-			>
-				favorite_border
-			</mat-icon>
+		<mat-icon
+			[matBadge]="wishlistCount()"
+			[matBadgeHidden]="wishlistCount() === 0"
+			matBadgeColor="primary"
+			fontSet="material-icons-outlined"
+		>
+			favorite_border
+		</mat-icon>
 		</a>
 
 		<!-- Cart -->
 		<a mat-icon-button routerLink="/shoppingcart" aria-label="Shopping cart">
-			<mat-icon
-				[matBadge]="cartCount()"
-				matBadgeColor="warn"
-				fontSet="material-icons-outlined"
-			>
-				shopping_bag
-			</mat-icon>
+		<mat-icon
+			[matBadge]="cartCount()"
+			[matBadgeHidden]="cartCount() === 0"
+			matBadgeColor="primary"
+			fontSet="material-icons-outlined"
+		>
+			shopping_bag
+		</mat-icon>
 		</a>
 	</div>
 </mat-toolbar>
