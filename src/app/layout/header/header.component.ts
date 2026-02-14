@@ -41,8 +41,8 @@ export class HeaderComponent {
 	protected readonly cartCount = this.cartService.count;
 	protected readonly wishlistCount = computed(() => this.userService.wishlist().size);
 
-	protected onLogout(): void {
-		this.authService.logout();
+	protected async onLogout(): Promise<void> {
+		await this.authService.logout();
 		this.router.navigate(['/home']);
 		this.snackbar.success('Logged out');
 	}

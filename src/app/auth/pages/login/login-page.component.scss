@@ -78,3 +78,16 @@
 	justify-content: center;
 	padding: 2rem 0;
 }
+
+.auth-link {
+	text-align: center;
+	font-size: 14px;
+	color: var(--mat-sys-on-surface-variant);
+	margin-top: 16px;
+
+	a {
+		color: var(--mat-sys-primary);
+		text-decoration: none;
+		font-weight: 600;
+	}
+}

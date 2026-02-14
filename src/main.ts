@@ -7,6 +7,7 @@ import { provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@an
 import { importProvidersFrom } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ClickNCollectModule } from '@habibmokni/cnc';
 import { environment } from './environments/environment';
@@ -31,6 +32,7 @@ bootstrapApplication(AppComponent, {
 		importProvidersFrom(
 			AngularFireModule.initializeApp(environment.firebase),
 			AngularFirestoreModule,
+			AngularFireAuthModule,
 			GoogleMapsModule,
 			ClickNCollectModule,
 		),

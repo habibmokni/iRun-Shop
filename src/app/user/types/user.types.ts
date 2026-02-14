@@ -6,7 +6,6 @@ export interface User {
 	readonly firstName?: string;
 	readonly lastName?: string;
 	readonly email?: string;
-	readonly password?: string;
 	readonly address?: string;
 	readonly zipCode?: string;
 	storeSelected?: Store;

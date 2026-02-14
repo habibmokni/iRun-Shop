@@ -1,12 +1,13 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { SnackbarService } from '../../../shared/services/snackbar.service';
+import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../../user/services/user.service';
 import { User } from '../../../user/types/user.types';
 
@@ -16,11 +17,12 @@ import { User } from '../../../user/types/user.types';
 	styleUrls: ['./register-page.component.scss'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [ReactiveFormsModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+	imports: [ReactiveFormsModule, RouterModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
 })
 export class RegisterPageComponent {
 	private readonly router = inject(Router);
 	private readonly snackbar = inject(SnackbarService);
+	private readonly authService = inject(AuthService);
 	private readonly userService = inject(UserService);
 
 	protected readonly registerForm = new FormGroup({
@@ -45,29 +47,44 @@ export class RegisterPageComponent {
 		return control.invalid && control.touched;
 	}
 
-	protected onRegister(): void {
+	protected async onRegister(): Promise<void> {
 		this.isLoading.set(true);
 
-		if (this.registerForm.valid) {
-			const formValues = this.registerForm.getRawValue();
-			const userData: User = {
-				firstName: formValues.firstName ?? '',
-				lastName: formValues.lastName ?? '',
-				email: formValues.email ?? '',
-				password: formValues.password ?? '',
-				address: formValues.address ?? '',
-				zipCode: formValues.zipCode ?? '',
-			};
-
-			this.userService.addUser(userData);
-			this.snackbar.success('Account created');
-			this.registerForm.reset();
+		if (!this.registerForm.valid) {
 			this.isLoading.set(false);
-			setTimeout(() => this.router.navigate(['/login']), 2000);
-		} else {
-			this.isLoading.set(false);
-			this.snackbar.error('Something went wrong');
+			this.snackbar.error('Please fill all fields');
+			return;
 		}
+
+		const formValues = this.registerForm.getRawValue();
+		const email = formValues.email ?? '';
+		const password = formValues.password ?? '';
+
+		// 1. Create Firebase account
+		const success = await this.authService.register(email, password);
+		if (!success) {
+			this.isLoading.set(false);
+			this.snackbar.error('Registration failed');
+			return;
+		}
+
+		// 2. Save profile data locally
+		const userData: User = {
+			firstName: formValues.firstName ?? '',
+			lastName: formValues.lastName ?? '',
+			email,
+			address: formValues.address ?? '',
+			zipCode: formValues.zipCode ?? '',
+		};
+		this.userService.addUser(userData);
+
+		// 3. Sign out so the user can log in explicitly
+		await this.authService.logout();
+
+		this.snackbar.success('Account created');
+		this.registerForm.reset();
+		this.isLoading.set(false);
+		this.router.navigate(['/login']);
 	}
 
 	protected onCancel(): void {

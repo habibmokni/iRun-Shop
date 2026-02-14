@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -18,6 +18,7 @@ import { AuthService } from '../../services/auth.service';
 	imports: [
 		NgOptimizedImage,
 		ReactiveFormsModule,
+		RouterModule,
 		MatButtonModule,
 		MatIconModule,
 		MatProgressSpinnerModule,
@@ -52,10 +53,10 @@ export class LoginPageComponent {
 		return control.invalid && control.touched;
 	}
 
-	protected onLogin(): void {
+	protected async onLogin(): Promise<void> {
 		this.isLoading.set(true);
 
-		const success = this.authService.login(
+		const success = await this.authService.login(
 			this.loginForm.value as { email: string; password: string },
 		);
 

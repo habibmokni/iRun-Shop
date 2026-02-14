@@ -1,45 +1,48 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 import { UserService } from '../../user/services/user.service';
 
-const LOGIN_KEY = 'isLoggedIn';
-const USER_KEY = 'user';
-
 /**
- * Pure authentication state service.
+ * Authentication service backed by Firebase Auth.
  * Does NOT navigate or show UI feedback — that's the caller's responsibility.
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+	private readonly afAuth = inject(AngularFireAuth);
 	private readonly userService = inject(UserService);
 
-	private readonly loggedInState = signal(!!localStorage.getItem(LOGIN_KEY));
-	readonly isLoggedIn = this.loggedInState.asReadonly();
+	/** Firebase auth state as a signal (null when logged out, User when logged in). */
+	private readonly firebaseUser = toSignal(this.afAuth.authState, { initialValue: null });
 
-	/**
-	 * Validates credentials against stored user data.
-	 * Returns `true` on success, `false` on failure.
-	 */
-	public login(credentials: { email: string; password: string }): boolean {
-		const stored = JSON.parse(localStorage.getItem(USER_KEY) ?? 'null') as {
-			email?: string;
-			password?: string;
-		} | null;
+	/** Whether the user is currently authenticated. */
+	readonly isLoggedIn = computed(() => !!this.firebaseUser());
 
-		if (stored?.email === credentials.email && stored?.password === credentials.password) {
-			localStorage.setItem(LOGIN_KEY, 'true');
-			this.loggedInState.set(true);
-			this.userService.reloadUser();
-			return true;
-		}
-
-		return false;
+	constructor() {
+		// Reload local profile data whenever Firebase auth state changes to logged-in.
+		effect(() => {
+			if (this.firebaseUser()) {
+				this.userService.reloadUser();
+			}
+		});
 	}
 
-	/** Clears authentication state and user profile data. */
-	public logout(): void {
-		localStorage.removeItem(LOGIN_KEY);
-		this.loggedInState.set(false);
-		this.userService.clearUser();
-	}
+	/** Signs in with email & password via Firebase. */
+	readonly login = (credentials: { email: string; password: string }): Promise<boolean> =>
+		this.afAuth
+			.signInWithEmailAndPassword(credentials.email, credentials.password)
+			.then(() => true)
+			.catch(() => false);
+
+	/** Creates a new user account via Firebase. */
+	readonly register = (email: string, password: string): Promise<boolean> =>
+		this.afAuth
+			.createUserWithEmailAndPassword(email, password)
+			.then(() => true)
+			.catch(() => false);
+
+	/** Signs out of Firebase and clears local user data. */
+	readonly logout = (): Promise<void> =>
+		this.afAuth.signOut().then(() => this.userService.clearUser());
 }
