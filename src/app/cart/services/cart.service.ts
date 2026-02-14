@@ -12,7 +12,7 @@ export class CartService {
 
 	readonly cart = this.cartState.asReadonly();
 
-	readonly count = computed(() => this.cartState().length);
+	readonly count = computed(() => this.cartState().reduce((sum, item) => sum + item.noOfItems, 0));
 
 	readonly isEmpty = computed(() => this.cartState().length === 0);
 
