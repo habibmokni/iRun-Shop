@@ -46,3 +46,36 @@ html {
 		)
 	);
 }
+
+/* Size-selector dropdown panel */
+.size-select-panel {
+	background: #fff;
+
+	.mat-mdc-option .mdc-list-item__primary-text {
+		width: 100%;
+	}
+
+	.mat-pseudo-checkbox {
+		display: none;
+	}
+
+	.option-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+	}
+
+	.stock-hint {
+		font-size: 12px;
+		font-weight: 400;
+	}
+
+	.low-stock {
+		color: #e67e22;
+	}
+
+	.sold-out {
+		color: rgba(0, 0, 0, 0.35);
+	}
+}

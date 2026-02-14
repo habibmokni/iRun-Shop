@@ -54,7 +54,9 @@
 
 				<!-- Price -->
 				<div class="price-row">
-					<span class="price-current">{{ product.price }}€</span>
+					<span class="price-current" [class.on-sale]="product.discount"
+						>{{ product.price }}€</span
+					>
 					<span class="price-original">{{ originalPrice() | number: '1.2-2' }}€</span>
 					@if (product.discount) {
 						<span class="price-discount">-{{ product.discount }}%</span>
@@ -64,7 +66,7 @@
 				<!-- Variant thumbnails -->
 				@if (similarProducts().length > 1) {
 					<div class="section">
-						<span class="section-label">Color</span>
+						<span class="section-label">Variants</span>
 						<div class="variant-selection">
 							@for (
 								variant of similarProducts();
@@ -83,8 +85,8 @@
 											''
 										"
 										[alt]="variant.name"
-										width="56"
-										height="56"
+										width="72"
+										height="72"
 									/>
 								</button>
 							}
@@ -100,39 +102,34 @@
 
 				<!-- Add to cart -->
 				<div class="action-row">
-				<button
-					matButton="filled"
-					type="button"
-					class="add-btn"
-					(click)="addToCart()"
-				>
+					<button matButton="filled" type="button" class="add-btn" (click)="addToCart()">
 						<mat-icon>shopping_bag</mat-icon>
 						Add to cart
 					</button>
-				<button
-					mat-icon-button
-					type="button"
-					class="fav-btn"
-					[class.wishlisted]="isWishlisted()"
-					(click)="toggleWishlist()"
-				>
-					<mat-icon>{{ isWishlisted() ? 'favorite' : 'favorite_border' }}</mat-icon>
-				</button>
+					<button
+						mat-icon-button
+						type="button"
+						class="fav-btn"
+						[class.wishlisted]="isWishlisted()"
+						(click)="toggleWishlist()"
+					>
+						<mat-icon>{{ isWishlisted() ? 'favorite' : 'favorite_border' }}</mat-icon>
+					</button>
 				</div>
 
 				<!-- Perks -->
 				<div class="perks">
-					<div class="perk">
+					<div class="perk-card">
 						<mat-icon class="perk-icon">local_shipping</mat-icon>
-						<span>Free delivery from 80€</span>
+						<span class="perk-text">Free delivery from 80€</span>
 					</div>
-					<div class="perk">
+					<div class="perk-card">
 						<mat-icon class="perk-icon">store</mat-icon>
-						<span>Free store pickup</span>
+						<span class="perk-text">Free store pickup</span>
 					</div>
-					<div class="perk">
+					<div class="perk-card">
 						<mat-icon class="perk-icon">replay</mat-icon>
-						<span>Free returns</span>
+						<span class="perk-text">Free returns</span>
 					</div>
 				</div>
 
@@ -182,12 +179,7 @@
 		<!-- Mobile sticky CTA -->
 		<div class="mobile-cta">
 			<span class="mobile-cta-price">{{ product.price }}€</span>
-			<button
-				matButton="filled"
-				type="button"
-				class="mobile-cta-btn"
-				(click)="addToCart()"
-			>
+			<button matButton="filled" type="button" class="mobile-cta-btn" (click)="addToCart()">
 				<mat-icon>shopping_bag</mat-icon>
 				Add to cart
 			</button>

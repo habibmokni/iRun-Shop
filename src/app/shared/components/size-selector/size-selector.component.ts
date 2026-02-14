@@ -1,106 +1,41 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, computed } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 import { Product } from '../../../products/types/product.types';
 
 @Component({
 	selector: 'app-size-selector',
 	standalone: true,
+	imports: [MatFormFieldModule, MatSelectModule],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
-		<div class="size-selector">
-			<div class="size-grid">
+		<mat-form-field appearance="outline" class="size-field">
+			<mat-label>Select size</mat-label>
+			<mat-select panelClass="size-select-panel" (selectionChange)="onSelect($event.value)">
+				<mat-select-trigger>
+					@if (selectedIndex() !== null) {
+						{{ sizes()[selectedIndex()!] }}
+					}
+				</mat-select-trigger>
 				@for (size of sizes(); track size; let i = $index) {
-					<button
-						class="size-btn"
-						[class.selected]="selectedIndex() === i"
-						[class.out-of-stock]="stock()[i] === 0"
-						[disabled]="stock()[i] === 0"
-						(click)="onSelect(i)"
-					>
-						<span class="size-value">{{ size }}</span>
-						@if (stock()[i] === 0) {
-							<span class="stock-label sold-out">Sold out</span>
-						} @else if (stock()[i] < 5) {
-							<span class="stock-label low-stock">{{ stock()[i] }} left</span>
-						}
-					</button>
+					<mat-option [value]="i" [disabled]="stock()[i] === 0">
+						<span class="option-row">
+							<span>{{ size }}</span>
+							@if (stock()[i] === 0) {
+								<span class="stock-hint sold-out">Sold out</span>
+							} @else if (stock()[i] < 5) {
+								<span class="stock-hint low-stock">{{ stock()[i] }} left</span>
+							}
+						</span>
+					</mat-option>
 				}
-			</div>
-		</div>
+			</mat-select>
+		</mat-form-field>
 	`,
 	styles: `
-		.size-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-			gap: 8px;
-		}
-
-		.size-btn {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			padding: 10px 4px;
-			border: 1.5px solid var(--mat-sys-outline-variant);
-			border-radius: 8px;
-			background: #fff;
-			cursor: pointer;
-			transition: border-color 0.15s, background 0.15s;
-			min-height: 48px;
-		}
-
-		.size-btn:hover:not(:disabled) {
-			border-color: #999;
-		}
-
-		.size-btn.selected {
-			border-color: var(--mat-sys-primary);
-			background: var(--mat-sys-primary-container);
-		}
-
-		.size-btn.out-of-stock {
-			opacity: 0.45;
-			cursor: not-allowed;
-			background: var(--mat-sys-surface-container-low);
-		}
-
-		.size-value {
-			font-size: 14px;
-			font-weight: 600;
-		}
-
-		.stock-label {
-			font-size: 10px;
-			margin-top: 2px;
-		}
-
-		.low-stock {
-			color: #e67e22;
-		}
-
-		.sold-out {
-			color: rgba(0, 0, 0, 0.35);
-		}
-
-		@media (max-width: 768px) {
-			.size-grid {
-				grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
-				gap: 6px;
-			}
-
-			.size-btn {
-				padding: 6px 2px;
-				min-height: 38px;
-				border-radius: 6px;
-			}
-
-			.size-value {
-				font-size: 13px;
-			}
-
-			.stock-label {
-				font-size: 9px;
-			}
+		.size-field {
+			width: 100%;
 		}
 	`,
 })
