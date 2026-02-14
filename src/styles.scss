@@ -77,3 +77,15 @@ router-outlet + * {
 		padding: 0 16px;
 	}
 }
+
+/* ── Fullscreen dialog (image gallery) ── */
+.fullscreen-dialog .mat-mdc-dialog-surface {
+	background: #000;
+	border-radius: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.fullscreen-dialog .mat-mdc-dialog-container {
+	padding: 0;
+}

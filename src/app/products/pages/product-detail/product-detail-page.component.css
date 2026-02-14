@@ -18,6 +18,11 @@
 	top: 96px;
 }
 
+/* Carousel: hidden on desktop */
+.carousel {
+	display: none;
+}
+
 .main-image {
 	background: #f8f8f8;
 	border-radius: 12px;
@@ -331,22 +336,46 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 		position: static;
 	}
 
-	.main-image {
-		padding: 12px;
-		aspect-ratio: 4/3;
-		border-radius: 8px;
-	}
-
+	/* Hide desktop gallery on mobile */
+	.main-image,
 	.thumbnail-row {
-		gap: 6px;
-		margin-top: 8px;
-		min-height: 52px;
+		display: none;
 	}
 
-	.thumbnail {
-		width: 48px;
-		height: 48px;
-		border-radius: 6px;
+	/* Show peek carousel on mobile */
+	.carousel {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: 16px;
+		gap: 10px;
+		padding: 0 16px;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+	}
+
+	.carousel::-webkit-scrollbar {
+		display: none;
+	}
+
+	.carousel-slide {
+		flex: 0 0 85%;
+		scroll-snap-align: start;
+		background: #fff;
+		border-radius: 12px;
+		aspect-ratio: 4 / 3;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		border: 1px solid var(--mat-sys-outline-variant);
+	}
+
+	.carousel-slide img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		padding: 0 12px;
 	}
 
 	.brand-label {

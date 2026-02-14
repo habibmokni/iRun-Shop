@@ -3,6 +3,21 @@
 		<div class="product-layout">
 			<!-- Left: Images -->
 			<div class="product-gallery">
+				<!-- Mobile: peek carousel -->
+				<div class="carousel">
+					@for (img of product.variants[0]?.imageList ?? []; track img; let i = $index) {
+						<div class="carousel-slide" (click)="openGallery(i)">
+							<img
+								[ngSrc]="img"
+								[alt]="product.name + ' ' + (i + 1)"
+								width="600"
+								height="600"
+							/>
+						</div>
+					}
+				</div>
+
+				<!-- Desktop: main image + thumbnails -->
 				<div class="main-image">
 					<img
 						[ngSrc]="

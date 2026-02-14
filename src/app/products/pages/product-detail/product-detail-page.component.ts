@@ -22,6 +22,7 @@ import {
 	AvailabilityDialogData,
 } from '../../components/availability/availability.component';
 import { SizeSelectorComponent } from '../../../shared/components/size-selector/size-selector.component';
+import { ImageGalleryComponent } from '../../components/image-gallery/image-gallery.component';
 
 @Component({
 	selector: 'app-product-detail-page',
@@ -194,6 +195,20 @@ export class ProductDetailPageComponent {
 			} satisfies AvailabilityDialogData,
 			maxWidth: '100vw',
 			maxHeight: '100vh',
+		});
+	}
+
+	protected openGallery(startIndex: number): void {
+		const images = this.product()?.variants[0]?.imageList ?? [];
+		if (!images.length) return;
+
+		this.dialog.open(ImageGalleryComponent, {
+			data: { images, startIndex },
+			panelClass: 'fullscreen-dialog',
+			maxWidth: '100vw',
+			maxHeight: '100vh',
+			width: '100vw',
+			height: '100vh',
 		});
 	}
 }

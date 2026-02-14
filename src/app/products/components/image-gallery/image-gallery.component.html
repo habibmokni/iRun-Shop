@@ -1,0 +1,15 @@
+<div class="gallery-overlay">
+	<div class="gallery-header">
+		<span class="gallery-counter">{{ activeIndex() + 1 }} / {{ images.length }}</span>
+		<button mat-icon-button class="gallery-close" (click)="close()">
+			<mat-icon>close</mat-icon>
+		</button>
+	</div>
+	<div class="gallery-carousel" #galleryCarousel (scroll)="onScroll()">
+		@for (img of images; track img; let i = $index) {
+			<div class="gallery-slide">
+				<img [src]="img" [alt]="'Image ' + (i + 1)" />
+			</div>
+		}
+	</div>
+</div>
