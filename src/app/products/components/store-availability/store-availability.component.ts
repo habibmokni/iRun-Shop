@@ -25,6 +25,7 @@ import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { CartService } from '../../../cart/services/cart.service';
 import { UserService } from '../../../user/services/user.service';
 import { MapsComponent } from '../../../stores/components/maps/maps.component';
+import { StoreCardComponent } from '../../../stores/components/store-card/store-card.component';
 
 export interface StoreAvailabilityDialogData {
 	readonly call: 'product' | 'checkout';
@@ -55,6 +56,7 @@ export interface NearByStore {
 		MatFormFieldModule,
 		MatInputModule,
 		MapsComponent,
+		StoreCardComponent,
 	],
 })
 export class StoreAvailabilityComponent {

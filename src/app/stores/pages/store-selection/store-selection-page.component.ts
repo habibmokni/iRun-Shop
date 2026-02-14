@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { Store } from '../../types/store.types';
 import { StoreService } from '../../services/store.service';
+import { StoreCardComponent } from '../../components/store-card/store-card.component';
 import { UserService } from '../../../user/services/user.service';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 
@@ -25,7 +26,7 @@ type StoreView = 'map' | 'list';
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
-	imports: [MatButtonModule, MatIconModule],
+	imports: [MatButtonModule, MatIconModule, StoreCardComponent],
 })
 export class StoreSelectionPageComponent {
 	private readonly storeService = inject(StoreService);

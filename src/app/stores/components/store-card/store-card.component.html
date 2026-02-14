@@ -1,0 +1,92 @@
+<div
+	class="store-card"
+	[class.selected]="selected()"
+	(click)="onSelect()"
+>
+	<div class="store-card-header">
+		<div class="store-icon-wrapper">
+			<mat-icon class="store-icon">store</mat-icon>
+		</div>
+		<div class="store-header-info">
+			<h3 class="store-name">{{ store().name }}</h3>
+			<span class="store-address">{{ store().address }}</span>
+		</div>
+		@if (selected()) {
+			<mat-icon class="check-icon">check_circle</mat-icon>
+		}
+	</div>
+
+	<div class="store-details">
+		@if (distance() !== null) {
+			<div class="store-detail">
+				<mat-icon class="detail-icon">room</mat-icon>
+				<span>{{ distance()!.toFixed(1) }} km away</span>
+			</div>
+		}
+		@if (store().openingTime) {
+			<div class="store-detail">
+				<mat-icon class="detail-icon">schedule</mat-icon>
+				<span>{{ store().openingTime.open }} – {{ store().openingTime.close }}</span>
+			</div>
+		}
+		@if (store().description) {
+			<div class="store-detail">
+				<mat-icon class="detail-icon">info_outline</mat-icon>
+				<span>{{ store().description }}</span>
+			</div>
+		}
+		@if (store().reviews) {
+			<div class="store-detail">
+				<mat-icon class="detail-icon">star_outline</mat-icon>
+				<span>{{ store().reviews }}</span>
+			</div>
+		}
+		@if (stock() !== null) {
+			<div class="store-detail">
+				<mat-icon
+					class="detail-icon stock-icon"
+					[class.good]="stock()! > 5"
+					[class.low]="stock()! > 0 && stock()! <= 5"
+					[class.out]="stock() === 0"
+				>
+					@if (stock()! > 0) { check_circle } @else { cancel }
+				</mat-icon>
+				<span
+					class="stock-text"
+					[class.good]="stock()! > 5"
+					[class.low]="stock()! > 0 && stock()! <= 5"
+					[class.out]="stock() === 0"
+				>
+					@if (stock()! > 5) {
+						In stock
+					} @else if (stock()! > 0) {
+						Low stock
+					} @else {
+						Out of stock
+					}
+				</span>
+			</div>
+		}
+	</div>
+
+	<div class="store-actions">
+		@if (selected()) {
+			<button
+				matButton="outlined"
+				class="select-btn selected-btn"
+				(click)="onSelect(); $event.stopPropagation()"
+			>
+				<mat-icon>check</mat-icon>
+				Selected
+			</button>
+		} @else {
+			<button
+				matButton="filled"
+				class="select-btn"
+				(click)="onSelect(); $event.stopPropagation()"
+			>
+				Select Store
+			</button>
+		}
+	</div>
+</div>

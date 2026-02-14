@@ -64,67 +64,11 @@
 		@if (filteredStores().length) {
 			<div class="store-grid">
 				@for (store of filteredStores(); track store.id) {
-					<div
-						class="store-card"
-						[class.selected]="selectedStoreId() === store.id"
-						(click)="selectStore(store)"
-					>
-						<div class="store-card-header">
-							<div class="store-icon-wrapper">
-								<mat-icon class="store-icon">store</mat-icon>
-							</div>
-							<div class="store-header-info">
-								<h3 class="store-name">{{ store.name }}</h3>
-								<span class="store-address">{{ store.address }}</span>
-							</div>
-							@if (selectedStoreId() === store.id) {
-								<mat-icon class="check-icon">check_circle</mat-icon>
-							}
-						</div>
-
-						<div class="store-details">
-							<div class="store-detail">
-								<mat-icon class="detail-icon">schedule</mat-icon>
-								<span
-									>{{ store.openingTime.open }} –
-									{{ store.openingTime.close }}</span
-								>
-							</div>
-							@if (store.description) {
-								<div class="store-detail">
-									<mat-icon class="detail-icon">info_outline</mat-icon>
-									<span>{{ store.description }}</span>
-								</div>
-							}
-							@if (store.reviews) {
-								<div class="store-detail">
-									<mat-icon class="detail-icon">star_outline</mat-icon>
-									<span>{{ store.reviews }}</span>
-								</div>
-							}
-						</div>
-
-						<div class="store-actions">
-							@if (selectedStoreId() === store.id) {
-								<button
-									matButton="outlined"
-									class="select-btn selected-btn"
-									(click)="selectStore(store); $event.stopPropagation()"
-								>
-									<mat-icon>check</mat-icon>
-									Selected
-								</button>
-							} @else {
-								<button
-									matButton="filled"
-									class="select-btn"
-									(click)="selectStore(store); $event.stopPropagation()"
-								>
-									Select Store
-								</button>
-							}
-						</div>
-					</div>
+					<app-store-card
+						[store]="store"
+						[selected]="selectedStoreId() === store.id"
+						(storeSelect)="selectStore($event)"
+					/>
 				}
 			</div>
 		} @else if (stores().length) {
