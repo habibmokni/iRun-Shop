@@ -1,8 +1,4 @@
-<div
-	class="store-card"
-	[class.selected]="selected()"
-	(click)="onSelect()"
->
+<div class="store-card" [class.selected]="selected()" (click)="onSelect()">
 	<div class="store-card-header">
 		<div class="store-icon-wrapper">
 			<mat-icon class="store-icon">store</mat-icon>
@@ -49,7 +45,11 @@
 					[class.low]="stock()! > 0 && stock()! <= 5"
 					[class.out]="stock() === 0"
 				>
-					@if (stock()! > 0) { check_circle } @else { cancel }
+					@if (stock()! > 0) {
+						check_circle
+					} @else {
+						cancel
+					}
 				</mat-icon>
 				<span
 					class="stock-text"
@@ -66,27 +66,6 @@
 					}
 				</span>
 			</div>
-		}
-	</div>
-
-	<div class="store-actions">
-		@if (selected()) {
-			<button
-				matButton="outlined"
-				class="select-btn selected-btn"
-				(click)="onSelect(); $event.stopPropagation()"
-			>
-				<mat-icon>check</mat-icon>
-				Selected
-			</button>
-		} @else {
-			<button
-				matButton="filled"
-				class="select-btn"
-				(click)="onSelect(); $event.stopPropagation()"
-			>
-				Select Store
-			</button>
 		}
 	</div>
 </div>

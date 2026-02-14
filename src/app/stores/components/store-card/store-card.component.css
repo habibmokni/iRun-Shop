@@ -4,7 +4,9 @@
 	border-radius: 12px;
 	padding: 20px;
 	cursor: pointer;
-	transition: border-color 0.15s, box-shadow 0.15s;
+	transition:
+		border-color 0.15s,
+		box-shadow 0.15s;
 	display: flex;
 	flex-direction: column;
 	gap: 14px;
@@ -115,30 +117,6 @@
 
 .stock-text {
 	font-weight: 600;
-}
-
-/* ── Actions ── */
-.store-actions {
-	margin-top: auto;
-	padding-top: 4px;
-}
-
-.select-btn {
-	width: 100%;
-	height: 40px;
-	font-size: 14px;
-}
-
-.select-btn mat-icon {
-	font-size: 18px;
-	width: 18px;
-	height: 18px;
-	margin-right: 4px;
-}
-
-.selected-btn {
-	background: var(--mat-sys-primary-container);
-	color: var(--mat-sys-on-primary-container);
 }
 
 /* ── Responsive ── */

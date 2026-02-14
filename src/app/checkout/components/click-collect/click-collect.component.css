@@ -135,54 +135,16 @@
 	color: rgba(0, 0, 0, 0.55);
 }
 
-/* ── Date picker ── */
-.date-field {
-	max-width: 280px;
-}
-
-.date-preview {
+/* ── Date & Time pickers ── */
+.datetime-row {
 	display: flex;
-	align-items: center;
-	gap: 8px;
-	font-size: 14px;
-	color: var(--mat-sys-primary);
-	font-weight: 500;
+	gap: 12px;
+	align-items: flex-start;
 }
 
-.preview-icon {
-	font-size: 18px;
-	height: 18px;
-	width: 18px;
-}
-
-/* ── Time grid ── */
-.time-grid {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-}
-
-.time-chip {
-	background: var(--mat-sys-surface-container-low);
-	border: 1px solid var(--mat-sys-outline-variant);
-	border-radius: 8px;
-	padding: 8px 16px;
-	font-size: 13px;
-	font-weight: 500;
-	cursor: pointer;
-	transition: all 0.15s;
-}
-
-.time-chip:hover {
-	border-color: #c0c0c0;
-	background: var(--mat-sys-surface-container-low);
-}
-
-.time-chip.selected {
-	background: var(--mat-sys-primary-container);
-	border-color: var(--mat-sys-primary);
-	color: var(--mat-sys-primary);
-	font-weight: 600;
+.date-field,
+.time-field {
+	flex: 1;
 }
 
 /* ── Summary ── */
@@ -218,5 +180,15 @@
 @media (max-width: 599px) {
 	.store-list {
 		grid-template-columns: 1fr;
+	}
+
+	.datetime-row {
+		flex-direction: column;
+	}
+
+	.date-field,
+	.time-field {
+		max-width: 100%;
+		width: 100%;
 	}
 }

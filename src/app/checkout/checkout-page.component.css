@@ -53,7 +53,9 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transition: background 0.2s, color 0.2s;
+	transition:
+		background 0.2s,
+		color 0.2s;
 }
 
 .step-indicator.active .step-dot {
@@ -150,7 +152,10 @@
 	border: 2px solid var(--mat-sys-outline-variant);
 	border-radius: 12px;
 	cursor: pointer;
-	transition: border-color 0.15s, background 0.15s, color 0.15s;
+	transition:
+		border-color 0.15s,
+		background 0.15s,
+		color 0.15s;
 	color: rgba(0, 0, 0, 0.45);
 }
 
@@ -160,8 +165,8 @@
 
 .delivery-option.active {
 	border-color: var(--mat-sys-primary);
-	color: var(--mat-sys-primary);
-	background: var(--mat-sys-primary-container);
+	/* color: var(--mat-sys-primary); */
+	/* background: var(--mat-sys-primary-container); */
 }
 
 .delivery-option-icon {

@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 
 import { Store } from '../../../stores/types/store.types';
 import { StoreCardComponent } from '../../../stores/components/store-card/store-card.component';
@@ -40,6 +41,7 @@ import { User } from '../../../user/types/user.types';
 		MatInputModule,
 		MatNativeDateModule,
 		MatChipsModule,
+		MatTimepickerModule,
 		StoreCardComponent,
 	],
 	templateUrl: './click-collect.component.html',
@@ -143,19 +145,22 @@ export class ClickCollectComponent implements OnInit {
 	/** Maximum date is 14 days out. */
 	protected readonly maxDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
 
-	/** Available time slots for the selected store. */
-	protected readonly timeSlots = computed<string[]>(() => {
+	/** Minimum time based on selected store's opening hours (fallback: 10:00). */
+	protected readonly minTime = computed<Date>(() => {
 		const store = this.selectedStore();
-		if (!store) return [];
+		const hour = store?.openingTime?.open ? parseInt(store.openingTime.open, 10) : 10;
+		const d = new Date();
+		d.setHours(isNaN(hour) ? 10 : hour, 0, 0, 0);
+		return d;
+	});
 
-		const open = parseInt(store.openingTime?.open ?? '9', 10);
-		const close = parseInt(store.openingTime?.close ?? '18', 10);
-		const slots: string[] = [];
-		for (let hour = open; hour < close; hour++) {
-			slots.push(`${hour.toString().padStart(2, '0')}:00`);
-			slots.push(`${hour.toString().padStart(2, '0')}:30`);
-		}
-		return slots;
+	/** Maximum time based on selected store's closing hours (fallback: 19:00). */
+	protected readonly maxTime = computed<Date>(() => {
+		const store = this.selectedStore();
+		const hour = store?.openingTime?.close ? parseInt(store.openingTime.close, 10) : 19;
+		const d = new Date();
+		d.setHours(isNaN(hour) ? 19 : hour, 0, 0, 0);
+		return d;
 	});
 
 	/** Products from cart that are unavailable at the selected store. */
@@ -242,7 +247,11 @@ export class ClickCollectComponent implements OnInit {
 		this.dateSelected.emit(date);
 	}
 
-	protected onTimeSelect(time: string): void {
+	protected onTimeChange(value: Date | null): void {
+		if (!value) return;
+		const hours = value.getHours().toString().padStart(2, '0');
+		const minutes = value.getMinutes().toString().padStart(2, '0');
+		const time = `${hours}:${minutes}`;
 		this.selectedTime.set(time);
 		this.timeSelected.emit(time);
 	}
