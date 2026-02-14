@@ -151,8 +151,8 @@
 
 			<!-- ── Step 2: Billing & Payment ── -->
 			@if (activeStep() === 1) {
-				<mat-accordion>
-					@if (isClickNCollect()) {
+				@if (isClickNCollect()) {
+					<mat-accordion>
 						<form [formGroup]="billing">
 							<mat-expansion-panel
 								[expanded]="step() === 0"
@@ -174,25 +174,36 @@
 								</mat-action-row>
 							</mat-expansion-panel>
 						</form>
-					}
 
-					<form [formGroup]="paymentMethod">
-						<mat-expansion-panel
-							[expanded]="isClickNCollect() ? step() === 1 : true"
-							(opened)="setStep(1)"
-						>
-							<mat-expansion-panel-header>
-								<mat-panel-title>
-									<span class="panel-header-row">
-										<mat-icon class="panel-header-icon">credit_card</mat-icon>
-										Payment Method
-									</span>
-								</mat-panel-title>
-							</mat-expansion-panel-header>
+						<form [formGroup]="paymentMethod">
+							<mat-expansion-panel
+								[expanded]="step() === 1"
+								(opened)="setStep(1)"
+							>
+								<mat-expansion-panel-header>
+									<mat-panel-title>
+										<span class="panel-header-row">
+											<mat-icon class="panel-header-icon">credit_card</mat-icon>
+											Payment Method
+										</span>
+									</mat-panel-title>
+								</mat-expansion-panel-header>
+								<app-payment-methods [paymentMethod]="paymentMethod" />
+							</mat-expansion-panel>
+						</form>
+					</mat-accordion>
+				} @else {
+					<!-- Home delivery: payment shown directly, no accordion -->
+					<div class="payment-direct">
+						<h3 class="section-heading">
+							<mat-icon class="section-heading-icon">credit_card</mat-icon>
+							Payment Method
+						</h3>
+						<form [formGroup]="paymentMethod">
 							<app-payment-methods [paymentMethod]="paymentMethod" />
-						</mat-expansion-panel>
-					</form>
-				</mat-accordion>
+						</form>
+					</div>
+				}
 
 				<div class="step-actions">
 					<button matButton="outlined" (click)="goToStep(0)">

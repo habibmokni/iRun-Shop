@@ -15,8 +15,8 @@
 							<img
 								[ngSrc]="product.productImage"
 								alt="{{ product.productName }}"
-								width="100"
-								height="100"
+								width="120"
+								height="120"
 							/>
 						</a>
 
@@ -26,23 +26,24 @@
 									<span class="item-brand">{{ product.vendor }}</span>
 									<h3 class="item-name">{{ product.productName }}</h3>
 									<span class="item-meta">Size: {{ product.size }}</span>
+									<div class="stock-pills">
+										<span
+											[class]="'stock-pill ' + stockColor(stockInfo()[i]?.physical ?? 0)"
+										>
+											<span class="dot"></span> Store
+										</span>
+										<span
+											[class]="'stock-pill ' + stockColor(stockInfo()[i]?.online ?? 0)"
+										>
+											<span class="dot"></span> Online
+										</span>
+									</div>
 								</div>
 								<div class="item-prices">
-									<span class="item-price"
-										>{{
-											product.price * product.noOfItems | number: '1.2-2'
-										}}€</span
-									>
-									<span class="item-price-original"
-										>{{
-											(product.price + product.price * 0.2) *
-												product.noOfItems | number: '1.2-2'
-										}}€</span
-									>
+									<span class="item-price">{{ product.price * product.noOfItems | number: '1.2-2' }}€</span>
+									<span class="item-price-original">{{ (product.price + product.price * 0.2) * product.noOfItems | number: '1.2-2' }}€</span>
 									@if (product.noOfItems > 1) {
-										<span class="unit-price"
-											>{{ product.price | number: '1.2-2' }}€ each</span
-										>
+										<span class="unit-price">({{ product.price | number: '1.2-2' }}€ each)</span>
 									}
 								</div>
 							</div>
@@ -50,31 +51,12 @@
 							<div class="item-bottom">
 								<div class="qty-stepper">
 									<button type="button" class="qty-btn" (click)="onRemoveItem(i)">
-										<mat-icon>{{
-											product.noOfItems <= 1 ? 'delete_outline' : 'remove'
-										}}</mat-icon>
+										<mat-icon>{{ product.noOfItems <= 1 ? 'delete_outline' : 'remove' }}</mat-icon>
 									</button>
 									<span class="qty-value">{{ product.noOfItems }}</span>
 									<button type="button" class="qty-btn" (click)="onAddItem(i)">
 										<mat-icon>add</mat-icon>
 									</button>
-								</div>
-								<div class="stock-pills">
-									<span
-										[class]="
-											'stock-pill ' +
-											stockColor(stockInfo()[i]?.physical ?? 0)
-										"
-									>
-										<span class="dot"></span> Store
-									</span>
-									<span
-										[class]="
-											'stock-pill ' + stockColor(stockInfo()[i]?.online ?? 0)
-										"
-									>
-										<span class="dot"></span> Online
-									</span>
 								</div>
 							</div>
 						</div>

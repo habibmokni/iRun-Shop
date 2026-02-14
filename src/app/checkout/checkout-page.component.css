@@ -192,6 +192,27 @@
 /* ══════════════════════════════════════
    Step actions
    ══════════════════════════════════════ */
+/* ── Direct payment (no accordion) ── */
+.payment-direct {
+	margin-top: 8px;
+}
+
+.section-heading {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0 0 12px;
+}
+
+.section-heading-icon {
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	color: var(--mat-sys-primary);
+}
+
 .step-actions {
 	display: none;
 	gap: 12px;
