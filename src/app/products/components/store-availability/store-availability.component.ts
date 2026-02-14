@@ -26,7 +26,7 @@ import { CartService } from '../../../cart/services/cart.service';
 import { UserService } from '../../../user/services/user.service';
 import { MapsComponent } from '../../../stores/components/maps/maps.component';
 
-export interface AvailabilityDialogData {
+export interface StoreAvailabilityDialogData {
 	readonly call: 'product' | 'checkout';
 	readonly size: number | null;
 	readonly modelNo: string;
@@ -40,9 +40,9 @@ export interface NearByStore {
 }
 
 @Component({
-	selector: 'app-availability',
-	templateUrl: './availability.component.html',
-	styleUrls: ['./availability.component.css'],
+	selector: 'app-store-availability',
+	templateUrl: './store-availability.component.html',
+	styleUrls: ['./store-availability.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
@@ -57,7 +57,7 @@ export interface NearByStore {
 		MapsComponent,
 	],
 })
-export class AvailabilityComponent {
+export class StoreAvailabilityComponent {
 	// Services
 	private readonly ngZone = inject(NgZone);
 	private readonly mapService = inject(MapsService);
@@ -67,7 +67,7 @@ export class AvailabilityComponent {
 	private readonly cartService = inject(CartService);
 	private readonly userService = inject(UserService);
 
-	protected readonly data = inject<AvailabilityDialogData>(MAT_DIALOG_DATA);
+	protected readonly data = inject<StoreAvailabilityDialogData>(MAT_DIALOG_DATA);
 
 	protected readonly mapDimensions = computed(() =>
 		window.innerWidth <= 599 ? { height: 350, width: 250 } : { height: 410, width: 700 },

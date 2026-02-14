@@ -18,9 +18,9 @@ import { CartService } from '../../../cart/services/cart.service';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { UserService } from '../../../user/services/user.service';
 import {
-	AvailabilityComponent,
-	AvailabilityDialogData,
-} from '../../components/availability/availability.component';
+	StoreAvailabilityComponent,
+	StoreAvailabilityDialogData,
+} from '../../components/store-availability/store-availability.component';
 import { SizeSelectorComponent } from '../../../shared/components/size-selector/size-selector.component';
 import { ImageGalleryComponent } from '../../components/image-gallery/image-gallery.component';
 
@@ -186,13 +186,13 @@ export class ProductDetailPageComponent {
 		const product = this.product();
 		if (!product) return;
 
-		this.dialog.open(AvailabilityComponent, {
+		this.dialog.open(StoreAvailabilityComponent, {
 			data: {
 				call: 'product',
-				size: this.selectedSize(),
+				size: this.isSizeSelected() ? this.selectedSize() : null,
 				modelNo: product.modelNo,
 				sizes: product.variants?.[0]?.sizes ?? [],
-			} satisfies AvailabilityDialogData,
+			} satisfies StoreAvailabilityDialogData,
 			maxWidth: '100vw',
 			maxHeight: '100vh',
 		});

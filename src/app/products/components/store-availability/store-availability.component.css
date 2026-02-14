@@ -1,5 +1,6 @@
+/* ── Dialog content ── */
 .content {
-	padding: 16px;
+	padding: 24px;
 	max-width: 600px;
 }
 
@@ -7,9 +8,10 @@
 	display: none;
 }
 
+/* ── Size selector ── */
 .size-selector {
-	width: 270px;
-	padding: 16px;
+	width: 300px;
+	padding: 24px;
 }
 
 .size-option {
@@ -19,11 +21,18 @@
 .size-btn {
 	width: 100%;
 	height: 46px;
-	font-size: 16px;
+	font-size: 15px;
 	text-align: center;
 }
 
-/* Search */
+.size-back-btn {
+	width: 100%;
+	justify-content: flex-start !important;
+	margin-bottom: 16px;
+	text-transform: none;
+}
+
+/* ── Search ── */
 .search-row {
 	display: flex;
 	align-items: center;
@@ -35,48 +44,65 @@
 	flex: 1;
 }
 
-.product_availability_zipcode {
-	width: 100%;
-}
-
 .pac-container {
 	z-index: 10000 !important;
 	top: 250px !important;
 }
 
+/* ── Store list ── */
 .stores-list {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
 	margin-top: 16px;
+	max-height: 400px;
+	overflow-y: auto;
 }
 
 .store-card {
-	border-radius: 8px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 12px !important;
 }
 
 .store-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 8px;
+	margin-bottom: 4px;
+}
+
+.store-name {
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0;
+}
+
+.store-address {
+	font-size: 13px;
+	color: var(--mat-sys-on-surface-variant);
+	margin: 0 0 8px;
 }
 
 .distance {
 	display: flex;
 	align-items: center;
 	gap: 4px;
-	font-size: 14px;
-	color: #666;
+	font-size: 13px;
+	color: var(--mat-sys-on-surface-variant);
 }
 
+.distance mat-icon {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+}
+
+/* ── Stock status badges ── */
 .stock-status {
-	padding: 8px 12px;
+	display: inline-block;
+	padding: 4px 12px;
 	border-radius: 20px;
 	font-weight: 500;
-	margin-top: 8px;
-	font-size: 14px;
+	font-size: 13px;
 }
 
 .stock-status.good {
@@ -94,28 +120,23 @@
 	color: #721c24;
 }
 
-.size-back-btn {
-	width: 100%;
-	justify-content: flex-start !important;
-	margin-bottom: 16px;
-	text-transform: none;
-}
-
-.filler {
-	flex: 1 1 auto;
-}
-
-.maps {
-	padding: 16px;
-}
-
+/* ── Responsive ── */
 @media (max-width: 599px) {
 	.content {
-		padding: 12px;
+		padding: 16px;
+	}
+
+	.size-selector {
+		width: 100%;
+		padding: 16px;
 	}
 
 	.search-row {
 		flex-direction: column;
 		align-items: stretch;
+	}
+
+	.stores-list {
+		max-height: 300px;
 	}
 }

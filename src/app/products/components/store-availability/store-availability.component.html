@@ -40,16 +40,16 @@
 			@if (nearByStores().length > 0) {
 				<div class="stores-list">
 					@for (entry of nearByStores(); track entry.store.id) {
-						<mat-card class="store-card">
+						<mat-card appearance="outlined" class="store-card">
 							<mat-card-content>
 								<div class="store-header">
-									<h2>{{ entry.store.name }}</h2>
+									<h3 class="store-name">{{ entry.store.name }}</h3>
 									<div class="distance">
 										<mat-icon>room</mat-icon>
 										<span>{{ entry.distance.toFixed(2) }}km</span>
 									</div>
 								</div>
-								<p>Address: {{ entry.store.address }}</p>
+								<p class="store-address">{{ entry.store.address }}</p>
 								<div
 									class="stock-status"
 									[class.good]="entry.stock > 5"
@@ -67,9 +67,9 @@
 								</div>
 							</mat-card-content>
 							<mat-card-actions>
-							<button matButton="filled" (click)="onStoreSelect(entry.store)">
-								Select Store
-							</button>
+								<button matButton="filled" (click)="onStoreSelect(entry.store)">
+									Select Store
+								</button>
 							</mat-card-actions>
 						</mat-card>
 					}
