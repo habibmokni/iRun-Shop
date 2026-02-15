@@ -73,9 +73,16 @@ export class AppComponent {
 			this.cncService.setCartProducts(this.cartService.cart() as never);
 		});
 
+		/**
+		 * Sync cnc store selection back to the user service.
+		 * Track the last synced ID to break the circular loop:
+		 * selectStore -> effect -> updateSelectedStore -> user$ -> setUser -> repeat.
+		 */
+		let lastSyncedStoreId: string | null = null;
 		effect(() => {
 			const store: CncStore | null = this.cncService.selectedStore() as CncStore | null;
-			if (store) {
+			if (store && store.id !== lastSyncedStoreId) {
+				lastSyncedStoreId = store.id;
 				void this.userService.updateSelectedStore(store as Store);
 			}
 		});
