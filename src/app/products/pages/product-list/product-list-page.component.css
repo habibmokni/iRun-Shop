@@ -25,7 +25,7 @@
 
 /* ── Product grid ── */
 .products-section {
-	padding-top: 56px;
+	padding-top: 70px;
 	padding-bottom: 3rem;
 }
 
@@ -64,7 +64,12 @@
 }
 
 .skeleton {
-	background: linear-gradient(90deg, var(--mat-sys-surface-container-low) 25%, var(--mat-sys-outline-variant) 50%, var(--mat-sys-surface-container-low) 75%);
+	background: linear-gradient(
+		90deg,
+		var(--mat-sys-surface-container-low) 25%,
+		var(--mat-sys-outline-variant) 50%,
+		var(--mat-sys-surface-container-low) 75%
+	);
 	background-size: 800px 100%;
 	animation: shimmer 1.5s infinite;
 	border-radius: 6px;
