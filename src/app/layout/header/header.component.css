@@ -27,7 +27,6 @@
 }
 
 .logo {
-	width: 3rem;
 	height: auto;
 }
 
@@ -67,7 +66,9 @@
 	padding: 6px 16px;
 	width: 100%;
 	max-width: 400px;
-	transition: box-shadow 0.15s, background 0.15s;
+	transition:
+		box-shadow 0.15s,
+		background 0.15s;
 }
 
 .desktop-search:focus-within {
