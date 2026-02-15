@@ -40,6 +40,9 @@ yarn-error.log
 testem.log
 /typings
 
+# Auth
+.npmrc
+
 # System files
 .DS_Store
 Thumbs.db
