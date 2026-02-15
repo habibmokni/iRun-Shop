@@ -1,20 +1,13 @@
-import {
-	Component,
-	ChangeDetectionStrategy,
-	inject,
-	signal,
-	computed,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DatePipe, DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
-
+import { CncStore, CncCartItem, ClickNCollectComponent } from '@habibmokni/cnc';
 import { CartProduct } from '../cart/types/cart.types';
 import { Store } from '../stores/types/store.types';
 import { Product } from '../products/types/product.types';
@@ -23,7 +16,6 @@ import { ProductService } from '../products/services/product.service';
 import { StoreService } from '../stores/services/store.service';
 import { UserService } from '../user/services/user.service';
 import { SnackbarService } from '../shared/services/snackbar.service';
-
 import { CheckoutService } from './services/checkout.service';
 import {
 	BillingFormValue,
@@ -35,7 +27,6 @@ import {
 import { OrderSuccessComponent } from './components/order-success/order-success.component';
 import { BillingDetailsComponent } from './components/billing-details/billing-details.component';
 import { PaymentMethodsComponent } from './components/payment-methods/payment-methods.component';
-import { ClickCollectComponent } from './components/click-collect/click-collect.component';
 
 @Component({
 	selector: 'app-checkout-page',
@@ -53,7 +44,7 @@ import { ClickCollectComponent } from './components/click-collect/click-collect.
 		NgOptimizedImage,
 		BillingDetailsComponent,
 		PaymentMethodsComponent,
-		ClickCollectComponent,
+		ClickNCollectComponent,
 		DatePipe,
 		DecimalPipe,
 	],
@@ -67,8 +58,6 @@ export class CheckoutPageComponent {
 	private readonly snackbar = inject(SnackbarService);
 	private readonly dialog = inject(MatDialog);
 
-	// --- Signals from services ---
-
 	protected readonly user = this.userService.user;
 	protected readonly cartProducts = this.cartService.cart;
 
@@ -76,7 +65,7 @@ export class CheckoutPageComponent {
 		initialValue: [] as Product[],
 	});
 
-	private readonly stores = toSignal(this.storeService.store, {
+	protected readonly stores = toSignal(this.storeService.store, {
 		initialValue: [] as Store[],
 	});
 
@@ -88,20 +77,14 @@ export class CheckoutPageComponent {
 		this.checkoutService.checkOnlineStoreStock(this.cartProducts(), this.onlineProducts()),
 	);
 
-	// --- Step navigation ---
-
-	/** Which top-level step is active: 0 = Delivery, 1 = Billing & Payment, 2 = Overview */
 	protected readonly activeStep = signal(0);
 
 	protected readonly isClickNCollect = signal(true);
 	protected readonly cncAllItemsAvailable = signal(true);
 
-	/** Sub-step within the billing/payment step (for accordions). */
 	protected readonly step = signal(0);
 
 	protected readonly order = signal<Order | null>(null);
-
-	// --- Forms ---
 
 	protected readonly shippingMethod = new FormGroup({
 		type: new FormControl<DeliveryType>('Click & Collect'),
@@ -120,8 +103,6 @@ export class CheckoutPageComponent {
 	protected readonly paymentMethod = new FormGroup({
 		paymentOption: new FormControl('', [Validators.required]),
 	});
-
-	// --- Step navigation methods ---
 
 	protected goToStep(index: number): void {
 		if (index <= this.activeStep()) {
@@ -168,8 +149,8 @@ export class CheckoutPageComponent {
 		});
 	}
 
-	protected async onStoreChange(store: Store): Promise<void> {
-		await this.userService.updateSelectedStore(store);
+	protected async onStoreChange(store: CncStore | Store): Promise<void> {
+		await this.userService.updateSelectedStore(store as Store);
 		this.shippingMethod.patchValue({ shippingAddress: store.address });
 	}
 
@@ -181,8 +162,8 @@ export class CheckoutPageComponent {
 		this.shippingMethod.patchValue({ selectedTime: time });
 	}
 
-	protected onProductsToRemove(cartItems: CartProduct[]): void {
-		cartItems.forEach((item) => {
+	protected onProductsToRemove(cartItems: CncCartItem[] | CartProduct[]): void {
+		(cartItems as CartProduct[]).forEach((item) => {
 			this.cartService.removeProduct(item);
 		});
 	}

@@ -1,5 +1,4 @@
 <div class="checkout-page">
-	<!-- Custom step indicator -->
 	<nav class="step-bar">
 		<button
 			class="step-indicator"
@@ -7,7 +6,13 @@
 			[class.done]="activeStep() > 0"
 			(click)="goToStep(0)"
 		>
-			<span class="step-dot">@if (activeStep() > 0) { <mat-icon>check</mat-icon> } @else { 1 }</span>
+			<span class="step-dot">
+				@if (activeStep() > 0) {
+					<mat-icon>check</mat-icon>
+				} @else {
+					1
+				}
+			</span>
 			<span class="step-label">Delivery</span>
 		</button>
 		<span class="step-line" [class.done]="activeStep() > 0"></span>
@@ -17,7 +22,13 @@
 			[class.done]="activeStep() > 1"
 			(click)="goToStep(1)"
 		>
-			<span class="step-dot">@if (activeStep() > 1) { <mat-icon>check</mat-icon> } @else { 2 }</span>
+			<span class="step-dot">
+				@if (activeStep() > 1) {
+					<mat-icon>check</mat-icon>
+				} @else {
+					2
+				}
+			</span>
 			<span class="step-label">Payment</span>
 		</button>
 		<span class="step-line" [class.done]="activeStep() > 1"></span>
@@ -33,13 +44,9 @@
 	</nav>
 
 	<div class="checkout-layout">
-		<!-- ═══ Main content area ═══ -->
 		<div class="checkout-main">
-
-			<!-- ── Step 1: Delivery ── -->
 			@if (activeStep() === 0) {
 				<form [formGroup]="shippingMethod">
-					<!-- Delivery method selection -->
 					<div class="delivery-options">
 						<button
 							type="button"
@@ -47,7 +54,9 @@
 							[class.active]="isClickNCollect()"
 							(click)="selectDelivery('Click & Collect', 0)"
 						>
-							<mat-icon class="delivery-option-icon" fontSet="material-icons-outlined">shopping_bag</mat-icon>
+							<mat-icon class="delivery-option-icon" fontSet="material-icons-outlined"
+								>shopping_bag</mat-icon
+							>
 							<span class="delivery-option-label">Click & Collect</span>
 							<span class="delivery-option-desc">Pick up at your nearest store</span>
 						</button>
@@ -57,17 +66,22 @@
 							[class.active]="!isClickNCollect()"
 							(click)="selectDelivery('Home Delivery', 1)"
 						>
-							<mat-icon class="delivery-option-icon" fontSet="material-icons-outlined">local_shipping</mat-icon>
+							<mat-icon class="delivery-option-icon" fontSet="material-icons-outlined"
+								>local_shipping</mat-icon
+							>
 							<span class="delivery-option-label">Home Delivery</span>
-							<span class="delivery-option-desc">Delivered straight to your door</span>
+							<span class="delivery-option-desc"
+								>Delivered straight to your door</span
+							>
 						</button>
 					</div>
 
-					<!-- Delivery content -->
 					@if (isClickNCollect()) {
 						<div class="delivery-content">
-							<app-click-collect
-								[user]="user()"
+							<cnc-click-n-collect
+								[user]="$any(user())"
+								[cartProducts]="cartProducts()"
+								[stores]="stores()"
 								(storeChanged)="onStoreChange($event)"
 								(productsToRemove)="onProductsToRemove($event)"
 								(dateSelected)="onDateSelected($event)"
@@ -83,11 +97,12 @@
 								} @else {
 									<div class="unavailable-section">
 										<div class="unavailable-header">
-									<h2>Some items are unavailable</h2>
-									<h5>
-										The following items can't be shipped to your address.
-										Remove them or switch to Click &amp; Collect.
-									</h5>
+											<h2>Some items are unavailable</h2>
+											<h5>
+												The following items can't be shipped to your
+												address. Remove them or switch to Click &amp;
+												Collect.
+											</h5>
 										</div>
 										@for (
 											product of onlineStockCheck().unavailableItems;
@@ -112,11 +127,11 @@
 											</mat-card>
 										}
 										<div class="remove-actions">
-									<button
-										matButton="filled"
-										type="button"
-										(click)="removeProductsUnavailable()"
-									>
+											<button
+												matButton="filled"
+												type="button"
+												(click)="removeProductsUnavailable()"
+											>
 												Remove unavailable
 											</button>
 										</div>
@@ -128,19 +143,19 @@
 
 					<div class="step-actions">
 						@if (isClickNCollect()) {
-					<button
-						matButton="filled"
-						[disabled]="!cncAllItemsAvailable()"
-						(click)="onCncContinue()"
-					>
+							<button
+								matButton="filled"
+								[disabled]="!cncAllItemsAvailable()"
+								(click)="onCncContinue()"
+							>
 								Continue
 							</button>
 						} @else {
-					<button
-						matButton="filled"
-						[disabled]="!onlineStockCheck().allAvailable && billing.invalid"
-						(click)="onDeliveryContinue()"
-					>
+							<button
+								matButton="filled"
+								[disabled]="!onlineStockCheck().allAvailable && billing.invalid"
+								(click)="onDeliveryContinue()"
+							>
 								Continue
 							</button>
 						}
@@ -148,19 +163,17 @@
 				</form>
 			}
 
-			<!-- ── Step 2: Billing & Payment ── -->
 			@if (activeStep() === 1) {
 				@if (isClickNCollect()) {
 					<mat-accordion>
 						<form [formGroup]="billing">
-							<mat-expansion-panel
-								[expanded]="step() === 0"
-								(opened)="setStep(0)"
-							>
+							<mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
 								<mat-expansion-panel-header>
 									<mat-panel-title>
 										<span class="panel-header-row">
-											<mat-icon class="panel-header-icon">receipt_long</mat-icon>
+											<mat-icon class="panel-header-icon"
+												>receipt_long</mat-icon
+											>
 											Billing Details
 										</span>
 									</mat-panel-title>
@@ -175,14 +188,13 @@
 						</form>
 
 						<form [formGroup]="paymentMethod">
-							<mat-expansion-panel
-								[expanded]="step() === 1"
-								(opened)="setStep(1)"
-							>
+							<mat-expansion-panel [expanded]="step() === 1" (opened)="setStep(1)">
 								<mat-expansion-panel-header>
 									<mat-panel-title>
 										<span class="panel-header-row">
-											<mat-icon class="panel-header-icon">credit_card</mat-icon>
+											<mat-icon class="panel-header-icon"
+												>credit_card</mat-icon
+											>
 											Payment Method
 										</span>
 									</mat-panel-title>
@@ -192,7 +204,6 @@
 						</form>
 					</mat-accordion>
 				} @else {
-					<!-- Home delivery: payment shown directly, no accordion -->
 					<div class="payment-direct">
 						<h3 class="section-heading">
 							<mat-icon class="section-heading-icon">credit_card</mat-icon>
@@ -205,19 +216,13 @@
 				}
 
 				<div class="step-actions">
-					<button matButton="outlined" (click)="goToStep(0)">
-						Back
-					</button>
-					<button matButton="filled" (click)="onBillingContinue()">
-						Continue
-					</button>
+					<button matButton="outlined" (click)="goToStep(0)">Back</button>
+					<button matButton="filled" (click)="onBillingContinue()">Continue</button>
 				</div>
 			}
 
-			<!-- ── Step 3: Order Overview ── -->
 			@if (activeStep() === 2) {
 				@if (order(); as currentOrder) {
-					<!-- Order items -->
 					<div class="overview-section">
 						<h3 class="section-title">
 							<mat-icon class="section-icon">inventory_2</mat-icon>
@@ -235,9 +240,12 @@
 										/>
 									</div>
 									<div class="order-item-info">
-										<span class="order-item-name">{{ product.productName }}</span>
+										<span class="order-item-name">{{
+											product.productName
+										}}</span>
 										<span class="order-item-meta">
-											Size {{ product.size }} &middot; Qty {{ product.noOfItems }}
+											Size {{ product.size }} &middot; Qty
+											{{ product.noOfItems }}
 										</span>
 									</div>
 									<span class="order-item-price">
@@ -248,7 +256,6 @@
 						</div>
 					</div>
 
-					<!-- Delivery info -->
 					<div class="overview-section">
 						<h3 class="section-title">
 							<mat-icon class="section-icon">local_shipping</mat-icon>
@@ -261,7 +268,9 @@
 							</div>
 							<div class="info-item">
 								<span class="info-label">Address</span>
-								<span class="info-value">{{ currentOrder.storeLocation.address }}</span>
+								<span class="info-value">{{
+									currentOrder.storeLocation.address
+								}}</span>
 							</div>
 							@if (currentOrder.pickupDate) {
 								<div class="info-item">
@@ -275,7 +284,6 @@
 						</div>
 					</div>
 
-					<!-- Billing info -->
 					<div class="overview-section">
 						<h3 class="section-title">
 							<mat-icon class="section-icon">receipt_long</mat-icon>
@@ -284,24 +292,31 @@
 						<div class="info-grid">
 							<div class="info-item">
 								<span class="info-label">Name</span>
-								<span class="info-value">{{ currentOrder.billingDetails.name }}</span>
+								<span class="info-value">{{
+									currentOrder.billingDetails.name
+								}}</span>
 							</div>
 							<div class="info-item">
 								<span class="info-label">Email</span>
-								<span class="info-value">{{ currentOrder.billingDetails.email }}</span>
+								<span class="info-value">{{
+									currentOrder.billingDetails.email
+								}}</span>
 							</div>
 							<div class="info-item">
 								<span class="info-label">Phone</span>
-								<span class="info-value">{{ currentOrder.billingDetails.phoneNo }}</span>
+								<span class="info-value">{{
+									currentOrder.billingDetails.phoneNo
+								}}</span>
 							</div>
 							<div class="info-item">
 								<span class="info-label">Address</span>
-								<span class="info-value">{{ currentOrder.billingDetails.address1 }}</span>
+								<span class="info-value">{{
+									currentOrder.billingDetails.address1
+								}}</span>
 							</div>
 						</div>
 					</div>
 
-					<!-- Payment info -->
 					<div class="overview-section">
 						<h3 class="section-title">
 							<mat-icon class="section-icon">credit_card</mat-icon>
@@ -313,13 +328,12 @@
 								<span class="info-value">{{ currentOrder.paymentOption }}</span>
 							</div>
 						</div>
-					<p class="redirect-note">
-						You'll be redirected to {{ currentOrder.paymentOption }}
-						to complete your payment securely.
-					</p>
+						<p class="redirect-note">
+							You'll be redirected to {{ currentOrder.paymentOption }}
+							to complete your payment securely.
+						</p>
 					</div>
 
-					<!-- Totals -->
 					<div class="overview-totals">
 						<div class="totals-row">
 							<span>Subtotal</span>
@@ -340,19 +354,17 @@
 						</div>
 					</div>
 
-					<!-- Order ID -->
 					<div class="order-id-bar">
 						<mat-icon>tag</mat-icon>
 						Order ID: <strong>{{ currentOrder.orderId }}</strong>
 					</div>
 
-					<!-- Actions -->
 					<div class="overview-actions">
-					<button
-						class="confirm-btn"
-						matButton="filled"
-						(click)="onOrderConfirmation()"
-					>
+						<button
+							class="confirm-btn"
+							matButton="filled"
+							(click)="onOrderConfirmation()"
+						>
 							Confirm Order
 						</button>
 						<button class="back-btn" matButton="outlined" (click)="goToStep(1)">
@@ -363,7 +375,6 @@
 			}
 		</div>
 
-		<!-- ═══ Sidebar: order summary (desktop) ═══ -->
 		<aside class="sidebar">
 			<h3 class="sidebar-title">Order Summary</h3>
 			<div class="sidebar-items">
@@ -395,37 +406,77 @@
 				<span>{{ orderPrice() | number: '1.2-2' }}€</span>
 			</div>
 
-			<!-- Sidebar CTA -->
 			<div class="sidebar-cta">
 				@if (activeStep() === 0) {
 					@if (isClickNCollect()) {
-						<button matButton="filled" class="sidebar-cta-btn" [disabled]="!cncAllItemsAvailable()" (click)="onCncContinue()">Continue</button>
+						<button
+							matButton="filled"
+							class="sidebar-cta-btn"
+							[disabled]="!cncAllItemsAvailable()"
+							(click)="onCncContinue()"
+						>
+							Continue
+						</button>
 					} @else {
-						<button matButton="filled" class="sidebar-cta-btn" [disabled]="!onlineStockCheck().allAvailable && billing.invalid" (click)="onDeliveryContinue()">Continue</button>
+						<button
+							matButton="filled"
+							class="sidebar-cta-btn"
+							[disabled]="!onlineStockCheck().allAvailable && billing.invalid"
+							(click)="onDeliveryContinue()"
+						>
+							Continue
+						</button>
 					}
 				} @else if (activeStep() === 1) {
-					<button matButton="filled" class="sidebar-cta-btn" (click)="onBillingContinue()">Continue</button>
+					<button
+						matButton="filled"
+						class="sidebar-cta-btn"
+						(click)="onBillingContinue()"
+					>
+						Continue
+					</button>
 				} @else {
-					<button matButton="filled" class="sidebar-cta-btn" (click)="onOrderConfirmation()">Confirm Order</button>
+					<button
+						matButton="filled"
+						class="sidebar-cta-btn"
+						(click)="onOrderConfirmation()"
+					>
+						Confirm Order
+					</button>
 				}
 				@if (activeStep() > 0) {
-					<button matButton="outlined" class="sidebar-back-btn" (click)="goToStep(activeStep() - 1)">Back</button>
+					<button
+						matButton="outlined"
+						class="sidebar-back-btn"
+						(click)="goToStep(activeStep() - 1)"
+					>
+						Back
+					</button>
 				}
 			</div>
 		</aside>
 	</div>
 
-	<!-- Mobile sticky CTA -->
 	<div class="mobile-cta">
 		@if (activeStep() === 0) {
 			@if (isClickNCollect()) {
-				<button class="mobile-cta-btn" matButton="filled" [disabled]="!cncAllItemsAvailable()" (click)="onCncContinue()">
+				<button
+					class="mobile-cta-btn"
+					matButton="filled"
+					[disabled]="!cncAllItemsAvailable()"
+					(click)="onCncContinue()"
+				>
 					<span class="mobile-cta-text">Continue</span>
 					<span class="mobile-cta-divider"></span>
 					<span class="mobile-cta-price">{{ orderPrice() | number: '1.2-2' }}€</span>
 				</button>
 			} @else {
-				<button class="mobile-cta-btn" matButton="filled" [disabled]="!onlineStockCheck().allAvailable && billing.invalid" (click)="onDeliveryContinue()">
+				<button
+					class="mobile-cta-btn"
+					matButton="filled"
+					[disabled]="!onlineStockCheck().allAvailable && billing.invalid"
+					(click)="onDeliveryContinue()"
+				>
 					<span class="mobile-cta-text">Continue</span>
 					<span class="mobile-cta-divider"></span>
 					<span class="mobile-cta-price">{{ orderPrice() | number: '1.2-2' }}€</span>

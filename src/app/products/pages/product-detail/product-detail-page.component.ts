@@ -3,14 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { DecimalPipe, NgOptimizedImage } from '@angular/common';
 import { BehaviorSubject, filter, map, switchMap } from 'rxjs';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-// Material
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
-
-// App
 import { CartProduct } from '../../../cart/types/cart.types';
 import { Product } from '../../types/product.types';
 import { Store } from '../../../stores/types/store.types';
@@ -20,10 +16,10 @@ import { CartService } from '../../../cart/services/cart.service';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { UserService } from '../../../user/services/user.service';
 import {
-	StoreAvailabilityComponent,
-	StoreAvailabilityDialogData,
-} from '../../components/store-availability/store-availability.component';
-import { SizeSelectorComponent } from '../../../shared/components/size-selector/size-selector.component';
+	CheckAvailabilityComponent,
+	CheckAvailabilityDialogData,
+	SizeSelectorComponent as CncSizeSelectorComponent,
+} from '@habibmokni/cnc';
 import { ImageGalleryComponent } from '../../components/image-gallery/image-gallery.component';
 
 @Component({
@@ -39,11 +35,10 @@ import { ImageGalleryComponent } from '../../components/image-gallery/image-gall
 		MatExpansionModule,
 		NgOptimizedImage,
 		DecimalPipe,
-		SizeSelectorComponent,
+		CncSizeSelectorComponent,
 	],
 })
 export class ProductDetailPageComponent {
-	// Services
 	private readonly route = inject(ActivatedRoute);
 	private readonly dialog = inject(MatDialog);
 	private readonly productService = inject(ProductService);
@@ -52,7 +47,6 @@ export class ProductDetailPageComponent {
 	private readonly userService = inject(UserService);
 	private readonly snackbar = inject(SnackbarService);
 
-	// Product loading (supports both route navigation and variant switching)
 	private readonly productModelNo$ = new BehaviorSubject<string>('');
 
 	private readonly products$ = this.productModelNo$.pipe(
@@ -63,7 +57,7 @@ export class ProductDetailPageComponent {
 	protected readonly products = toSignal(this.products$, {
 		initialValue: [] as Product[],
 	});
-	protected readonly product = computed(() => this.products()[0] ?? null);
+	protected readonly product = computed<Product | null>(() => this.products()[0] ?? null);
 
 	// Similar products (same model family prefix)
 	private readonly allProducts = toSignal(this.productService.productList, {
@@ -72,26 +66,22 @@ export class ProductDetailPageComponent {
 	protected readonly similarProducts = computed(() => {
 		const current = this.product();
 		const all = this.allProducts();
-		if (!current?.modelNo || !all.length) return [];
+		if (!current || !all.length) return [];
 		const prefix = current.modelNo.split('-')[0];
-		return all.filter((product) => product.modelNo?.split('-')[0] === prefix);
+		return all.filter((product) => product.modelNo.split('-')[0] === prefix);
 	});
 
-	// Local state signals
 	protected readonly selectedSize = signal(0);
 	protected readonly isSizeSelected = signal(false);
 	protected readonly activeVariantIndex = signal(-1);
 	protected readonly selectedImageIndex = signal(0);
 
-	// User (reactive via BehaviorSubject)
 	private readonly user = this.userService.user;
 
-	/** All stores from Firestore (with full product data). */
 	private readonly allStores = toSignal(this.storeService.store, {
 		initialValue: [] as Store[],
 	});
 
-	// Derived: stock for the selected size at the user's store
 	protected readonly stock = computed(() => {
 		const product = this.product();
 		const size = this.selectedSize();
@@ -99,34 +89,30 @@ export class ProductDetailPageComponent {
 
 		if (!product || !size || !user?.storeSelected) return 0;
 
-		// Resolve the full store (with products) by matching the user's selected store ID
-		const fullStore = this.allStores().find((s) => s.id === user.storeSelected!.id);
+		const fullStore = this.allStores().find((s) => s.id === user.storeSelected?.id);
 		if (!fullStore) return 0;
 
-		const matchedProduct = fullStore.products?.find(
+		const matchedProduct = fullStore.products.find(
 			(storeProduct) => storeProduct.modelNo === product.modelNo,
 		);
-		if (!matchedProduct?.variants?.[0]) return 0;
+		if (!matchedProduct?.variants[0]) return 0;
 
 		const variant = matchedProduct.variants[0];
 		const sizeIndex = variant.sizes.findIndex((shoeSize) => shoeSize === size);
-		return sizeIndex === -1 ? 0 : +(variant.inStock[sizeIndex] ?? 0);
+		return sizeIndex === -1 ? 0 : variant.inStock[sizeIndex];
 	});
 
-	// Derived: original price before discount
 	protected readonly originalPrice = computed(() => {
 		const price = this.product()?.price ?? 0;
-		return price + price * 0.2;
+		return price * 1.2;
 	});
 
-	// Wishlist state for current product
 	protected readonly isWishlisted = computed(() => {
 		const modelNo = this.product()?.modelNo;
 		return modelNo ? this.userService.isInWishlist(modelNo) : false;
 	});
 
 	constructor() {
-		// Route params → product model number
 		this.route.params
 			.pipe(
 				map((params) => params['id'] as string),
@@ -136,8 +122,6 @@ export class ProductDetailPageComponent {
 				this.productModelNo$.next(modelNo);
 			});
 	}
-
-	// --- Template methods ---
 
 	protected selectImage(index: number): void {
 		this.selectedImageIndex.set(index);
@@ -160,9 +144,7 @@ export class ProductDetailPageComponent {
 
 		if (!this.isSizeSelected()) {
 			this.snackbar.info(
-				this.stock() === 0
-					? 'Not available at this store'
-					: 'Select a size first',
+				this.stock() === 0 ? 'Not available at this store' : 'Select a size first',
 			);
 			return;
 		}
@@ -170,9 +152,9 @@ export class ProductDetailPageComponent {
 		const cartProduct: CartProduct = {
 			productImage: product.imageList?.[0] ?? '',
 			modelNo: product.modelNo,
-			variantId: product.variants?.[0]?.variantId ?? '',
+			variantId: product.variants[0]?.variantId ?? '',
 			noOfItems: 1,
-			size: +this.selectedSize(),
+			size: this.selectedSize(),
 			vendor: product.companyName ?? '',
 			productName: product.name,
 			price: product.price,
@@ -200,13 +182,13 @@ export class ProductDetailPageComponent {
 
 		const isMobile = window.innerWidth < 600;
 
-		this.dialog.open(StoreAvailabilityComponent, {
+		this.dialog.open(CheckAvailabilityComponent, {
 			data: {
-				call: 'product',
-				size: this.isSizeSelected() ? this.selectedSize() : null,
 				modelNo: product.modelNo,
-				sizes: product.variants?.[0]?.sizes ?? [],
-			} satisfies StoreAvailabilityDialogData,
+				variantId: product.variants[0]?.variantId ?? '',
+				sizes: product.variants[0]?.sizes ?? [],
+				size: this.isSizeSelected() ? this.selectedSize() : undefined,
+			} satisfies CheckAvailabilityDialogData,
 			panelClass: 'store-availability-dialog',
 			maxWidth: isMobile ? '100vw' : '560px',
 			maxHeight: isMobile ? '100vh' : '85vh',

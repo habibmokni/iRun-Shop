@@ -9,7 +9,6 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { ClickNCollectModule } from '@habibmokni/cnc';
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { StoreService } from './app/stores/services/store.service';
@@ -34,7 +33,6 @@ bootstrapApplication(AppComponent, {
 			AngularFirestoreModule,
 			AngularFireAuthModule,
 			GoogleMapsModule,
-			ClickNCollectModule,
 		),
 		StoreService,
 		ProductService,

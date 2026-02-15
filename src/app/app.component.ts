@@ -1,6 +1,5 @@
 import {
 	Component,
-	CUSTOM_ELEMENTS_SCHEMA,
 	ChangeDetectionStrategy,
 	DestroyRef,
 	effect,
@@ -11,8 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { RouterOutlet } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
-
-import { ClickNCollectService } from '@habibmokni/cnc';
+import { ClickNCollectService, CncStore } from '@habibmokni/cnc';
 import { CartService } from './cart/services/cart.service';
 import { StoreService } from './stores/services/store.service';
 import { Store } from './stores/types/store.types';
@@ -31,7 +29,6 @@ const INTRO_STORAGE_KEY = 'intro_item';
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [RouterOutlet, HeaderComponent, FooterComponent, IntroPageComponent, MatDividerModule],
-	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {
 	private readonly storeService = inject(StoreService);
@@ -59,7 +56,7 @@ export class AppComponent {
 
 	private initCncBridge(): void {
 		this.storeService.store.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((storeList) => {
-			this.cncService.setStoreList(storeList);
+			this.cncService.setStoreList(storeList as never);
 			this.cncService.setStoreLocations(this.storeService.storeLocations);
 		});
 
@@ -69,18 +66,18 @@ export class AppComponent {
 				filter((user): user is User => !!user),
 			)
 			.subscribe((user) => {
-				this.cncService.setUser(user);
+				this.cncService.setUser(user as never);
 			});
 
-		/** Sync cart signal → cnc service. */
 		effect(() => {
-			this.cncService.setCartProducts(this.cartService.cart());
+			this.cncService.setCartProducts(this.cartService.cart() as never);
 		});
 
-		this.cncService.storeSelected
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((store: unknown) => {
-			this.userService.updateSelectedStore(store as Store);
-			});
+		effect(() => {
+			const store: CncStore | null = this.cncService.selectedStore() as CncStore | null;
+			if (store) {
+				void this.userService.updateSelectedStore(store as Store);
+			}
+		});
 	}
 }

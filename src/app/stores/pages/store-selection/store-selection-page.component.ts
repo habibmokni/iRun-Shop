@@ -1,17 +1,15 @@
 import {
 	Component,
 	ChangeDetectionStrategy,
-	CUSTOM_ELEMENTS_SCHEMA,
 	inject,
 	signal,
 	computed,
-	afterNextRender,
+	OnInit,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
+import { StoreSelectorComponent as CncStoreSelectorComponent } from '@habibmokni/cnc';
 import { Store } from '../../types/store.types';
 import { StoreService } from '../../services/store.service';
 import { StoreCardComponent } from '../../components/store-card/store-card.component';
@@ -27,10 +25,9 @@ type StoreView = 'map' | 'list';
 	styleUrls: ['./store-selection-page.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	schemas: [CUSTOM_ELEMENTS_SCHEMA],
-	imports: [MatButtonModule, MatIconModule, StoreCardComponent],
+	imports: [MatButtonModule, MatIconModule, StoreCardComponent, CncStoreSelectorComponent],
 })
-export class StoreSelectionPageComponent {
+export class StoreSelectionPageComponent implements OnInit {
 	private readonly storeService = inject(StoreService);
 	private readonly mapsService = inject(MapsService);
 	private readonly userService = inject(UserService);
@@ -43,16 +40,10 @@ export class StoreSelectionPageComponent {
 	protected readonly searchQuery = signal('');
 	protected readonly activeView = signal<StoreView>('list');
 
-	/**
-	 * Google Maps API key in @habibmokni/cnc is expired.
-	 * Re-enable once a valid key is configured in the cnc package.
-	 */
 	protected readonly mapsAvailable = signal(false);
 
-	/** User's current coordinates (null until geolocation resolves). */
 	private readonly userLocation = signal<google.maps.LatLngLiteral | null>(null);
 
-	/** Distance in km from the user to each store, keyed by store id. */
 	protected readonly distanceMap = computed<Record<string, number>>(() => {
 		const loc = this.userLocation();
 		const allStores = this.stores();
@@ -60,11 +51,12 @@ export class StoreSelectionPageComponent {
 
 		const map: Record<string, number> = {};
 		for (const store of allStores) {
-			if (store.location) {
-				map[store.id] = this.mapsService.calculateDistance(
-					loc.lat, loc.lng, store.location.lat, store.location.lng,
-				);
-			}
+			map[store.id] = this.mapsService.calculateDistance(
+				loc.lat,
+				loc.lng,
+				store.location.lat,
+				store.location.lng,
+			);
 		}
 		return map;
 	});
@@ -73,14 +65,12 @@ export class StoreSelectionPageComponent {
 		() => this.userService.user()?.storeSelected?.id ?? null,
 	);
 
-	/** The full store object for the user's currently selected store. */
 	protected readonly currentStore = computed(() => {
 		const id = this.selectedStoreId();
 		if (!id) return null;
 		return this.stores().find((s) => s.id === id) ?? null;
 	});
 
-	/** Whether the "other stores" section is expanded. */
 	protected readonly otherStoresExpanded = signal(false);
 
 	protected readonly filteredStores = computed(() => {
@@ -88,7 +78,6 @@ export class StoreSelectionPageComponent {
 		const allStores = this.stores();
 		const selectedId = this.selectedStoreId();
 
-		// Exclude selected store from the grid (it's shown separately)
 		let list = selectedId ? allStores.filter((s) => s.id !== selectedId) : allStores;
 
 		if (query) {
@@ -101,11 +90,9 @@ export class StoreSelectionPageComponent {
 		return list;
 	});
 
-	constructor() {
-		afterNextRender(() => {
-			this.mapsService.requestGeolocation().then((coords) => {
-				if (coords) this.userLocation.set(coords);
-			});
+	ngOnInit(): void {
+		void this.mapsService.requestGeolocation().then((coords) => {
+			if (coords) this.userLocation.set(coords);
 		});
 	}
 
@@ -119,5 +106,4 @@ export class StoreSelectionPageComponent {
 		await this.userService.setFavoriteStore(store);
 		this.snackbar.success('Store updated');
 	}
-
 }

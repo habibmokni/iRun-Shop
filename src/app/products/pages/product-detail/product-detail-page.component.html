@@ -1,23 +1,20 @@
 @if (product(); as product) {
 	<div class="product-page container">
 		<div class="product-layout">
-			<!-- Left: Images -->
 			<div class="product-gallery">
-				<!-- Mobile: peek carousel -->
 				<div class="carousel">
 					@for (img of product.variants[0]?.imageList ?? []; track img; let i = $index) {
-						<div class="carousel-slide" (click)="openGallery(i)">
-							<img
-								[ngSrc]="img"
-								[alt]="product.name + ' ' + (i + 1)"
-								width="600"
-								height="600"
-							/>
-						</div>
+					<button type="button" class="carousel-slide" (click)="openGallery(i)">
+						<img
+							[ngSrc]="img"
+							[alt]="product.name + ' ' + (i + 1)"
+							width="600"
+							height="600"
+						/>
+					</button>
 					}
 				</div>
 
-				<!-- Desktop: main image + thumbnails -->
 				<div class="main-image">
 					<img
 						[ngSrc]="
@@ -44,9 +41,7 @@
 				</div>
 			</div>
 
-			<!-- Right: Details -->
 			<div class="product-info">
-				<!-- Product header (brand + name + price + subtitle) -->
 				<div class="product-header">
 					<button
 						mat-icon-button
@@ -65,7 +60,9 @@
 							@if (product.discount) {
 								<span class="price-discount">-{{ product.discount }}%</span>
 							}
-							<span class="price-original">{{ originalPrice() | number: '1.2-2' }}€</span>
+							<span class="price-original"
+								>{{ originalPrice() | number: '1.2-2' }}€</span
+							>
 							<span class="price-current" [class.on-sale]="product.discount"
 								>{{ product.price }}€</span
 							>
@@ -77,7 +74,6 @@
 					</p>
 				</div>
 
-				<!-- Variant thumbnails -->
 				@if (similarProducts().length > 1) {
 					<div class="section">
 						<span class="section-label">Variants</span>
@@ -108,13 +104,11 @@
 					</div>
 				}
 
-				<!-- Size selector -->
 				<div class="section">
 					<span class="section-label">Size</span>
-					<app-size-selector [product]="product" (sizeSelected)="sizeSelected($event)" />
+					<cnc-size-selector [product]="product" (sizeSelected)="sizeSelected($event)" />
 				</div>
 
-				<!-- Add to cart -->
 				<div class="action-row">
 					<button matButton="filled" type="button" class="add-btn" (click)="addToCart()">
 						<mat-icon>shopping_bag</mat-icon>
@@ -131,7 +125,6 @@
 					</button>
 				</div>
 
-				<!-- Availability -->
 				<button class="availability-link" (click)="checkAvailability()">
 					<div class="availability-left">
 						<mat-icon class="availability-icon">room</mat-icon>
@@ -145,7 +138,6 @@
 					<mat-icon class="chevron-icon">chevron_right</mat-icon>
 				</button>
 
-				<!-- Perks -->
 				<div class="perks">
 					<div class="perk-card">
 						<mat-icon class="perk-icon">local_shipping</mat-icon>
@@ -161,7 +153,6 @@
 					</div>
 				</div>
 
-				<!-- Description accordion -->
 				<mat-accordion>
 					<mat-expansion-panel>
 						<mat-expansion-panel-header>
@@ -197,7 +188,6 @@
 			</div>
 		</div>
 
-		<!-- Mobile sticky CTA -->
 		<div class="mobile-cta">
 			<button matButton="filled" type="button" class="mobile-cta-btn" (click)="addToCart()">
 				Add to cart

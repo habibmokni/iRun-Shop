@@ -6,13 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { DecimalPipe } from '@angular/common';
-
 import { CartProduct } from '../../types/cart.types';
 import { Product } from '../../../products/types/product.types';
 import { CartService } from '../../services/cart.service';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { UserService } from '../../../user/services/user.service';
-import { SizeSelectorComponent } from '../../../shared/components/size-selector/size-selector.component';
+import { SizeSelectorComponent as CncSizeSelectorComponent } from '@habibmokni/cnc';
 
 @Component({
 	selector: 'app-add-to-cart',
@@ -28,7 +27,7 @@ import { SizeSelectorComponent } from '../../../shared/components/size-selector/
 		MatIconModule,
 		MatRadioModule,
 		DecimalPipe,
-		SizeSelectorComponent,
+		CncSizeSelectorComponent,
 	],
 })
 export class AddToCartComponent {
@@ -52,22 +51,21 @@ export class AddToCartComponent {
 
 		if (!user?.storeSelected || !size) return 0;
 
-		const storeProducts = user.storeSelected.products ?? [];
+		const storeProducts = user.storeSelected.products;
 		const matchedProduct = storeProducts.find(
 			(product) => product.modelNo === this.product.modelNo,
 		);
-		if (!matchedProduct?.variants?.[0]) return 0;
+		if (!matchedProduct?.variants[0]) return 0;
 
-		const sizes = matchedProduct.variants[0].sizes ?? [];
-		const inStock = matchedProduct.variants[0].inStock ?? [];
+		const sizes = matchedProduct.variants[0].sizes;
+		const inStock = matchedProduct.variants[0].inStock;
 
 		const sizeIndex = sizes.findIndex((shoeSize) => shoeSize === size);
-		return sizeIndex === -1 ? 0 : +(inStock[sizeIndex] ?? 0);
+		return sizeIndex === -1 ? 0 : inStock[sizeIndex];
 	});
 
-	public readonly originalPrice = (this.product.price ?? 0) * 1.2;
+	public readonly originalPrice = this.product.price * 1.2;
 
-	// Public methods (pure where possible)
 	public onSizeSelected(size: number): void {
 		this.selectedSize.set(size);
 	}
@@ -102,7 +100,7 @@ export class AddToCartComponent {
 			variantId: this.product.variants[0].variantId,
 			noOfItems: this.noOfItems(),
 			size,
-			vendor: this.product.companyName!,
+			vendor: this.product.companyName ?? '',
 			productName: this.product.name,
 			price: this.product.price,
 		};

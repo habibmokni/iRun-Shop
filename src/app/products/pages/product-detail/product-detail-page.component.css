@@ -419,6 +419,12 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 		justify-content: center;
 		overflow: hidden;
 		border: 1px solid var(--mat-sys-outline-variant);
+		padding: 0;
+		margin: 0;
+		font: inherit;
+		cursor: pointer;
+		-webkit-appearance: none;
+		appearance: none;
 	}
 
 	.carousel-slide img {

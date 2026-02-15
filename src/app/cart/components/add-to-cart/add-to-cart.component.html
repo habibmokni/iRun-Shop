@@ -1,5 +1,4 @@
 <div class="dialog-container">
-	<!-- Header: product name + price -->
 	<div class="dialog-header">
 		<div>
 			<span class="product-brand">{{ product.companyName }}</span>
@@ -11,13 +10,11 @@
 		</div>
 	</div>
 
-	<!-- Size selector -->
 	<div class="dialog-section">
 		<span class="section-label">Choose size</span>
-		<app-size-selector [product]="product" (sizeSelected)="onSizeSelected($event)" />
+		<cnc-size-selector [product]="product" (sizeSelected)="onSizeSelected($event)" />
 	</div>
 
-	<!-- Stock info -->
 	@if (isSizeSelected()) {
 		<div class="stock-info">
 			@if (stock() > 0) {
@@ -30,7 +27,6 @@
 		</div>
 	}
 
-	<!-- Quantity -->
 	<div class="quantity-row">
 		<span class="section-label">Quantity</span>
 		<div class="quantity-controls">
@@ -44,7 +40,6 @@
 		</div>
 	</div>
 
-	<!-- Add to cart button -->
 	<button
 		matButton="filled"
 		type="button"
