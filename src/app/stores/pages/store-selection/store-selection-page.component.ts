@@ -40,7 +40,7 @@ export class StoreSelectionPageComponent implements OnInit {
 	protected readonly searchQuery = signal('');
 	protected readonly activeView = signal<StoreView>('list');
 
-	protected readonly mapsAvailable = signal(false);
+	protected readonly mapsAvailable = signal(true);
 
 	private readonly userLocation = signal<google.maps.LatLngLiteral | null>(null);
 
