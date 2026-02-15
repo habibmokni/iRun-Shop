@@ -49,7 +49,6 @@
 	color: #fff;
 	margin: 0;
 	line-height: 1;
-	text-transform: uppercase;
 	letter-spacing: 6px;
 	text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
@@ -85,7 +84,7 @@
    Shared section styles
    ══════════════════════════════════════ */
 .section {
-	padding-block: 48px;
+	padding-block: 20px;
 }
 
 .section-header {
