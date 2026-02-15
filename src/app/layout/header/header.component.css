@@ -28,6 +28,7 @@
 
 .logo {
 	height: auto;
+	filter: drop-shadow(0 0 1px var(--mat-sys-on-surface));
 }
 
 .header-inner a,
@@ -247,6 +248,6 @@
 /* ── Desktop ── */
 @media (min-width: 768px) {
 	.logo {
-		width: 4rem;
+		width: 5.5rem;
 	}
 }
