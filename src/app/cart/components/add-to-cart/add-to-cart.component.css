@@ -43,7 +43,7 @@
 
 .price-original {
 	font-size: 13px;
-	color: rgba(0, 0, 0, 0.4);
+	color: var(--mat-sys-on-surface-variant);
 	text-decoration: line-through;
 }
 
@@ -59,7 +59,7 @@
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.3px;
-	color: rgba(0, 0, 0, 0.55);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 /* ── Stock info ── */
@@ -115,7 +115,7 @@
 	border: none;
 	background: none;
 	cursor: pointer;
-	color: #555;
+	color: var(--mat-sys-on-surface-variant);
 	padding: 0;
 }
 

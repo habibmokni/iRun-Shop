@@ -3,7 +3,7 @@
    ══════════════════════════════════════ */
 .hero {
 	background: url('/assets/images/iRun-banner.png') center center / cover no-repeat;
-	background-color: #1a1a1a;
+	background-color: var(--mat-sys-surface-container);
 	color: var(--mat-sys-on-primary);
 	height: 550px;
 	padding: 0;
@@ -121,7 +121,7 @@
    Brand Bar
    ══════════════════════════════════════ */
 .brandbar {
-	background: #fff;
+	background: var(--mat-sys-surface);
 	border-top: 1px solid var(--mat-sys-outline-variant);
 	border-bottom: 1px solid var(--mat-sys-outline-variant);
 	padding: 48px 0;
@@ -167,7 +167,7 @@
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 1px;
-	color: #333;
+	color: var(--mat-sys-on-surface);
 	white-space: nowrap;
 }
 
@@ -203,7 +203,7 @@
 
 .prop p {
 	font-size: 14px;
-	color: rgba(0, 0, 0, 0.55);
+	color: var(--mat-sys-on-surface-variant);
 	margin: 0;
 }
 
@@ -242,7 +242,7 @@
 
 .skeleton-card-image {
 	aspect-ratio: 1;
-	background: #fff;
+	background: var(--mat-sys-surface);
 }
 
 .skeleton-card-body {

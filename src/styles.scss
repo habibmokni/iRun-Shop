@@ -100,7 +100,7 @@ router-outlet + * {
 
 /* ── Fullscreen dialog (image gallery) ── */
 .fullscreen-dialog .mat-mdc-dialog-surface {
-	background: #000;
+	background: var(--mat-sys-surface, #000);
 	border-radius: 0;
 	padding: 0;
 	overflow: hidden;

@@ -38,7 +38,7 @@
 
 	input {
 		padding: 10px 12px;
-		border: 1px solid #ccc;
+		border: 1px solid var(--mat-sys-outline);
 		border-radius: 4px;
 		font-size: 1rem;
 		outline: none;
@@ -49,7 +49,7 @@
 		}
 
 		&.is-invalid {
-			border-color: #dc3545;
+			border-color: var(--mat-sys-error);
 		}
 	}
 }
@@ -68,17 +68,17 @@
 		align-items: center;
 		justify-content: center;
 		padding: 0 10px;
-		border: 1px solid #ccc;
+		border: 1px solid var(--mat-sys-outline);
 		border-left: none;
 		border-radius: 0 4px 4px 0;
-		background: #f8f9fa;
+		background: var(--mat-sys-surface-container-low);
 		cursor: pointer;
 
 		mat-icon {
 			font-size: 20px;
 			width: 20px;
 			height: 20px;
-			color: #666;
+			color: var(--mat-sys-on-surface-variant);
 		}
 	}
 }

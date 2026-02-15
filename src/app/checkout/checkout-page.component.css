@@ -47,7 +47,7 @@
 	height: 32px;
 	border-radius: 50%;
 	background: var(--mat-sys-outline-variant);
-	color: rgba(0, 0, 0, 0.4);
+	color: var(--mat-sys-on-surface-variant);
 	font-size: 13px;
 	font-weight: 700;
 	display: flex;
@@ -65,7 +65,7 @@
 
 .step-indicator.done .step-dot {
 	background: #2e7d32;
-	color: #fff;
+	color: var(--mat-sys-on-primary);
 }
 
 .step-dot mat-icon {
@@ -77,7 +77,7 @@
 .step-label {
 	font-size: 12px;
 	font-weight: 600;
-	color: rgba(0, 0, 0, 0.4);
+	color: var(--mat-sys-on-surface-variant);
 	white-space: nowrap;
 }
 
@@ -148,7 +148,7 @@
 	align-items: center;
 	gap: 4px;
 	padding: 20px 12px;
-	background: #fff;
+	background: var(--mat-sys-surface);
 	border: 2px solid var(--mat-sys-outline-variant);
 	border-radius: 12px;
 	cursor: pointer;
@@ -156,11 +156,11 @@
 		border-color 0.15s,
 		background 0.15s,
 		color 0.15s;
-	color: rgba(0, 0, 0, 0.45);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .delivery-option:hover {
-	border-color: #c0c0c0;
+	border-color: var(--mat-sys-outline);
 }
 
 .delivery-option.active {
@@ -241,7 +241,7 @@
 
 .unavailable-header h5 {
 	font-size: 14px;
-	color: rgba(0, 0, 0, 0.55);
+	color: var(--mat-sys-on-surface-variant);
 	margin: 0;
 	font-weight: 400;
 }
@@ -287,7 +287,7 @@
 
 /* Section cards */
 .overview-section {
-	background: #fff;
+	background: var(--mat-sys-surface);
 	border: 1px solid var(--mat-sys-outline-variant);
 	border-radius: 12px;
 	padding: 20px 24px;
@@ -301,7 +301,7 @@
 	font-size: 15px;
 	font-weight: 700;
 	margin: 0 0 16px;
-	color: #333;
+	color: var(--mat-sys-on-surface);
 }
 
 .section-icon {
@@ -327,7 +327,7 @@
 .order-item-img {
 	width: 64px;
 	height: 64px;
-	background: #f8f8f8;
+	background: var(--mat-sys-surface-container-low);
 	border-radius: 8px;
 	flex-shrink: 0;
 	display: flex;
@@ -358,7 +358,7 @@
 
 .order-item-meta {
 	font-size: 12px;
-	color: rgba(0, 0, 0, 0.45);
+	color: var(--mat-sys-on-surface-variant);
 	margin-top: 2px;
 }
 
@@ -386,17 +386,17 @@
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-	color: rgba(0, 0, 0, 0.4);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .info-value {
 	font-size: 14px;
-	color: #333;
+	color: var(--mat-sys-on-surface);
 }
 
 .redirect-note {
 	font-size: 13px;
-	color: rgba(0, 0, 0, 0.45);
+	color: var(--mat-sys-on-surface-variant);
 	margin: 12px 0 0;
 }
 
@@ -413,7 +413,7 @@
 	display: flex;
 	justify-content: space-between;
 	font-size: 14px;
-	color: rgba(0, 0, 0, 0.65);
+	color: var(--mat-sys-on-surface-variant);
 	padding: 4px 0;
 }
 
@@ -431,7 +431,7 @@
 .totals-total {
 	font-size: 17px;
 	font-weight: 700;
-	color: #000;
+	color: var(--mat-sys-on-surface);
 }
 
 /* Order ID bar */
@@ -440,7 +440,7 @@
 	align-items: center;
 	gap: 8px;
 	font-size: 13px;
-	color: rgba(0, 0, 0, 0.5);
+	color: var(--mat-sys-on-surface-variant);
 	margin-bottom: 24px;
 }
 
@@ -448,11 +448,11 @@
 	font-size: 18px;
 	height: 18px;
 	width: 18px;
-	color: rgba(0, 0, 0, 0.3);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .order-id-bar strong {
-	color: #333;
+	color: var(--mat-sys-on-surface);
 }
 
 /* Actions */
@@ -510,7 +510,7 @@
 .sidebar-item-img {
 	width: 56px;
 	height: 56px;
-	background: #fff;
+	background: var(--mat-sys-surface);
 	border-radius: 8px;
 	flex-shrink: 0;
 	display: flex;
@@ -540,7 +540,7 @@
 
 .sidebar-item-meta {
 	font-size: 12px;
-	color: rgba(0, 0, 0, 0.45);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .sidebar-item-price {

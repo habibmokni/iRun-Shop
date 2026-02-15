@@ -46,7 +46,7 @@
 }
 
 .empty-msg {
-	color: rgba(0, 0, 0, 0.45);
+	color: var(--mat-sys-on-surface-variant);
 	font-size: 14px;
 }
 
@@ -104,7 +104,7 @@
 	height: 40px;
 	border-radius: 6px;
 	object-fit: contain;
-	background: #fff;
+	background: var(--mat-sys-surface);
 	flex-shrink: 0;
 }
 
@@ -124,7 +124,7 @@
 
 .unavailable-item-meta {
 	font-size: 11px;
-	color: rgba(0, 0, 0, 0.5);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .unavailable-text strong {
@@ -132,7 +132,7 @@
 }
 
 .unavailable-text span {
-	color: rgba(0, 0, 0, 0.55);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 /* ── Date & Time pickers ── */
@@ -173,7 +173,7 @@
 
 .summary-text span {
 	font-size: 13px;
-	color: rgba(0, 0, 0, 0.55);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 /* ── Responsive ── */

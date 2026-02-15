@@ -92,7 +92,7 @@
 
 .skeleton-card-image {
 	aspect-ratio: 1;
-	background: #fff;
+	background: var(--mat-sys-surface);
 }
 
 .skeleton-card-body {

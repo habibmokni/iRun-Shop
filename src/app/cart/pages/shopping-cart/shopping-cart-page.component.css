@@ -44,7 +44,7 @@
 	width: 120px;
 	height: 120px;
 	flex-shrink: 0;
-	background: #fff;
+	background: var(--mat-sys-surface);
 	border-radius: 12px;
 	display: flex;
 	align-items: center;
@@ -101,7 +101,7 @@
 
 .item-meta {
 	font-size: 13px;
-	color: rgba(0, 0, 0, 0.5);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .item-prices {
@@ -120,7 +120,7 @@
 
 .item-price-original {
 	font-size: 12px;
-	color: rgba(0, 0, 0, 0.35);
+	color: var(--mat-sys-on-surface-variant);
 	text-decoration: line-through;
 	white-space: nowrap;
 }
@@ -128,7 +128,7 @@
 .unit-price {
 	font-size: 11px;
 	font-weight: 400;
-	color: rgba(0, 0, 0, 0.4);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 /* ── Quantity stepper ── */
@@ -191,7 +191,7 @@
 	gap: 5px;
 	font-size: 11px;
 	font-weight: 500;
-	color: rgba(0, 0, 0, 0.5);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .dot {
@@ -235,7 +235,7 @@
 	justify-content: space-between;
 	font-size: 14px;
 	padding: 6px 0;
-	color: rgba(0, 0, 0, 0.7);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .free-tag {
@@ -245,7 +245,7 @@
 
 .original-total {
 	text-decoration: line-through;
-	color: rgba(0, 0, 0, 0.4);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .savings-line {
@@ -272,7 +272,7 @@
 .total-line {
 	font-size: 18px;
 	font-weight: 700;
-	color: #000;
+	color: var(--mat-sys-on-surface);
 	padding: 8px 0;
 }
 
@@ -328,7 +328,7 @@
 	font-size: 64px;
 	width: 64px;
 	height: 64px;
-	color: rgba(0, 0, 0, 0.15);
+	color: var(--mat-sys-outline-variant);
 	margin-bottom: 8px;
 }
 
@@ -340,7 +340,7 @@
 
 .empty-cart p {
 	margin: 0 0 16px;
-	color: rgba(0, 0, 0, 0.5);
+	color: var(--mat-sys-on-surface-variant);
 	font-size: 15px;
 }
 

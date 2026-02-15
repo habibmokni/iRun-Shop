@@ -37,7 +37,7 @@
 
 .form-field input {
 	padding: 0.5rem 0.75rem;
-	border: 1px solid #ccc;
+	border: 1px solid var(--mat-sys-outline);
 	border-radius: 4px;
 	font-size: 1rem;
 }
@@ -60,10 +60,10 @@
 	display: flex;
 	align-items: center;
 	padding: 0 0.5rem;
-	border: 1px solid #ccc;
+	border: 1px solid var(--mat-sys-outline);
 	border-left: none;
 	border-radius: 0 4px 4px 0;
-	background: #f8f8f8;
+	background: var(--mat-sys-surface-container-low);
 	cursor: pointer;
 }
 

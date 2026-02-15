@@ -12,6 +12,7 @@ import { AuthService } from '../../auth/services/auth.service';
 import { CartService } from '../../cart/services/cart.service';
 import { UserService } from '../../user/services/user.service';
 import { SnackbarService } from '../../shared/services/snackbar.service';
+import { ThemeService } from '../../shared/services/theme.service';
 
 @Component({
 	selector: 'app-header',
@@ -35,10 +36,12 @@ export class HeaderComponent {
 	private readonly userService = inject(UserService);
 	private readonly router = inject(Router);
 	private readonly snackbar = inject(SnackbarService);
+	private readonly themeService = inject(ThemeService);
 
 	protected readonly isLoggedIn = this.authService.isLoggedIn;
 	protected readonly cartCount = this.cartService.count;
 	protected readonly wishlistCount = computed(() => this.userService.wishlist().size);
+	protected readonly isDarkMode = computed(() => this.themeService.mode() === 'dark');
 
 	protected readonly searchQuery = signal('');
 	protected readonly mobileSearchOpen = signal(false);
@@ -67,5 +70,9 @@ export class HeaderComponent {
 
 	protected toggleMobileSearch(): void {
 		this.mobileSearchOpen.update((v) => !v);
+	}
+
+	protected toggleTheme(): void {
+		this.themeService.toggle();
 	}
 }

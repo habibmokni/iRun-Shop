@@ -102,39 +102,39 @@ $irun-palette: (
 	),
 );
 
-/* Raw config – passed to mat.theme() which expects top-level color/typography/density keys */
-$config: (
-	color: (
-		primary: $irun-palette,
-		theme-type: light,
-	),
-	typography: (
-		brand-family: (
-			Roboto,
-			sans-serif,
-		),
-		plain-family: (
-			Roboto,
-			sans-serif,
-		),
-	),
-	density: (
-		scale: 0,
-	),
+/* ── Shared typography & density ── */
+$typography: (
+	brand-family: (Roboto, sans-serif),
+	plain-family: (Roboto, sans-serif),
 );
+$density: (scale: 0);
 
-/* Wrapped theme object – passed to component-level mixins */
-$theme: mat.define-theme($config);
+/* ── Light theme ── */
+$light-config: (
+	color: (primary: $irun-palette, theme-type: light),
+	typography: $typography,
+	density: $density,
+);
+$light-theme: mat.define-theme($light-config);
 
-html {
-	/* System-level tokens (--mat-sys-primary, --mat-sys-surface, etc.) */
-	@include mat.theme($config);
+/* ── Dark theme ── */
+$dark-config: (
+	color: (primary: $irun-palette, theme-type: dark),
+	typography: $typography,
+	density: $density,
+);
+$dark-theme: mat.define-theme($dark-config);
 
-	/* Component-level tokens + typography classes */
-	@include mat.all-component-themes($theme);
-	@include mat.typography-hierarchy($theme);
+/* ══════════════════════════════════════
+   Light mode (default)
+   ══════════════════════════════════════ */
+html,
+html.light-theme {
+	@include mat.theme($light-config);
+	@include mat.all-component-themes($light-theme);
+	@include mat.typography-hierarchy($light-theme);
 
-	/* Override M3 tinted surfaces with clean white/neutral values */
+	/* Clean white/neutral surfaces */
 	@include mat.theme-overrides(
 		(
 			surface: #ffffff,
@@ -149,9 +149,31 @@ html {
 	);
 }
 
+/* ══════════════════════════════════════
+   Dark mode
+   ══════════════════════════════════════ */
+html.dark-theme {
+	@include mat.theme($dark-config);
+	@include mat.all-component-themes($dark-theme);
+
+	/* Clean dark surfaces */
+	@include mat.theme-overrides(
+		(
+			surface: #141218,
+			surface-dim: #141218,
+			surface-bright: #3b3840,
+			surface-container-lowest: #0f0d12,
+			surface-container-low: #1d1b20,
+			surface-container: #211f26,
+			surface-container-high: #2b2930,
+			surface-container-highest: #36343b,
+		)
+	);
+}
+
 /* Size-selector dropdown panel */
 .size-select-panel {
-	background: #fff;
+	background: var(--mat-sys-surface);
 
 	.mat-mdc-option .mdc-list-item__primary-text {
 		width: 100%;

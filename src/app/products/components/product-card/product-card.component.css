@@ -28,7 +28,7 @@
 
 .card-image {
 	position: relative;
-	background: #fff;
+	background: var(--mat-sys-surface);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -101,7 +101,7 @@
 
 .card-price-original {
 	font-size: 14px;
-	color: rgba(0, 0, 0, 0.4);
+	color: var(--mat-sys-on-surface-variant);
 	text-decoration: line-through;
 }
 
@@ -129,8 +129,8 @@
 	z-index: 2;
 	width: 36px !important;
 	height: 36px !important;
-	background: #fff !important;
-	color: rgba(0, 0, 0, 0.3);
+	background: var(--mat-sys-surface) !important;
+	color: var(--mat-sys-on-surface-variant);
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 

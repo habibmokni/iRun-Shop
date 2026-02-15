@@ -32,7 +32,7 @@
 
 .success-subtitle {
 	font-size: 14px;
-	color: rgba(0, 0, 0, 0.55);
+	color: var(--mat-sys-on-surface-variant);
 	line-height: 1.6;
 	margin: 0 0 24px;
 	max-width: 300px;

@@ -26,7 +26,7 @@
 
 .payment-subtitle {
 	font-size: 12px;
-	color: rgba(0, 0, 0, 0.45);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 .payment-options {
@@ -43,7 +43,7 @@
 }
 
 .payment-option:hover {
-	border-color: #c0c0c0;
+	border-color: var(--mat-sys-outline);
 }
 
 ::ng-deep .payment-option.mat-mdc-radio-checked {

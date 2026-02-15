@@ -45,6 +45,12 @@
 				<mat-icon>search</mat-icon>
 			</button>
 
+			<!-- Dark mode toggle -->
+			<button class="action-item" (click)="toggleTheme()" aria-label="Toggle dark mode">
+				<mat-icon>{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+				<span class="action-label">{{ isDarkMode() ? 'Light' : 'Dark' }}</span>
+			</button>
+
 			<!-- Store selector -->
 			<a class="action-item" routerLink="/storeselector" aria-label="Store selector">
 				<mat-icon fontSet="material-icons-outlined">where_to_vote</mat-icon>
