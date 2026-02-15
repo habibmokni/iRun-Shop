@@ -9,16 +9,16 @@
 	</div>
 
 	<div class="sheet-body">
-		<mat-chip-listbox multiple aria-label="Filter options">
+		<mat-chip-set aria-label="Filter options">
 			@for (option of data.options; track option) {
-				<mat-chip-option
-					[selected]="isSelected(option)"
-					(selectionChange)="toggle(option)"
+				<mat-chip
+					[highlighted]="isSelected(option)"
+					(click)="toggle(option)"
 				>
 					{{ option }}
-				</mat-chip-option>
+				</mat-chip>
 			}
-		</mat-chip-listbox>
+		</mat-chip-set>
 	</div>
 
 	<div class="sheet-footer">
