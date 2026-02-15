@@ -77,6 +77,14 @@
 .product-info {
 	display: flex;
 	flex-direction: column;
+	gap: 16px;
+	position: relative;
+}
+
+/* ── Product header group (brand + name + subtitle + price) ── */
+.product-header {
+	display: flex;
+	flex-direction: column;
 	position: relative;
 }
 
@@ -103,7 +111,7 @@
 .product-subtitle {
 	font-size: 14px;
 	color: rgba(0, 0, 0, 0.5);
-	margin: 0 0 16px;
+	margin: 0;
 }
 
 /* ── Price ── */
@@ -111,7 +119,7 @@
 	display: flex;
 	align-items: baseline;
 	gap: 10px;
-	margin-bottom: 24px;
+	margin-top: 8px;
 }
 
 .price-current {
@@ -139,10 +147,6 @@
 }
 
 /* ── Sections ── */
-.section {
-	margin-bottom: 20px;
-}
-
 .section-label {
 	display: block;
 	font-size: 13px;
@@ -190,7 +194,6 @@
 	display: flex;
 	align-items: center;
 	gap: 12px;
-	margin-bottom: 24px;
 }
 
 .add-btn {
@@ -225,7 +228,6 @@
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 12px;
-	margin-bottom: 16px;
 }
 
 .perk-card {
@@ -259,7 +261,6 @@
 	justify-content: space-between;
 	width: 100%;
 	padding: 18px 20px;
-	margin-bottom: 16px;
 	background: var(--mat-sys-primary-container);
 	border: none;
 	border-radius: 14px;
@@ -315,7 +316,6 @@ mat-accordion {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
-	margin-bottom: 2rem;
 }
 
 mat-accordion mat-expansion-panel {
@@ -451,11 +451,9 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 
 	.product-subtitle {
 		font-size: 13px;
-		margin-bottom: 8px;
 	}
 
 	.price-row {
-		margin-bottom: 12px;
 		gap: 8px;
 	}
 
@@ -465,10 +463,6 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 
 	.price-original {
 		font-size: 14px;
-	}
-
-	.section {
-		margin-bottom: 12px;
 	}
 
 	.section-label {
@@ -494,7 +488,6 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 	.perks {
 		grid-template-columns: repeat(3, 1fr);
 		gap: 8px;
-		margin-bottom: 10px;
 	}
 
 	.perk-card {
@@ -515,12 +508,10 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 
 	.availability-link {
 		padding: 16px;
-		margin-bottom: 10px;
 	}
 
 	mat-accordion {
 		gap: 8px;
-		margin-bottom: 1rem;
 	}
 
 	/* Floating CTA */

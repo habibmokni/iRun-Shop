@@ -46,30 +46,33 @@
 
 			<!-- Right: Details -->
 			<div class="product-info">
-				<button
-					mat-icon-button
-					type="button"
-					class="info-fav"
-					[class.wishlisted]="isWishlisted()"
-					(click)="toggleWishlist()"
-				>
-					<mat-icon>{{ isWishlisted() ? 'favorite' : 'favorite_border' }}</mat-icon>
-				</button>
-				<span class="brand-label">{{ product.companyName }}</span>
-				<h1 class="product-name">{{ product.name }}</h1>
-				<p class="product-subtitle">
-					{{ product.subCategory?.[0] ?? product.category[0] }}
-				</p>
-
-				<!-- Price -->
-				<div class="price-row">
-					<span class="price-current" [class.on-sale]="product.discount"
-						>{{ product.price }}€</span
+				<!-- Product header (brand + name + subtitle + price) -->
+				<div class="product-header">
+					<button
+						mat-icon-button
+						type="button"
+						class="info-fav"
+						[class.wishlisted]="isWishlisted()"
+						(click)="toggleWishlist()"
 					>
-					<span class="price-original">{{ originalPrice() | number: '1.2-2' }}€</span>
-					@if (product.discount) {
-						<span class="price-discount">-{{ product.discount }}%</span>
-					}
+						<mat-icon>{{ isWishlisted() ? 'favorite' : 'favorite_border' }}</mat-icon>
+					</button>
+					<span class="brand-label">{{ product.companyName }}</span>
+					<h1 class="product-name">{{ product.name }}</h1>
+					<p class="product-subtitle">
+						{{ product.subCategory?.[0] ?? product.category[0] }}
+					</p>
+
+					<!-- Price -->
+					<div class="price-row">
+						<span class="price-current" [class.on-sale]="product.discount"
+							>{{ product.price }}€</span
+						>
+						<span class="price-original">{{ originalPrice() | number: '1.2-2' }}€</span>
+						@if (product.discount) {
+							<span class="price-discount">-{{ product.discount }}%</span>
+						}
+					</div>
 				</div>
 
 				<!-- Variant thumbnails -->
