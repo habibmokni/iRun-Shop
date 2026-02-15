@@ -8,8 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { CartProduct } from '../../types/cart.types';
 import { Product } from '../../../products/types/product.types';
+import { Store } from '../../../stores/types/store.types';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../../products/services/product.service';
+import { StoreService } from '../../../stores/services/store.service';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { UserService } from '../../../user/services/user.service';
 
@@ -29,6 +31,7 @@ interface CartItemStock {
 export class ShoppingCartPageComponent {
 	private readonly cartService = inject(CartService);
 	private readonly productService = inject(ProductService);
+	private readonly storeService = inject(StoreService);
 	private readonly router = inject(Router);
 	private readonly userService = inject(UserService);
 	private readonly snackbar = inject(SnackbarService);
@@ -51,6 +54,11 @@ export class ShoppingCartPageComponent {
 
 	private readonly user = this.userService.user;
 
+	/** All stores from Firestore (with full product data). */
+	private readonly allStores = toSignal(this.storeService.store, {
+		initialValue: [] as Store[],
+	});
+
 	private readonly onlineProducts = toSignal(this.productService.productList, {
 		initialValue: [] as Product[],
 	});
@@ -58,7 +66,12 @@ export class ShoppingCartPageComponent {
 	protected readonly stockInfo = computed<CartItemStock[]>(() => {
 		const cart = this.cartProducts();
 		const user = this.user();
-		const storeProducts = user?.storeSelected?.products ?? [];
+		const stores = this.allStores();
+		// Resolve the full store (with products) by matching the user's selected store ID
+		const fullStore = user?.storeSelected
+			? stores.find((s) => s.id === user.storeSelected!.id)
+			: null;
+		const storeProducts = fullStore?.products ?? [];
 		const online = this.onlineProducts();
 
 		return cart.map((product) => ({

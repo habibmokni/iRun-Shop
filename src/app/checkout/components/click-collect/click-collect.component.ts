@@ -131,8 +131,15 @@ export class ClickCollectComponent implements OnInit {
 		return map;
 	});
 
-	/** Currently selected store. */
-	protected readonly selectedStore = signal<Store | null>(null);
+	/** Currently selected store ID. */
+	private readonly selectedStoreId = signal<string | null>(null);
+
+	/** Full store object (with products) resolved from the store service. */
+	protected readonly selectedStore = computed<Store | null>(() => {
+		const id = this.selectedStoreId();
+		if (!id) return null;
+		return this.stores().find((s) => s.id === id) ?? null;
+	});
 
 	/** Selected date. */
 	protected readonly selectedDate = signal<Date | null>(null);
@@ -229,7 +236,7 @@ export class ClickCollectComponent implements OnInit {
 		// Pre-select the user's preferred store if available.
 		const userStore = this.user()?.storeSelected;
 		if (userStore) {
-			this.selectedStore.set(userStore);
+			this.selectedStoreId.set(userStore.id);
 
 			// Emit initial availability status for the preselected store.
 			const unavailable = this.unavailableProducts();
@@ -238,7 +245,7 @@ export class ClickCollectComponent implements OnInit {
 	}
 
 	protected onSelectStore(store: Store): void {
-		this.selectedStore.set(store);
+		this.selectedStoreId.set(store.id);
 		this.selectedTime.set(null);
 		this.storeChanged.emit(store);
 

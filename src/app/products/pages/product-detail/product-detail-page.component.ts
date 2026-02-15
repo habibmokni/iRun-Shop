@@ -13,7 +13,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 // App
 import { CartProduct } from '../../../cart/types/cart.types';
 import { Product } from '../../types/product.types';
+import { Store } from '../../../stores/types/store.types';
 import { ProductService } from '../../services/product.service';
+import { StoreService } from '../../../stores/services/store.service';
 import { CartService } from '../../../cart/services/cart.service';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { UserService } from '../../../user/services/user.service';
@@ -45,6 +47,7 @@ export class ProductDetailPageComponent {
 	private readonly route = inject(ActivatedRoute);
 	private readonly dialog = inject(MatDialog);
 	private readonly productService = inject(ProductService);
+	private readonly storeService = inject(StoreService);
 	private readonly cartService = inject(CartService);
 	private readonly userService = inject(UserService);
 	private readonly snackbar = inject(SnackbarService);
@@ -83,6 +86,11 @@ export class ProductDetailPageComponent {
 	// User (reactive via BehaviorSubject)
 	private readonly user = this.userService.user;
 
+	/** All stores from Firestore (with full product data). */
+	private readonly allStores = toSignal(this.storeService.store, {
+		initialValue: [] as Store[],
+	});
+
 	// Derived: stock for the selected size at the user's store
 	protected readonly stock = computed(() => {
 		const product = this.product();
@@ -91,7 +99,11 @@ export class ProductDetailPageComponent {
 
 		if (!product || !size || !user?.storeSelected) return 0;
 
-		const matchedProduct = user.storeSelected.products?.find(
+		// Resolve the full store (with products) by matching the user's selected store ID
+		const fullStore = this.allStores().find((s) => s.id === user.storeSelected!.id);
+		if (!fullStore) return 0;
+
+		const matchedProduct = fullStore.products?.find(
 			(storeProduct) => storeProduct.modelNo === product.modelNo,
 		);
 		if (!matchedProduct?.variants?.[0]) return 0;
