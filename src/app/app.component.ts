@@ -10,10 +10,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { RouterOutlet } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
-import { ClickNCollectService, CncStore } from '@habibmokni/cnc';
+import { ClickNCollectService } from '@habibmokni/cnc';
 import { CartService } from './cart/services/cart.service';
 import { StoreService } from './stores/services/store.service';
-import { Store } from './stores/types/store.types';
 import { UserService } from './user/services/user.service';
 import { User } from './user/types/user.types';
 import { HeaderComponent } from './layout/header/header.component';
@@ -71,20 +70,6 @@ export class AppComponent {
 
 		effect(() => {
 			this.cncService.setCartProducts(this.cartService.cart() as never);
-		});
-
-		/**
-		 * Sync cnc store selection back to the user service.
-		 * Track the last synced ID to break the circular loop:
-		 * selectStore -> effect -> updateSelectedStore -> user$ -> setUser -> repeat.
-		 */
-		let lastSyncedStoreId: string | null = null;
-		effect(() => {
-			const store: CncStore | null = this.cncService.selectedStore() as CncStore | null;
-			if (store && store.id !== lastSyncedStoreId) {
-				lastSyncedStoreId = store.id;
-				void this.userService.updateSelectedStore(store as Store);
-			}
 		});
 	}
 }

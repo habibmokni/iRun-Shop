@@ -150,8 +150,12 @@ export class CheckoutPageComponent {
 	}
 
 	protected async onStoreChange(store: CncStore | Store): Promise<void> {
-		await this.userService.updateSelectedStore(store as Store);
 		this.shippingMethod.patchValue({ shippingAddress: store.address });
+
+		// Skip Firestore write if the user already has this store selected
+		// (prevents the init-time roundtrip: effect → emit → write → listener → signal → …)
+		if (store.id === this.user()?.storeSelected?.id) return;
+		await this.userService.updateSelectedStore(store as Store);
 	}
 
 	protected onDateSelected(date: Date): void {
