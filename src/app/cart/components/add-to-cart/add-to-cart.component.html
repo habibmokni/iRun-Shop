@@ -13,7 +13,7 @@
 
 	<!-- Size selector -->
 	<div class="dialog-section">
-		<span class="section-label">Select Size</span>
+		<span class="section-label">Choose size</span>
 		<app-size-selector [product]="product" (sizeSelected)="onSizeSelected($event)" />
 	</div>
 
@@ -25,7 +25,7 @@
 				<span class="in-stock">In stock ({{ stock() }})</span>
 			} @else {
 				<mat-icon class="stock-icon out-of-stock-icon">cancel</mat-icon>
-				<span class="out-of-stock">Not available in selected store</span>
+				<span class="out-of-stock">Out of stock at your store</span>
 			}
 		</div>
 	}

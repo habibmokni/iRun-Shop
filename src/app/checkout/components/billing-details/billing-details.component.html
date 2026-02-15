@@ -5,10 +5,10 @@
 	<div [formGroup]="billing()" class="billing-form">
 		<mat-form-field appearance="outline">
 			<mat-label>Full name</mat-label>
-			<input matInput formControlName="name" type="text" placeholder="John Doe" />
+			<input matInput formControlName="name" type="text" placeholder="e.g. Max Mustermann" />
 		</mat-form-field>
 		@if (isFieldInvalid('name')) {
-			<span class="field-error">Please enter your name</span>
+			<span class="field-error">Name is required</span>
 		}
 
 		<mat-form-field appearance="outline">
@@ -17,32 +17,32 @@
 				matInput
 				formControlName="email"
 				type="email"
-				placeholder="john@example.com"
+				placeholder="e.g. max@example.com"
 			/>
 		</mat-form-field>
 		@if (isFieldInvalid('email')) {
-			<span class="field-error">Please enter a valid email</span>
+			<span class="field-error">Enter a valid email address</span>
 		}
 
 		<mat-form-field appearance="outline">
 			<mat-label>Phone number</mat-label>
-			<input matInput formControlName="phoneNo" type="tel" placeholder="+49 123 456 789" />
+			<input matInput formControlName="phoneNo" type="tel" placeholder="e.g. +49 170 1234567" />
 		</mat-form-field>
 		@if (isFieldInvalid('phoneNo')) {
-			<span class="field-error">Please enter your phone number</span>
+			<span class="field-error">Phone number is required</span>
 		}
 
 		<mat-form-field appearance="outline">
-			<mat-label>Address</mat-label>
+			<mat-label>Shipping address</mat-label>
 			<input
 				matInput
 				formControlName="address1"
 				type="text"
-				placeholder="Street, City, ZIP"
+				placeholder="e.g. Hauptstraße 1, 10115 Berlin"
 			/>
 		</mat-form-field>
 		@if (isFieldInvalid('address1')) {
-			<span class="field-error">Please enter your address</span>
+			<span class="field-error">Address is required</span>
 		}
 	</div>
 </div>

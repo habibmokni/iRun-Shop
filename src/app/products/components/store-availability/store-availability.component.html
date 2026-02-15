@@ -22,7 +22,7 @@
 							@if (isSizeSelected()) { <mat-icon>check</mat-icon> } @else { <mat-icon>straighten</mat-icon> }
 						</span>
 						<span class="panel-title-text">
-							Select Size
+							Choose your size
 							@if (isSizeSelected() && step() !== 0) {
 								<span class="panel-subtitle">Size {{ selectedSize() }}</span>
 							}
@@ -59,7 +59,7 @@
 							@if (pendingStore()) { <mat-icon>check</mat-icon> } @else { <mat-icon>store</mat-icon> }
 						</span>
 						<span class="panel-title-text">
-							Find a Store
+							Find a store
 							@if (pendingStore() && step() !== 1) {
 								<span class="panel-subtitle">{{ pendingStore()!.name }}</span>
 							}
@@ -73,7 +73,7 @@
 					<div class="search-row">
 						<mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
 							<mat-icon matPrefix>search</mat-icon>
-							<input id="search" matInput placeholder="Enter zip code or address" />
+							<input id="search" matInput placeholder="Search by zip code or city" />
 						</mat-form-field>
 						<button mat-icon-button class="location-btn" (click)="currentLocation()">
 							<mat-icon>my_location</mat-icon>
@@ -95,7 +95,7 @@
 					} @else {
 						<div class="empty-state">
 							<mat-icon class="empty-icon">store</mat-icon>
-							<p>Search an address or use your location to find nearby stores</p>
+							<p>Enter an address or use your location to discover stores nearby</p>
 						</div>
 					}
 				</mat-tab>
@@ -121,7 +121,7 @@
 @if (pendingStore()) {
 	<div class="confirm-bar">
 		<button matButton="filled" class="confirm-btn" (click)="confirmStoreSelection()">
-			Set as my store
+			Confirm store
 		</button>
 	</div>
 }

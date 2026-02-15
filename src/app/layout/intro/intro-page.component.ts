@@ -27,35 +27,36 @@ export class IntroPageComponent {
 		{
 			number: 1,
 			image: 'assets/images/intro/1.jpg',
-			title: 'Select product',
+			title: 'Browse & add to cart',
 			description:
-				'Find the product you want to purchase and add it to your shopping cart. Click on the checkout button once the item is in your cart.',
+				'Find the perfect running shoes, add them to your cart, and head to checkout when you\'re ready.',
 		},
 		{
 			number: 2,
 			image: 'assets/images/intro/2.jpg',
-			title: 'Select your store',
+			title: 'Choose your store',
 			description:
-				'Whilst in the checkout you can choose the Collect in Store and choose the store you wish to collect your product in.',
+				'Select Click & Collect at checkout and pick the store most convenient for you.',
 		},
 		{
 			number: 3,
 			image: 'assets/images/intro/3.jpg',
-			title: 'Complete your order',
+			title: 'Complete payment',
 			description:
-				'Complete the payment form. You will receive a confirmation email after purchase when the store has processed the order to confirm that your product is ready for collection.',
+				'Pay securely online. We\'ll send you a confirmation email once your order is ready for pickup.',
 		},
 		{
 			number: 4,
 			image: 'assets/images/intro/4.jpg',
-			title: 'Collect Product',
-			description: 'Go to your local store and pick up your purchased product.',
+			title: 'Pick up in store',
+			description:
+				'Head to your chosen store with your ID and order number. Your items will be waiting for you.',
 		},
 		{
 			number: 5,
 			image: 'assets/images/intro/5.jpg',
-			title: 'Enjoy',
-			description: 'Enjoy your product.',
+			title: 'Hit the road',
+			description: 'Lace up and enjoy your new gear. See you on the track!',
 		},
 	];
 

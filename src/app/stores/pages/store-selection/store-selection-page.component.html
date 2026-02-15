@@ -1,7 +1,7 @@
 <div class="store-selector-page container-narrow">
 	<h1 class="page-title">Find a Store</h1>
 	<p class="page-subtitle">
-		Select your preferred store for Click & Collect and stock availability.
+		Choose your go-to store for in-store pickup and stock checks.
 	</p>
 
 	<!-- Tab navigation -->
@@ -33,8 +33,8 @@
 		} @else {
 			<div class="maps-unavailable">
 				<mat-icon class="unavailable-icon">map</mat-icon>
-				<h3>Maps is not available right now</h3>
-				<p>Google Maps could not be loaded. Please try again later or use the List View.</p>
+				<h3>Map unavailable</h3>
+				<p>We couldn't load the map right now. Try again later or browse stores in the list view.</p>
 				<button matButton="filled" (click)="activeView.set('list')">
 					Switch to List View
 				</button>
@@ -104,7 +104,7 @@
 			} @else {
 				<div class="empty-state">
 					<mat-icon class="empty-icon">store</mat-icon>
-					<p>No stores available</p>
+					<p>No stores available in your area</p>
 				</div>
 			}
 		}

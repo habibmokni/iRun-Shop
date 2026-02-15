@@ -66,13 +66,13 @@
 
 			<!-- Desktop summary -->
 			<aside class="summary">
-				<h2 class="summary-title">Order Summary</h2>
-				<div class="summary-line">
-					<span>Original price</span>
+			<h2 class="summary-title">Order Summary</h2>
+			<div class="summary-line">
+				<span>Subtotal</span>
 					<span class="original-total">{{ originalTotal() | number: '1.2-2' }}€</span>
 				</div>
-				<div class="summary-line savings-line">
-					<span>You save</span>
+			<div class="summary-line savings-line">
+				<span>Discount</span>
 					<span class="savings-value">-{{ savings() | number: '1.2-2' }}€</span>
 				</div>
 				<div class="summary-line">
@@ -105,7 +105,7 @@
 	<div class="empty-cart">
 		<mat-icon class="empty-icon">shopping_cart</mat-icon>
 		<h2>Your cart is empty</h2>
-		<p>Looks like you haven't added anything yet.</p>
-		<a matButton="filled" routerLink="/products"> Browse Products </a>
+		<p>Looks like you haven't added anything yet. Start exploring and find something you love.</p>
+		<a matButton="filled" routerLink="/products"> Explore Products </a>
 	</div>
 }

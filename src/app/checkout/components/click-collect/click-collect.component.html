@@ -3,7 +3,7 @@
 	<div class="cnc-step">
 		<div class="step-header">
 			<span class="step-number">1</span>
-			<h3 class="step-title">Select a Store</h3>
+			<h3 class="step-title">Choose your pickup store</h3>
 		</div>
 
 		@if (selectedStore(); as myStore) {
@@ -50,7 +50,7 @@
 						(storeSelect)="onSelectStore($event)"
 					/>
 				} @empty {
-					<p class="empty-msg">No stores available.</p>
+					<p class="empty-msg">No stores available in your area.</p>
 				}
 			</div>
 		}
@@ -62,8 +62,8 @@
 			<div class="unavailable-header-row">
 				<mat-icon class="warning-icon">warning</mat-icon>
 				<div class="unavailable-text">
-					<strong>{{ unavailableProducts().length }} item(s) not available at this store</strong>
-					<span>Remove them or select a different store to continue.</span>
+					<strong>{{ unavailableProducts().length }} {{ unavailableProducts().length === 1 ? 'item' : 'items' }} unavailable at this store</strong>
+					<span>Remove {{ unavailableProducts().length === 1 ? 'it' : 'them' }} or try a different store.</span>
 				</div>
 			</div>
 			<div class="unavailable-items-list">
@@ -86,7 +86,7 @@
 			type="button"
 			(click)="removeUnavailable()"
 		>
-				Remove Items
+				Remove unavailable
 			</button>
 		</div>
 	}
@@ -96,7 +96,7 @@
 		<div class="cnc-step">
 			<div class="step-header">
 				<span class="step-number">2</span>
-				<h3 class="step-title">Pick a Date & Time</h3>
+				<h3 class="step-title">Schedule your pickup</h3>
 			</div>
 
 			<div class="datetime-row">

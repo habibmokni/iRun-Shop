@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
 	selector: 'app-information-page',
@@ -6,6 +7,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 	styleUrls: ['./information-page.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [],
+	imports: [MatExpansionModule],
 })
 export class InformationPageComponent {}

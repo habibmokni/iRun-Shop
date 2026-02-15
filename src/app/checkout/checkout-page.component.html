@@ -18,7 +18,7 @@
 			(click)="goToStep(1)"
 		>
 			<span class="step-dot">@if (activeStep() > 1) { <mat-icon>check</mat-icon> } @else { 2 }</span>
-			<span class="step-label">Billing & Payment</span>
+			<span class="step-label">Payment</span>
 		</button>
 		<span class="step-line" [class.done]="activeStep() > 1"></span>
 		<button
@@ -28,7 +28,7 @@
 			(click)="goToStep(2)"
 		>
 			<span class="step-dot">3</span>
-			<span class="step-label">Overview</span>
+			<span class="step-label">Review</span>
 		</button>
 	</nav>
 
@@ -49,7 +49,7 @@
 						>
 							<mat-icon class="delivery-option-icon" fontSet="material-icons-outlined">shopping_bag</mat-icon>
 							<span class="delivery-option-label">Click & Collect</span>
-							<span class="delivery-option-desc">Pick up in store</span>
+							<span class="delivery-option-desc">Pick up at your nearest store</span>
 						</button>
 						<button
 							type="button"
@@ -59,7 +59,7 @@
 						>
 							<mat-icon class="delivery-option-icon" fontSet="material-icons-outlined">local_shipping</mat-icon>
 							<span class="delivery-option-label">Home Delivery</span>
-							<span class="delivery-option-desc">Shipped to your door</span>
+							<span class="delivery-option-desc">Delivered straight to your door</span>
 						</button>
 					</div>
 
@@ -83,12 +83,11 @@
 								} @else {
 									<div class="unavailable-section">
 										<div class="unavailable-header">
-											<h2>Not all items available</h2>
-											<h5>
-												Some items in your cart cannot be shipped with
-												this option. Please remove them or choose a
-												different delivery method.
-											</h5>
+									<h2>Some items are unavailable</h2>
+									<h5>
+										The following items can't be shipped to your address.
+										Remove them or switch to Click &amp; Collect.
+									</h5>
 										</div>
 										@for (
 											product of onlineStockCheck().unavailableItems;
@@ -118,7 +117,7 @@
 										type="button"
 										(click)="removeProductsUnavailable()"
 									>
-												Remove unavailable items
+												Remove unavailable
 											</button>
 										</div>
 									</div>
@@ -222,7 +221,7 @@
 					<div class="overview-section">
 						<h3 class="section-title">
 							<mat-icon class="section-icon">inventory_2</mat-icon>
-							Your Items
+							Items
 						</h3>
 						<div class="order-items">
 							@for (product of cartProducts(); track product.modelNo) {
@@ -314,10 +313,10 @@
 								<span class="info-value">{{ currentOrder.paymentOption }}</span>
 							</div>
 						</div>
-						<p class="redirect-note">
-							You will be redirected to {{ currentOrder.paymentOption }}
-							to confirm your purchase.
-						</p>
+					<p class="redirect-note">
+						You'll be redirected to {{ currentOrder.paymentOption }}
+						to complete your payment securely.
+					</p>
 					</div>
 
 					<!-- Totals -->
@@ -366,7 +365,7 @@
 
 		<!-- ═══ Sidebar: order summary (desktop) ═══ -->
 		<aside class="sidebar">
-			<h3 class="sidebar-title">Your Order</h3>
+			<h3 class="sidebar-title">Order Summary</h3>
 			<div class="sidebar-items">
 				@for (product of cartProducts(); track product.modelNo) {
 					<div class="sidebar-item">

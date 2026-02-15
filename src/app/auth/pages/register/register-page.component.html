@@ -1,5 +1,5 @@
 <div class="register-page">
-	<h2 class="register-title">Become a part of iRun</h2>
+	<h2 class="register-title">Create your account</h2>
 
 	<div class="register-card">
 		@if (!isLoading()) {
@@ -102,15 +102,15 @@
 						type="button"
 						(click)="onRegister()"
 					>
-						Register
-					</button>
-					<button
-						matButton="outlined"
-						type="button"
-						(click)="onCancel()"
-					>
-						Cancel
-					</button>
+					Create account
+				</button>
+				<button
+					matButton="outlined"
+					type="button"
+					(click)="onCancel()"
+				>
+					Cancel
+				</button>
 				</div>
 			</form>
 		} @else {
@@ -120,7 +120,7 @@
 		}
 
 		<p class="auth-link">
-			Already have an account? <a routerLink="/login">Login</a>
+			Already have an account? <a routerLink="/login">Sign in</a>
 		</p>
 	</div>
 </div>

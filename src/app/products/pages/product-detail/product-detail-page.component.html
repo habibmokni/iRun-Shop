@@ -136,9 +136,9 @@
 					<div class="availability-left">
 						<mat-icon class="availability-icon">room</mat-icon>
 						<div class="availability-text">
-							<span class="availability-title">Check availability</span>
+							<span class="availability-title">Check store availability</span>
 							<span class="availability-hint"
-								>Find this product in a store near you</span
+								>See which stores near you have this item</span
 							>
 						</div>
 					</div>
@@ -149,15 +149,15 @@
 				<div class="perks">
 					<div class="perk-card">
 						<mat-icon class="perk-icon">local_shipping</mat-icon>
-						<span class="perk-text">Free delivery from 80€</span>
+						<span class="perk-text">Free shipping over 80&euro;</span>
 					</div>
 					<div class="perk-card">
 						<mat-icon class="perk-icon">store</mat-icon>
-						<span class="perk-text">Free store pickup</span>
+						<span class="perk-text">Free Click &amp; Collect</span>
 					</div>
 					<div class="perk-card">
 						<mat-icon class="perk-icon">replay</mat-icon>
-						<span class="perk-text">Free returns</span>
+						<span class="perk-text">30-day returns</span>
 					</div>
 				</div>
 
@@ -171,7 +171,7 @@
 							@if (product.description) {
 								<p>{{ product.description }}</p>
 							} @else {
-								<p>No description available.</p>
+								<p>No description available for this product yet.</p>
 							}
 						</div>
 					</mat-expansion-panel>
@@ -190,7 +190,7 @@
 							}
 						</mat-expansion-panel-header>
 						<div class="accordion-content">
-							<p>Customer reviews coming soon.</p>
+							<p>Be the first to review this product.</p>
 						</div>
 					</mat-expansion-panel>
 				</mat-accordion>

@@ -1,9 +1,9 @@
 @if (!isLoggedIn()) {
 	<div class="empty-state container-narrow">
 		<mat-icon class="empty-icon">person_outline</mat-icon>
-		<h2>Please log in</h2>
-		<p>Log in to view your account details, wishlist, and orders.</p>
-		<a matButton="filled" routerLink="/login">Log in</a>
+		<h2>Sign in to your account</h2>
+		<p>Access your profile, wishlist, and order history.</p>
+		<a matButton="filled" routerLink="/login">Sign in</a>
 	</div>
 } @else {
 	<div class="profile-page container-narrow">
@@ -23,8 +23,8 @@
 			class="logout-btn"
 			(click)="logout()"
 		>
-				<mat-icon>logout</mat-icon>
-				Log out
+			<mat-icon>logout</mat-icon>
+			Sign out
 			</button>
 		</div>
 
@@ -36,7 +36,7 @@
 				(click)="activeTab.set('info')"
 			>
 				<mat-icon>person</mat-icon>
-				Info
+				Profile
 			</button>
 			<button
 				class="tab"
@@ -106,7 +106,7 @@
 				</div>
 
 				<div class="info-section">
-					<h2 class="section-title">My Store</h2>
+					<h2 class="section-title">Favorite Store</h2>
 					@if (favoriteStore()) {
 						<div class="store-card">
 							<mat-icon class="store-icon">store</mat-icon>
@@ -123,8 +123,8 @@
 						<div class="store-card store-card--empty">
 							<mat-icon class="store-icon">store</mat-icon>
 							<div class="store-details">
-								<span class="store-name">No store selected</span>
-								<span class="store-address">Select a store for stock availability and click &amp; collect</span>
+								<span class="store-name">No store selected yet</span>
+								<span class="store-address">Pick a store to check stock and use Click &amp; Collect</span>
 							</div>
 							<a class="change-store-link" routerLink="/storeselector">
 								Select
@@ -167,8 +167,8 @@
 				} @else {
 					<div class="tab-empty">
 						<mat-icon class="tab-empty-icon">favorite_border</mat-icon>
-						<p>Your wishlist is empty</p>
-						<a matButton="filled" routerLink="/products">Browse products</a>
+						<p>Your wishlist is empty. Save items you love and come back to them anytime.</p>
+						<a matButton="filled" routerLink="/products">Explore products</a>
 					</div>
 				}
 			}
@@ -228,7 +228,7 @@
 				} @else {
 					<div class="tab-empty">
 						<mat-icon class="tab-empty-icon">receipt_long</mat-icon>
-						<p>No orders yet</p>
+						<p>You haven't placed any orders yet. Your order history will show up here.</p>
 						<a matButton="filled" routerLink="/products">Start shopping</a>
 					</div>
 				}

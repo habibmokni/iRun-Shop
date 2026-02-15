@@ -19,13 +19,13 @@
 					<p>{{ store.address }}</p>
 					<div class="info-actions">
 					<button matButton="filled" (click)="onSelectStore(store)">
-						Select
+						Choose store
 					</button>
 					<button
 						matButton="outlined"
 						(click)="onGetDirections(store.location)"
 					>
-						Directions
+						Get directions
 					</button>
 					</div>
 				}
@@ -38,6 +38,6 @@
 	</google-map>
 
 	<button matButton="filled" class="nearby-btn" (click)="onGetCurrentLocation()">
-		Stores Nearby
+		Find nearby stores
 	</button>
 </div>
