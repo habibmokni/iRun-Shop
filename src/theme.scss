@@ -1,85 +1,194 @@
 @use '@angular/material' as mat;
 
-/* ── Custom palette generated from Material Theme Builder (seed #C32E7E) ── */
-$irun-palette: (
+/* ══════════════════════════════════════════════════════════════
+   iRun Track Theme
+   ─────────────────
+   Light → Track red / clay (seed #C7462E) – daytime, warmth, speed
+   Dark  → Track blue (seed #2F6EDC)       – night runs, calm, tech
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Red / Clay palette (light mode) ── */
+$track-red: (
 	0: #000000,
-	10: #3d0023,
-	20: #63003b,
-	25: #770048,
-	30: #8c0055,
-	35: #a00563,
-	40: #b01c6f,
-	50: #d13a89,
-	60: #f255a4,
-	70: #ff82ba,
-	80: #ffb0cf,
-	90: #ffd9e5,
-	95: #ffecf1,
-	98: #fff8f8,
+	10: #3f0400,
+	20: #5e1607,
+	25: #701f0d,
+	30: #832812,
+	35: #963218,
+	40: #a93c1e,
+	50: #c7462e,
+	60: #e6654a,
+	70: #ff8a70,
+	80: #ffb4a6,
+	90: #ffdad2,
+	95: #ffede9,
+	98: #fff8f6,
 	99: #fffbff,
 	100: #ffffff,
 	secondary: (
 		0: #000000,
-		10: #311020,
-		20: #4a2435,
-		25: #572f40,
-		30: #633a4b,
-		35: #704657,
-		40: #7e5163,
-		50: #99697c,
-		60: #b58296,
-		70: #d29cb0,
-		80: #efb7cc,
-		90: #ffd9e5,
-		95: #ffecf1,
-		98: #fff8f8,
+		10: #2c1510,
+		20: #442924,
+		25: #50342e,
+		30: #5d3f39,
+		35: #6a4b44,
+		40: #77574f,
+		50: #926f67,
+		60: #ae8980,
+		70: #cba39a,
+		80: #e9beb5,
+		90: #ffdad2,
+		95: #ffede9,
+		98: #fff8f6,
 		99: #fffbff,
 		100: #ffffff,
 	),
 	neutral: (
 		0: #000000,
-		10: #201a1c,
-		20: #352f31,
-		25: #403a3b,
-		30: #4c4547,
-		35: #585152,
-		40: #645c5e,
-		50: #7d7577,
-		60: #988e90,
-		70: #b3a9ab,
-		80: #cfc4c6,
-		90: #ebe0e2,
-		95: #faeef0,
-		98: #fff8f8,
+		10: #231917,
+		20: #392e2c,
+		25: #443937,
+		30: #504442,
+		35: #5c504e,
+		40: #695c59,
+		50: #827471,
+		60: #9d8e8b,
+		70: #b8a9a5,
+		80: #d4c4c0,
+		90: #f1dfdc,
+		95: #ffede9,
+		98: #fff8f6,
 		99: #fffbff,
 		100: #ffffff,
-		4: #120d0e,
-		6: #171213,
-		12: #241e1f,
-		17: #2f2829,
-		22: #3a3334,
-		24: #3e3738,
-		87: #e3d7d8,
-		92: #f1e5e6,
-		94: #f7ebec,
-		96: #fdf1f2,
+		4: #140c0a,
+		6: #1a110f,
+		12: #271d1b,
+		17: #322725,
+		22: #3d3230,
+		24: #413634,
+		87: #e8d6d2,
+		92: #f6e4e0,
+		94: #fce9e6,
+		96: #fff0ed,
 	),
 	neutral-variant: (
 		0: #000000,
-		10: #23191c,
-		20: #392d31,
-		25: #45383c,
-		30: #514348,
-		35: #5d4f53,
-		40: #695b5f,
-		50: #837378,
-		60: #9d8c91,
-		70: #b9a7ac,
-		80: #d5c2c7,
-		90: #f1dee3,
-		95: #ffecf1,
-		98: #fff8f8,
+		10: #251917,
+		20: #3b2d2a,
+		25: #473835,
+		30: #534340,
+		35: #5f4f4c,
+		40: #6c5b57,
+		50: #85736e,
+		60: #a08d88,
+		70: #bca7a2,
+		80: #d8c2bc,
+		90: #f5ded9,
+		95: #ffede9,
+		98: #fff8f6,
 		99: #fffbff,
+		100: #ffffff,
+	),
+	error: (
+		0: #000000,
+		10: #410002,
+		20: #690005,
+		25: #7e0007,
+		30: #93000a,
+		35: #a80710,
+		40: #ba1a1a,
+		50: #de3730,
+		60: #ff5449,
+		70: #ff897d,
+		80: #ffb4ab,
+		90: #ffdad6,
+		95: #ffedea,
+		98: #fff8f7,
+		99: #fffbff,
+		100: #ffffff,
+	),
+);
+
+/* ── Blue palette (dark mode) ── */
+$track-blue: (
+	0: #000000,
+	10: #001b3d,
+	20: #003062,
+	25: #003c78,
+	30: #00468a,
+	35: #0e529a,
+	40: #2660ab,
+	50: #4479c6,
+	60: #6093e1,
+	70: #7eadfd,
+	80: #a9c7ff,
+	90: #d8e2ff,
+	95: #edf0ff,
+	98: #f9f9ff,
+	99: #fefbff,
+	100: #ffffff,
+	secondary: (
+		0: #000000,
+		10: #121c32,
+		20: #22304c,
+		25: #2d3b57,
+		30: #3a4663,
+		35: #45526f,
+		40: #525e7c,
+		50: #6b7796,
+		60: #8491b1,
+		70: #9faccc,
+		80: #b9c7e6,
+		90: #d8e2ff,
+		95: #edf0ff,
+		98: #f9f9ff,
+		99: #fefbff,
+		100: #ffffff,
+	),
+	neutral: (
+		0: #000000,
+		10: #1a1c22,
+		20: #2f3038,
+		25: #3a3b43,
+		30: #46474e,
+		35: #51525a,
+		40: #5d5e66,
+		50: #76777f,
+		60: #909099,
+		70: #ababb4,
+		80: #c6c6cf,
+		90: #e3e1ec,
+		95: #f1effa,
+		98: #faf8ff,
+		99: #fefbff,
+		100: #ffffff,
+		4: #0d0e14,
+		6: #121319,
+		12: #1e2026,
+		17: #292a30,
+		22: #34353b,
+		24: #38393f,
+		87: #dad9e3,
+		92: #e8e7f1,
+		94: #eeecf7,
+		96: #f4f3fd,
+	),
+	neutral-variant: (
+		0: #000000,
+		10: #1b1c23,
+		20: #303139,
+		25: #3b3c44,
+		30: #414753,
+		35: #52535b,
+		40: #5e5f67,
+		50: #777880,
+		60: #8b919e,
+		70: #a6acb8,
+		80: #c1c7d4,
+		90: #dde3f0,
+		95: #ecf1ff,
+		98: #f9f9ff,
+		99: #fefbff,
 		100: #ffffff,
 	),
 	error: (
@@ -109,24 +218,24 @@ $typography: (
 );
 $density: (scale: 0);
 
-/* ── Light theme ── */
+/* ── Light theme (track red) ── */
 $light-config: (
-	color: (primary: $irun-palette, theme-type: light),
+	color: (primary: $track-red, theme-type: light),
 	typography: $typography,
 	density: $density,
 );
 $light-theme: mat.define-theme($light-config);
 
-/* ── Dark theme ── */
+/* ── Dark theme (track blue) ── */
 $dark-config: (
-	color: (primary: $irun-palette, theme-type: dark),
+	color: (primary: $track-blue, theme-type: dark),
 	typography: $typography,
 	density: $density,
 );
 $dark-theme: mat.define-theme($dark-config);
 
 /* ══════════════════════════════════════
-   Light mode (default)
+   Light mode (default) – Track Red / Clay
    ══════════════════════════════════════ */
 html,
 html.light-theme {
@@ -134,42 +243,112 @@ html.light-theme {
 	@include mat.all-component-themes($light-theme);
 	@include mat.typography-hierarchy($light-theme);
 
-	/* Clean white/neutral surfaces */
 	@include mat.theme-overrides(
 		(
-			surface: #ffffff,
-			surface-dim: #f0f0f0,
-			surface-bright: #ffffff,
+			/* Primary */
+			primary: #c7462e,
+			on-primary: #ffffff,
+			primary-container: #ffdad2,
+			on-primary-container: #3f0400,
+
+			/* Secondary */
+			secondary: #77574f,
+			on-secondary: #ffffff,
+			secondary-container: #ffdad2,
+			on-secondary-container: #2c1510,
+
+			/* Tertiary */
+			tertiary: #6d5e2f,
+			on-tertiary: #ffffff,
+			tertiary-container: #f6e2a7,
+			on-tertiary-container: #211b00,
+
+			/* Surface */
+			surface: #fff8f6,
+			on-surface: #231917,
+			surface-dim: #ebe0dd,
+			surface-bright: #fff8f6,
 			surface-container-lowest: #ffffff,
-			surface-container-low: #f7f7f7,
-			surface-container: #f2f2f2,
-			surface-container-high: #ececec,
-			surface-container-highest: #e6e6e6,
+			surface-container-low: #fff1ed,
+			surface-container: #feeae6,
+			surface-container-high: #f8e4e0,
+			surface-container-highest: #f2dfdb,
+			surface-variant: #f5ded9,
+			on-surface-variant: #53433f,
+			inverse-surface: #392e2c,
+			inverse-on-surface: #ffede9,
+
+			/* Outline */
+			outline: #85736e,
+			outline-variant: #d8c2bc,
+
+			/* Error */
+			error: #ba1a1a,
+			on-error: #ffffff,
+			error-container: #ffdad6,
+			on-error-container: #410002,
 		)
 	);
 }
 
 /* ══════════════════════════════════════
-   Dark mode
+   Dark mode – Track Blue
    ══════════════════════════════════════ */
 html.dark-theme {
 	@include mat.theme($dark-config);
 	@include mat.all-component-themes($dark-theme);
 
-	/* Clean dark surfaces */
 	@include mat.theme-overrides(
 		(
-			surface: #141218,
-			surface-dim: #141218,
-			surface-bright: #3b3840,
-			surface-container-lowest: #0f0d12,
-			surface-container-low: #1d1b20,
-			surface-container: #211f26,
-			surface-container-high: #2b2930,
-			surface-container-highest: #36343b,
+			/* Primary */
+			primary: #a9c7ff,
+			on-primary: #003062,
+			primary-container: #00468a,
+			on-primary-container: #d8e2ff,
+
+			/* Secondary */
+			secondary: #b9c7e6,
+			on-secondary: #22304c,
+			secondary-container: #3a4663,
+			on-secondary-container: #d8e2ff,
+
+			/* Tertiary */
+			tertiary: #9ed0e0,
+			on-tertiary: #003640,
+			tertiary-container: #1f4d58,
+			on-tertiary-container: #baebf8,
+
+			/* Surface */
+			surface: #0f1722,
+			on-surface: #e3e9f2,
+			surface-dim: #0f1722,
+			surface-bright: #353b47,
+			surface-container-lowest: #0a121c,
+			surface-container-low: #171f2a,
+			surface-container: #1b2330,
+			surface-container-high: #262e3a,
+			surface-container-highest: #313945,
+			surface-variant: #414753,
+			on-surface-variant: #c1c7d4,
+			inverse-surface: #e3e9f2,
+			inverse-on-surface: #2c3340,
+
+			/* Outline */
+			outline: #8b919e,
+			outline-variant: #414753,
+
+			/* Error */
+			error: #ffb4ab,
+			on-error: #690005,
+			error-container: #93000a,
+			on-error-container: #ffdad6,
 		)
 	);
 }
+
+/* ══════════════════════════════════════
+   Component-level overrides
+   ══════════════════════════════════════ */
 
 /* Size-selector dropdown panel */
 .size-select-panel {
@@ -196,11 +375,10 @@ html.dark-theme {
 	}
 
 	.low-stock {
-		color: #e67e22;
+		color: var(--mat-sys-tertiary);
 	}
 
 	.sold-out {
-		color: rgba(0, 0, 0, 0.35);
+		color: var(--mat-sys-on-surface-variant);
 	}
 }
-
