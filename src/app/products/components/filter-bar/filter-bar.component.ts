@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, computed, signal, input, output } from '@angular/core';
-import { filter } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
 
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -49,6 +51,13 @@ function priceMatchesRange(price: number, range: string): boolean {
 })
 export class FilterBarComponent {
 	private readonly bottomSheet = inject(MatBottomSheet);
+	private readonly route = inject(ActivatedRoute);
+
+	/** Search query from the URL (?q=...). */
+	private readonly searchQuery = toSignal(
+		this.route.queryParams.pipe(map((params) => (params['q'] ?? '').trim().toLowerCase())),
+		{ initialValue: '' },
+	);
 
 	/** All products (unfiltered) from the parent. */
 	readonly products = input.required<readonly Product[]>();
@@ -132,6 +141,19 @@ export class FilterBarComponent {
 	/** The filtered + sorted result. */
 	readonly displayedProducts = computed(() => {
 		let list = [...this.products()];
+
+		// ── Text search from URL query param ──
+		const query = this.searchQuery();
+		if (query) {
+			list = list.filter(
+				(p) =>
+					(p.name ?? '').toLowerCase().includes(query) ||
+					(p.companyName ?? '').toLowerCase().includes(query) ||
+					(p.modelNo ?? '').toLowerCase().includes(query) ||
+					(p.category ?? []).some((c) => c.toLowerCase().includes(query)) ||
+					(p.description ?? '').toLowerCase().includes(query),
+			);
+		}
 
 		const brands = this.activeBrands();
 		if (brands.size > 0) {

@@ -110,16 +110,30 @@ router-outlet + * {
 	padding: 0;
 }
 
-/* ── Fullscreen dialog (store availability) ── */
+/* ── Store availability dialog ── */
 .store-availability-dialog .mat-mdc-dialog-surface {
 	background: var(--mat-sys-surface, #fff);
-	border-radius: 0;
 	padding: 0;
-	overflow: hidden;
 }
 
 .store-availability-dialog .mat-mdc-dialog-container {
 	padding: 0;
+}
+
+/* Fullscreen on mobile, rounded modal on desktop */
+@media (max-width: 599px) {
+	.store-availability-dialog .mat-mdc-dialog-surface {
+		border-radius: 0;
+	}
+}
+
+@media (min-width: 600px) {
+	.store-availability-dialog .mat-mdc-dialog-surface {
+		border-radius: 16px;
+		max-height: 85vh;
+		display: flex;
+		flex-direction: column;
+	}
 }
 
 /* ── User menu panel ── */

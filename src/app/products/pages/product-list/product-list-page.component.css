@@ -25,8 +25,14 @@
 
 /* ── Product grid ── */
 .products-section {
-	padding-top: 70px;
+	padding-top: 90px;
 	padding-bottom: 3rem;
+}
+
+@media (max-width: 599px) {
+	.products-section {
+		padding-top: 70px;
+	}
 }
 
 .product-grid {

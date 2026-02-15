@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
@@ -40,9 +40,32 @@ export class HeaderComponent {
 	protected readonly cartCount = this.cartService.count;
 	protected readonly wishlistCount = computed(() => this.userService.wishlist().size);
 
+	protected readonly searchQuery = signal('');
+	protected readonly mobileSearchOpen = signal(false);
+
 	protected async onLogout(): Promise<void> {
 		await this.authService.logout();
 		this.router.navigate(['/home']);
 		this.snackbar.success('Logged out');
+	}
+
+	protected onSearchInput(event: Event): void {
+		this.searchQuery.set((event.target as HTMLInputElement).value);
+	}
+
+	protected onSearch(): void {
+		const query = this.searchQuery().trim();
+		if (query) {
+			this.router.navigate(['/products'], { queryParams: { q: query } });
+		}
+	}
+
+	protected clearSearch(): void {
+		this.searchQuery.set('');
+		this.router.navigate(['/products']);
+	}
+
+	protected toggleMobileSearch(): void {
+		this.mobileSearchOpen.update((v) => !v);
 	}
 }

@@ -198,6 +198,8 @@ export class ProductDetailPageComponent {
 		const product = this.product();
 		if (!product) return;
 
+		const isMobile = window.innerWidth < 600;
+
 		this.dialog.open(StoreAvailabilityComponent, {
 			data: {
 				call: 'product',
@@ -206,10 +208,10 @@ export class ProductDetailPageComponent {
 				sizes: product.variants?.[0]?.sizes ?? [],
 			} satisfies StoreAvailabilityDialogData,
 			panelClass: 'store-availability-dialog',
-			maxWidth: '100vw',
-			maxHeight: '100vh',
-			width: '100vw',
-			height: '100vh',
+			maxWidth: isMobile ? '100vw' : '560px',
+			maxHeight: isMobile ? '100vh' : '85vh',
+			width: isMobile ? '100vw' : '560px',
+			height: isMobile ? '100vh' : 'auto',
 		});
 	}
 
