@@ -1,40 +1,28 @@
 @if (!isLoading()) {
-	<!-- Brand filter chips -->
-	<section class="filter-section">
-		<div class="filter-inner container">
-		<mat-chip-set aria-label="Brand filter">
-			<mat-chip
-				[highlighted]="activeTabIndex() === 0"
-				(click)="onTabChange(0)"
-			>
-				All
-			</mat-chip>
-			@for (brand of brands(); track brand; let i = $index) {
-				<mat-chip
-					[highlighted]="activeTabIndex() === i + 1"
-					(click)="onTabChange(i + 1)"
-				>
-					{{ brand }}
-				</mat-chip>
-			}
-		</mat-chip-set>
-		</div>
-	</section>
+	<!-- Filter bar -->
+	<app-filter-bar [products]="products()" />
 
 	<!-- Product grid -->
 	<section class="products-section container">
-		<div class="product-grid">
-			@for (product of displayedProducts(); track product.modelNo) {
-				<app-product-card [product]="product" [showCategory]="true" />
-			}
-		</div>
+		@if (displayedProducts().length > 0) {
+			<div class="product-grid">
+				@for (product of displayedProducts(); track product.modelNo) {
+					<app-product-card [product]="product" [showCategory]="true" />
+				}
+			</div>
+		} @else {
+			<div class="empty-state">
+				<mat-icon class="empty-icon">search_off</mat-icon>
+				<p>No products match your filters</p>
+			</div>
+		}
 	</section>
 } @else {
 	<!-- Skeleton filter chips -->
 	<section class="filter-section">
 		<div class="filter-inner container">
 			<div class="skeleton-chips">
-				@for (i of [1, 2, 3, 4]; track i) {
+				@for (i of [1, 2, 3, 4, 5, 6]; track i) {
 					<div class="skeleton skeleton-chip"></div>
 				}
 			</div>

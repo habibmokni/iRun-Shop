@@ -1,11 +1,13 @@
-import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { Product } from '../../types/product.types';
 import { ProductService } from '../../services/product.service';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
+import { FilterBarComponent } from '../../components/filter-bar/filter-bar.component';
 
 @Component({
 	selector: 'app-product-list-page',
@@ -13,38 +15,21 @@ import { ProductCardComponent } from '../../components/product-card/product-card
 	styleUrls: ['./product-list-page.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [
-		MatChipsModule,
-		ProductCardComponent,
-	],
+	imports: [MatIconModule, MatButtonModule, ProductCardComponent, FilterBarComponent],
 })
 export class ProductListPageComponent {
 	private readonly productService = inject(ProductService);
 
-	private readonly products = toSignal(this.productService.productList, {
+	protected readonly products = toSignal(this.productService.productList, {
 		initialValue: [] as Product[],
 	});
 
 	protected readonly isLoading = computed(() => this.products().length === 0);
 
-	protected readonly brands = computed(() => {
-		const names = this.products()
-			.map((product) => product.companyName ?? '')
-			.filter((name) => name.length > 0);
-		return [...new Set(names)].sort();
-	});
+	/** Read the filtered product list from the filter bar child. */
+	private readonly filterBar = viewChild(FilterBarComponent);
 
-	protected readonly activeTabIndex = signal(0);
-
-	protected readonly displayedProducts = computed(() => {
-		const index = this.activeTabIndex();
-		const allProducts = this.products();
-		if (index === 0) return allProducts;
-		const brand = this.brands()[index - 1];
-		return allProducts.filter((product) => product.companyName === brand);
-	});
-
-	protected onTabChange(index: number): void {
-		this.activeTabIndex.set(index);
-	}
+	protected readonly displayedProducts = computed(() =>
+		this.filterBar()?.displayedProducts() ?? this.products(),
+	);
 }

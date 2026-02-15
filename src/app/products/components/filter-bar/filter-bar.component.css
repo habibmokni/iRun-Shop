@@ -1,0 +1,71 @@
+:host {
+	display: block;
+	position: sticky;
+	top: 0;
+	z-index: 40;
+	background: var(--mat-sys-surface, #fff);
+	border-bottom: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+	padding: 10px 24px;
+}
+
+/* ── Single-row scrollable chip bar ── */
+.filter-bar {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	max-width: 1280px;
+	margin: 0 auto;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+}
+
+.filter-bar::-webkit-scrollbar {
+	display: none;
+}
+
+/* Force the mat-chip-set to NOT wrap */
+.filter-bar mat-chip-set {
+	flex-shrink: 0;
+}
+
+/* Override the internal chip-set flex container to be nowrap */
+:host ::ng-deep .filter-bar .mdc-evolution-chip-set__chips {
+	flex-wrap: nowrap !important;
+}
+
+.filter-bar mat-chip {
+	cursor: pointer;
+	flex-shrink: 0;
+	white-space: nowrap;
+}
+
+/* ── Clear button ── */
+.clear-btn {
+	flex-shrink: 0;
+	width: 32px;
+	height: 32px;
+}
+
+.clear-btn mat-icon {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+
+/* ── Result count ── */
+.result-count {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 6px 0 0;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--mat-sys-on-surface-variant);
+	font-family: 'Roboto', sans-serif;
+}
+
+@media (max-width: 599px) {
+	:host {
+		padding: 10px 16px;
+	}
+}

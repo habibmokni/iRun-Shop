@@ -1,0 +1,69 @@
+<div class="filter-bar">
+	<mat-chip-set aria-label="Filters">
+		<!-- Sort -->
+		<mat-chip [matMenuTriggerFor]="sortMenu">
+			<mat-icon matChipAvatar>swap_vert</mat-icon>
+			{{ sortLabel() }}
+			<mat-icon matChipTrailingIcon>arrow_drop_down</mat-icon>
+		</mat-chip>
+
+		<!-- Brand -->
+		<mat-chip [highlighted]="activeBrands().size > 0" (click)="openBrandFilter()">
+			{{ brandLabel() }}
+			<mat-icon matChipTrailingIcon>arrow_drop_down</mat-icon>
+		</mat-chip>
+
+		<!-- Category -->
+		<mat-chip [highlighted]="activeCategories().size > 0" (click)="openCategoryFilter()">
+			{{ categoryLabel() }}
+			<mat-icon matChipTrailingIcon>arrow_drop_down</mat-icon>
+		</mat-chip>
+
+		<!-- Size -->
+		<mat-chip [highlighted]="activeSizes().size > 0" (click)="openSizeFilter()">
+			{{ sizeLabel() }}
+			<mat-icon matChipTrailingIcon>arrow_drop_down</mat-icon>
+		</mat-chip>
+
+		<!-- Price -->
+		<mat-chip [highlighted]="activePriceRanges().size > 0" (click)="openPriceFilter()">
+			{{ priceLabel() }}
+			<mat-icon matChipTrailingIcon>arrow_drop_down</mat-icon>
+		</mat-chip>
+
+		<!-- On Sale toggle -->
+		<mat-chip [highlighted]="onSaleOnly()" (click)="toggleOnSale()">
+			On Sale
+		</mat-chip>
+
+		<!-- 4+ Stars toggle -->
+		<mat-chip [highlighted]="highRatedOnly()" (click)="toggleHighRated()">
+			4+ ★
+		</mat-chip>
+	</mat-chip-set>
+
+	@if (hasActiveFilters()) {
+		<button mat-icon-button (click)="clearAll()" class="clear-btn" aria-label="Clear all filters">
+			<mat-icon>close</mat-icon>
+		</button>
+	}
+</div>
+
+<mat-menu #sortMenu="matMenu" class="user-menu-panel">
+	@for (option of sortOptions; track option) {
+		<button mat-menu-item (click)="setSort(option)">
+			@if (sortBy() === option) {
+				<mat-icon>check</mat-icon>
+			} @else {
+				<mat-icon></mat-icon>
+			}
+			{{ SORT_LABELS[option] }}
+		</button>
+	}
+</mat-menu>
+
+@if (hasActiveFilters()) {
+	<div class="result-count">
+		{{ resultCount() }} {{ resultCount() === 1 ? 'product' : 'products' }}
+	</div>
+}

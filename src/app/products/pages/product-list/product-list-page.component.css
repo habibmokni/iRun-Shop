@@ -1,25 +1,26 @@
-/* ── Brand filter chips (sticky) ── */
-.filter-section {
-	position: sticky;
-	top: 64px;
-	z-index: 40;
-	background: #fff;
-	border-bottom: 1px solid #f0f0f0;
-	padding: 12px 0;
+/* ── Empty state ── */
+.empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 4rem 1rem;
+	gap: 12px;
+	text-align: center;
 }
 
-.filter-inner {
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
-	scrollbar-width: none;
+.empty-icon {
+	font-size: 48px;
+	width: 48px;
+	height: 48px;
+	color: var(--mat-sys-outline-variant);
 }
 
-.filter-inner::-webkit-scrollbar {
-	display: none;
-}
-
-.filter-section mat-chip {
-	cursor: pointer;
+.empty-state p {
+	margin: 0;
+	font-size: 15px;
+	color: var(--mat-sys-on-surface-variant);
+	font-family: 'Roboto', sans-serif;
 }
 
 /* ── Product grid ── */
@@ -34,6 +35,24 @@
 }
 
 /* ── Skeleton Loading ── */
+.filter-section {
+	position: sticky;
+	top: 64px;
+	z-index: 40;
+	background: var(--mat-sys-surface, #fff);
+	border-bottom: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+	padding: 12px 0;
+}
+
+.filter-inner {
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.filter-inner::-webkit-scrollbar {
+	display: none;
+}
+
 @keyframes shimmer {
 	0% {
 		background-position: -400px 0;
@@ -117,7 +136,7 @@
 }
 
 .skeleton-chip {
-	width: 72px;
+	width: 80px;
 	height: 32px;
 	border-radius: 16px;
 }

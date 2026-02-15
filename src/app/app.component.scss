@@ -18,7 +18,13 @@
 }
 
 .main-content {
-	margin-top: 80px;
+	margin-top: 64px;
 	flex: 1;
 	overflow: visible;
+}
+
+@media (max-width: 599px) {
+	.main-content {
+		margin-top: 56px;
+	}
 }

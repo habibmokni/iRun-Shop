@@ -1,0 +1,32 @@
+<div class="sheet">
+	<div class="drag-handle"></div>
+
+	<div class="sheet-header">
+		<h3 class="sheet-title">{{ data.title }}</h3>
+		@if (selected().size > 0) {
+			<button mat-button (click)="clear()" class="clear-btn">Clear</button>
+		}
+	</div>
+
+	<div class="sheet-body">
+		<mat-chip-listbox multiple aria-label="Filter options">
+			@for (option of data.options; track option) {
+				<mat-chip-option
+					[selected]="isSelected(option)"
+					(selectionChange)="toggle(option)"
+				>
+					{{ option }}
+				</mat-chip-option>
+			}
+		</mat-chip-listbox>
+	</div>
+
+	<div class="sheet-footer">
+		<button matButton="filled" class="apply-btn" (click)="apply()">
+			Apply
+			@if (selected().size > 0) {
+				<span class="apply-count">({{ selected().size }})</span>
+			}
+		</button>
+	</div>
+</div>

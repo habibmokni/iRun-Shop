@@ -78,7 +78,6 @@ router-outlet + * {
 	color: #c62828 !important;
 }
 
-
 /* ── Layout containers ── */
 .container {
 	max-width: 1280px;
@@ -150,4 +149,10 @@ router-outlet + * {
 	width: 18px;
 	height: 18px;
 	margin-right: 8px;
+}
+
+/* ── Filter bottom sheet ── */
+.filter-sheet-panel {
+	border-radius: 16px 16px 0 0 !important;
+	max-height: 70vh !important;
 }
