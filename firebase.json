@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "irun-shop",
     "public": "dist/i-run-v21",
     "ignore": [
       "firebase.json",

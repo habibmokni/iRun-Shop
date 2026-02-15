@@ -2,7 +2,7 @@
 
 A modern running shoe e-commerce app built with Angular 21 and Angular Material 3. Features product browsing, Click & Collect checkout, store availability, wishlist, dark mode, and more.
 
-**Live:** [irun-9db14.web.app](https://irun-9db14.web.app) · **Repo:** [github.com/habibmokni/iRun-Shop](https://github.com/habibmokni/iRun-Shop)
+**Live:** [irun-shop.web.app](https://irun-shop.web.app) · **Repo:** [github.com/habibmokni/iRun-Shop](https://github.com/habibmokni/iRun-Shop)
 
 ## Tech Stack
 
