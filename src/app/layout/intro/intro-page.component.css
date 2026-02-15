@@ -12,8 +12,12 @@
 	width: 80px;
 }
 
+.arrow {
+	width: 64px;
+	height: 64px;
+}
+
 .arrow-offset {
-	width: 120px;
 	margin-right: 70px;
 }
 

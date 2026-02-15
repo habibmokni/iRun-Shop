@@ -11,13 +11,10 @@
 		/>
 	</div>
 	<div class="centered">
-		<img
-			class="arrow arrow-offset"
-			ngSrc="assets/images/arrow1.png"
-			alt=""
-			width="50"
-			height="50"
-		/>
+		<svg class="arrow arrow-offset" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+			<path d="M20 8 C20 35, 60 35, 60 62" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/>
+			<path d="M52 54 L60 62 L68 54" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+		</svg>
 	</div>
 
 	@for (step of steps; track step.number; let i = $index, last = $last) {
@@ -41,14 +38,19 @@
 
 		@if (!last) {
 			<div class="centered">
-				<img
-					class="arrow"
-					[class.arrow-offset]="i % 2 !== 0"
-					[ngSrc]="i % 2 === 0 ? 'assets/images/arrow2.png' : 'assets/images/arrow1.png'"
-					alt=""
-					width="50"
-					height="50"
-				/>
+				@if (i % 2 === 0) {
+					<!-- Arrow curving left-to-right -->
+					<svg class="arrow" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+						<path d="M60 8 C60 35, 20 35, 20 62" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/>
+						<path d="M12 54 L20 62 L28 54" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+					</svg>
+				} @else {
+					<!-- Arrow curving right-to-left -->
+					<svg class="arrow arrow-offset" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+						<path d="M20 8 C20 35, 60 35, 60 62" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/>
+						<path d="M52 54 L60 62 L68 54" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+					</svg>
+				}
 			</div>
 		}
 	}
