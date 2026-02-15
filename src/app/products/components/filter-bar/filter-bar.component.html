@@ -43,6 +43,7 @@
 	</mat-chip-set>
 
 	@if (hasActiveFilters()) {
+		<span class="result-count">{{ resultCount() }}</span>
 		<button mat-icon-button (click)="clearAll()" class="clear-btn" aria-label="Clear all filters">
 			<mat-icon>close</mat-icon>
 		</button>
@@ -61,9 +62,3 @@
 		</button>
 	}
 </mat-menu>
-
-@if (hasActiveFilters()) {
-	<div class="result-count">
-		{{ resultCount() }} {{ resultCount() === 1 ? 'product' : 'products' }}
-	</div>
-}

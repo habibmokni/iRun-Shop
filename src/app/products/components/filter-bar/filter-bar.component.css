@@ -43,6 +43,16 @@
 	white-space: nowrap;
 }
 
+/* ── Result count (inline pill) ── */
+.result-count {
+	flex-shrink: 0;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--mat-sys-on-surface-variant);
+	white-space: nowrap;
+	margin-left: 4px;
+}
+
 /* ── Clear button ── */
 .clear-btn {
 	flex-shrink: 0;
@@ -54,17 +64,6 @@
 	font-size: 18px;
 	width: 18px;
 	height: 18px;
-}
-
-/* ── Result count ── */
-.result-count {
-	max-width: 1280px;
-	margin: 0 auto;
-	padding: 6px 0 0;
-	font-size: 13px;
-	font-weight: 500;
-	color: var(--mat-sys-on-surface-variant);
-	font-family: 'Roboto', sans-serif;
 }
 
 @media (max-width: 599px) {
