@@ -10,54 +10,41 @@
 			priority
 		/>
 	</div>
-	<div class="centered">
-		<svg class="arrow arrow-offset" viewBox="0 0 80 80" fill="none" aria-hidden="true">
-			<path d="M20 8 C20 35, 60 35, 60 62" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/>
-			<path d="M52 54 L60 62 L68 54" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-		</svg>
-	</div>
 
-	@for (step of steps; track step.number; let i = $index, last = $last) {
-		<div class="step-image-container">
-			<h2 class="circle" [class.circle-left]="i % 2 === 0" [class.circle-right]="i % 2 !== 0">
-				{{ step.number }}
-			</h2>
-			<img
-				class="step-image"
-				[ngSrc]="step.image"
-				[alt]="step.title"
-				width="400"
-				height="300"
-			/>
-		</div>
+	<p class="intro-subtitle">How Click & Collect works</p>
 
-		<div class="step-description">
-			<h2>{{ step.title }}</h2>
-			<p>{{ step.description }}</p>
-		</div>
-
-		@if (!last) {
-			<div class="centered">
-				@if (i % 2 === 0) {
-					<!-- Arrow curving left-to-right -->
-					<svg class="arrow" viewBox="0 0 80 80" fill="none" aria-hidden="true">
-						<path d="M60 8 C60 35, 20 35, 20 62" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/>
-						<path d="M12 54 L20 62 L28 54" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-					</svg>
-				} @else {
-					<!-- Arrow curving right-to-left -->
-					<svg class="arrow arrow-offset" viewBox="0 0 80 80" fill="none" aria-hidden="true">
-						<path d="M20 8 C20 35, 60 35, 60 62" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 8"/>
-						<path d="M52 54 L60 62 L68 54" stroke="var(--mat-sys-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-					</svg>
-				}
+	<div class="steps">
+		@for (step of steps; track step.number; let i = $index, last = $last) {
+			<div class="step-card">
+				<div class="step-card-image">
+					<img
+						[ngSrc]="step.image"
+						[alt]="step.title"
+						width="400"
+						height="300"
+					/>
+					<span class="step-badge">{{ step.number }}</span>
+				</div>
+				<div class="step-card-body">
+					<h3 class="step-card-title">{{ step.title }}</h3>
+					<p class="step-card-desc">{{ step.description }}</p>
+				</div>
 			</div>
+
+			@if (!last) {
+				<div class="step-connector">
+					<svg class="connector-arrow" viewBox="0 0 24 40" fill="none" aria-hidden="true">
+						<path d="M12 0 V30" stroke="var(--mat-sys-primary)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 4"/>
+						<path d="M6 26 L12 34 L18 26" stroke="var(--mat-sys-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+					</svg>
+				</div>
+			}
 		}
-	}
+	</div>
 
 	<div class="centered">
 		<button matButton="filled" type="button" class="continue-btn" (click)="onContinue()">
-			Continue
+			Get Started
 		</button>
 	</div>
 </div>

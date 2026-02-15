@@ -466,6 +466,7 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 	}
 
 	.price-row {
+		flex-direction: row-reverse;
 		gap: 8px;
 	}
 
