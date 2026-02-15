@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
-import { NgOptimizedImage, DecimalPipe } from '@angular/common';
+import { NgOptimizedImage, DecimalPipe, TitleCasePipe } from '@angular/common';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -22,7 +22,7 @@ const VALID_TABS: ProfileTab[] = ['info', 'wishlist', 'orders'];
 	styleUrls: ['./profile-page.component.scss'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [NgOptimizedImage, RouterModule, MatButtonModule, MatIconModule, DecimalPipe],
+	imports: [NgOptimizedImage, RouterModule, MatButtonModule, MatIconModule, DecimalPipe, TitleCasePipe],
 })
 export class ProfilePageComponent {
 	private readonly userService = inject(UserService);

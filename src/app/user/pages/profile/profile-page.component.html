@@ -68,42 +68,71 @@
 			@if (activeTab() === 'info') {
 				<div class="info-section">
 					<h2 class="section-title">Personal Details</h2>
-					<div class="info-grid">
-						<div class="info-item">
-							<span class="info-label">First Name</span>
-							<span class="info-value">{{ user()?.firstName ?? '–' }}</span>
+					<div class="info-card">
+						<div class="info-row">
+							<mat-icon class="info-icon">person_outline</mat-icon>
+							<div class="info-content">
+								<span class="info-label">Full Name</span>
+								<span class="info-value">
+									{{ (user()?.firstName ?? '') + ' ' + (user()?.lastName ?? '') | titlecase }}
+								</span>
+							</div>
 						</div>
-						<div class="info-item">
-							<span class="info-label">Last Name</span>
-							<span class="info-value">{{ user()?.lastName ?? '–' }}</span>
+						<div class="info-divider"></div>
+						<div class="info-row">
+							<mat-icon class="info-icon">mail_outline</mat-icon>
+							<div class="info-content">
+								<span class="info-label">Email</span>
+								<span class="info-value">{{ user()?.email ?? '–' }}</span>
+							</div>
 						</div>
-						<div class="info-item">
-							<span class="info-label">Email</span>
-							<span class="info-value">{{ user()?.email ?? '–' }}</span>
+						<div class="info-divider"></div>
+						<div class="info-row">
+							<mat-icon class="info-icon">home_outlined</mat-icon>
+							<div class="info-content">
+								<span class="info-label">Address</span>
+								<span class="info-value">{{ user()?.address ?? '–' }}</span>
+							</div>
 						</div>
-						<div class="info-item">
-							<span class="info-label">Address</span>
-							<span class="info-value">{{ user()?.address ?? '–' }}</span>
-						</div>
-						<div class="info-item">
-							<span class="info-label">Zip Code</span>
-							<span class="info-value">{{ user()?.zipCode ?? '–' }}</span>
+						<div class="info-divider"></div>
+						<div class="info-row">
+							<mat-icon class="info-icon">pin_drop</mat-icon>
+							<div class="info-content">
+								<span class="info-label">Zip Code</span>
+								<span class="info-value">{{ user()?.zipCode ?? '–' }}</span>
+							</div>
 						</div>
 					</div>
 				</div>
 
-				@if (favoriteStore()) {
-					<div class="info-section">
-						<h2 class="section-title">Favorite Store</h2>
+				<div class="info-section">
+					<h2 class="section-title">My Store</h2>
+					@if (favoriteStore()) {
 						<div class="store-card">
 							<mat-icon class="store-icon">store</mat-icon>
 							<div class="store-details">
 								<span class="store-name">{{ favoriteStore()?.name }}</span>
 								<span class="store-address">{{ favoriteStore()?.address }}</span>
 							</div>
+							<a class="change-store-link" routerLink="/storeselector">
+								Change
+								<mat-icon class="change-store-chevron">chevron_right</mat-icon>
+							</a>
 						</div>
-					</div>
-				}
+					} @else {
+						<div class="store-card store-card--empty">
+							<mat-icon class="store-icon">store</mat-icon>
+							<div class="store-details">
+								<span class="store-name">No store selected</span>
+								<span class="store-address">Select a store for stock availability and click &amp; collect</span>
+							</div>
+							<a class="change-store-link" routerLink="/storeselector">
+								Select
+								<mat-icon class="change-store-chevron">chevron_right</mat-icon>
+							</a>
+						</div>
+					}
+				</div>
 			}
 
 			<!-- ── Wishlist tab ── -->

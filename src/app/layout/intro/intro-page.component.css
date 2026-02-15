@@ -1,5 +1,7 @@
 .intro-page {
 	padding: 24px 16px;
+	max-width: 500px;
+	margin: 0 auto;
 }
 
 .centered {
