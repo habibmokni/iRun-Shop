@@ -91,6 +91,51 @@
 	max-width: 360px;
 }
 
+/* ── Current store section ── */
+.current-store-section {
+	margin-bottom: 8px;
+}
+
+.section-label {
+	font-size: 13px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--mat-sys-on-surface-variant);
+	margin: 0 0 10px;
+}
+
+/* ── Change store toggle ── */
+.change-store-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	width: 100%;
+	padding: 12px;
+	margin-bottom: 16px;
+	border: 1.5px dashed var(--mat-sys-outline-variant);
+	border-radius: 10px;
+	background: none;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--mat-sys-primary);
+	cursor: pointer;
+	font-family: inherit;
+	transition: background 0.15s, border-color 0.15s;
+}
+
+.change-store-toggle:hover {
+	background: var(--mat-sys-surface-container-low);
+	border-color: var(--mat-sys-primary);
+}
+
+.change-store-toggle mat-icon {
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+}
+
 /* ── Search bar ── */
 .search-bar {
 	display: flex;

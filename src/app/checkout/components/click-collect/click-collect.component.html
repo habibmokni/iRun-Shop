@@ -6,19 +6,54 @@
 			<h3 class="step-title">Select a Store</h3>
 		</div>
 
-		<div class="store-list">
-			@for (store of stores(); track store.id) {
+		@if (selectedStore(); as myStore) {
+			<!-- Current selected store shown prominently -->
+			<div class="current-store-section">
+				<span class="store-section-label">Your Store</span>
 				<app-store-card
-					[store]="store"
-					[selected]="selectedStore()?.id === store.id"
-					[distance]="distanceMap()[store.id]"
-					[stock]="stockMap()[store.id]"
+					[store]="myStore"
+					[selected]="true"
+					[distance]="distanceMap()[myStore.id]"
+					[stock]="stockMap()[myStore.id]"
 					(storeSelect)="onSelectStore($event)"
 				/>
-			} @empty {
-				<p class="empty-msg">No stores available.</p>
+			</div>
+
+			<!-- Toggle to show other stores -->
+			<button class="change-store-toggle" (click)="otherStoresExpanded.set(!otherStoresExpanded())">
+				<span>{{ otherStoresExpanded() ? 'Hide other stores' : 'Change store' }}</span>
+				<mat-icon>{{ otherStoresExpanded() ? 'expand_less' : 'expand_more' }}</mat-icon>
+			</button>
+
+			@if (otherStoresExpanded()) {
+				<div class="store-list">
+					@for (store of otherStores(); track store.id) {
+						<app-store-card
+							[store]="store"
+							[selected]="false"
+							[distance]="distanceMap()[store.id]"
+							[stock]="stockMap()[store.id]"
+							(storeSelect)="onSelectStore($event)"
+						/>
+					}
+				</div>
 			}
-		</div>
+		} @else {
+			<!-- No store selected yet: show full list -->
+			<div class="store-list">
+				@for (store of stores(); track store.id) {
+					<app-store-card
+						[store]="store"
+						[selected]="false"
+						[distance]="distanceMap()[store.id]"
+						[stock]="stockMap()[store.id]"
+						(storeSelect)="onSelectStore($event)"
+					/>
+				} @empty {
+					<p class="empty-msg">No stores available.</p>
+				}
+			</div>
+		}
 	</div>
 
 	<!-- Unavailable items warning -->

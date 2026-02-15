@@ -44,44 +44,69 @@
 
 	<!-- ── List View ── -->
 	@if (activeView() === 'list') {
-		<!-- Search -->
-		<div class="search-bar">
-			<mat-icon class="search-icon">search</mat-icon>
-			<input
-				type="text"
-				class="search-input"
-				placeholder="Search by name or address..."
-				[value]="searchQuery()"
-				(input)="onSearch($event)"
-			/>
-			@if (searchQuery()) {
-				<button class="search-clear" (click)="searchQuery.set('')">
-					<mat-icon>close</mat-icon>
-				</button>
-			}
-		</div>
+		<!-- Current store (shown when one is already selected) -->
+		@if (currentStore(); as myStore) {
+			<div class="current-store-section">
+				<h2 class="section-label">Your Store</h2>
+				<app-store-card
+					[store]="myStore"
+					[selected]="true"
+					[distance]="distanceMap()[myStore.id]"
+					(storeSelect)="selectStore($event)"
+				/>
+			</div>
 
-		@if (filteredStores().length) {
-			<div class="store-grid">
-				@for (store of filteredStores(); track store.id) {
-					<app-store-card
-						[store]="store"
-						[selected]="selectedStoreId() === store.id"
-						[distance]="distanceMap()[store.id]"
-						(storeSelect)="selectStore($event)"
-					/>
+			<!-- Toggle to show other stores -->
+			<button class="change-store-toggle" (click)="otherStoresExpanded.set(!otherStoresExpanded())">
+				<span>{{ otherStoresExpanded() ? 'Hide other stores' : 'Change store' }}</span>
+				<mat-icon>{{ otherStoresExpanded() ? 'expand_less' : 'expand_more' }}</mat-icon>
+			</button>
+		}
+
+		<!-- Other stores (always shown if no current store, toggled if there is one) -->
+		@if (!currentStore() || otherStoresExpanded()) {
+			<!-- Search -->
+			<div class="search-bar">
+				<mat-icon class="search-icon">search</mat-icon>
+				<input
+					type="text"
+					class="search-input"
+					placeholder="Search by name or address..."
+					[value]="searchQuery()"
+					(input)="onSearch($event)"
+				/>
+				@if (searchQuery()) {
+					<button class="search-clear" (click)="searchQuery.set('')">
+						<mat-icon>close</mat-icon>
+					</button>
 				}
 			</div>
-		} @else if (stores().length) {
-			<div class="empty-state">
-				<mat-icon class="empty-icon">search_off</mat-icon>
-				<p>No stores match "{{ searchQuery() }}"</p>
-			</div>
-		} @else {
-			<div class="empty-state">
-				<mat-icon class="empty-icon">store</mat-icon>
-				<p>No stores available</p>
-			</div>
+
+			@if (filteredStores().length) {
+				@if (currentStore()) {
+					<h2 class="section-label">Other Stores</h2>
+				}
+				<div class="store-grid">
+					@for (store of filteredStores(); track store.id) {
+						<app-store-card
+							[store]="store"
+							[selected]="selectedStoreId() === store.id"
+							[distance]="distanceMap()[store.id]"
+							(storeSelect)="selectStore($event)"
+						/>
+					}
+				</div>
+			} @else if (stores().length) {
+				<div class="empty-state">
+					<mat-icon class="empty-icon">search_off</mat-icon>
+					<p>No stores match "{{ searchQuery() }}"</p>
+				</div>
+			} @else {
+				<div class="empty-state">
+					<mat-icon class="empty-icon">store</mat-icon>
+					<p>No stores available</p>
+				</div>
+			}
 		}
 	}
 </div>

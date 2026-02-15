@@ -131,6 +131,17 @@ export class ClickCollectComponent implements OnInit {
 		return map;
 	});
 
+	/** Whether the "other stores" section is expanded in checkout. */
+	protected readonly otherStoresExpanded = signal(false);
+
+	/** Other stores (excluding the selected one). */
+	protected readonly otherStores = computed(() => {
+		const id = this.selectedStoreId();
+		const allStores = this.stores();
+		if (!id) return allStores;
+		return allStores.filter((s) => s.id !== id);
+	});
+
 	/** Currently selected store ID. */
 	private readonly selectedStoreId = signal<string | null>(null);
 

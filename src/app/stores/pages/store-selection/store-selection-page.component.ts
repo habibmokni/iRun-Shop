@@ -73,15 +73,32 @@ export class StoreSelectionPageComponent {
 		() => this.userService.user()?.storeSelected?.id ?? null,
 	);
 
+	/** The full store object for the user's currently selected store. */
+	protected readonly currentStore = computed(() => {
+		const id = this.selectedStoreId();
+		if (!id) return null;
+		return this.stores().find((s) => s.id === id) ?? null;
+	});
+
+	/** Whether the "other stores" section is expanded. */
+	protected readonly otherStoresExpanded = signal(false);
+
 	protected readonly filteredStores = computed(() => {
 		const query = this.searchQuery().toLowerCase().trim();
 		const allStores = this.stores();
-		if (!query) return allStores;
-		return allStores.filter(
-			(store) =>
-				store.name.toLowerCase().includes(query) ||
-				store.address.toLowerCase().includes(query),
-		);
+		const selectedId = this.selectedStoreId();
+
+		// Exclude selected store from the grid (it's shown separately)
+		let list = selectedId ? allStores.filter((s) => s.id !== selectedId) : allStores;
+
+		if (query) {
+			list = list.filter(
+				(store) =>
+					store.name.toLowerCase().includes(query) ||
+					store.address.toLowerCase().includes(query),
+			);
+		}
+		return list;
 	});
 
 	constructor() {
