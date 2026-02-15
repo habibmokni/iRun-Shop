@@ -506,7 +506,7 @@
 	}
 
 	.profile-header {
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 	}
 
 	.avatar {
@@ -525,7 +525,10 @@
 	}
 
 	.logout-btn {
-		width: 100%;
+		width: auto;
+		min-width: 0;
+		padding: 0 12px;
+		font-size: 13px;
 	}
 
 	.tab {
