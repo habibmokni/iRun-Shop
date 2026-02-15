@@ -25,7 +25,8 @@
 
 /* ── Product grid ── */
 .products-section {
-	padding-block: 12px 3rem;
+	padding-top: 56px;
+	padding-bottom: 3rem;
 }
 
 .product-grid {
