@@ -46,7 +46,7 @@
 
 			<!-- Right: Details -->
 			<div class="product-info">
-				<!-- Product header (brand + name + subtitle + price) -->
+				<!-- Product header (brand + name + price + subtitle) -->
 				<div class="product-header">
 					<button
 						mat-icon-button
@@ -58,21 +58,23 @@
 						<mat-icon>{{ isWishlisted() ? 'favorite' : 'favorite_border' }}</mat-icon>
 					</button>
 					<span class="brand-label">{{ product.companyName }}</span>
-					<h1 class="product-name">{{ product.name }}</h1>
+
+					<div class="title-price-row">
+						<h1 class="product-name">{{ product.name }}</h1>
+						<div class="price-row">
+							@if (product.discount) {
+								<span class="price-discount">-{{ product.discount }}%</span>
+							}
+							<span class="price-original">{{ originalPrice() | number: '1.2-2' }}€</span>
+							<span class="price-current" [class.on-sale]="product.discount"
+								>{{ product.price }}€</span
+							>
+						</div>
+					</div>
+
 					<p class="product-subtitle">
 						{{ product.subCategory?.[0] ?? product.category[0] }}
 					</p>
-
-					<!-- Price -->
-					<div class="price-row">
-						<span class="price-current" [class.on-sale]="product.discount"
-							>{{ product.price }}€</span
-						>
-						<span class="price-original">{{ originalPrice() | number: '1.2-2' }}€</span>
-						@if (product.discount) {
-							<span class="price-discount">-{{ product.discount }}%</span>
-						}
-					</div>
 				</div>
 
 				<!-- Variant thumbnails -->

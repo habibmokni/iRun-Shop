@@ -101,17 +101,25 @@
 	margin-bottom: 4px;
 }
 
+/* ── Title + Price row (side by side on desktop) ── */
+.title-price-row {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 16px;
+}
+
 .product-name {
 	font-size: 28px;
 	font-weight: 700;
-	margin: 0 0 4px;
+	margin: 0;
 	line-height: 1.2;
 }
 
 .product-subtitle {
 	font-size: 14px;
 	color: rgba(0, 0, 0, 0.5);
-	margin: 0;
+	margin: 4px 0 0;
 }
 
 /* ── Price ── */
@@ -119,7 +127,7 @@
 	display: flex;
 	align-items: baseline;
 	gap: 10px;
-	margin-top: 8px;
+	flex-shrink: 0;
 }
 
 .price-current {
@@ -444,9 +452,13 @@ mat-accordion mat-expansion-panel ::ng-deep .mat-expansion-panel-body p {
 		margin-bottom: 2px;
 	}
 
+	.title-price-row {
+		flex-direction: column;
+		gap: 8px;
+	}
+
 	.product-name {
 		font-size: 18px;
-		margin-bottom: 2px;
 	}
 
 	.product-subtitle {
