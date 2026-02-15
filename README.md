@@ -2,14 +2,17 @@
 
 A modern running shoe e-commerce app built with Angular 21 and Angular Material 3. Features product browsing, Click & Collect checkout, store availability, wishlist, dark mode, and more.
 
+**Live:** [irun-9db14.web.app](https://irun-9db14.web.app) · **Repo:** [github.com/habibmokni/iRun-Shop](https://github.com/habibmokni/iRun-Shop)
+
 ## Tech Stack
 
-Angular 21 · Angular Material 3 · Firebase (Auth + Firestore) · Google Maps · TypeScript 5.9
+Angular 21 · Angular Material 3 · Firebase (Auth + Firestore + Hosting) · Google Maps · TypeScript 5.9
 
 ## Prerequisites
 
 - Node.js v20+ (v24 recommended)
 - npm 11+
+- Firebase CLI (`npm i -g firebase-tools`)
 
 ## Getting Started
 
@@ -23,13 +26,15 @@ ng serve
 
 Open [http://localhost:4200](http://localhost:4200).
 
-## Build
+## Build & Deploy
 
 ```bash
+# Build for production
 ng build
-```
 
-Output goes to `dist/i-run-v21`.
+# Deploy to Firebase Hosting
+firebase deploy --only hosting
+```
 
 ## Project Structure
 
@@ -54,4 +59,4 @@ src/app/
 - **Store Availability** — Real-time stock checks by store and size
 - **Dark Mode** — Light/dark theme toggle with full M3 support
 - **Responsive** — Mobile-first design with desktop enhancements
-- **Firebase** — Authentication and Firestore for data persistence
+- **Firebase** — Authentication, Firestore, and Hosting
